@@ -1,5 +1,10 @@
 package Main;
+import Main.TypeDoctor;
 
 public class Doctor {
-//esto es un comentario de sanfe
+	
+ private int id;
+ private TypeDoctor type;
+ //private int 
+ 
 }
