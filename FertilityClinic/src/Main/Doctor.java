@@ -1,5 +1,11 @@
 package Main;
+//import ;
 
 public class Doctor {
-//esto es un comentario de sanfe
+	
+ private int id;
+ 
+ //private Type;
+ //private int 
+ 
 }
