@@ -1,6 +1,6 @@
 package Main;
 
 public enum TypeDoctor {
-	
+	UROLOGIST,GYNECOLOGIST,EMBRYOLOGIST,GENETICIST
 
 }
