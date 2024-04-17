@@ -1,11 +1,10 @@
 package Main;
-//import ;
+import Main.TypeDoctor;
 
 public class Doctor {
 	
  private int id;
- 
- //private Type;
+ private TypeDoctor type;
  //private int 
  
 }
