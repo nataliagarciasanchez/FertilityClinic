@@ -14,4 +14,16 @@ public class Patient {
 	private int banckAc;
 	private Gender gender;
 	
+	public Patient(int id, LocalDate dob, String email, int phoneN, String name, double height, double weight, BloodType bloodType, int banckAc, Gender gender) {
+		this.id = id;
+		this.dob = dob;
+		this.email = email;
+		this.phoneN = phoneN;
+		this.name = name;
+		this.height = height;
+		this.weight = weight;
+		this.bloodType = bloodType;
+		this.banckAc = banckAc;
+		this.gender = gender;
+	}
 }
