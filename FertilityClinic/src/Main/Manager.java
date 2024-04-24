@@ -7,5 +7,5 @@ public class Manager {
 	private int phone;
 	private String name;
 	private int bankAccount;
-	
+                 
 }
