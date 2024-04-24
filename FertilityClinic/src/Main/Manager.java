@@ -6,6 +6,13 @@ public class Manager {
 	private String email;
 	private int phone;
 	private String name;
-	private int bankAccount;
+	private int bankAc;
 	
+	public Manager(int id, String email, int phone, String name, int bankAc) {
+		this.id = id;
+		this.email = email;
+		this.phone = phone;
+		this.name = name;
+		this.bankAc = bankAc;
+	}
 }
