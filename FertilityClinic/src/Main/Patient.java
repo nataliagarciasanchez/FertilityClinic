@@ -26,4 +26,5 @@ public class Patient {
 		this.banckAc = banckAc;
 		this.gender = gender;
 	}
+	
 }

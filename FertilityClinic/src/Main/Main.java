@@ -7,8 +7,5 @@ public class Main {
 		//esto es una prueba
 		System.out.println("comentario");
 		//Cambios en el main 
-
 	}
-	
-
 }
