@@ -11,7 +11,7 @@ public class JDBCManager {
 	public JDBCManager() {
 		try {
 			Class.forName("org.sqlite.JDBC");
-		    c = DriverManager.getConnection("jdbc:sqlite:./db/DDBB_Grupo9.db");
+		    c = DriverManager.getConnection("jdbc:sqlite:DDBB_Grupo9.db");
 		    c.createStatement().execute("PRAGMA foreign_keys=ON");
 		    
 		    System.out.println("Database connection opened.");
