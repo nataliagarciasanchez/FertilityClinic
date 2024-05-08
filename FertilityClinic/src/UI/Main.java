@@ -1,4 +1,4 @@
-package FertilityClinicPOJOs;
+package UI;
 
 public class Main {
 
