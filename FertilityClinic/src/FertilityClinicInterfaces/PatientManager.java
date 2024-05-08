@@ -1,6 +1,10 @@
 package FertilityClinicInterfaces;
 
 public interface PatientManager {
-	hola
+	
+	public void connect();
+	public void disconnect();
+	public void viewMyInfo();
+	public void manageAppointment();
 
 }
