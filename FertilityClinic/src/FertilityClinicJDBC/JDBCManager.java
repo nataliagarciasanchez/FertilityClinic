@@ -6,20 +6,25 @@ import java.sql.SQLException;
 
 public class JDBCManager {
 	
-	private Connection c = null; 
+private Connection c = null;
 	
 	public JDBCManager() {
+		
 		try {
+			
 			Class.forName("org.sqlite.JDBC");
-		    c = DriverManager.getConnection("jdbc:sqlite:DDBB_Grupo9.db");
-		    c.createStatement().execute("PRAGMA foreign_keys=ON");
-		    
-		    System.out.println("Database connection opened.");
-		    
-		}catch(SQLException e) {
+			c = DriverManager.getConnection("jdbc:sqlite:./db/vetclinic.db");
+			c.createStatement().execute("PRAGMA foreign_keys=ON");
+			
+			System.out.print("Database Connection opened.");
+			//this.createTables();
+			
+		}
+		catch(SQLException e) {
 			e.printStackTrace();
-		}catch(ClassNotFoundException e) {
-			System.out.println("Libraries not loaded.");
+		}
+		catch(ClassNotFoundException e) {
+			System.out.print("Libraries not loaded");
 		}
 	}
 	
