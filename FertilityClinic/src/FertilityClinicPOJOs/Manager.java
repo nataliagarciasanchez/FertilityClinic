@@ -5,13 +5,13 @@ import java.io.Serializable;
 public class Manager implements Serializable {
 	
 	private static final long serialVersionUID = -3660639125794454545L;
-	private int id;
+	private Integer id;
 	private String email;
-	private int phone;
+	private Integer phone;
 	private String name;
-    private int bankAc;
+    private Integer bankAc;
 	
-	public Manager(int id, String email, int phone, String name, int bankAc) {
+	public Manager(Integer id, String email, Integer phone, String name, Integer bankAc) {
 		this.id = id;
 		this.email = email;
 		this.phone = phone;
