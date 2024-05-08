@@ -147,9 +147,5 @@ public class Patient implements Serializable{
 	public void setGender(Gender gender) {
 		this.gender = gender;
 	}
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
 	
 }
