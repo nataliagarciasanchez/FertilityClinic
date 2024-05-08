@@ -2,6 +2,7 @@ package FertilityClinicPOJOs;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.LinkedList;
 import java.util.Objects;
 
 public class Patient implements Serializable{
@@ -17,6 +18,7 @@ public class Patient implements Serializable{
 	private BloodType bloodType;
 	private Integer banckAc;
 	private Gender gender;
+	private LinkedList<Doctor> doctors;
 	
 	public Patient(Integer id, LocalDate dob, String email, Integer phoneN, String name, double height, double weight, BloodType bloodType, Integer banckAc, Gender gender) {
 		this.id = id;

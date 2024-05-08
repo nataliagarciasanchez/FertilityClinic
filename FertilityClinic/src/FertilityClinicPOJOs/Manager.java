@@ -1,6 +1,7 @@
 package FertilityClinicPOJOs;
 
 import java.io.Serializable;
+import java.util.LinkedList;
 import java.util.Objects;
 
 public class Manager implements Serializable {
@@ -11,6 +12,7 @@ public class Manager implements Serializable {
 	private Integer phone;
 	private String name;
     private Integer bankAc;
+    private LinkedList<Doctor> doctors;
 	
 	public Manager(Integer id, String email, Integer phone, String name, Integer bankAc) {
 		this.id = id;
