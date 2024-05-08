@@ -36,6 +36,7 @@ public class Patient implements Serializable{
 
 	public Patient() {
 		super();
+		doctors = new LinkedList<Doctor>();
 	}
 
 

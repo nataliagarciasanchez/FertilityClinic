@@ -24,6 +24,7 @@ public class Manager implements Serializable {
 
 	public Manager() {
 		super();
+		doctors = new LinkedList<Doctor>();
 	}
 
 
