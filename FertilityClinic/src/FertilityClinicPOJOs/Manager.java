@@ -19,14 +19,16 @@ public class Manager implements Serializable {
 		this.name = name;
 		this.bankAc = bankAc;
 	}
-	
-	
+
+	public Manager() {
+		super();
+	}
+
 
 	@Override
 	public int hashCode() {
 		return Objects.hash(bankAc, email, id, name, phone);
 	}
-
 
 
 	@Override

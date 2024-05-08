@@ -31,7 +31,11 @@ public class Patient implements Serializable{
 		this.gender = gender;
 	}
 	
-	
+
+	public Patient() {
+		super();
+	}
+
 
 	@Override
 	public int hashCode() {
