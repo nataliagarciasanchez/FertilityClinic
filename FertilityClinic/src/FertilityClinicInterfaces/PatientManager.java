@@ -12,6 +12,6 @@ public interface PatientManager {
 	public void bookAppointment();
 	public void deleteAppointment();
 	public void modifyAppointment();
-	//hos
+	//hola
 
 }
