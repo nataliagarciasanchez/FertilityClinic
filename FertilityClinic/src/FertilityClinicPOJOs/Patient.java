@@ -41,7 +41,7 @@ public class Patient implements Serializable{
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(banckAc, bloodType, dob, email, gender, height, id, name, phoneN, weight);
+		return Objects.hash(banckAc, bloodType, dob, doctors, email, gender, height, id, name, phoneN, weight);
 	}
 
 
@@ -56,8 +56,8 @@ public class Patient implements Serializable{
 			return false;
 		Patient other = (Patient) obj;
 		return Objects.equals(banckAc, other.banckAc) && bloodType == other.bloodType && Objects.equals(dob, other.dob)
-				&& Objects.equals(email, other.email) && gender == other.gender
-				&& Double.doubleToLongBits(height) == Double.doubleToLongBits(other.height)
+				&& Objects.equals(doctors, other.doctors) && Objects.equals(email, other.email)
+				&& gender == other.gender && Double.doubleToLongBits(height) == Double.doubleToLongBits(other.height)
 				&& Objects.equals(id, other.id) && Objects.equals(name, other.name)
 				&& Objects.equals(phoneN, other.phoneN)
 				&& Double.doubleToLongBits(weight) == Double.doubleToLongBits(other.weight);
@@ -153,5 +153,17 @@ public class Patient implements Serializable{
 	public void setGender(Gender gender) {
 		this.gender = gender;
 	}
+
+
+	public LinkedList<Doctor> getDoctors() {
+		return doctors;
+	}
+
+
+	public void setDoctors(LinkedList<Doctor> doctors) {
+		this.doctors = doctors;
+	}
+	
+	
 	
 }

@@ -29,7 +29,7 @@ public class Manager implements Serializable {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(bankAc, email, id, name, phone);
+		return Objects.hash(bankAc, doctors, email, id, name, phone);
 	}
 
 
@@ -42,9 +42,9 @@ public class Manager implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Manager other = (Manager) obj;
-		return Objects.equals(bankAc, other.bankAc) && Objects.equals(email, other.email)
-				&& Objects.equals(id, other.id) && Objects.equals(name, other.name)
-				&& Objects.equals(phone, other.phone);
+		return Objects.equals(bankAc, other.bankAc) && Objects.equals(doctors, other.doctors)
+				&& Objects.equals(email, other.email) && Objects.equals(id, other.id)
+				&& Objects.equals(name, other.name) && Objects.equals(phone, other.phone);
 	}
 
 
@@ -96,6 +96,14 @@ public class Manager implements Serializable {
 
 	public void setBankAc(Integer bankAc) {
 		this.bankAc = bankAc;
+	}
+
+	public LinkedList<Doctor> getDoctors() {
+		return doctors;
+	}
+
+	public void setDoctors(LinkedList<Doctor> doctors) {
+		this.doctors = doctors;
 	}
 	
 	
