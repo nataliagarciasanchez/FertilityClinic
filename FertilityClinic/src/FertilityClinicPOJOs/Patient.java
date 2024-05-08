@@ -2,6 +2,7 @@ package FertilityClinicPOJOs;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Objects;
 
 public class Patient implements Serializable{
 	
@@ -31,6 +32,41 @@ public class Patient implements Serializable{
 	}
 	
 	
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(banckAc, bloodType, dob, email, gender, height, id, name, phoneN, weight);
+	}
+
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Patient other = (Patient) obj;
+		return Objects.equals(banckAc, other.banckAc) && bloodType == other.bloodType && Objects.equals(dob, other.dob)
+				&& Objects.equals(email, other.email) && gender == other.gender
+				&& Double.doubleToLongBits(height) == Double.doubleToLongBits(other.height)
+				&& Objects.equals(id, other.id) && Objects.equals(name, other.name)
+				&& Objects.equals(phoneN, other.phoneN)
+				&& Double.doubleToLongBits(weight) == Double.doubleToLongBits(other.weight);
+	}
+
+
+
+	@Override
+	public String toString() {
+		return "Patient [id=" + id + ", dob=" + dob + ", email=" + email + ", phoneN=" + phoneN + ", name=" + name
+				+ ", height=" + height + ", weight=" + weight + ", bloodType=" + bloodType + ", banckAc=" + banckAc
+				+ ", gender=" + gender + "]";
+	}
+
+
 
 	public Integer getId() {
 		return id;
