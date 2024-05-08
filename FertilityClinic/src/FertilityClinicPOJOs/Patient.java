@@ -1,8 +1,11 @@
-package Main;
+package FertilityClinicPOJOs;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class Patient {
+public class Patient implements Serializable{
+	
+	private static final long serialVersionUID = 7256683528485457199L;
 	private int id;
 	private LocalDate dob;
 	private String email;

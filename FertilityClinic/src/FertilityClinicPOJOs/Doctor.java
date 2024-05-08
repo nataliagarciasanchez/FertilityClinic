@@ -1,10 +1,13 @@
-package Main;
+package FertilityClinicPOJOs;
 
+import java.io.Serializable;
 import java.util.LinkedList;
 
 
-public class Doctor {
+public class Doctor implements Serializable {
 	
+ private static final long serialVersionUID = 7882901115979698067L;
+ 
  private int id;
  private TypeDoctor type;
  private String email;

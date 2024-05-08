@@ -1,7 +1,10 @@
-package Main;
+package FertilityClinicPOJOs;
 
-public class Manager {
+import java.io.Serializable;
+
+public class Manager implements Serializable {
 	
+	private static final long serialVersionUID = -3660639125794454545L;
 	private int id;
 	private String email;
 	private int phone;
