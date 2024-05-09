@@ -15,10 +15,4 @@ public interface DoctorManager {
 	public void deleteAppointment();
 	public void modifyAppointment();
 
-	
-	
-	
-	
-	
-
 }
