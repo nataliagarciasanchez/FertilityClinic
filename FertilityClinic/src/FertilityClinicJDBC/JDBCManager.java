@@ -34,21 +34,30 @@ private Connection c = null;
 		try {
 			
 			Statement stmt = c.createStatement();
-			//esto hay que cambiarlo
-			String sql = "CREATE TABLE patients ("
+			
+			String sql = "CREATE TABLE Doctor ("
 					+ "id INTEGER PRIMARY KEY AUTOINCREMENT,"
-					+ "name TEXT NOT NULL, phone INTEGER, "
-					+ "bankaccount INTEGER, email TEXT NOT NULL,"
-					+ "dob LOCALDATE, height DOUBLE, weight DOUBLE, "
-					+ "bloodType BLOODTYPE, );";
+					+ "name TEXT NOT NULL, type INTEGER, "
+					+ "phone number INTEGER,email TEXT NOT NULL,"
+					+ " patients_id INTEGER REFERENCES Patient(id));";
 			stmt.executeUpdate(sql);
 			
-			sql = "CREATE TABLE doctors ("
+			sql = "CREATE TABLE Manager ("
 					+ "id INTEGER PRIMARY KEY AUTOINCREMENT,"
-					+ "name TEXT NOT NULL, cured BOOLEAN, "
-					+ "typeOfAnimal TEXT CHECK (typeOfAnimal in (dog, cat, bird, hamster)),"
-					+ "coat TEXT, dob DATE NOT NULL, onwer_id INTEGER REFERENCES owners(id));";
+					+ "name TEXT NOT NULL, phone number INTEGER, "
+					+ "email TEXT,);";
 			stmt.executeUpdate(sql);
+			
+			 sql = "CREATE TABLE Patient ("
+						+ "ID INTEGER PRIMARY KEY AUTOINCREMENT,"
+						+ "name TEXT NOT NULL, age INTEGER, "
+						+ "height NUMERIC, weight NUMERIC,"
+						+ "bloodType TEXT NOT NULL, phoneNumber INTEGER,"
+						+ "email TEXT NOT NULL,BankAccountNumber INTEGER,"
+						+ "Gender TEXT NOT NULL, );";
+				stmt.executeUpdate(sql);
+				
+			
 			
 			
 			
