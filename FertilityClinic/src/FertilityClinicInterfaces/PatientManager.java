@@ -2,8 +2,6 @@ package FertilityClinicInterfaces;
 
 public interface PatientManager {
 	
-<<<<<<< HEAD
-=======
 	public void connect();
 	public void disconnect();
 	public void viewMyInfo();
@@ -15,6 +13,6 @@ public interface PatientManager {
 	public void deleteAppointment();
 	public void modifyAppointment();
 
->>>>>>> branch 'master' of https://github.com/nataliagarciasanchez/FertilityClinic.git
+
 
 }
