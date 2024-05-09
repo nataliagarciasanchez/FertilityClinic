@@ -1,8 +1,8 @@
 package FertilityClinicInterfaces;
 
-import FertilityClinicPOJOs.Doctor;
+import FertilityClinicPOJOs.Patient;
 
-public class DoctorManager {
+public interface DoctorManager {
 	public void viewStock();
 	public void askForStock();
 	public void viewPatients();
