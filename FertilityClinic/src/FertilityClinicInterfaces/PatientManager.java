@@ -13,5 +13,4 @@ public interface PatientManager {
 	public void deleteAppointment();
 	public void modifyAppointment();
 
-
 }

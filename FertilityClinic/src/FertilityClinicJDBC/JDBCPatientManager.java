@@ -1,5 +1,6 @@
 package FertilityClinicJDBC;
 
-public class JDBCPatientManager {
+
+public class JDBCPatientManager {	
 
 }
