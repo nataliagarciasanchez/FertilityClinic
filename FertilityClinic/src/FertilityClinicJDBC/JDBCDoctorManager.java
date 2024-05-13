@@ -19,7 +19,13 @@ public class JDBCDoctorManager {
 			
 			prep.setInt(1, p.getId());
 			prep.setString(2, p.getName());
-			prep.setInt(3, p.getAge);
+			prep.setInt(3, p.getAge());
+			prep.setDouble(4, p.getHeight());
+			prep.setDouble(5, p.getWeight());
+			prep.setInt(6,  p.getPhoneN());
+			prep.setString(7, p.getBloodType());
+			
+			
 		}
 		
 	}
