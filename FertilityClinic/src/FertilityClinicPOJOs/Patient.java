@@ -175,4 +175,5 @@ public class Patient implements Serializable{
 	public void setAge(Integer age) {
 		this.age = age;
 	
+	}
 }
