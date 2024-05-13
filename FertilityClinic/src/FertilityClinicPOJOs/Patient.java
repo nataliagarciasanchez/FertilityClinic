@@ -19,8 +19,9 @@ public class Patient implements Serializable{
 	private Integer banckAc;
 	private Gender gender;
 	private LinkedList<Doctor> doctors;
+	private Integer age;
 	
-	public Patient(Integer id, LocalDate dob, String email, Integer phoneN, String name, double height, double weight, BloodType bloodType, Integer banckAc, Gender gender) {
+	public Patient(Integer id, LocalDate dob, String email, Integer phoneN, String name, double height, double weight, BloodType bloodType, Integer banckAc, Gender gender, Integer age) {
 		this.id = id;
 		this.dob = dob;
 		this.email = email;
@@ -31,6 +32,7 @@ public class Patient implements Serializable{
 		this.bloodType = bloodType;
 		this.banckAc = banckAc;
 		this.gender = gender;
+		this.age=age;
 	}
 	
 
@@ -42,7 +44,7 @@ public class Patient implements Serializable{
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(banckAc, bloodType, dob, doctors, email, gender, height, id, name, phoneN, weight);
+		return Objects.hash(banckAc, bloodType, dob, doctors, email, gender, height, id, name, phoneN, weight, age);
 	}
 
 
@@ -61,7 +63,8 @@ public class Patient implements Serializable{
 				&& gender == other.gender && Double.doubleToLongBits(height) == Double.doubleToLongBits(other.height)
 				&& Objects.equals(id, other.id) && Objects.equals(name, other.name)
 				&& Objects.equals(phoneN, other.phoneN)
-				&& Double.doubleToLongBits(weight) == Double.doubleToLongBits(other.weight);
+				&& Double.doubleToLongBits(weight) == Double.doubleToLongBits(other.weight)
+				&& Objects.equals(other, other.age);
 	}
 
 
@@ -70,7 +73,7 @@ public class Patient implements Serializable{
 	public String toString() {
 		return "Patient [id=" + id + ", dob=" + dob + ", email=" + email + ", phoneN=" + phoneN + ", name=" + name
 				+ ", height=" + height + ", weight=" + weight + ", bloodType=" + bloodType + ", banckAc=" + banckAc
-				+ ", gender=" + gender + "]";
+				+ ", gender=" + gender + ", age]"+ age;
 	}
 
 
@@ -165,6 +168,12 @@ public class Patient implements Serializable{
 		this.doctors = doctors;
 	}
 	
+	public Integer getAge() {
+		return age;
+	}
+
+	public void setAge(Integer age) {
+		this.age = age;
 	
-	
+	}
 }
