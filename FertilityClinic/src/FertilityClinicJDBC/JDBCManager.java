@@ -18,7 +18,7 @@ private Connection c = null;
 			c.createStatement().execute("PRAGMA foreign_keys=ON");
 			
 			System.out.print("Database Connection opened.");
-			//this.createTables();
+			this.createTables();
 			
 		}
 		catch(SQLException e) {
@@ -29,7 +29,7 @@ private Connection c = null;
 		}
 	}
 	
-	/*
+	
 	private void createTables() {
 		try {
 			
@@ -69,7 +69,7 @@ private Connection c = null;
 		}
 		
 	}
-	*/
+	
 	
 	public Connection getConnection(){
 		return c; 
