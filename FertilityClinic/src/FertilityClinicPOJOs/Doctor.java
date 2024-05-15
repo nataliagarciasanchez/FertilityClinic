@@ -14,6 +14,7 @@ public class Doctor implements Serializable {
  private String email;
  private Integer phone;
  private String name;
+ private byte[] licensePDF; //esto es binary objects que es un requisito. Es añadir eso y olvidarnos
  private LinkedList <Patient> patients;
  
  public Doctor(Integer id,TypeDoctor type,String email,Integer phone,String name,LinkedList <Patient> patients) {
