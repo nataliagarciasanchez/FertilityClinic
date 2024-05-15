@@ -48,40 +48,34 @@ private Connection c = null;
 					+ "email TEXT,);";
 			stmt.executeUpdate(sql);
 			
-			 sql = "CREATE TABLE Patient ("
+			sql = "CREATE TABLE Patient ("
 						+ "ID INTEGER PRIMARY KEY AUTOINCREMENT,"
 						+ "name TEXT NOT NULL, age INTEGER, "
 						+ "height NUMERIC, weight NUMERIC,"
 						+ "bloodType TEXT NOT NULL, phoneNumber INTEGER,"
 						+ "email TEXT NOT NULL,BankAccountNumber INTEGER,"
 						+ "Gender TEXT NOT NULL, );";
-				stmt.executeUpdate(sql);
-				
-			
-			
-			
+			stmt.executeUpdate(sql);
+		
 			
 		}catch(SQLException e) {
-			if(!e.getMessage().contains("already exists")) 
-			{
+			if(!e.getMessage().contains("already exists")){
 				e.printStackTrace();
 			}			
 		}
-		
 	}
 	
 	
 	public Connection getConnection(){
 		return c; 
 	}
+	
 	public void disconnect() {
 		try {
 			c.close();
 		}catch(SQLException e) {
 			e.printStackTrace();
-		}
-		
+		}	
 	}
-
 }
   

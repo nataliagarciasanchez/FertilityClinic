@@ -2,6 +2,7 @@ package FertilityClinicPOJOs;
 
 import java.io.Serializable;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Objects;
 
 public class Manager implements Serializable {
@@ -11,15 +12,13 @@ public class Manager implements Serializable {
 	private String email;
 	private Integer phone;
 	private String name;
-    private Integer bankAc;
-    private LinkedList<Doctor> doctors;
+    private List<Doctor> doctors;
 	
-	public Manager(Integer id, String email, Integer phone, String name, Integer bankAc) {
+	public Manager(Integer id, String email, Integer phone, String name) {
 		this.id = id;
 		this.email = email;
 		this.phone = phone;
 		this.name = name;
-		this.bankAc = bankAc;
 	}
 
 	public Manager() {
@@ -30,7 +29,7 @@ public class Manager implements Serializable {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(bankAc, doctors, email, id, name, phone);
+		return Objects.hash(doctors, email, id, name, phone);
 	}
 
 
@@ -43,7 +42,7 @@ public class Manager implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Manager other = (Manager) obj;
-		return Objects.equals(bankAc, other.bankAc) && Objects.equals(doctors, other.doctors)
+		return  Objects.equals(doctors, other.doctors)
 				&& Objects.equals(email, other.email) && Objects.equals(id, other.id)
 				&& Objects.equals(name, other.name) && Objects.equals(phone, other.phone);
 	}
@@ -53,7 +52,7 @@ public class Manager implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Manager [id=" + id + ", email=" + email + ", phone=" + phone + ", name=" + name + ", bankAc=" + bankAc
+		return "Manager [id=" + id + ", email=" + email + ", phone=" + phone + ", name=" + name 
 				+ "]";
 	}
 
@@ -91,19 +90,11 @@ public class Manager implements Serializable {
 		this.name = name;
 	}
 
-	public Integer getBankAc() {
-		return bankAc;
-	}
-
-	public void setBankAc(Integer bankAc) {
-		this.bankAc = bankAc;
-	}
-
-	public LinkedList<Doctor> getDoctors() {
+	public List<Doctor> getDoctors() {
 		return doctors;
 	}
 
-	public void setDoctors(LinkedList<Doctor> doctors) {
+	public void setDoctors(List<Doctor> doctors) {
 		this.doctors = doctors;
 	}
 	

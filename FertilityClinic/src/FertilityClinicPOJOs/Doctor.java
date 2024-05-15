@@ -2,6 +2,7 @@ package FertilityClinicPOJOs;
 
 import java.io.Serializable;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Objects;
 
 
@@ -10,13 +11,13 @@ public class Doctor implements Serializable {
  private static final long serialVersionUID = 7882901115979698067L;
  
  private Integer id;
- private TypeDoctor type;
+ private String type;
  private String email;
  private Integer phone;
  private String name;
- private LinkedList <Patient> patients;
+ private List <Patient> patients;
  
- public Doctor(Integer id,TypeDoctor type,String email,Integer phone,String name,LinkedList <Patient> patients) {
+ public Doctor(Integer id,String type,String email,Integer phone,String name,List <Patient> patients) {
      this.id=id;
      this.type=type;
      this.email=email;
@@ -68,11 +69,11 @@ public void setId(Integer id) {
 	this.id = id;
 }
 
-public TypeDoctor getType() {
+public String getType() {
 	return type;
 }
 
-public void setType(TypeDoctor type) {
+public void setType(String type) {
 	this.type = type;
 }
 
@@ -100,11 +101,11 @@ public void setName(String name) {
 	this.name = name;
 }
 
-public LinkedList<Patient> getPatients() {
+public List<Patient> getPatients() {
 	return patients;
 }
 
-public void setPatients(LinkedList<Patient> patients) {
+public void setPatients(List<Patient> patients) {
 	this.patients = patients;
 }
  
