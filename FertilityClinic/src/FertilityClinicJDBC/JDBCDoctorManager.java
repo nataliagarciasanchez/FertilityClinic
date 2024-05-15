@@ -61,8 +61,7 @@ public class JDBCDoctorManager {
 		
 	}
 	
-<<<<<<< HEAD
-=======
+
 	@Override
 	public void removePatientById (Integer patient_id) {
 		try {
@@ -70,11 +69,7 @@ public class JDBCDoctorManager {
 			
 			PreparedStatement prep = manager.getConnection().prepareStatement(sql);
 			prep.setInt(1, patient_id);
->>>>>>> branch 'master' of https://github.com/nataliagarciasanchez/FertilityClinic.git
-
-<<<<<<< HEAD
-
-=======
+			
 			prep.executeUpdate();
 
 			
@@ -97,4 +92,4 @@ public class JDBCDoctorManager {
 	public void deleteAppointment();
 	public void modifyAppointment();
  */
->>>>>>> branch 'master' of https://github.com/nataliagarciasanchez/FertilityClinic.git
+
