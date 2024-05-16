@@ -5,16 +5,26 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
-
+/*
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlRootElement(name = "Doctor")
+@XmlType(propOrder = {})
+*/
 public class Doctor implements Serializable {
 	
  private static final long serialVersionUID = 7882901115979698067L;
- 
+ //@XmlTranscient
  private Integer id;
+ //@XmlElement
  private String type;
+ //@XmlElement
  private String email;
+ //@XmlElement
  private Integer phone;
+ //@XmlAttribute
  private String name;
+ //@XmlElement (name = "Patient")
+ //@XmlElementWrapper(name = "Patients")
  private List <Patient> patients;
  
  public Doctor(Integer id,String type,String email,Integer phone,String name,List <Patient> patients) {

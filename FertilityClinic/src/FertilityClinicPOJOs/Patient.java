@@ -7,20 +7,36 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
+/*
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlRootElement(name = "Patient")
+@XmlType(propOrder = {"los atributos Xml que sean elements"})
+*/
 public class Patient implements Serializable{
 	
 	private static final long serialVersionUID = 7256683528485457199L;
-	private Integer id;
-	private Date dob;
-	private String email;
-	private Integer phoneN;
-	private String name;
-	private double height;
-	private double weight;
-	private String bloodType;
-	private String gender;
-	private List<Doctor> doctors;
-	private Integer age;
+		//@XmlTransient
+		private Integer id;
+		//@XmlAttribute
+		private String name;
+		//@XmlJavaTypeAdapter(SQLDateAdapter.class)
+		private Date dob;
+		//@XmlElement
+		private String email;
+		//@XmlElement
+		private Integer phoneN;
+		//@XmlElement
+		private double height;
+		//@XmlElement
+		private double weight;
+		//@XmlElement
+		private String bloodType;
+		//@XmlElement
+		private String gender;
+		//@XmlTranscient
+		private ArrayList<Doctor> doctors;
+		//@XmlElement
+		private Integer age;
 	
 	public Patient(Integer id, Date dob, String email, Integer phoneN, String name, double height, double weight, String bloodType, String gender, Integer age) {
 		this.id = id;
