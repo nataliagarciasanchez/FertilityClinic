@@ -37,20 +37,28 @@ public class Patient implements Serializable{
 		private ArrayList<Doctor> doctors;
 		//@XmlElement
 		private Integer age;
+		
+		private Treatments treatmet;
 	
-	public Patient(Integer id, Date dob, String email, Integer phoneN, String name, double height, double weight, String bloodType, String gender, Integer age) {
-		this.id = id;
-		this.dob = dob;
-		this.email = email;
-		this.phoneN = phoneN;
-		this.name = name;
-		this.height = height;
-		this.weight = weight;
-		this.bloodType = bloodType;
-		this.gender = gender;
-		this.age=age;
-	}
 	
+	
+
+	public Patient(Integer id, String name, Date dob, String email, Integer phoneN, double height, double weight,
+				String bloodType, String gender, ArrayList<Doctor> doctors, Integer age, Treatments treatmet) {
+			super();
+			this.id = id;
+			this.name = name;
+			this.dob = dob;
+			this.email = email;
+			this.phoneN = phoneN;
+			this.height = height;
+			this.weight = weight;
+			this.bloodType = bloodType;
+			this.gender = gender;
+			this.doctors = doctors;
+			this.age = age;
+			this.treatmet = treatmet;
+		}
 
 	public Patient() {
 		super();
@@ -60,10 +68,8 @@ public class Patient implements Serializable{
 
 	@Override
 	public int hashCode() {
-		return Objects.hash( bloodType, dob, doctors, email, gender, height, id, name, phoneN, weight, age);
+		return Objects.hash(age, bloodType, dob, doctors, email, gender, height, id, name, phoneN, treatmet, weight);
 	}
-
-
 
 	@Override
 	public boolean equals(Object obj) {
@@ -74,25 +80,22 @@ public class Patient implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		Patient other = (Patient) obj;
-		return  bloodType == other.bloodType && Objects.equals(dob, other.dob)
-				&& Objects.equals(doctors, other.doctors) && Objects.equals(email, other.email)
-				&& gender == other.gender && Double.doubleToLongBits(height) == Double.doubleToLongBits(other.height)
+		return Objects.equals(age, other.age) && Objects.equals(bloodType, other.bloodType)
+				&& Objects.equals(dob, other.dob) && Objects.equals(doctors, other.doctors)
+				&& Objects.equals(email, other.email) && Objects.equals(gender, other.gender)
+				&& Double.doubleToLongBits(height) == Double.doubleToLongBits(other.height)
 				&& Objects.equals(id, other.id) && Objects.equals(name, other.name)
-				&& Objects.equals(phoneN, other.phoneN)
-				&& Double.doubleToLongBits(weight) == Double.doubleToLongBits(other.weight)
-				&& Objects.equals(other, other.age);
+				&& Objects.equals(phoneN, other.phoneN) && Objects.equals(treatmet, other.treatmet)
+				&& Double.doubleToLongBits(weight) == Double.doubleToLongBits(other.weight);
 	}
-
-
+	
 
 	@Override
 	public String toString() {
-		return "Patient [id=" + id + ", dob=" + dob + ", email=" + email + ", phoneN=" + phoneN + ", name=" + name
-				+ ", height=" + height + ", weight=" + weight + ", bloodType=" + bloodType
-				+ ", gender=" + gender + ", age]"+ age;
+		return "Patient [id=" + id + ", name=" + name + ", dob=" + dob + ", email=" + email + ", phoneN=" + phoneN
+				+ ", height=" + height + ", weight=" + weight + ", bloodType=" + bloodType + ", gender=" + gender
+				+ ", doctors=" + doctors + ", age=" + age + ", treatmet=" + treatmet + "]";
 	}
-
-
 
 	public Integer getId() {
 		return id;
@@ -171,10 +174,7 @@ public class Patient implements Serializable{
 		return doctors;
 	}
 
-
-	public void setDoctors(LinkedList<Doctor> doctors) {
-		this.doctors = doctors;
-	}
+	
 	
 	public Integer getAge() {
 		return age;
@@ -184,4 +184,17 @@ public class Patient implements Serializable{
 		this.age = age;
 	
 	}
+
+	public Treatments getTreatmet() {
+		return treatmet;
+	}
+
+	public void setTreatmet(Treatments treatmet) {
+		this.treatmet = treatmet;
+	}
+
+	public void setDoctors(ArrayList<Doctor> doctors) {
+		this.doctors = doctors;
+	}
+	
 }
