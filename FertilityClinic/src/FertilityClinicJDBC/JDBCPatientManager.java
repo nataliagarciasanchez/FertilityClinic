@@ -121,16 +121,7 @@ public class JDBCPatientManager {
 		return p;
 	}
 	/*
-	@Override
-	public void connect() {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
-	public void disconnect() {
-		// TODO Auto-generated method stub
-		
-	}
+	
 	@Override
 	public void deleteAppointment() {
 		// TODO Auto-generated method stub
