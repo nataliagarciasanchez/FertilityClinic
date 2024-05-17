@@ -39,7 +39,8 @@ private Connection c = null;
 					+ "id INTEGER PRIMARY KEY AUTOINCREMENT,"
 					+ "name TEXT NOT NULL, type INTEGER, "
 					+ "phone number INTEGER,email TEXT NOT NULL,"
-					+ " patients_id INTEGER REFERENCES Patient(id));";
+					+ "patients_id INTEGER FOREIGN KEY REFERENCES Patient(id),"
+					+ "speciality_id INTEGER FOREIGN KEY REFERENCES Speciality(id);";
 			stmt.executeUpdate(sql);
 			
 			sql = "CREATE TABLE Manager ("
@@ -49,12 +50,17 @@ private Connection c = null;
 			stmt.executeUpdate(sql);
 			
 			sql = "CREATE TABLE Patient ("
-						+ "ID INTEGER PRIMARY KEY AUTOINCREMENT,"
-						+ "name TEXT NOT NULL, age INTEGER, "
-						+ "height NUMERIC, weight NUMERIC,"
-						+ "bloodType TEXT NOT NULL, phoneNumber INTEGER,"
-						+ "email TEXT NOT NULL,BankAccountNumber INTEGER,"
-						+ "Gender TEXT NOT NULL, );";
+					+ "ID INTEGER PRIMARY KEY AUTOINCREMENT,"
+					+ "name TEXT NOT NULL, age INTEGER, "
+					+ "height NUMERIC, weight NUMERIC,"
+					+ "bloodType TEXT NOT NULL, phoneNumber INTEGER,"
+					+ "email TEXT NOT NULL,BankAccountNumber INTEGER,"
+					+ "Gender TEXT NOT NULL, );";
+			stmt.executeUpdate(sql);
+			
+			sql = "CREATE TABLE Speciality ("
+					+ "ID INTEGER PRIMARY KEY AUTOINCREMENT,"
+					+ "name TEXT NOT NULL);";
 			stmt.executeUpdate(sql);
 		
 			

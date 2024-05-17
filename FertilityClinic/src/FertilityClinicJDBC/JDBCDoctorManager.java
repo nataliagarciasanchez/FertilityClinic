@@ -23,13 +23,9 @@ public class JDBCDoctorManager {
 					+ "VALUES(dejar claro los atributos)";
 			PreparedStatement prep=manager.getConnection().prepareStatement(sql);
 		
-			prep.setInt(1, p.getId());
-			prep.setString(2, p.getName());
-			prep.setInt(3, p.getAge());
-			prep.setDouble(4, p.getHeight());
-			prep.setDouble(5, p.getWeight());
-			prep.setInt(6,  p.getPhoneN());
-			prep.setString(7, p.getBloodType());
+			prep.setInt(1, d.getId());
+			prep.setString(2, d.getName());
+			prep.setString(3, d.getEmail());
 			
 		}catch(Exception e) {
 			e.printStackTrace();
