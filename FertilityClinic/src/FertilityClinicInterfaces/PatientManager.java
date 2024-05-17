@@ -8,8 +8,6 @@ import FertilityClinicPOJOs.Patient;
 
 public interface PatientManager {
 	
-	public void connect();
-	public void disconnect();
 	//public void viewMyInfo();
 	//public void manageInfo();
 	//public void manageAppointment();
