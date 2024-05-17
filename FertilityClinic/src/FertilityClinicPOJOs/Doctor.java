@@ -1,6 +1,7 @@
 package FertilityClinicPOJOs;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
@@ -16,43 +17,45 @@ public class Doctor implements Serializable {
  //@XmlTranscient
  private Integer id;
  //@XmlElement
- private String type;
- //@XmlElement
  private String email;
  //@XmlElement
  private Integer phone;
  //@XmlAttribute
  private String name;
-
+ private Speciality speciality;
+ private Patient patient;
  private byte[] licensePDF; //esto es binary objects que es un requisito. Es añadir eso y olvidarnos
- //private LinkedList <Patient> patient;
  //@XmlElement (name = "Patient")
  //@XmlElementWrapper(name = "Patients")
  private List <Patient> patients;
-
  
- public Doctor(Integer id,String type,String email,Integer phone,String name,List <Patient> patients) {
-     this.id=id;
-     this.type=type;
-     this.email=email;
-     this.phone=phone;
-     this.name=name;
-     this.patients=patients;
- }
  
-
-public Doctor() {
-	super();
-	patients = new LinkedList<Patient>();
+ 
+ public Doctor(Integer id, String email, Integer phone, String name, Speciality speciality, Patient patient, byte[] licensePDF, List<Patient> patients) {
+	this.id = id;
+	this.email = email;
+	this.phone = phone;
+	this.name = name;
+	this.speciality = speciality;
+	this.patient = patient;
+	this.licensePDF = licensePDF;
+	this.patients = patients;
 }
+ 
+ public Doctor() {
+		super();
+		patients = new LinkedList<Patient>();
+	}
+	 
 
-
-@Override
+ @Override
 public int hashCode() {
-	return Objects.hash(email, id, name, patients, phone, type);
+	final int prime = 31;
+	int result = 1;
+	result = prime * result + Arrays.hashCode(licensePDF);
+	result = prime * result + Objects.hash(email, id, name, patient, patients, phone, speciality);
+	return result;
 }
-
-
 
 @Override
 public boolean equals(Object obj) {
@@ -63,32 +66,18 @@ public boolean equals(Object obj) {
 	if (getClass() != obj.getClass())
 		return false;
 	Doctor other = (Doctor) obj;
-	return Objects.equals(email, other.email) && Objects.equals(id, other.id) && Objects.equals(name, other.name)
-			&& Objects.equals(patients, other.patients) && Objects.equals(phone, other.phone) && type == other.type;
+	return Objects.equals(email, other.email) && Objects.equals(id, other.id)
+			&& Arrays.equals(licensePDF, other.licensePDF) && Objects.equals(name, other.name)
+			&& Objects.equals(patient, other.patient) && Objects.equals(patients, other.patients)
+			&& Objects.equals(phone, other.phone) && Objects.equals(speciality, other.speciality);
 }
-
-
-@Override
-public String toString() {
-	return "Doctor [id=" + id + ", type=" + type + ", email=" + email + ", phone=" + phone + ", name=" + name
-			+ ", patients=" + patients + "]";
-}
-
 
 public Integer getId() {
 	return id;
-}
-
+ }
+ 
 public void setId(Integer id) {
 	this.id = id;
-}
-
-public String getType() {
-	return type;
-}
-
-public void setType(String type) {
-	this.type = type;
 }
 
 public String getEmail() {
@@ -107,12 +96,37 @@ public void setPhone(Integer phone) {
 	this.phone = phone;
 }
 
+
 public String getName() {
 	return name;
 }
 
 public void setName(String name) {
 	this.name = name;
+}
+
+public Speciality getSpeciality() {
+	return speciality;
+}
+
+public void setSpeciality(Speciality speciality) {
+	this.speciality = speciality;
+}
+
+public Patient getPatient() {
+	return patient;
+}
+
+public void setPatient(Patient patient) {
+	this.patient = patient;
+}
+
+public byte[] getLicensePDF() {
+	return licensePDF;
+}
+
+public void setLicensePDF(byte[] licensePDF) {
+	this.licensePDF = licensePDF;
 }
 
 public List<Patient> getPatients() {
@@ -122,9 +136,15 @@ public List<Patient> getPatients() {
 public void setPatients(List<Patient> patients) {
 	this.patients = patients;
 }
- 
 
 
- 
+@Override
+public String toString() {
+	return "Doctor [id=" + id + ", email=" + email + ", phone=" + phone + ", name=" + name + ", speciality="
+			+ speciality + ", patient=" + patient + ", licensePDF=" + Arrays.toString(licensePDF) + ", patients="
+			+ patients + "]";
+}
+
+
  
 }
