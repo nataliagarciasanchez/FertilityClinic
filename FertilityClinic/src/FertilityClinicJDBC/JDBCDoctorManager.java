@@ -20,7 +20,7 @@ public class JDBCDoctorManager {
 	public void createDoctor(Doctor d) {
 		try {
 			String sql ="INSERT INTO Doctor (Patient_id, Name, Age, Height, Weight, Phone, Bloodtype, Email, BankAccountNumber, Gender )"
-					+"VALUES(dejar claro los atributos)";
+					+ "VALUES(dejar claro los atributos)";
 			PreparedStatement prep=manager.getConnection().prepareStatement(sql);
 		
 			prep.setInt(1, p.getId());
