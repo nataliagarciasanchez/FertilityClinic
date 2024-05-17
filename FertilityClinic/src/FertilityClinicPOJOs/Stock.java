@@ -73,7 +73,7 @@ public class Stock implements Serializable {
 			this.quantity = quantity;
 		}
 		
-		//subnormal quien lo lea
+		
 	    
 	    
 	
