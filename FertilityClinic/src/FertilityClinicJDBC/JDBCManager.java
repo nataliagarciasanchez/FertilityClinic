@@ -56,6 +56,15 @@ private Connection c = null;
 						+ "email TEXT NOT NULL,BankAccountNumber INTEGER,"
 						+ "Gender TEXT NOT NULL, );";
 			stmt.executeUpdate(sql);
+			
+			sql = "CREATE TABLE Speciality ("
+					+ "ID INTEGER PRIMARY KEY AUTOINCREMENT,"
+					+ "name TEXT NOT NULL, , "
+					+ " ,  ,"
+					+ "bloodType TEXT NOT NULL, phoneNumber INTEGER,"
+					+ "email TEXT NOT NULL,BankAccountNumber INTEGER,"
+					+ "Gender TEXT NOT NULL, );";
+			stmt.executeUpdate(sql);
 		
 			
 		}catch(SQLException e) {

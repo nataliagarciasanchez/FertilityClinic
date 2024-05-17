@@ -3,9 +3,10 @@ package FertilityClinicPOJOs;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Speciality implements Serializable{
-
+	
 	private static final long serialVersionUID = 1L;
 	
 	private Integer id;
@@ -16,6 +17,26 @@ public class Speciality implements Serializable{
 		this.id = id;
 		this.name = name;
 		this.doctors = new ArrayList<Doctor>();
+	}
+    
+    
+	@Override
+	public int hashCode() {
+		return Objects.hash(doctors, id, name);
+	}
+
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Speciality other = (Speciality) obj;
+		return Objects.equals(doctors, other.doctors) && Objects.equals(id, other.id)
+				&& Objects.equals(name, other.name);
 	}
 
 	public Integer getId() {
