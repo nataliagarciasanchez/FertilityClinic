@@ -23,14 +23,13 @@ public class Doctor implements Serializable {
  private Integer phone;
  //@XmlAttribute
  private String name;
-<<<<<<< HEAD
+
  private byte[] licensePDF; //esto es binary objects que es un requisito. Es añadir eso y olvidarnos
- private LinkedList <Patient> patients;
-=======
+ //private LinkedList <Patient> patient;
  //@XmlElement (name = "Patient")
  //@XmlElementWrapper(name = "Patients")
  private List <Patient> patients;
->>>>>>> branch 'master' of https://github.com/nataliagarciasanchez/FertilityClinic.git
+
  
  public Doctor(Integer id,String type,String email,Integer phone,String name,List <Patient> patients) {
      this.id=id;
