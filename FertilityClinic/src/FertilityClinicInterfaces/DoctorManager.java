@@ -1,8 +1,12 @@
 package FertilityClinicInterfaces;
 import java.util.*;
+import FertilityClinicPOJOs.Doctor;
 import FertilityClinicPOJOs.Patient;
 
 public interface DoctorManager {
+	
+	public void createDoctor(Doctor d);
+	
 	public void viewStock();
 	public void askForStock();
 	public List<Patient> getListOfPatients();

@@ -2,22 +2,37 @@ package FertilityClinicPOJOs;
 
 import java.io.Serializable;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Objects;
 
-
+/*
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlRootElement(name = "Doctor")
+@XmlType(propOrder = {})
+*/
 public class Doctor implements Serializable {
 	
  private static final long serialVersionUID = 7882901115979698067L;
- 
+ //@XmlTranscient
  private Integer id;
- private TypeDoctor type;
+ //@XmlElement
+ private String type;
+ //@XmlElement
  private String email;
+ //@XmlElement
  private Integer phone;
+ //@XmlAttribute
  private String name;
+<<<<<<< HEAD
  private byte[] licensePDF; //esto es binary objects que es un requisito. Es añadir eso y olvidarnos
  private LinkedList <Patient> patients;
+=======
+ //@XmlElement (name = "Patient")
+ //@XmlElementWrapper(name = "Patients")
+ private List <Patient> patients;
+>>>>>>> branch 'master' of https://github.com/nataliagarciasanchez/FertilityClinic.git
  
- public Doctor(Integer id,TypeDoctor type,String email,Integer phone,String name,LinkedList <Patient> patients) {
+ public Doctor(Integer id,String type,String email,Integer phone,String name,List <Patient> patients) {
      this.id=id;
      this.type=type;
      this.email=email;
@@ -69,11 +84,11 @@ public void setId(Integer id) {
 	this.id = id;
 }
 
-public TypeDoctor getType() {
+public String getType() {
 	return type;
 }
 
-public void setType(TypeDoctor type) {
+public void setType(String type) {
 	this.type = type;
 }
 
@@ -101,11 +116,11 @@ public void setName(String name) {
 	this.name = name;
 }
 
-public LinkedList<Patient> getPatients() {
+public List<Patient> getPatients() {
 	return patients;
 }
 
-public void setPatients(LinkedList<Patient> patients) {
+public void setPatients(List<Patient> patients) {
 	this.patients = patients;
 }
  

@@ -1,27 +1,44 @@
 package FertilityClinicPOJOs;
 
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Objects;
 
+/*
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlRootElement(name = "Patient")
+@XmlType(propOrder = {"los atributos Xml que sean elements"})
+*/
 public class Patient implements Serializable{
 	
 	private static final long serialVersionUID = 7256683528485457199L;
-	private Integer id;
-	private LocalDate dob;
-	private String email;
-	private Integer phoneN;
-	private String name;
-	private double height;
-	private double weight;
-	private BloodType bloodType;
-	private Integer banckAc;
-	private Gender gender;
-	private LinkedList<Doctor> doctors;
-	private Integer age;
+		//@XmlTransient
+		private Integer id;
+		//@XmlAttribute
+		private String name;
+		//@XmlJavaTypeAdapter(SQLDateAdapter.class)
+		private Date dob;
+		//@XmlElement
+		private String email;
+		//@XmlElement
+		private Integer phoneN;
+		//@XmlElement
+		private double height;
+		//@XmlElement
+		private double weight;
+		//@XmlElement
+		private String bloodType;
+		//@XmlElement
+		private String gender;
+		//@XmlTranscient
+		private ArrayList<Doctor> doctors;
+		//@XmlElement
+		private Integer age;
 	
-	public Patient(Integer id, LocalDate dob, String email, Integer phoneN, String name, double height, double weight, BloodType bloodType, Integer banckAc, Gender gender, Integer age) {
+	public Patient(Integer id, Date dob, String email, Integer phoneN, String name, double height, double weight, String bloodType, String gender, Integer age) {
 		this.id = id;
 		this.dob = dob;
 		this.email = email;
@@ -30,7 +47,6 @@ public class Patient implements Serializable{
 		this.height = height;
 		this.weight = weight;
 		this.bloodType = bloodType;
-		this.banckAc = banckAc;
 		this.gender = gender;
 		this.age=age;
 	}
@@ -38,13 +54,13 @@ public class Patient implements Serializable{
 
 	public Patient() {
 		super();
-		doctors = new LinkedList<Doctor>();
+		doctors = new ArrayList<Doctor>();
 	}
 
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(banckAc, bloodType, dob, doctors, email, gender, height, id, name, phoneN, weight, age);
+		return Objects.hash( bloodType, dob, doctors, email, gender, height, id, name, phoneN, weight, age);
 	}
 
 
@@ -58,7 +74,7 @@ public class Patient implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		Patient other = (Patient) obj;
-		return Objects.equals(banckAc, other.banckAc) && bloodType == other.bloodType && Objects.equals(dob, other.dob)
+		return  bloodType == other.bloodType && Objects.equals(dob, other.dob)
 				&& Objects.equals(doctors, other.doctors) && Objects.equals(email, other.email)
 				&& gender == other.gender && Double.doubleToLongBits(height) == Double.doubleToLongBits(other.height)
 				&& Objects.equals(id, other.id) && Objects.equals(name, other.name)
@@ -72,7 +88,7 @@ public class Patient implements Serializable{
 	@Override
 	public String toString() {
 		return "Patient [id=" + id + ", dob=" + dob + ", email=" + email + ", phoneN=" + phoneN + ", name=" + name
-				+ ", height=" + height + ", weight=" + weight + ", bloodType=" + bloodType + ", banckAc=" + banckAc
+				+ ", height=" + height + ", weight=" + weight + ", bloodType=" + bloodType
 				+ ", gender=" + gender + ", age]"+ age;
 	}
 
@@ -86,11 +102,11 @@ public class Patient implements Serializable{
 		this.id = id;
 	}
 
-	public LocalDate getDob() {
+	public Date getDob() {
 		return dob;
 	}
 
-	public void setDob(LocalDate dob) {
+	public void setDob(Date dob) {
 		this.dob = dob;
 	}
 
@@ -134,32 +150,24 @@ public class Patient implements Serializable{
 		this.weight = weight;
 	}
 
-	public BloodType getBloodType() {
+	public String getBloodType() {
 		return bloodType;
 	}
 
-	public void setBloodType(BloodType bloodType) {
+	public void setBloodType(String bloodType) {
 		this.bloodType = bloodType;
 	}
 
-	public Integer getBanckAc() {
-		return banckAc;
-	}
-
-	public void setBanckAc(Integer banckAc) {
-		this.banckAc = banckAc;
-	}
-
-	public Gender getGender() {
+	public String getGender() {
 		return gender;
 	}
 
-	public void setGender(Gender gender) {
+	public void setGender(String gender) {
 		this.gender = gender;
 	}
 
 
-	public LinkedList<Doctor> getDoctors() {
+	public List<Doctor> getDoctors() {
 		return doctors;
 	}
 

@@ -2,7 +2,6 @@ package FertilityClinicJDBC;
 
 import FertilityClinicInterfaces.DoctorManager;
 import FertilityClinicPOJOs.Doctor;
-import FertilityClinicPOJOs.Gender;
 import FertilityClinicPOJOs.Patient;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -18,6 +17,27 @@ public class JDBCDoctorManager {
 		this.manager=manager;
 	}
 	
+	public void createDoctor(Doctor d) {
+		try {
+			String sql ="INSERT INTO Doctor (Patient_id, Name, Age, Height, Weight, Phone, Bloodtype, Email, BankAccountNumber, Gender )"
+					+"VALUES(dejar claro los atributos)";
+			PreparedStatement prep=manager.getConnection().prepareStatement(sql);
+		
+			prep.setInt(1, p.getId());
+			prep.setString(2, p.getName());
+			prep.setInt(3, p.getAge());
+			prep.setDouble(4, p.getHeight());
+			prep.setDouble(5, p.getWeight());
+			prep.setInt(6,  p.getPhoneN());
+			prep.setString(7, p.getBloodType());
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
+	/*
 	@Override
     public void viewStock() {
 		try {
@@ -58,8 +78,12 @@ public class JDBCDoctorManager {
 			e.printStackTrace();
 		}
 		
+		
 	}
-	
+<<<<<<< HEAD
+	*/
+
+
 	@Override
 	public void removePatientById (Integer patient_id) {
 		try {
@@ -67,7 +91,7 @@ public class JDBCDoctorManager {
 			
 			PreparedStatement prep = manager.getConnection().prepareStatement(sql);
 			prep.setInt(1, patient_id);
-
+			
 			prep.executeUpdate();
 
 			
@@ -90,3 +114,4 @@ public class JDBCDoctorManager {
 	public void deleteAppointment();
 	public void modifyAppointment();
  */
+
