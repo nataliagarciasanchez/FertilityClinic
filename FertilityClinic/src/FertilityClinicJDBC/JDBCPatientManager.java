@@ -149,4 +149,21 @@ public class JDBCPatientManager {
 	
 	
 	*/
+	
+	//@Override
+	public void updateTreatment (Integer p_id, String treatment) {
+		
+		try {
+			String sql="UPDATE patients SET speciality=? WHERE id=?; ";
+			PreparedStatement prep=manager.getConnection().prepareStatement(sql);
+			
+			prep.setString(1, treatment);
+			prep.setInt(2, p_id);
+			
+			prep.executeQuery();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 }
