@@ -34,17 +34,13 @@ public class JPAUserManager implements UserManager {
 			md.update(pass.getBytes());
 			byte[] pw = md.digest();
 			
-			q.setParameter(2, pw);
-			
-		}catch(Exception e)
-		{e.printStackTrace();}
+			query.setParameter(2, pw);
 			
 		
-		try {
 			user = (User) query.getSingleResult();
 			
 		}catch(NoResultException e) {
-			System.out.println("\"No user found with the provided email and password.")
+			System.out.println("No user found with the provided email and password.")
 		}
 		
 		return user;
@@ -68,6 +64,7 @@ public void connect() {
 		this.newRole(manager);
 		this.newRole(doctor);
 		this.newRole(patient);
+	
 	}
 	
 }
