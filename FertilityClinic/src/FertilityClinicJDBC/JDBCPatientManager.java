@@ -1,6 +1,8 @@
 package FertilityClinicJDBC;
 
 import FertilityClinicPOJOs.Patient;
+import FertilityClinicPOJOs.Treatments;
+import FertilityClinicPOJOs.Doctor;
 
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -19,12 +21,12 @@ public class JDBCPatientManager {
 		this.manager = m;
 	}
 	
-	public void addPatient(String email, Integer phoneN, String name, double height, double weight, String bloodType, String gender, Integer age) {
+	public void addPatient(String email, Integer phoneN, String name, double height, double weight, String bloodType, String gender, Integer age, Doctor doctor,Treatments treatment) {
 		
 		try {
 			String sql= "INSERT INTO Patient (name, age, height, weight, bloodType, "
-					+ "phoneNumber, email, Gender )"
-					+ "VALUES (?,?,?,?,?;?,?,?)";
+					+ "phoneNumber, email, Gender, doctor_id, treatment_id)"
+					+ "VALUES (?,?,?,?,?;?,?,?,?,?)";
 		
 			PreparedStatement p = manager.getConnection().prepareStatement(sql);
 		    p.setString(1, email);
@@ -35,6 +37,7 @@ public class JDBCPatientManager {
 		    p.setString(6, bloodType);
 		    p.setString(7, gender);
 		    p.setInt(8, age);
+		    
 			p.executeUpdate();
 			p.close();
 			
@@ -44,7 +47,7 @@ public class JDBCPatientManager {
 		}
 
 	
-	}
+
 					
 	public List<Patient>  getListOfPatients() {
 		
