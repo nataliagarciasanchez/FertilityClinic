@@ -1,5 +1,18 @@
 package FertilityClinicJPA;
 
+import java.security.MessageDigest;
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+import javax.persistence.Persistence;
+import javax.persistence.Query;
+//import java.persistnce.TypedQuery;
+
+import FertilityClinicInterfaces.UserManager;
+import FertilityClinicPOJOs.Role;
+import FertilityClinicPOJOs.User;
+
 public class JPAUserManager implements UserManager {
 	private EntityManager em;
 	
@@ -41,7 +54,7 @@ public class JPAUserManager implements UserManager {
 public void connect() {
 	
 	
-	em = Persistence.createEntityManagerFactory("vetclinic-provider").createEntityManager();
+	em = Persistence.createEntityManagerFactory("fertilityclinic-provider").createEntityManager();
 
 	em.getTransaction().begin();
 	em.createNativeQuery("PRAGMA foreign_keys = ON").executeUpdate();
@@ -49,36 +62,56 @@ public void connect() {
 	
 	if(this.getRoles().isEmpty())
 	{
-		Role owner = new Role("owner");
-		Role vet = new Role("vet");
-		this.newRole(owner);
-		this.newRole(vet);
+		Role manager = new Role("manager");
+		Role doctor = new Role("doctor");
+		Role patient=new Role ("patient");
+		this.newRole(manager);
+		this.newRole(doctor);
+		this.newRole(patient);
 	}
 	
 }
 
 @Override
 public List<Role> getRoles() {
-	Query query = em.createNativeQuery("SELECT * FROM roles", Role.class);
-	List<Role> roles = (List<Role>) query.getResultList();
-	
-	return roles;
-}
+	    List<Role> roles = null;
+	    try {
+	    	Query query = em.createNativeQuery("SELECT * FROM roles", Role.class);
+	    	List<Role> roles = (List<Role>) query.getResultList();
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	    return roles;
+	}
 
 @Override
 public void newRole(Role role) {
-	em.getTransaction().begin();
-	em.persist(role);
-	em.getTransaction().commit();
-	
+	try {
+        em.getTransaction().begin();
+        em.persist(role);
+        em.getTransaction().commit();
+    } catch (Exception e) {
+        e.printStackTrace();
+        if (em.getTransaction().isActive()) {
+            em.getTransaction().rollback();
+        }
+    }
 }
+	
+
 
 @Override
 public void newUser(User user) {
-	// TODO Auto-generated method stub
+	try {
 	em.getTransaction().begin();
 	em.persist(user);
 	em.getTransaction().commit();
+}catch (Exception e) {
+	e.printStackTrace();
+    if (em.getTransaction().isActive()) {
+        em.getTransaction().rollback();
+    }
+}
 }
 
 @Override
@@ -104,8 +137,28 @@ public User getUser(String email) {
 
 @Override
 public void changePassword(User u, String new_passwd) {
-
-	
+	 try {
+	        MessageDigest md = MessageDigest.getInstance("MD5");
+	        md.update(new_passwd.getBytes());
+	        byte[] newPwHash = md.digest();
+	        StringBuilder sb = new StringBuilder();
+	        for (byte b : newPwHash) {
+	            sb.append(String.format("%02x", b));
+	        }
+	        String hashedPassword = sb.toString();
+	        
+	        em.getTransaction().begin();
+	        Query query = em.createNativeQuery("UPDATE users SET password = ? WHERE id = ?");
+	        query.setParameter(1, hashedPassword);
+	        query.setParameter(2, u.getId());
+	        query.executeUpdate();
+	        em.getTransaction().commit();
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        if (em.getTransaction().isActive()) {
+	            em.getTransaction().rollback();
+	        }
+	    }
 }
 
 
