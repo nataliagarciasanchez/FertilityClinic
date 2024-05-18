@@ -145,12 +145,12 @@ public User getUser(String email) {
 public void changePassword(User user, String new_passwd) {
 	 try {
 	        Query query = em.createNativeQuery("UPDATE users SET password = ? WHERE id = ?");
-	        query.setParameter(1, user.getEmail());
 	        MessageDigest md = MessageDigest.getInstance("MD5");
             md.update(new_passwd.getBytes());
             byte[] newPwHash = md.digest();
-
-	        query.setParameter(2, new_passwd);
+            query.setParameter(1, new_passwd);
+            query.setParameter(2, user.getEmail());
+	       
 	        query.executeUpdate();
 	        em.getTransaction().commit();
 	    } catch (Exception e) {
@@ -160,19 +160,5 @@ public void changePassword(User user, String new_passwd) {
 	        }
 	    }
 }
-
-
-
 }
 
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
-}
