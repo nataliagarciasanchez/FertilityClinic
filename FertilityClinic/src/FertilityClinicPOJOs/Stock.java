@@ -1,26 +1,35 @@
 package FertilityClinicPOJOs;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Objects;
+
+
 public class Stock implements Serializable {
 
 	private static final long serialVersionUID = 4060546678599412288L;
 	
-	    private String productID;
+	    private Integer productID;
 	    private String productName;
 	    private String category;
 	    private int quantity;
+	    private Date expiryDate; 
 	    
-		public Stock(String productID, String productName, String category, int quantity) {
+		public Stock(Integer productID, String productName, String category, int quantity, Date expiryDate) {
 			this.productID = productID;
 			this.productName = productName;
 			this.category = category;
 			this.quantity = quantity;
+			this.expiryDate = expiryDate;
 		}
+
+		
 
 		@Override
 		public int hashCode() {
-			return Objects.hash(category, productID, productName, quantity);
+			return Objects.hash(category, expiryDate, productID, productName, quantity);
 		}
+
+
 
 		@Override
 		public boolean equals(Object obj) {
@@ -31,21 +40,26 @@ public class Stock implements Serializable {
 			if (getClass() != obj.getClass())
 				return false;
 			Stock other = (Stock) obj;
-			return Objects.equals(category, other.category) && Objects.equals(productID, other.productID)
-					&& Objects.equals(productName, other.productName) && quantity == other.quantity;
+			return Objects.equals(category, other.category) && Objects.equals(expiryDate, other.expiryDate)
+					&& Objects.equals(productID, other.productID) && Objects.equals(productName, other.productName)
+					&& quantity == other.quantity;
 		}
+		
+		
 
 		@Override
 		public String toString() {
 			return "Stock [productID=" + productID + ", productName=" + productName + ", category=" + category
-					+ ", quantity=" + quantity + "]";
+					+ ", quantity=" + quantity + ", expiryDate=" + expiryDate + "]";
 		}
 
-		public String getProductID() {
+
+
+		public Integer getProductID() {
 			return productID;
 		}
 
-		public void setProductID(String productID) {
+		public void setProductID(Integer productID) {
 			this.productID = productID;
 		}
 
@@ -72,15 +86,14 @@ public class Stock implements Serializable {
 		public void setQuantity(int quantity) {
 			this.quantity = quantity;
 		}
+
+		public Date getExpiryDate() {
+			return expiryDate;
+		}
+
+		public void setExpiryDate(Date expiryDate) {
+			this.expiryDate = expiryDate;
+		}
 		
 		
-	    
-	    
-	
-
-	
-
-	
-	
-
 }
