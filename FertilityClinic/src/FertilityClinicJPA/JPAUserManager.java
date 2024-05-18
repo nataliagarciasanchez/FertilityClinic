@@ -135,9 +135,14 @@ public Role getRole(Integer id) {
 
 @Override
 public User getUser(String email) {
+	try {
 	Query query = em.createNativeQuery("SELECT * FROM users where email="+email, User.class);
 	User user = (User) query.getSingleResult();
-	
+	}catch(NoResultException nre) {
+		System.out.println("\"No user found with email: \" + email");
+	}catch(Exception e) {
+		e.printStackTrace();
+	}
 	return user;
 }
 
