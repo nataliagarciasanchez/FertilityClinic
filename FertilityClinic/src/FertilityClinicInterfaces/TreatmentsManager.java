@@ -10,7 +10,6 @@ public interface TreatmentsManager {
     Treatments getTreatmentById(int id);
     void updateTreatment(Treatments treatment);
     void deleteTreatment(int id);
-    List<Treatments> getAllTreatments();
     List<Treatments> searchTreatmentsByPatientName(String name);
     void assignDoctorToTreatment(int treatmentId, int doctorId);
     List<Treatments> getTreatmentsByDoctorId(int doctorId);
