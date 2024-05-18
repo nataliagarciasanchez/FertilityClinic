@@ -38,7 +38,7 @@ public class Role implements Serializable {
 		return name;
 	}
 	
-	//bobo
+	
 
 
 	public void setName(String name) {
