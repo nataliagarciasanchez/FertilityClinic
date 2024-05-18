@@ -6,6 +6,6 @@ import FertilityClinicPOJOs.Patient;
 
 public interface XMLManager {
 
-	public void Doctor2xml(Integer id);
-	public Patient xml2Pet(File xml);
+	public void manager2xml(Integer id);
+	public Patient xml2Patient(File xml);
 }
