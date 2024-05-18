@@ -60,11 +60,11 @@ public class Patient implements Serializable{
 			this.treatmet = treatmet;
 		}
 
-	/*public Patient() {
+	public Patient() {
 		super();
-		doctor = new ArrayList<Doctor>();
+		doctors = new ArrayList<Doctor>();
 	}
-	*/
+	
 
 
 	@Override
