@@ -7,7 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
-//import java.persistnce.TypedQuery;
+
 
 import FertilityClinicInterfaces.UserManager;
 import FertilityClinicPOJOs.Role;
