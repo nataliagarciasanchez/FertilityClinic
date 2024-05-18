@@ -25,11 +25,10 @@ public class JPAUserManager implements UserManager {
 	@Override
 	
 	public User checkPassword(String email, String pass) {
-		User user;
-		Query query = em.createNativeQuery("SELECT * from users where email =? and password=?", User.class);
-		query.setParameter(1, email);
-		
+		User user=null;
 		try {
+			Query query = em.createNativeQuery("SELECT * from users where email =? and password=?", User.class);
+			query.setParameter(1, email);
 			
 			MessageDigest md = MessageDigest.getInstance("MD5");
 			md.update(pass.getBytes());
@@ -44,7 +43,9 @@ public class JPAUserManager implements UserManager {
 		try {
 			user = (User) query.getSingleResult();
 			
-		}catch(NoResultException e) {}
+		}catch(NoResultException e) {
+			System.out.println("\"No user found with the provided email and password.")
+		}
 		
 		return user;
 	}
@@ -121,9 +122,15 @@ public void disconnect() {
 
 @Override
 public Role getRole(Integer id) {
+	Role role=null;
+	try {
 	Query query = em.createNativeQuery("SELECT * FROM roles where id="+id, Role.class);
-	Role role = (Role) query.getSingleResult();
-	
+	role = (Role) query.getSingleResult();
+	}catch(NoResultException nre) {
+		System.out.println("No role found with id: "+id);
+	}catch(Exception e) {
+		e.printStackTrace();
+	}
 	return role;
 }
 
@@ -136,21 +143,12 @@ public User getUser(String email) {
 }
 
 @Override
-public void changePassword(User u, String new_passwd) {
+public void changePassword(User user, String new_passwd) {
 	 try {
-	        MessageDigest md = MessageDigest.getInstance("MD5");
-	        md.update(new_passwd.getBytes());
-	        byte[] newPwHash = md.digest();
-	        StringBuilder sb = new StringBuilder();
-	        for (byte b : newPwHash) {
-	            sb.append(String.format("%02x", b));
-	        }
-	        String hashedPassword = sb.toString();
-	        
-	        em.getTransaction().begin();
 	        Query query = em.createNativeQuery("UPDATE users SET password = ? WHERE id = ?");
-	        query.setParameter(1, hashedPassword);
-	        query.setParameter(2, u.getId());
+	        query.setParameter(1, user.getEmail());
+	        
+	        query.setParameter(2, new_passwd);
 	        query.executeUpdate();
 	        em.getTransaction().commit();
 	    } catch (Exception e) {
