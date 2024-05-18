@@ -2,6 +2,8 @@ package FertilityClinicPOJOs;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
+
+
 public class Stock implements Serializable {
 
 	private static final long serialVersionUID = 4060546678599412288L;
