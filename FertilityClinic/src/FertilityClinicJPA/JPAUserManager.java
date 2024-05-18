@@ -132,6 +132,7 @@ public Role getRole(Integer id) {
 
 @Override
 public User getUser(String email) {
+	User user=null;
 	try {
 	Query query = em.createNativeQuery("SELECT * FROM users where email="+email, User.class);
 	User user = (User) query.getSingleResult();
