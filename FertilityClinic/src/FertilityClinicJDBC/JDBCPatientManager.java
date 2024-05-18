@@ -40,7 +40,7 @@ public class JDBCPatientManager {
 		    for(Doctor doctor: patient.getDoctors()) {
 		    	p.setInt(9,doctor.getId());
 		    }
-		    p.setString(10,patient.getTreatmet().getName());
+		    p.setInt(10,patient.getTreatmet().getTreatmentID());
 			p.executeUpdate();
 			p.close();
 			
@@ -57,6 +57,10 @@ public class JDBCPatientManager {
 	public List<Patient>  getListOfPatients() {
 		
 		List<Patient> patients= new ArrayList<Patient>();
+		Patient patient= null;
+		Treatments treatment=null;
+		JDBCTreatmentsManager t = null;
+	
 		
 		try {
 			Statement stmt = manager.getConnection().createStatement();
@@ -75,10 +79,15 @@ public class JDBCPatientManager {
 				String bloodType = rs.getString("bloodType"); 
 				String gender = rs.getString("Gender");
 				Integer age = rs.getInt("age");
-				 
+				Integer treatmentId = rs.getInt("treatment_id");
+	            treatment= t.getTreatmentById(treatmentId);
+	            patient.setTreatmet(treatment);
+	            Integer  doctorIds = rs.getInt("doctor_id");
+	                List<Doctor> doctors = getDoctorsByIds(doctorIds);
+	                patient.setDoctors(doctors);
+			
 				
-				
-				Patient p = new Patient (id, dob,email,phoneN,name,height,weight,bloodType,gender,age);
+				Patient p = new Patient (id,name, dob,email,phoneN,height,weight,bloodType,gender,doctors,age,treatment);
 				patients.add(p);
 			}
 			
@@ -117,6 +126,7 @@ public class JDBCPatientManager {
 			String bloodType = rs.getString("bloodType"); 
 			String gender = rs.getString("Gender");
 			Integer age = rs.getInt("age");
+			
 			
 			
 			 p = new Patient (id,dob,email,phoneN,name,height,weight,bloodType,gender,age);
