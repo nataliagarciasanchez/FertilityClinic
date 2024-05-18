@@ -7,7 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
-//import java.persistnce.TypedQuery;
+
 
 import FertilityClinicInterfaces.UserManager;
 import FertilityClinicPOJOs.Role;
@@ -50,7 +50,6 @@ public class JPAUserManager implements UserManager {
 		return user;
 	}
 
-	}
 @Override
 public void connect() {
 	
@@ -136,19 +135,28 @@ public Role getRole(Integer id) {
 
 @Override
 public User getUser(String email) {
+	try {
 	Query query = em.createNativeQuery("SELECT * FROM users where email="+email, User.class);
 	User user = (User) query.getSingleResult();
-	
+	}catch(NoResultException nre) {
+		System.out.println("\"No user found with email: \" + email");
+	}catch(Exception e) {
+		e.printStackTrace();
+	}
 	return user;
 }
 
 @Override
 public void changePassword(User user, String new_passwd) {
 	 try {
+		 	em.getTransaction().begin();
 	        Query query = em.createNativeQuery("UPDATE users SET password = ? WHERE id = ?");
-	        query.setParameter(1, user.getEmail());
-	        
-	        query.setParameter(2, new_passwd);
+	        MessageDigest md = MessageDigest.getInstance("MD5");
+            md.update(new_passwd.getBytes());
+            byte[] newPwHash = md.digest();
+            query.setParameter(1, new_passwd);
+            query.setParameter(2, user.getId());
+	       
 	        query.executeUpdate();
 	        em.getTransaction().commit();
 	    } catch (Exception e) {
@@ -158,19 +166,5 @@ public void changePassword(User user, String new_passwd) {
 	        }
 	    }
 }
-
-
-
 }
 
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
-}

@@ -34,7 +34,7 @@ public class Patient implements Serializable{
 		//@XmlElement
 		private String gender;
 		//@XmlTranscient
-		private ArrayList<Doctor> doctors;
+		private List<Doctor> doctors;
 		//@XmlElement
 		private Integer age;
 		
@@ -44,7 +44,7 @@ public class Patient implements Serializable{
 	
 
 	public Patient(Integer id, String name, Date dob, String email, Integer phoneN, double height, double weight,
-				String bloodType, String gender, ArrayList<Doctor> doctors, Integer age, Treatments treatmet) {
+				String bloodType, String gender, List<Doctor> doctors, Integer age, Treatments treatmet) {
 			super();
 			this.id = id;
 			this.name = name;
@@ -60,10 +60,11 @@ public class Patient implements Serializable{
 			this.treatmet = treatmet;
 		}
 
-	public Patient() {
+	/*public Patient() {
 		super();
-		doctors = new ArrayList<Doctor>();
+		doctor = new ArrayList<Doctor>();
 	}
+	*/
 
 
 	@Override
@@ -94,7 +95,7 @@ public class Patient implements Serializable{
 	public String toString() {
 		return "Patient [id=" + id + ", name=" + name + ", dob=" + dob + ", email=" + email + ", phoneN=" + phoneN
 				+ ", height=" + height + ", weight=" + weight + ", bloodType=" + bloodType + ", gender=" + gender
-				+ ", doctors=" + doctors + ", age=" + age + ", treatmet=" + treatmet + "]";
+				+ ", doctor=" + doctors + ", age=" + age + ", treatmet=" + treatmet + "]";
 	}
 
 	public Integer getId() {
@@ -168,13 +169,6 @@ public class Patient implements Serializable{
 	public void setGender(String gender) {
 		this.gender = gender;
 	}
-
-
-	public List<Doctor> getDoctors() {
-		return doctors;
-	}
-
-	
 	
 	public Integer getAge() {
 		return age;
@@ -193,8 +187,16 @@ public class Patient implements Serializable{
 		this.treatmet = treatmet;
 	}
 
-	public void setDoctors(ArrayList<Doctor> doctors) {
+	public List<Doctor> getDoctors() {
+		return doctors;
+	}
+
+	public void setDoctors(List<Doctor> doctors) {
 		this.doctors = doctors;
 	}
+
+	
+
+	
 	
 }

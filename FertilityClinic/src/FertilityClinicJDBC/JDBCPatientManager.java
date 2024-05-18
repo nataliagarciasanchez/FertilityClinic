@@ -1,6 +1,8 @@
 package FertilityClinicJDBC;
 
 import FertilityClinicPOJOs.Patient;
+import FertilityClinicPOJOs.Treatments;
+import FertilityClinicPOJOs.Doctor;
 
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -19,22 +21,26 @@ public class JDBCPatientManager {
 		this.manager = m;
 	}
 	
-	public void addPatient(String email, Integer phoneN, String name, double height, double weight, String bloodType, String gender, Integer age) {
+	public void addPatient(Patient patient) {
 		
 		try {
 			String sql= "INSERT INTO Patient (name, age, height, weight, bloodType, "
-					+ "phoneNumber, email, Gender )"
-					+ "VALUES (?,?,?,?,?;?,?,?)";
+					+ "phoneNumber, email, Gender, doctor_id, treatment_id)"
+					+ "VALUES (?,?,?,?,?;?,?,?,?,?)";
 		
 			PreparedStatement p = manager.getConnection().prepareStatement(sql);
-		    p.setString(1, email);
-		    p.setInt(2, phoneN);
-		    p.setString(3, name);
-		    p.setDouble(4, height);
-		    p.setDouble(5, weight);
-		    p.setString(6, bloodType);
-		    p.setString(7, gender);
-		    p.setInt(8, age);
+		    p.setString(1, patient.getEmail());
+		    p.setInt(2, patient.getPhoneN());
+		    p.setString(3, patient.getName());
+		    p.setDouble(4, patient.getHeight());
+		    p.setDouble(5, patient.getWeight());
+		    p.setString(6, patient.getBloodType());
+		    p.setString(7, patient.getGender());
+		    p.setInt(8, patient.getAge());
+		    for(Doctor doctor: patient.getDoctors()) {
+		    	p.setInt(9,doctor.getId());
+		    }
+		    p.setString(10,patient.getTreatmet().getName());
 			p.executeUpdate();
 			p.close();
 			
@@ -42,9 +48,11 @@ public class JDBCPatientManager {
 		e.printStackTrace();
 		
 		}
+		
+		}
 
 	
-	}
+
 					
 	public List<Patient>  getListOfPatients() {
 		
@@ -67,9 +75,10 @@ public class JDBCPatientManager {
 				String bloodType = rs.getString("bloodType"); 
 				String gender = rs.getString("Gender");
 				Integer age = rs.getInt("age");
+				 
 				
 				
-				Patient p = new Patient (id,dob,email,phoneN,name,height,weight,bloodType,gender,age);
+				Patient p = new Patient (id, dob,email,phoneN,name,height,weight,bloodType,gender,age);
 				patients.add(p);
 			}
 			
@@ -94,7 +103,7 @@ public class JDBCPatientManager {
 		
 		try {
 			Statement stmt = manager.getConnection().createStatement();
-			String sql = "SELECT * FROM owners WHERE ID=" + id;
+			String sql = "SELECT * FROM Patient WHERE ID=" + id;
 		
 			ResultSet rs = stmt.executeQuery(sql);
 			
