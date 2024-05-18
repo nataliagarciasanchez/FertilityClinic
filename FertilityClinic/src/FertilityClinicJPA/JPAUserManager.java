@@ -149,6 +149,7 @@ public User getUser(String email) {
 @Override
 public void changePassword(User user, String new_passwd) {
 	 try {
+		 	em.getTransaction().begin();
 	        Query query = em.createNativeQuery("UPDATE users SET password = ? WHERE id = ?");
 	        MessageDigest md = MessageDigest.getInstance("MD5");
             md.update(new_passwd.getBytes());
