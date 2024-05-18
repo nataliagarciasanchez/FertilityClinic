@@ -6,17 +6,17 @@
 	<!-- Persistence Provider -->
 	<!-- RESOURCE-LOCAL: Application-managed transactions -->
 	<!-- JTA: Container-managed transactions -->
-	<persistence-unit name="vetclinic-provider" transaction-type="RESOURCE_LOCAL">
+	<persistence-unit name="fertilityclinic-provider" transaction-type="RESOURCE_LOCAL">
 		<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
  
 		<!-- Entity Class -->
-		<class>VetClinicPOJOs.User</class>
-		<class>VetClinicPOJOs.Role</class>
+		<class>FertilityClinicPOJOs.User</class>
+		<class>FertilityClinicPOJOs.Role</class>
  
 		<properties>	
 			<!-- Connection properties -->
 			<property name="javax.persistence.jdbc.driver" value="org.sqlite.JDBC" />
-		    <property name="javax.persistence.jdbc.url"	value="jdbc:sqlite:./db/vetclinic.db" />
+		    <property name="javax.persistence.jdbc.url"	value="jdbc:sqlite:./db/fertilityclinic.db" />
 			<!-- Fill if we need user and password -->
 			<property name="javax.persistence.jdbc.user" value="" />
 			<property name="javax.persistence.jdbc.password" value="" />
