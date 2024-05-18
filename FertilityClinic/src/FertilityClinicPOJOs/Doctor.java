@@ -51,7 +51,7 @@ public int hashCode() {
 	final int prime = 31;
 	int result = 1;
 	result = prime * result + Arrays.hashCode(licensePDF);
-	result = prime * result + Objects.hash(email, id, name, patient, patients, phone, speciality);
+	result = prime * result + Objects.hash(email, id, name, patients, phone, speciality);
 	return result;
 }
 
@@ -66,7 +66,7 @@ public boolean equals(Object obj) {
 	Doctor other = (Doctor) obj;
 	return Objects.equals(email, other.email) && Objects.equals(id, other.id)
 			&& Arrays.equals(licensePDF, other.licensePDF) && Objects.equals(name, other.name)
-			&& Objects.equals(patient, other.patient) && Objects.equals(patients, other.patients)
+		    && Objects.equals(patients, other.patients)
 			&& Objects.equals(phone, other.phone) && Objects.equals(speciality, other.speciality);
 }
 
@@ -111,14 +111,6 @@ public void setSpeciality(Speciality speciality) {
 	this.speciality = speciality;
 }
 
-public Patient getPatient() {
-	return patient;
-}
-
-public void setPatient(Patient patient) {
-	this.patient = patient;
-}
-
 public byte[] getLicensePDF() {
 	return licensePDF;
 }
@@ -139,7 +131,7 @@ public void setPatients(List<Patient> patients) {
 @Override
 public String toString() {
 	return "Doctor [id=" + id + ", email=" + email + ", phone=" + phone + ", name=" + name + ", speciality="
-			+ speciality + ", patient=" + patient + ", licensePDF=" + Arrays.toString(licensePDF) + ", patients="
+			+ speciality + ", licensePDF=" + Arrays.toString(licensePDF) + ", patients="
 			+ patients + "]";
 }
 

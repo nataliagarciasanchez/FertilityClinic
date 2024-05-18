@@ -3,7 +3,6 @@ package FertilityClinicPOJOs;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
@@ -42,14 +41,14 @@ public class Patient implements Serializable{
 	
 	
 
-	public Patient(Integer id, String name, Date dob, String email, Integer phoneN, double height, double weight,
+	public Patient(Integer id, String name, Date dob, String email, Integer phone, double height, double weight,
 				String bloodType, String gender, Treatments treatmet) {
 			super();
 			this.id = id;
 			this.name = name;
 			this.dob = dob;
 			this.email = email;
-			this.phone = phoneN;
+			this.phone = phone;
 			this.height = height;
 			this.weight = weight;
 			this.bloodType = bloodType;
@@ -66,7 +65,7 @@ public class Patient implements Serializable{
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(age, bloodType, dob, doctors, email, gender, height, id, name, phoneN, treatmet, weight);
+		return Objects.hash( bloodType, dob, doctors, email, gender, height, id, name, phone, treatmet, weight);
 	}
 
 	@Override
@@ -78,21 +77,21 @@ public class Patient implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		Patient other = (Patient) obj;
-		return Objects.equals(age, other.age) && Objects.equals(bloodType, other.bloodType)
+		return Objects.equals(bloodType, other.bloodType)
 				&& Objects.equals(dob, other.dob) && Objects.equals(doctors, other.doctors)
 				&& Objects.equals(email, other.email) && Objects.equals(gender, other.gender)
 				&& Double.doubleToLongBits(height) == Double.doubleToLongBits(other.height)
 				&& Objects.equals(id, other.id) && Objects.equals(name, other.name)
-				&& Objects.equals(phoneN, other.phoneN) && Objects.equals(treatmet, other.treatmet)
+				&& Objects.equals(phone, other.phone) && Objects.equals(treatmet, other.treatmet)
 				&& Double.doubleToLongBits(weight) == Double.doubleToLongBits(other.weight);
 	}
 	
 
 	@Override
 	public String toString() {
-		return "Patient [id=" + id + ", name=" + name + ", dob=" + dob + ", email=" + email + ", phoneN=" + phoneN
+		return "Patient [id=" + id + ", name=" + name + ", dob=" + dob + ", email=" + email + ", phone=" + phone
 				+ ", height=" + height + ", weight=" + weight + ", bloodType=" + bloodType + ", gender=" + gender
-				+ ", doctor=" + doctors + ", age=" + age + ", treatmet=" + treatmet + "]";
+				+ ", doctor=" + doctors + ", treatmet=" + treatmet + "]";
 	}
 
 	public Integer getId() {
@@ -119,12 +118,12 @@ public class Patient implements Serializable{
 		this.email = email;
 	}
 
-	public Integer getPhoneN() {
-		return phoneN;
+	public Integer getPhone() {
+		return phone;
 	}
 
-	public void setPhoneN(Integer phoneN) {
-		this.phoneN = phoneN;
+	public void setPhoneN(Integer phone) {
+		this.phone = phone;
 	}
 
 	public String getName() {
@@ -165,15 +164,6 @@ public class Patient implements Serializable{
 
 	public void setGender(String gender) {
 		this.gender = gender;
-	}
-	
-	public Integer getAge() {
-		return age;
-	}
-
-	public void setAge(Integer age) {
-		this.age = age;
-	
 	}
 
 	public Treatments getTreatmet() {

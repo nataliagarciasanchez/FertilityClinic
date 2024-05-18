@@ -12,10 +12,13 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import FertilityClinicInterfaces.TreatmentsManager;
+
 
 public class JDBCPatientManager {	
   
 	private JDBCManager manager;
+	private TreatmentsManager treatmentmanager;
 	
 	public JDBCPatientManager (JDBCManager m) {
 		this.manager = m;
@@ -30,17 +33,17 @@ public class JDBCPatientManager {
 		
 			PreparedStatement p = manager.getConnection().prepareStatement(sql);
 		    p.setString(1, patient.getEmail());
-		    p.setInt(2, patient.getPhoneN());
+		    p.setInt(2, patient.getPhone());
 		    p.setString(3, patient.getName());
 		    p.setDouble(4, patient.getHeight());
 		    p.setDouble(5, patient.getWeight());
 		    p.setString(6, patient.getBloodType());
 		    p.setString(7, patient.getGender());
-		    p.setInt(8, patient.getAge());
+		   
 		    for(Doctor doctor: patient.getDoctors()) {
-		    	p.setInt(9,doctor.getId());
+		    	p.setInt(8,doctor.getId());
 		    }
-		    p.setInt(10,patient.getTreatmet().getTreatmentID());
+		    p.setInt(9,patient.getTreatmet().getTreatmentID());
 			p.executeUpdate();
 			p.close();
 			
@@ -59,7 +62,7 @@ public class JDBCPatientManager {
 		List<Patient> patients= new ArrayList<Patient>();
 		Patient patient= null;
 		Treatments treatment=null;
-		JDBCTreatmentsManager t = null;
+		
 	
 		
 		try {
@@ -78,16 +81,15 @@ public class JDBCPatientManager {
 				Double weight= rs.getDouble("weight");
 				String bloodType = rs.getString("bloodType"); 
 				String gender = rs.getString("Gender");
-				Integer age = rs.getInt("age");
 				Integer treatmentId = rs.getInt("treatment_id");
-	            treatment= t.getTreatmentById(treatmentId);
+	            treatment= treatmentmanager.getTreatmentById(treatmentId);
 	            patient.setTreatmet(treatment);
 	            Integer  doctorIds = rs.getInt("doctor_id");
 	                List<Doctor> doctors = getDoctorsByIds(doctorIds);
 	                patient.setDoctors(doctors);
 			
 				
-				Patient p = new Patient (id,name, dob,email,phoneN,height,weight,bloodType,gender,doctors,age,treatment);
+				Patient p = new Patient (id,name, dob,email,phoneN,height,weight,bloodType,gender,doctors,treatment);
 				patients.add(p);
 			}
 			
@@ -125,11 +127,11 @@ public class JDBCPatientManager {
 			Double weight= rs.getDouble("weight");
 			String bloodType = rs.getString("bloodType"); 
 			String gender = rs.getString("Gender");
-			Integer age = rs.getInt("age");
 			
 			
 			
-			 p = new Patient (id,dob,email,phoneN,name,height,weight,bloodType,gender,age);
+			
+			 p = new Patient (id,dob,email,phoneN,name,height,weight,bloodType,gender);
 		    
 		    rs.close();
 		    stmt.close();
