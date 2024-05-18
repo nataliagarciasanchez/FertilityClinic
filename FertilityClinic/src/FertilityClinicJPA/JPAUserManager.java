@@ -40,7 +40,7 @@ public class JPAUserManager implements UserManager {
 			user = (User) query.getSingleResult();
 			
 		}catch(NoResultException e) {
-			System.out.println("No user found with the provided email and password.")
+			System.out.println("No user found with the provided email and password.");
 		}
 		
 		return user;
