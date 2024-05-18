@@ -50,7 +50,6 @@ public class JPAUserManager implements UserManager {
 		return user;
 	}
 
-	}
 @Override
 public void connect() {
 	
@@ -147,7 +146,10 @@ public void changePassword(User user, String new_passwd) {
 	 try {
 	        Query query = em.createNativeQuery("UPDATE users SET password = ? WHERE id = ?");
 	        query.setParameter(1, user.getEmail());
-	        
+	        MessageDigest md = MessageDigest.getInstance("MD5");
+            md.update(new_passwd.getBytes());
+            byte[] newPwHash = md.digest();
+
 	        query.setParameter(2, new_passwd);
 	        query.executeUpdate();
 	        em.getTransaction().commit();
