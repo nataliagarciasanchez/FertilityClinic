@@ -23,7 +23,7 @@ public class Doctor implements Serializable {
  //@XmlAttribute
  private String name;
  private Speciality speciality;
- private Patient patient;
+
  private byte[] licensePDF; //esto es binary objects que es un requisito. Es añadir eso y olvidarnos
  //@XmlElement (name = "Patient")
  //@XmlElementWrapper(name = "Patients")
@@ -31,15 +31,13 @@ public class Doctor implements Serializable {
  
  
  
- public Doctor(Integer id, String email, Integer phone, String name, Speciality speciality, Patient patient, byte[] licensePDF, List<Patient> patients) {
+ public Doctor(Integer id, String email, Integer phone, String name, Speciality speciality, Patient patient, byte[] licensePDF) {
 	this.id = id;
 	this.email = email;
 	this.phone = phone;
 	this.name = name;
 	this.speciality = speciality;
-	this.patient = patient;
 	this.licensePDF = licensePDF;
-	this.patients = patients;
 }
  
  public Doctor() {
