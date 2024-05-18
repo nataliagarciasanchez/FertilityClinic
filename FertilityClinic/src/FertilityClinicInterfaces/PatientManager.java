@@ -17,7 +17,7 @@ public interface PatientManager {
 	public void deleteAppointment();
 	public void modifyAppointment();
 	List<Patient> getListOfPatients();// asi vemos la info completa del paciente desde la base de datos
-	void addPatient( String email, Integer phoneN, String name, double height, double weight, String bloodType, String gender, Integer age);
+	void addPatient( Patient patient);
 	Patient foundPatientById(Integer id);
 
 }

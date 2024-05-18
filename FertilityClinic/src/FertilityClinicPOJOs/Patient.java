@@ -34,7 +34,7 @@ public class Patient implements Serializable{
 		//@XmlElement
 		private String gender;
 		//@XmlTranscient
-		private Doctor doctor;
+		private List<Doctor> doctors;
 		//@XmlElement
 		private Integer age;
 		
@@ -44,7 +44,7 @@ public class Patient implements Serializable{
 	
 
 	public Patient(Integer id, String name, Date dob, String email, Integer phoneN, double height, double weight,
-				String bloodType, String gender, Doctor doctor, Integer age, Treatments treatmet) {
+				String bloodType, String gender, List<Doctor> doctors, Integer age, Treatments treatmet) {
 			super();
 			this.id = id;
 			this.name = name;
@@ -55,7 +55,7 @@ public class Patient implements Serializable{
 			this.weight = weight;
 			this.bloodType = bloodType;
 			this.gender = gender;
-			this.doctor = doctor;
+			this.doctors = doctors;
 			this.age = age;
 			this.treatmet = treatmet;
 		}
@@ -69,7 +69,7 @@ public class Patient implements Serializable{
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(age, bloodType, dob, doctor, email, gender, height, id, name, phoneN, treatmet, weight);
+		return Objects.hash(age, bloodType, dob, doctors, email, gender, height, id, name, phoneN, treatmet, weight);
 	}
 
 	@Override
@@ -82,7 +82,7 @@ public class Patient implements Serializable{
 			return false;
 		Patient other = (Patient) obj;
 		return Objects.equals(age, other.age) && Objects.equals(bloodType, other.bloodType)
-				&& Objects.equals(dob, other.dob) && Objects.equals(doctor, other.doctor)
+				&& Objects.equals(dob, other.dob) && Objects.equals(doctors, other.doctors)
 				&& Objects.equals(email, other.email) && Objects.equals(gender, other.gender)
 				&& Double.doubleToLongBits(height) == Double.doubleToLongBits(other.height)
 				&& Objects.equals(id, other.id) && Objects.equals(name, other.name)
@@ -95,7 +95,7 @@ public class Patient implements Serializable{
 	public String toString() {
 		return "Patient [id=" + id + ", name=" + name + ", dob=" + dob + ", email=" + email + ", phoneN=" + phoneN
 				+ ", height=" + height + ", weight=" + weight + ", bloodType=" + bloodType + ", gender=" + gender
-				+ ", doctor=" + doctor + ", age=" + age + ", treatmet=" + treatmet + "]";
+				+ ", doctor=" + doctors + ", age=" + age + ", treatmet=" + treatmet + "]";
 	}
 
 	public Integer getId() {
@@ -187,13 +187,15 @@ public class Patient implements Serializable{
 		this.treatmet = treatmet;
 	}
 
-	public Doctor getDoctor() {
-		return doctor;
+	public List<Doctor> getDoctors() {
+		return doctors;
 	}
 
-	public void setDoctor(Doctor doctor) {
-		this.doctor = doctor;
+	public void setDoctors(List<Doctor> doctors) {
+		this.doctors = doctors;
 	}
+
+	
 
 	
 	
