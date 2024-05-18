@@ -149,7 +149,7 @@ public void changePassword(User user, String new_passwd) {
             md.update(new_passwd.getBytes());
             byte[] newPwHash = md.digest();
             query.setParameter(1, new_passwd);
-            query.setParameter(2, user.getEmail());
+            query.setParameter(2, user.getId());
 	       
 	        query.executeUpdate();
 	        em.getTransaction().commit();
