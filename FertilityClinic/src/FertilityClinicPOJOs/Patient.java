@@ -24,7 +24,7 @@ public class Patient implements Serializable{
 		//@XmlElement
 		private String email;
 		//@XmlElement
-		private Integer phoneN;
+		private Integer phone;
 		//@XmlElement
 		private double height;
 		//@XmlElement
@@ -36,7 +36,6 @@ public class Patient implements Serializable{
 		//@XmlTranscient
 		private List<Doctor> doctors;
 		//@XmlElement
-		private Integer age;
 		
 		private Treatments treatmet;
 	
@@ -44,19 +43,17 @@ public class Patient implements Serializable{
 	
 
 	public Patient(Integer id, String name, Date dob, String email, Integer phoneN, double height, double weight,
-				String bloodType, String gender, List<Doctor> doctors, Integer age, Treatments treatmet) {
+				String bloodType, String gender, Treatments treatmet) {
 			super();
 			this.id = id;
 			this.name = name;
 			this.dob = dob;
 			this.email = email;
-			this.phoneN = phoneN;
+			this.phone = phoneN;
 			this.height = height;
 			this.weight = weight;
 			this.bloodType = bloodType;
 			this.gender = gender;
-			this.doctors = doctors;
-			this.age = age;
 			this.treatmet = treatmet;
 		}
 
