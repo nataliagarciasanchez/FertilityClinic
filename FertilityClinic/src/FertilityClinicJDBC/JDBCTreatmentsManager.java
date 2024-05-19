@@ -100,7 +100,7 @@ public class JDBCTreatmentsManager implements TreatmentsManager {
 	    }
 	}
 
-	public List<Treatments> searchTreatmentByPatientName(String patientName) {
+	public List<Treatments> searchTreatmentsByPatientName(String patientName) {
 	    List<Treatments> treatmentList = new ArrayList<>();
 
 	    try {
@@ -161,42 +161,14 @@ public class JDBCTreatmentsManager implements TreatmentsManager {
 
 	    return treatmentList;
 	}
-
+	
+	
 		
 
-	}
-	@Override
-	public List<Treatments> searchTreatmentsByStartDate(int durationDays) {
-		List<Treatments> treatmentList = new ArrayList<>();
 
-	    try {
-	        String sql = "SELECT * FROM Treatments WHERE durationDays LIKE ? ORDER BY durationDays";
-	        PreparedStatement pstmt = manager.getConnection().prepareStatement(sql);
-	        pstmt.setString(1, "%" + durationDays + "%");
-	        ResultSet rs = pstmt.executeQuery();
+	 
 
-	        while (rs.next()) {
-	        	Integer p_id = rs.getInt("id");
-				String name = rs.getString("name");
-				String description = rs.getString("description"); 
-				Integer durationInDays = rs.getInt("duration");
-				//como añadimos aquí el doctor
-			
-				Treatments treatments = new Treatments (p_id,name,description,durationInDays);
-	           
-	            treatmentList.add(treatments);
-	        }
-
-	        rs.close();
-	        pstmt.close();
-	    } catch (SQLException e) {
-	        e.printStackTrace();
-	    }
-
-	    return treatmentList;
-	}
-
-	}
+	
 
 }
 	
