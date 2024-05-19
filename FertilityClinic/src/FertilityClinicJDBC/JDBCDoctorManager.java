@@ -102,15 +102,14 @@ public class JDBCDoctorManager implements DoctorManager {
 	*/
 
 
-	public void removePatientById (Integer patient_id) {
+	public void removePatientById (Integer patientId) {
 		try {
 			String sql ="DELETE FROM patients WHERE id = ?";
 			
 			PreparedStatement prep = manager.getConnection().prepareStatement(sql);
-			prep.setInt(1, patient_id);
-			
+			prep.setInt(1, patientId);
 			prep.executeUpdate();
-
+			prep.close();
 			
 		} catch(Exception e) {
 			e.printStackTrace();
