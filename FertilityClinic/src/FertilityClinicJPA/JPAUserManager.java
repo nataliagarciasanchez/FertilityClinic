@@ -42,9 +42,15 @@ public class JPAUserManager implements UserManager {
 			
 		}catch(NoResultException e) {
 			System.out.println("No user found with the provided email and password.");
+<<<<<<< HEAD
 		} catch (NoSuchAlgorithmException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+=======
+			
+		}catch(Exception e) {
+
+>>>>>>> branch 'master' of https://github.com/nataliagarciasanchez/FertilityClinic.git
 		}
 		
 		return user;
@@ -73,6 +79,13 @@ public void connect() {
 	
 }
 
+<<<<<<< HEAD
+=======
+
+
+	    
+
+>>>>>>> branch 'master' of https://github.com/nataliagarciasanchez/FertilityClinic.git
 @Override
 public List<Role> getRoles() {
 	    List<Role> roles = null;
@@ -115,6 +128,7 @@ public void newUser(User user) {
 }
 }
 
+<<<<<<< HEAD
 @Override
 public void disconnect() {
 	em.close();
@@ -133,6 +147,13 @@ public Role getRole(Integer id) {
 	}
 	return role;
 }
+=======
+
+	@Override
+	public void disconnect() {
+		em.close();
+	}
+>>>>>>> branch 'master' of https://github.com/nataliagarciasanchez/FertilityClinic.git
 
 @Override
 public User getUser(String email) {
@@ -147,10 +168,35 @@ public User getUser(String email) {
 	}
 	return user;
 }
+<<<<<<< HEAD
+=======
 
+>>>>>>> branch 'master' of https://github.com/nataliagarciasanchez/FertilityClinic.git
+
+<<<<<<< HEAD
 @Override
 public void changePassword(User user, String new_passwd) {
 	 try {
+=======
+	@Override
+	public Role getRole(Integer id) {
+		Role role=null;
+		try {
+			Query query = em.createNativeQuery("SELECT * FROM roles where id="+id, Role.class);
+			role = (Role) query.getSingleResult();
+		}catch(NoResultException nre) {
+			System.out.println("No role found with id: "+id);
+		}catch(Exception e) {
+			e.printStackTrace();
+	}
+		return role;
+	}
+
+
+	@Override
+	public void changePassword(User user, String new_passwd) {
+		try {
+>>>>>>> branch 'master' of https://github.com/nataliagarciasanchez/FertilityClinic.git
 		 	em.getTransaction().begin();
 	        Query query = em.createNativeQuery("UPDATE users SET password = ? WHERE id = ?");
 	        MessageDigest md = MessageDigest.getInstance("MD5");
