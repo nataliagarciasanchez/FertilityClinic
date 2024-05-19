@@ -1,6 +1,7 @@
 package FertilityClinicJPA;
 
 import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -44,8 +45,13 @@ public class JPAUserManager implements UserManager {
 			
 		}catch(NoResultException e) {
 			System.out.println("No user found with the provided email and password.");
+<<<<<<< HEAD
 			
 		}catch(Exception e) {
+=======
+		} catch (NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
+>>>>>>> branch 'master' of https://github.com/nataliagarciasanchez/FertilityClinic.git
 			e.printStackTrace();
 		}
 		
@@ -75,6 +81,7 @@ public class JPAUserManager implements UserManager {
 	
 	}
 
+<<<<<<< HEAD
 	@Override
 	public List<Role> getRoles() {
 	    
@@ -82,6 +89,17 @@ public class JPAUserManager implements UserManager {
 	    List<Role> roles =(List<Role>) query.getResultList();
 	   
 	    
+=======
+@Override
+public List<Role> getRoles() {
+	    List<Role> roles = null;
+	    try {
+	    	Query query = em.createNativeQuery("SELECT * FROM roles", Role.class);
+	     roles = (List<Role>) query.getResultList();
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+>>>>>>> branch 'master' of https://github.com/nataliagarciasanchez/FertilityClinic.git
 	    return roles;
 	}
 
@@ -115,9 +133,22 @@ public class JPAUserManager implements UserManager {
 		}
 	}
 
+<<<<<<< HEAD
 	@Override
 	public void disconnect() {
 		em.close();
+=======
+@Override
+public User getUser(String email) {
+	User user=null;
+	try {
+	Query query = em.createNativeQuery("SELECT * FROM users where email="+email, User.class);
+	 user = (User) query.getSingleResult();
+	}catch(NoResultException nre) {
+		System.out.println("\"No user found with email: \" + email");
+	}catch(Exception e) {
+		e.printStackTrace();
+>>>>>>> branch 'master' of https://github.com/nataliagarciasanchez/FertilityClinic.git
 	}
 
 	@Override
@@ -150,7 +181,7 @@ public class JPAUserManager implements UserManager {
 	        Query query = em.createNativeQuery("UPDATE users SET password = ? WHERE id = ?");
 	        MessageDigest md = MessageDigest.getInstance("MD5");
             md.update(new_passwd.getBytes());
-            byte[] newPwHash = md.digest();
+            byte[] newPw = md.digest();
             query.setParameter(1, new_passwd);
             query.setParameter(2, user.getId());
 	       

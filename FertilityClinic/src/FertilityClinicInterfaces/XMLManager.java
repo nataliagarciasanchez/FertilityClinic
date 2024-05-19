@@ -2,10 +2,11 @@ package FertilityClinicInterfaces;
 
 import java.io.File;
 
-import FertilityClinicPOJOs.Patient;
+
+import FertilityClinicPOJOs.Doctor;
 
 public interface XMLManager {
 
-	public Patient xml2Patient(File xml);
-	public void owner2xml(Integer id);
+	public Doctor xml2Doctor(File xml);
+	public void doctor2xml(Integer id);
 }
