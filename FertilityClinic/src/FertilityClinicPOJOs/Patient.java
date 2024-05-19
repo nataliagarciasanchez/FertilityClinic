@@ -72,15 +72,8 @@ public class Patient implements Serializable{
 		this.doctors = doctors;
 		this.treatmet = treatmet;
 	}
-	public Patient(Integer id,String name, Date dob, String email) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.dob = dob;
-		this.email = email;
-	}
-
-
+	
+		
 	public Patient() {
 		super();
 		doctors = new ArrayList<Doctor>();
