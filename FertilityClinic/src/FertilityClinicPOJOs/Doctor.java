@@ -40,7 +40,20 @@ public class Doctor implements Serializable {
 	this.licensePDF = licensePDF;
 }
  
- public Doctor() {
+ 
+ 
+ public Doctor(Integer id, String email, Integer phone, String name, Speciality speciality) {
+	super();
+	this.id = id;
+	this.email = email;
+	this.phone = phone;
+	this.name = name;
+	this.speciality = speciality;
+}
+
+
+
+public Doctor() {
 		super();
 		patients = new LinkedList<Patient>();
 	}
