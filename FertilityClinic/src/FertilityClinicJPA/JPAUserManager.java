@@ -4,10 +4,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-import javax.persistence.Persistence;
-import javax.persistence.Query;
+import javax.persistence.*;
 
 
 import FertilityClinicInterfaces.UserManager;
@@ -85,13 +82,10 @@ public void connect() {
 	   
 @Override
 public List<Role> getRoles() {
-	    List<Role> roles = null;
-	    try {
-	    	Query query = em.createNativeQuery("SELECT * FROM roles", Role.class);
-	     roles = (List<Role>) query.getResultList();
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	    }
+	   
+	    Query query = em.createNativeQuery("SELECT * FROM roles", Role.class);
+	    List<Role>  roles = (List<Role>) query.getResultList();
+	   
 	    return roles;
 	}
 
