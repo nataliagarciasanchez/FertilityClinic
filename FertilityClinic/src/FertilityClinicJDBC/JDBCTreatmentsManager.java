@@ -117,9 +117,7 @@ public class JDBCTreatmentsManager implements TreatmentsManager {
 				//como añadimos aquí el doctor
 			
 				Treatments treatments = new Treatments (p_id,name,description,durationInDays);
-	            
-
-	 
+	           
 	            treatmentList.add(treatments);
 	        }
 
@@ -131,25 +129,73 @@ public class JDBCTreatmentsManager implements TreatmentsManager {
 
 	    return treatmentList;
 	}
-	@Override
-	public Treatments getTreatmentById(int id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	@Override
-	public List<Treatments> searchTreatmentsByPatientName(String name) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+
+	
 	@Override
 	public List<Treatments> searchTreatmentsByDoctorId(int doctorId) {
-		// TODO Auto-generated method stub
-		return null;
+		List<Treatments> treatmentList = new ArrayList<>();
+
+	    try {
+	        String sql = "SELECT * FROM Treatments WHERE doctorid LIKE ? ORDER BY doctorid";
+	        PreparedStatement pstmt = manager.getConnection().prepareStatement(sql);
+	        pstmt.setString(1, "%" + doctorId + "%");
+	        ResultSet rs = pstmt.executeQuery();
+
+	        while (rs.next()) {
+	        	Integer p_id = rs.getInt("id");
+				String name = rs.getString("name");
+				String description = rs.getString("description"); 
+				Integer durationInDays = rs.getInt("duration");
+	
+			
+				Treatments treatments = new Treatments (p_id,name,description,durationInDays);
+	           
+	            treatmentList.add(treatments);
+	        }
+
+	        rs.close();
+	        pstmt.close();
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+
+	    return treatmentList;
+	}
+
+		
+
 	}
 	@Override
-	public List<Treatments> searchTreatmentsByStartDate(java.util.Date startDate, java.util.Date endDate) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Treatments> searchTreatmentsByStartDate(int durationDays) {
+		List<Treatments> treatmentList = new ArrayList<>();
+
+	    try {
+	        String sql = "SELECT * FROM Treatments WHERE durationDays LIKE ? ORDER BY durationDays";
+	        PreparedStatement pstmt = manager.getConnection().prepareStatement(sql);
+	        pstmt.setString(1, "%" + durationDays + "%");
+	        ResultSet rs = pstmt.executeQuery();
+
+	        while (rs.next()) {
+	        	Integer p_id = rs.getInt("id");
+				String name = rs.getString("name");
+				String description = rs.getString("description"); 
+				Integer durationInDays = rs.getInt("duration");
+				//como añadimos aquí el doctor
+			
+				Treatments treatments = new Treatments (p_id,name,description,durationInDays);
+	           
+	            treatmentList.add(treatments);
+	        }
+
+	        rs.close();
+	        pstmt.close();
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+
+	    return treatmentList;
+	}
+
 	}
 
 }
