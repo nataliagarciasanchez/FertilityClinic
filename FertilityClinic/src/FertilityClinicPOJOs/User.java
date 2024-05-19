@@ -1,6 +1,7 @@
 package FertilityClinicPOJOs;
 
 import java.io.Serializable;
+
 import java.util.Arrays;
 import java.util.Objects;
 import javax.persistence.Entity;
@@ -21,7 +22,7 @@ public class User implements Serializable {
 	
 	@Id
 	@GeneratedValue (generator = "users")
-	@TableGenerator(name="users", table="sqlite_sequence", pkColumnName= "name", valueColumnName ="seq", pkColumnValue="users")
+	@TableGenerator(name="users", table="sqite_sequence", pkColumnName= "name", valueColumnName ="seq", pkColumnValue="users")
 	private Integer id;
 	private String email;
 	@Lob
