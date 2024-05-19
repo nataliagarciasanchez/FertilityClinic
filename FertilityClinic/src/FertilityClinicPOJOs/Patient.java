@@ -55,6 +55,31 @@ public class Patient implements Serializable{
 			this.gender = gender;
 			this.treatmet = treatmet;
 		}
+	
+
+	public Patient(Integer id, String name, Date dob, String email, Integer phone, double height, double weight,
+			String bloodType, String gender, List<Doctor> doctors, Treatments treatmet) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.dob = dob;
+		this.email = email;
+		this.phone = phone;
+		this.height = height;
+		this.weight = weight;
+		this.bloodType = bloodType;
+		this.gender = gender;
+		this.doctors = doctors;
+		this.treatmet = treatmet;
+	}
+	public Patient(Integer id,String name, Date dob, String email) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.dob = dob;
+		this.email = email;
+	}
+
 
 	public Patient() {
 		super();

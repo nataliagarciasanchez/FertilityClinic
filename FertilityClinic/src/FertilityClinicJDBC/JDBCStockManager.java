@@ -145,4 +145,34 @@ public class JDBCStockManager {
 
 	        return available;
 	    }
+    public List<Stock> viewStock() {
+		  List<Stock> listStock = new ArrayList<>();
+		
+		try {
+			String sql = "SELECT * FROM Stock";
+
+			Statement stmt = manager.getConnection().createStatement();
+          ResultSet rs = stmt.executeQuery(sql);
+
+          while (rs.next()) {
+              int productId = rs.getInt("id");
+              String productName = rs.getString("name");
+              String category = rs.getString("category");
+              int quantity = rs.getInt("quantity");
+              Date expiryDate = rs.getDate("expiryDate");
+
+              Stock item = new Stock(productId, productName, category, quantity, expiryDate);
+              listStock.add(item);
+          }
+          
+          rs.close();
+			stmt.close();
+
+      } catch (Exception e) {
+          e.printStackTrace();
+      }
+
+      return listStock;
+  }
+	
 }
