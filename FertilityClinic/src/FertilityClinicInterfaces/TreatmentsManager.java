@@ -12,6 +12,6 @@ public interface TreatmentsManager {
     public void deleteTreatment(int id);
     public List<Treatments> searchTreatmentsByPatientName(String name);
     public List<Treatments> searchTreatmentsByDoctorId(int doctorId);
-    public List<Treatments> searchTreatmentsByStartDate(Date startDate, Date endDate);
+    public List<Treatments> searchTreatmentsByStartDate(int durationDays);
     
 }
