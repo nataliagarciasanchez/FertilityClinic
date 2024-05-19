@@ -27,9 +27,12 @@ public class JPAUserManager implements UserManager {
 	
 	public User checkPassword(String email, String pass) {
 		User user=null;
+		
+		Query query = em.createNativeQuery("SELECT * from users where email =? and password=?", User.class);
+		query.setParameter(1, email);
+		
 		try {
-			Query query = em.createNativeQuery("SELECT * from users where email =? and password=?", User.class);
-			query.setParameter(1, email);
+			
 			
 			MessageDigest md = MessageDigest.getInstance("MD5");
 			md.update(pass.getBytes());

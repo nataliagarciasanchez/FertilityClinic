@@ -7,7 +7,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Time;
 import java.util.ArrayList;
-
 import FertilityClinicInterfaces.AppointmentManager;
 import FertilityClinicPOJOs.Appointment;
 
@@ -19,6 +18,7 @@ public class JDBCAppointmentManager implements AppointmentManager{
 	    	this.manager = manager;
 	    }
 	    
+	    @Override
 	    public void viewAppointment() {
 	        try {
 		        String sql = "SELECT * FROM appointments";
@@ -84,27 +84,22 @@ public class JDBCAppointmentManager implements AppointmentManager{
 	    }
 
 	    @Override
-	    public void modifyAppointment() {
-	        String sql = "UPDATE appointments SET title = ?, description = ?, date = ?, time = ? WHERE id = ?";
+	    public void modifyAppointment(Appointment ap) {
+	    	String sql = "UPDATE appointments SET patientId = ?, description = ?, time = ?, date = ?, doctorId = ? WHERE id = ?";
 
-	        try {
-	        	PreparedStatement preparedStatement = connection.prepareStatement(query)
+	    	    try {
+	    	        PreparedStatement prep = manager.getConnection().prepareStatement(sql);
 
-	            // Dummy data for demonstration
-	            int appointmentId = 1;
-	            preparedStatement.setString(1, "Updated Meeting");
-	            preparedStatement.setString(2, "Updated description");
-	            preparedStatement.setDate(3, Date.valueOf("2023-06-20"));
-	            preparedStatement.setTime(4, Time.valueOf("11:00:00"));
-	            preparedStatement.setInt(5, appointmentId);
+	    	        prep.setInt(1, ap.getPatientId());
+	    	        prep.setString(2, ap.getDescription());
+	    	        prep.setTime(3, ap.getTime());
+	    	        prep.setDate(4, (Date) ap.getDate());
+	    	        prep.setInt(5, ap.getDoctorId());
+	    	        prep.setInt(6, ap.getId());
+	    	        prep.executeUpdate();
 
-	            int rowsAffected = preparedStatement.executeUpdate();
-	            if (rowsAffected > 0) {
-	                System.out.println("Appointment modified successfully.");
-	            }
-
-	        } catch (SQLException e) {
-	            e.printStackTrace();
-	        }
+	    	    } catch (SQLException e) {
+	    	        e.printStackTrace();
+	    	    }
 	    }
 }

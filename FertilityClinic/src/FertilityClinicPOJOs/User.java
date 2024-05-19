@@ -15,8 +15,8 @@ import javax.persistence.TableGenerator;
 
 public class User implements Serializable {
 
-	private static final long serialVersionUID = 1L;
-	
+
+	private static final long serialVersionUID = 5280902101084365639L;
 	private Integer id;
 	private String email;
 	private byte[] password;

@@ -15,7 +15,7 @@ import java.util.List;
 
 //TODO los override dan problemas
 
-public class JDBCDoctorManager {
+public class JDBCDoctorManager implements DoctorManager {
 	private JDBCManager manager;
 	
 	public JDBCDoctorManager (JDBCManager manager) {
@@ -115,5 +115,23 @@ public class JDBCDoctorManager {
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public List<Doctor> getListOfDoctors() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Doctor searchDoctorById(Integer Id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void removeDoctorById(Integer id) {
+		// TODO Auto-generated method stub
+		
 	}
 }
