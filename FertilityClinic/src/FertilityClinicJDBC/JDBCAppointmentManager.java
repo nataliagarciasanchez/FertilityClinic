@@ -13,10 +13,6 @@ import FertilityClinicPOJOs.Appointment;
 
 public class JDBCAppointmentManager implements AppointmentManager{
 	
-	  	/*private static final String DB_URL = "jdbc:mysql://localhost:3306/yourdatabase";
-	    private static final String USER = "yourusername";
-	    private static final String PASS = "yourpassword";
-	    */
 	    private JDBCManager manager;
 	    
 	    public JDBCAppointmentManager (JDBCManager manager) {

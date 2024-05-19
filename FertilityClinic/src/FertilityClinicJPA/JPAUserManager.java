@@ -27,12 +27,9 @@ public class JPAUserManager implements UserManager {
 	
 	public User checkPassword(String email, String pass) {
 		User user=null;
-		
-		Query query = em.createNativeQuery("SELECT * from users where email =? and password=?", User.class);
-		query.setParameter(1, email);
-		
 		try {
-			
+			Query query = em.createNativeQuery("SELECT * from users where email =? and password=?", User.class);
+			query.setParameter(1, email);
 			
 			MessageDigest md = MessageDigest.getInstance("MD5");
 			md.update(pass.getBytes());
@@ -45,51 +42,44 @@ public class JPAUserManager implements UserManager {
 			
 		}catch(NoResultException e) {
 			System.out.println("No user found with the provided email and password.");
-<<<<<<< HEAD
-			
-		}catch(Exception e) {
-=======
+
 		} catch (NoSuchAlgorithmException e) {
 			// TODO Auto-generated catch block
->>>>>>> branch 'master' of https://github.com/nataliagarciasanchez/FertilityClinic.git
 			e.printStackTrace();
+
+		}catch(Exception e) {
+
+
 		}
-		
 		return user;
 	}
 
-	@Override
-	public void connect() {
+@Override
+public void connect() {
 	
 	
-		em = Persistence.createEntityManagerFactory("fertilityclinic-provider").createEntityManager();
+	em = Persistence.createEntityManagerFactory("fertilityclinic-provider").createEntityManager();
 
-		em.getTransaction().begin();
-		em.createNativeQuery("PRAGMA foreign_keys = ON").executeUpdate();
-		em.getTransaction().commit();
+	em.getTransaction().begin();
+	em.createNativeQuery("PRAGMA foreign_keys = ON").executeUpdate();
+	em.getTransaction().commit();
 	
-		if(this.getRoles().isEmpty())
-		{
-			Role manager = new Role("manager");//ver si lo queremos quitar 
-			Role doctor = new Role("doctor");
-			Role patient=new Role ("patient");
-			this.newRole(manager);//same
-			this.newRole(doctor);
-			this.newRole(patient);
-	
-		}
+	if(this.getRoles().isEmpty())
+	{
+		Role manager = new Role("manager");
+		Role doctor = new Role("doctor");
+		Role patient=new Role ("patient");
+		this.newRole(manager);
+		this.newRole(doctor);
+		this.newRole(patient);
 	
 	}
+	
+}
 
-<<<<<<< HEAD
-	@Override
-	public List<Role> getRoles() {
-	    
-	    Query query = em.createNativeQuery("SELECT * FROM roles", Role.class);
-	    List<Role> roles =(List<Role>) query.getResultList();
+
+
 	   
-	    
-=======
 @Override
 public List<Role> getRoles() {
 	    List<Role> roles = null;
@@ -99,45 +89,38 @@ public List<Role> getRoles() {
 	    } catch (Exception e) {
 	        e.printStackTrace();
 	    }
->>>>>>> branch 'master' of https://github.com/nataliagarciasanchez/FertilityClinic.git
 	    return roles;
 	}
 
+
 	@Override
 	public void newRole(Role role) {
-		try {//pq esta metido en un try catch??
+	
 			em.getTransaction().begin();
 			em.persist(role);
 			em.getTransaction().commit();
-		} catch (Exception e) {
-			e.printStackTrace();
-			if (em.getTransaction().isActive()) {
-				em.getTransaction().rollback();
-			}
-		}
+		
 	}
-	
+
 
 
 	@Override
 	public void newUser(User user) {
-		try {
+	
 			em.getTransaction().begin();
 			em.persist(user);
 			em.getTransaction().commit();
-		}catch (Exception e) {
-			e.printStackTrace();
-			if (em.getTransaction().isActive()) {
-				em.getTransaction().rollback();
-			}
+		
 		}
-	}
+	
 
-<<<<<<< HEAD
+
+
 	@Override
 	public void disconnect() {
 		em.close();
-=======
+	}
+
 @Override
 public User getUser(String email) {
 	User user=null;
@@ -148,8 +131,11 @@ public User getUser(String email) {
 		System.out.println("\"No user found with email: \" + email");
 	}catch(Exception e) {
 		e.printStackTrace();
->>>>>>> branch 'master' of https://github.com/nataliagarciasanchez/FertilityClinic.git
 	}
+	return user;
+}
+
+
 
 	@Override
 	public Role getRole(Integer id) {
@@ -165,18 +151,11 @@ public User getUser(String email) {
 		return role;
 	}
 
-	@Override
-	public User getUser(String email) {
-		
-		Query query = em.createNativeQuery("SELECT * FROM users where email="+email, User.class);
-		User user = (User) query.getSingleResult();
-		
-		return user;
-	}
 
 	@Override
 	public void changePassword(User user, String new_passwd) {
 		try {
+
 		 	em.getTransaction().begin();
 	        Query query = em.createNativeQuery("UPDATE users SET password = ? WHERE id = ?");
 	        MessageDigest md = MessageDigest.getInstance("MD5");
@@ -193,6 +172,6 @@ public User getUser(String email) {
 	            em.getTransaction().rollback();
 	        }
 	    }
-	}
+}
 }
 

@@ -21,8 +21,7 @@ public class JDBCPatientManager {
   
 	private JDBCManager manager;
 	private TreatmentsManager treatmentmanager;
-	
-	
+
 	public JDBCPatientManager (JDBCManager m) {
 		this.manager = m;
 	}
@@ -63,10 +62,8 @@ public class JDBCPatientManager {
 	public List<Patient>  getListOfPatients() {
 		
 		List<Patient> patients= new ArrayList<Patient>();
-		Patient patient=null;
-	
-		
-		try {
+		Treatments treatment=null;
+	try {
 			Statement stmt = manager.getConnection().createStatement();
 			String sql = "SELECT * FROM Patient";
 			ResultSet rs = stmt.executeQuery(sql);
@@ -83,10 +80,11 @@ public class JDBCPatientManager {
 		            String bloodType = rs.getString("bloodType");
 		            String gender = rs.getString("Gender");
 		            Integer treatmentId = rs.getInt("treatment_id");
-		            Treatments treatment = treatmentmanager.getTreatmentById(treatmentId);
+		            treatment = treatmentmanager.getTreatmentById(treatmentId);
 		            
-		           patient = new Patient(p_id,name, dob, email, phoneN, height, weight, bloodType, gender, treatment);
-				patients.add(patient);
+		          
+		            Patient p = new Patient (p_id,name, dob,email,phoneN,height,weight,bloodType,gender,treatment);
+				patients.add(p);
 			}
 			
 			rs.close();
@@ -101,49 +99,47 @@ public class JDBCPatientManager {
 		
 		return patients;
 	}
-
-	
 	public Patient searchPatientById(Integer id) {
 	    Patient patient = null;
 
 	    try {
-			Statement stmt = manager.getConnection().createStatement();
-			String sql = "SELECT * FROM Patient";
-			ResultSet rs = stmt.executeQuery(sql);
-			
-			while(rs.next())
-			{
-				 Integer p_id = rs.getInt("ID");
-		            Date dob = rs.getDate("dob");
-		            String email = rs.getString("email");
-		            Integer phoneN = rs.getInt("phoneNumber");
-		            String name = rs.getString("name");
-		            Double height = rs.getDouble("height");
-		            Double weight = rs.getDouble("weight");
-		            String bloodType = rs.getString("bloodType");
-		            String gender = rs.getString("Gender");
-		            Integer treatmentId = rs.getInt("treatment_id");
-		            Treatments treatment = treatmentmanager.getTreatmentById(treatmentId);
-		            
-		           patient = new Patient(p_id,name, dob, email, phoneN, height, weight, bloodType, gender, treatment);
-				
-			}
-			
-			rs.close();
-			stmt.close();
-			
-		}catch(Exception e)
-		{
-			e.printStackTrace();
-		
-		}
-		
-		
-		return patient;
+	        String sql = "SELECT * FROM Patient WHERE ID=?";
+	        PreparedStatement stmt = manager.getConnection().prepareStatement(sql);
+	        stmt.setInt(1, id);
+	        ResultSet rs = stmt.executeQuery();
+
+	        if (rs.next()) {
+	            Integer p_id = rs.getInt("ID");
+	            Date dob = rs.getDate("dob");
+	            String email = rs.getString("email");
+	            Integer phoneN = rs.getInt("phoneNumber");
+	            String name = rs.getString("name");
+	            Double height = rs.getDouble("height");
+	            Double weight = rs.getDouble("weight");
+	            String bloodType = rs.getString("bloodType");
+	            String gender = rs.getString("Gender");
+
+	            
+	            Integer treatmentId = rs.getInt("treatment_id");
+	            Treatments treatment = treatmentmanager.getTreatmentById(treatmentId);
+
+	           
+	            patient = new Patient(p_id,name, dob, email, phoneN, height, weight, bloodType, gender, treatment);
+	        }
+
+	        rs.close();
+	        stmt.close();
+
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+
+	    return patient;
 	}
 	
+
 	
-	public void modifyPatientInfo(Integer patientId, String email, Integer phoneN, String name) {
+  public void modifyPatientInfo(Integer patientId, String email, Integer phoneN, String name) {
 	    try {
 	        String sql = "UPDATE Patient SET email=?, phoneNumber=?, name=? WHERE ID=?";
 	        PreparedStatement stmt = manager.getConnection().prepareStatement(sql);

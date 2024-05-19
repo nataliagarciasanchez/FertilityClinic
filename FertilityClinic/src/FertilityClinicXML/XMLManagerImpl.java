@@ -13,6 +13,7 @@ import FertilityClinicInterfaces.PatientManager;
 import FertilityClinicInterfaces.XMLManager;
 import FertilityClinicJDBC.JDBCManager;
 import FertilityClinicJDBC.JDBCDoctorManager;
+import FertilityClinicJDBC.JDBCPatientManager;
 import FertilityClinicPOJOs.Doctor;
 import FertilityClinicPOJOs.Patient;
 
@@ -22,8 +23,8 @@ public class XMLManagerImpl implements XMLManager {
 
 	
 	JDBCManager manager;
-	DoctorManager doctormanager;
-	PatientManager patientmanager; 
+	JDBCDoctorManager doctormanager; 
+	JDBCPatientManager patientmanager; 
 
 	@Override
 	public void doctor2xml(Integer id) {
@@ -31,12 +32,12 @@ public class XMLManagerImpl implements XMLManager {
 		Doctor d = null;
 		List<Patient> patients = new ArrayList<Patient>();
 		manager = new JDBCManager();
-		doctormanager = new JDBCDoctorManager(manager);//Falta crear el metodo de searchDoctorById(id)
-		patientmanager = new JDBCPatientManager(manager);
+		doctormanager = new JDBCDoctorManager(manager);// supuestamente asi pero deberian ser pero DoctorManager
+		patientmanager = new JDBCPatientManager(manager);//
 		
 		try {
 			//Do a sql query to get the doctor by id
-			d = doctormanager.searchDoctorById(id); 
+			d = doctormanager.searchDoctorById(id); //Falta crear el metodo de searchDoctorById(id)
 			patients=patientmanager.getListOfPatients();
 			d.setPatients(patients);
 			

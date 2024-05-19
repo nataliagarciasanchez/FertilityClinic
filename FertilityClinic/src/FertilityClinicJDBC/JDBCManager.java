@@ -14,7 +14,7 @@ private Connection c = null;
 		try {
 			
 			Class.forName("org.sqlite.JDBC");
-			c = DriverManager.getConnection("jdbc:sqlite:./db/Fertility.db");
+			c = DriverManager.getConnection("jdbc:sqlite:./db/FertilityClinic.db");
 			c.createStatement().execute("PRAGMA foreign_keys=ON");
 			
 			System.out.print("Database Connection opened.");
@@ -31,38 +31,93 @@ private Connection c = null;
 	
 	
 	private void createTables() {
-		try {
+		try {//he cambiado las tablas
 			
 			Statement stmt = c.createStatement();
 			
-			String sql = "CREATE TABLE Doctor ("
-					+ "id INTEGER PRIMARY KEY AUTOINCREMENT,"
-					+ "name TEXT NOT NULL, type INTEGER, "
-					+ "phone number INTEGER,email TEXT NOT NULL,"
-					+ "patients_id INTEGER FOREIGN KEY REFERENCES Patient(id),"
-					+ "speciality_id INTEGER FOREIGN KEY REFERENCES Speciality(id);";
+			String sql = "CREATE TABLE doctors ("
+					+ "    id INTEGER PRIMARY KEY AUTOINCREMENT,"
+					+ "    email TEXT NOT NULL,"
+					+ "    phone INTEGER NOT NULL,"
+					+ "    name TEXT NOT NULL,\n"
+					+ "    speciality_id INTEGER NOT NULL,"
+					+ "    cardnumber TEXT NOT NULL,"
+					+ "    licensePDF BLOB,"
+					+ "    FOREIGN KEY (speciality_id) REFERENCES Specialities(id)"
+					+ ");"
+					+ "";
 			stmt.executeUpdate(sql);
 			
-			sql = "CREATE TABLE Manager ("
-					+ "id INTEGER PRIMARY KEY AUTOINCREMENT,"
-					+ "name TEXT NOT NULL, phone number INTEGER, "
-					+ "email TEXT,);";
+			sql = "CREATE TABLE patients ("
+					+ "    id INTEGER PRIMARY KEY AUTOINCREMENT,"
+					+ "    name TEXT NOT NULL,"
+					+ "    dob DATE NOT NULL,"
+					+ "    email TEXT NOT NULL,"
+					+ "    phone INTEGER NOT NULL,"
+					+ "    height REAL NOT NULL,"
+					+ "    weight REAL NOT NULL,"
+					+ "    bloodType TEXT NOT NULL,"
+					+ "    gender TEXT NOT NULL"
+					+ ");"
+					+ "";
 			stmt.executeUpdate(sql);
 			
-			sql = "CREATE TABLE Patient ("
-					+ "ID INTEGER PRIMARY KEY AUTOINCREMENT,"
-					+ "name TEXT NOT NULL, age INTEGER, "
-					+ "height NUMERIC, weight NUMERIC,"
-					+ "bloodType TEXT NOT NULL, phoneNumber INTEGER,"
-					+ "email TEXT NOT NULL,BankAccountNumber INTEGER,"
-					+ "Gender TEXT NOT NULL, );";
+			sql = "CREATE TABLE appointments ("
+					+ "    id INTEGER PRIMARY KEY AUTOINCREMENT,"
+					+ "    patient_id INTEGER NOT NULL,"
+					+ "    description TEXT NOT NULL,"
+					+ "    time TIME NOT NULL,"
+					+ "    date DATE NOT NULL,"
+					+ "    doctor_id INTEGER NOT NULL,"
+					+ "    FOREIGN KEY (patient_id) REFERENCES Patients(id),"
+					+ "    FOREIGN KEY (doctor_id) REFERENCES Doctors(id)"
+					+ ");"
+					+ "";
 			stmt.executeUpdate(sql);
 			
-			sql = "CREATE TABLE Speciality ("
-					+ "ID INTEGER PRIMARY KEY AUTOINCREMENT,"
-					+ "name TEXT NOT NULL);";
+			sql = "CREATE TABLE specialities ("
+					+ "    id INTEGER PRIMARY KEY AUTOINCREMENT,"
+					+ "    name TEXT UNIQUE NOT NULL"
+					+ ");"
+					+ "";
 			stmt.executeUpdate(sql);
-		
+			
+			sql ="CREATE TABLE treatments ("
+					+ "    id INTEGER PRIMARY KEY AUTOINCREMENT,"
+					+ "    name TEXT NOT NULL,"
+					+ "    description TEXT NOT NULL,"
+					+ "    durationInDays INTEGER NOT NULL"
+					+ ");"
+					+ "";
+			
+			stmt.executeUpdate(sql);
+			
+			sql = "CREATE TABLE users ("
+					+ "    id INTEGER PRIMARY KEY AUTOINCREMENT,"
+					+ "    email TEXT NOT NULL UNIQUE,"
+					+ "    password BLOB NOT NULL,"
+					+ "    role_id INTEGER NOT NULL,"
+					+ "    FOREIGN KEY (role_id) REFERENCES Roles(id)"
+					+ ");"
+					+ "";
+			stmt.executeUpdate(sql);
+			
+			sql = "CREATE TABLE roles ("
+					+ "    id INTEGER PRIMARY KEY AUTOINCREMENT,"
+					+ "    name TEXT UNIQUE NOT NULL"
+					+ ");"
+					+ "";
+			stmt.executeUpdate(sql);
+			
+			sql = "CREATE TABLE stock ("
+					+ "    id INTEGER PRIMARY KEY AUTOINCREMENT,"
+					+ "    productName TEXT NOT NULL,"
+					+ "    category TEXT NOT NULL,"
+					+ "    quantity INTEGER NOT NULL,"
+					+ "    expiryDate DATE"
+					+ ");"
+					+ "";
+			stmt.executeUpdate(sql);
 			
 		}catch(SQLException e) {
 			if(!e.getMessage().contains("already exists")){

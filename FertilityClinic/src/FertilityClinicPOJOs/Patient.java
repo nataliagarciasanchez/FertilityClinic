@@ -73,7 +73,6 @@ public class Patient implements Serializable{
 		this.treatmet = treatmet;
 	}
 	
-		
 	public Patient() {
 		super();
 		doctors = new ArrayList<Doctor>();
@@ -199,9 +198,5 @@ public class Patient implements Serializable{
 	public void setDoctors(List<Doctor> doctors) {
 		this.doctors = doctors;
 	}
-
-	
-
-	
 	
 }
