@@ -7,8 +7,7 @@ import java.util.Objects;
 
 public class Speciality implements Serializable{
 	
-	private static final long serialVersionUID = 1L;
-	
+	private static final long serialVersionUID = 883349038959300781L;
 	private Integer id;
 	private String name;
     private List<Doctor> doctors;
