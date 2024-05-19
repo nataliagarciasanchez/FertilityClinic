@@ -3,14 +3,7 @@ package FertilityClinicPOJOs;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Persistence;
-import javax.persistence.Table;
-import javax.persistence.TableGenerator;
+import javax.persistence.*;
 
 @Entity // Añadir la anotación @Entity para marcar esta clase como una entidad persistente
 @Table(name="roles")
