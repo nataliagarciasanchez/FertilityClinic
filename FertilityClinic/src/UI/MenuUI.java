@@ -1,14 +1,17 @@
 package UI;
 
 import javax.swing.*;
+
+import FertilityClinicInterfaces.DoctorManager;
+import FertilityClinicInterfaces.PatientManager;
+import FertilityClinicInterfaces.UserManager;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-import FertilityClinicIfaces.OwnerManager;
-import FertilityClinicIfaces.PetManager;
-import FertilityClinicIfaces.UserManager;
+
 import FertilityClinicJDBC.JDBCManager;
 import FertilityClinicJDBC.JDBCDoctorManager;
 import FertilityClinicJDBC.JDBCPatientManager;
