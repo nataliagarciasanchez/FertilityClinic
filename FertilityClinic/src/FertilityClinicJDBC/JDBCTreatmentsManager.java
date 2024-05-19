@@ -114,7 +114,8 @@ public class JDBCTreatmentsManager implements TreatmentsManager {
 				String name = rs.getString("name");
 				String description = rs.getString("description"); 
 				Integer durationInDays = rs.getInt("duration");
-				
+				//como añadimos aquí el doctor
+			
 				Treatments treatments = new Treatments (p_id,name,description,durationInDays);
 	            
 
