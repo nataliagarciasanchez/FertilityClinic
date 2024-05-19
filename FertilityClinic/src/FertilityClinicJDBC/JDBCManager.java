@@ -31,7 +31,7 @@ private Connection c = null;
 	
 	
 	private void createTables() {
-		try {
+		try {//he cambiado las tablas
 			
 			Statement stmt = c.createStatement();
 			
