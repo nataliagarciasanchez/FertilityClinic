@@ -10,11 +10,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
-import FertilityClinicInterfaces.DoctorManager;
+
+
 import FertilityClinicInterfaces.TreatmentsManager;
 
 
@@ -22,7 +21,7 @@ public class JDBCPatientManager {
   
 	private JDBCManager manager;
 	private TreatmentsManager treatmentmanager;
-	private DoctorManager doctormanager;
+	
 	
 	public JDBCPatientManager (JDBCManager m) {
 		this.manager = m;
@@ -104,7 +103,7 @@ public class JDBCPatientManager {
 	}
 
 	
-	public Patient foundPatientByID(Integer id) {
+	public Patient searchPatientById(Integer id) {
 	    Patient patient = null;
 
 	    try {
@@ -142,23 +141,84 @@ public class JDBCPatientManager {
 		
 		return patient;
 	}
-
-
 	
-	//@Override
-	public void updateTreatment (Integer p_id, String treatment) {
+	
+	public void modifyPatientInfo(Integer patientId, String email, Integer phoneN, String name) {
+	    try {
+	        String sql = "UPDATE Patient SET email=?, phoneNumber=?, name=? WHERE ID=?";
+	        PreparedStatement stmt = manager.getConnection().prepareStatement(sql);
+	        stmt.setString(1, email);
+	        stmt.setInt(2, phoneN);
+	        stmt.setString(3, name);
+	        stmt.setInt(4, patientId);
+
+	        int rowsAffected = stmt.executeUpdate();
+	        if (rowsAffected > 0) {
+	            System.out.println("Patient information updated successfully.");
+	        } else {
+	            System.out.println("Failed to update patient information. Patient with ID " + patientId + " not found.");
+	        }
+
+	        stmt.close();
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	}
+
+
+	public void removePatientById (Integer id) {
 		
 		try {
-			String sql="UPDATE patients SET speciality=? WHERE id=?; ";
-			PreparedStatement prep=manager.getConnection().prepareStatement(sql);
+			String sql = "DELETE FROM Patient WHERE id=?";
+			PreparedStatement prep = manager.getConnection().prepareStatement(sql);
 			
-			prep.setString(1, treatment);
-			prep.setInt(2, p_id);
+			prep.setInt(1, id);
 			
-			prep.executeQuery();
-		}catch(Exception e) {
+			prep.executeUpdate();			
+			
+		}catch(Exception e)
+		{
 			e.printStackTrace();
 		}
+		
 	}
+	public Patient viewMyInfo(Integer patientId) {
+	    Patient patient = null;
+	    try {
+	        String sql = "SELECT * FROM Patient WHERE ID=?";
+	        PreparedStatement stmt = manager.getConnection().prepareStatement(sql);
+	        stmt.setInt(1, patientId);
+	        ResultSet rs = stmt.executeQuery();
+
+	        if (rs.next()) {
+	            Integer id = rs.getInt("ID");
+	            Date dob = rs.getDate("dob");
+	            String email = rs.getString("email");
+	            Integer phoneN = rs.getInt("phoneNumber");
+	            String name = rs.getString("name");
+	            Double height = rs.getDouble("height");
+	            Double weight = rs.getDouble("weight");
+	            String bloodType = rs.getString("bloodType");
+	            String gender = rs.getString("Gender");
+	            Integer treatmentId = rs.getInt("treatment_id");
+	            Treatments treatment = treatmentmanager.getTreatmentById(treatmentId);
+
+	            patient = new Patient(id, name, dob,email, phoneN,height, weight, bloodType, gender, treatment);
+	        } else {
+	            System.out.println("Patient with ID " + patientId + " not found.");
+	        }
+
+	        rs.close();
+	        stmt.close();
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return patient;
+	}
+
+	
+	
+	
+	
 	
 }
