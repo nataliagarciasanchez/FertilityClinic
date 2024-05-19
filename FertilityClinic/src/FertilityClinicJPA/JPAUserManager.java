@@ -45,14 +45,9 @@ public class JPAUserManager implements UserManager {
 			
 		}catch(NoResultException e) {
 			System.out.println("No user found with the provided email and password.");
-<<<<<<< HEAD
 			
 		}catch(Exception e) {
-=======
-		} catch (NoSuchAlgorithmException e) {
-			// TODO Auto-generated catch block
->>>>>>> branch 'master' of https://github.com/nataliagarciasanchez/FertilityClinic.git
-			e.printStackTrace();
+
 		}
 		
 		return user;
@@ -81,15 +76,10 @@ public class JPAUserManager implements UserManager {
 	
 	}
 
-<<<<<<< HEAD
-	@Override
-	public List<Role> getRoles() {
+
+
 	    
-	    Query query = em.createNativeQuery("SELECT * FROM roles", Role.class);
-	    List<Role> roles =(List<Role>) query.getResultList();
-	   
-	    
-=======
+
 @Override
 public List<Role> getRoles() {
 	    List<Role> roles = null;
@@ -99,7 +89,6 @@ public List<Role> getRoles() {
 	    } catch (Exception e) {
 	        e.printStackTrace();
 	    }
->>>>>>> branch 'master' of https://github.com/nataliagarciasanchez/FertilityClinic.git
 	    return roles;
 	}
 
@@ -133,11 +122,12 @@ public List<Role> getRoles() {
 		}
 	}
 
-<<<<<<< HEAD
+
 	@Override
 	public void disconnect() {
 		em.close();
-=======
+	}
+
 @Override
 public User getUser(String email) {
 	User user=null;
@@ -148,8 +138,10 @@ public User getUser(String email) {
 		System.out.println("\"No user found with email: \" + email");
 	}catch(Exception e) {
 		e.printStackTrace();
->>>>>>> branch 'master' of https://github.com/nataliagarciasanchez/FertilityClinic.git
 	}
+	return user;
+}
+
 
 	@Override
 	public Role getRole(Integer id) {
@@ -165,14 +157,6 @@ public User getUser(String email) {
 		return role;
 	}
 
-	@Override
-	public User getUser(String email) {
-		
-		Query query = em.createNativeQuery("SELECT * FROM users where email="+email, User.class);
-		User user = (User) query.getSingleResult();
-		
-		return user;
-	}
 
 	@Override
 	public void changePassword(User user, String new_passwd) {
