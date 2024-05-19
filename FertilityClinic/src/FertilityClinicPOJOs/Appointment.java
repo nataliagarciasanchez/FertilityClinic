@@ -1,11 +1,15 @@
 package FertilityClinicPOJOs;
 
+import java.io.Serializable;
 import java.sql.Time;
 import java.util.Date;
 import java.util.Objects;
 
-public class Appointment {
-    private int id;
+public class Appointment implements Serializable {
+	
+    private static final long serialVersionUID = -8317861314036604409L;
+    
+	private int id;
     private int patientId;
     private String description;
     private Time time;
