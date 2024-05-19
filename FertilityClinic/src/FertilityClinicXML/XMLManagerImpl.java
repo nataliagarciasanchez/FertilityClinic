@@ -1,6 +1,7 @@
 package FertilityClinicXML;
 
 import java.io.File;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,12 +14,15 @@ import FertilityClinicPOJOs.Doctor;
 import FertilityClinicPOJOs.Patient;
 
 public class XMLManagerImpl implements XMLManager {
+	
+
+	
 	JDBCManager manager;
 	DoctorManager doctormanager;
 	PatientManager patientmanager; 
 
 	@Override
-	public void Doctor2xml(Integer id) {
+	public void doctor2xml(Integer id) {
 		// TODO Auto-generated method stub
 		Doctor d = null;
 		List<Patient> patients = new ArrayList<Patient>();
@@ -40,5 +44,6 @@ public class XMLManagerImpl implements XMLManager {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+	
+	
 }
