@@ -55,7 +55,6 @@ public class Patient implements Serializable{
 			this.gender = gender;
 			this.treatmet = treatmet;
 		}
-<<<<<<< HEAD
 	
 
 	public Patient(Integer id, String name, Date dob, String email, Integer phone, double height, double weight,
@@ -74,10 +73,6 @@ public class Patient implements Serializable{
 		this.treatmet = treatmet;
 	}
 	
-		
-=======
-
->>>>>>> branch 'master' of https://github.com/nataliagarciasanchez/FertilityClinic.git
 	public Patient() {
 		super();
 		doctors = new ArrayList<Doctor>();
@@ -203,9 +198,5 @@ public class Patient implements Serializable{
 	public void setDoctors(List<Doctor> doctors) {
 		this.doctors = doctors;
 	}
-
-	
-
-	
 	
 }
