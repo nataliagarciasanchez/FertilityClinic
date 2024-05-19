@@ -24,6 +24,14 @@ public class Treatments implements Serializable {
 		this.durationInDays = durationInDays;
 		this.patients = patients;
 	}
+	public Treatments(Integer treatmentID, String name, String description, Integer durationInDays) {
+		super();
+		this.treatmentID = treatmentID;
+		this.name = name;
+		this.description = description;
+		this.durationInDays = durationInDays;
+		
+	}
 
 
 	public Integer getTreatmentID() {
