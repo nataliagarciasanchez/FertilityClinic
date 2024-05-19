@@ -117,17 +117,3 @@ public class JDBCDoctorManager {
 		}
 	}
 }
-
-/*
- * MÉTODOS A IMPLEMENTAR:
- 
-	public void askForStock();
-	public List<Patient> getListOfPatients();
-	public void searchPatientById(Integer Id);
-	public void modifyPatientInfo();
-	public void viewAppointment();
-	public void bookAppointment();
-	public void deleteAppointment();
-	public void modifyAppointment();
- */
-
