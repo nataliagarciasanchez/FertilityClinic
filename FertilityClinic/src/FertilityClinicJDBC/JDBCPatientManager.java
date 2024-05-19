@@ -10,11 +10,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
-import FertilityClinicInterfaces.DoctorManager;
 import FertilityClinicInterfaces.TreatmentsManager;
 
 
@@ -22,7 +19,6 @@ public class JDBCPatientManager {
   
 	private JDBCManager manager;
 	private TreatmentsManager treatmentmanager;
-	private DoctorManager doctormanager;
 	
 	public JDBCPatientManager (JDBCManager m) {
 		this.manager = m;
@@ -64,7 +60,13 @@ public class JDBCPatientManager {
 	public List<Patient>  getListOfPatients() {
 		
 		List<Patient> patients= new ArrayList<Patient>();
+<<<<<<< HEAD
 		Patient patient=null;
+=======
+		Patient patient= null;
+		Treatments treatment=null;
+		
+>>>>>>> branch 'master' of https://github.com/nataliagarciasanchez/FertilityClinic.git
 	
 		
 		try {
@@ -74,6 +76,7 @@ public class JDBCPatientManager {
 			
 			while(rs.next())
 			{
+<<<<<<< HEAD
 				 Integer p_id = rs.getInt("ID");
 		            Date dob = rs.getDate("dob");
 		            String email = rs.getString("email");
@@ -88,6 +91,27 @@ public class JDBCPatientManager {
 		            
 		           patient = new Patient(p_id,name, dob, email, phoneN, height, weight, bloodType, gender, treatment);
 				patients.add(patient);
+=======
+				Integer id = rs.getInt("ID");
+				Date dob = rs.getDate("dob");//esto o lo quitamos o lo añadimos a sql
+				String email = rs.getString("email");
+				Integer phoneN = rs.getInt("phoneNumber");
+				String name = rs.getString("name");
+				Double height = rs.getDouble("height");
+				Double weight= rs.getDouble("weight");
+				String bloodType = rs.getString("bloodType"); 
+				String gender = rs.getString("Gender");
+				Integer treatmentId = rs.getInt("treatment_id");
+	            treatment= treatmentmanager.getTreatmentById(treatmentId);
+	            patient.setTreatmet(treatment);
+	            Integer  doctorIds = rs.getInt("doctor_id");
+	                List<Doctor> doctors = getDoctorsByIds(doctorIds);
+	                patient.setDoctors(doctors);
+			
+				
+				Patient p = new Patient (id,name, dob,email,phoneN,height,weight,bloodType,gender,doctors,treatment);
+				patients.add(p);
+>>>>>>> branch 'master' of https://github.com/nataliagarciasanchez/FertilityClinic.git
 			}
 			
 			rs.close();
@@ -105,6 +129,7 @@ public class JDBCPatientManager {
 
 	
 	public Patient foundPatientByID(Integer id) {
+<<<<<<< HEAD
 	    Patient patient = null;
 
 	    try {
@@ -136,6 +161,46 @@ public class JDBCPatientManager {
 		}catch(Exception e)
 		{
 			e.printStackTrace();
+=======
+	
+		Patient p= null;
+		
+		
+		try {
+			Statement stmt = manager.getConnection().createStatement();
+			String sql = "SELECT * FROM Patient WHERE ID=" + id;
+		
+			ResultSet rs = stmt.executeQuery(sql);
+			
+			Integer p_id = rs.getInt("ID");
+			Date dob = rs.getDate("dob");//esto o lo quitamos o lo añadimos a sql
+			String email = rs.getString("email");
+			Integer phoneN = rs.getInt("phoneNumber");
+			String name = rs.getString("name");
+			Double height = rs.getDouble("height");
+			Double weight= rs.getDouble("weight");
+			String bloodType = rs.getString("bloodType"); 
+			String gender = rs.getString("Gender");
+			
+			
+			
+			
+			 p = new Patient (id,dob,email,phoneN,name,height,weight,bloodType,gender);
+		    
+		    rs.close();
+		    stmt.close();
+		    
+		}catch(Exception e) {e.printStackTrace();}
+		
+		
+		return p;
+	}
+	/*
+	
+	@Override
+	public void deleteAppointment() {
+		// TODO Auto-generated method stub
+>>>>>>> branch 'master' of https://github.com/nataliagarciasanchez/FertilityClinic.git
 		
 		}
 		
