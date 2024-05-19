@@ -77,13 +77,11 @@ public class JPAUserManager implements UserManager {
 
 	@Override
 	public List<Role> getRoles() {
-	    List<Role> roles = null;
-	    try {//pq esta metido en un try catch??
-	    	Query query = em.createNativeQuery("SELECT * FROM roles", Role.class);
-	    	List<Role> roles = (List<Role>) query.getResultList();
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	    }
+	    
+	    Query query = em.createNativeQuery("SELECT * FROM roles", Role.class);
+	    List<Role> roles =(List<Role>) query.getResultList();
+	   
+	    
 	    return roles;
 	}
 
@@ -138,15 +136,10 @@ public class JPAUserManager implements UserManager {
 
 	@Override
 	public User getUser(String email) {
-		User user=null;
-		try {
-			Query query = em.createNativeQuery("SELECT * FROM users where email="+email, User.class);
-			User user = (User) query.getSingleResult();
-		}catch(NoResultException nre) {
-			System.out.println("\"No user found with email: \" + email");
-		}catch(Exception e) {
-			e.printStackTrace();
-		}
+		
+		Query query = em.createNativeQuery("SELECT * FROM users where email="+email, User.class);
+		User user = (User) query.getSingleResult();
+		
 		return user;
 	}
 
