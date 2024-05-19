@@ -46,10 +46,7 @@ public class JPAUserManager implements UserManager {
 		}catch(NoResultException e) {
 			System.out.println("No user found with the provided email and password.");
 			
-		}catch(Exception e) {
-
 		}
-		
 		return user;
 	}
 
@@ -94,33 +91,24 @@ public List<Role> getRoles() {
 
 	@Override
 	public void newRole(Role role) {
-		try {//pq esta metido en un try catch??
+	
 			em.getTransaction().begin();
 			em.persist(role);
 			em.getTransaction().commit();
-		} catch (Exception e) {
-			e.printStackTrace();
-			if (em.getTransaction().isActive()) {
-				em.getTransaction().rollback();
-			}
-		}
+		
 	}
 	
 
 
 	@Override
 	public void newUser(User user) {
-		try {
+	
 			em.getTransaction().begin();
 			em.persist(user);
 			em.getTransaction().commit();
-		}catch (Exception e) {
-			e.printStackTrace();
-			if (em.getTransaction().isActive()) {
-				em.getTransaction().rollback();
-			}
+		
 		}
-	}
+	
 
 
 	@Override
