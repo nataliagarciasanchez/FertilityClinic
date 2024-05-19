@@ -6,7 +6,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Time;
+import java.util.ArrayList;
+
 import FertilityClinicInterfaces.AppointmentManager;
+import FertilityClinicPOJOs.Appointment;
 
 public class JDBCAppointmentManager implements AppointmentManager{
 	
@@ -20,47 +23,51 @@ public class JDBCAppointmentManager implements AppointmentManager{
 	    	this.manager = manager;
 	    }
 	    
-	    @Override
 	    public void viewAppointment() {
-
 	        try {
 		        String sql = "SELECT * FROM appointments";
 		        Statement stmt = manager.getConnection().createStatement();
 		        ResultSet rs = stmt.executeQuery(sql);
-		        
+				ArrayList<Appointment> appointments= new ArrayList<>();
+				Appointment ap; 
 		        
 	            while (rs.next()) {
-	                int id = rs.getInt("id");
-	                String title = rs.getString("title");
+	                Integer id = rs.getInt("id");
+	                Integer patientId = rs.getInt("patientId");
 	                String description = rs.getString("description");
-	                Date date = rs.getDate("date");
 	                Time time = rs.getTime("time");
-
-	                System.out.println("ID: " + id);
-	                System.out.println("Title: " + title);
-	                System.out.println("Description: " + description);
-	                System.out.println("Date: " + date);
-	                System.out.println("Time: " + time);
-	                System.out.println("---------------");
+	                Date date = rs.getDate("date");
+	                Integer doctorId = rs.getInt("doctorId");
+	                
+	                ap = new Appointment(id, patientId, description, time, date, doctorId);
+	                appointments.add(ap);
 	            }
+	            rs.close();
+	            stmt.close();
 	        } catch (Exception e) {
 	            e.printStackTrace();
 	        }
 	    }
-
+	    
 	    @Override
-	    public void bookAppointment() {
-
+	    public void bookAppointment(Appointment ap) {
+	        String sql = "INSERT INTO appointments ((id, patientId, description, time, date, doctorId) VALUES (?, ?, ?, ?, ?, ?)";
+	        
 	        try {
-		        String sql = "INSERT INTO appointments (title, description, date, time) VALUES (?, ?, ?, ?)";
 				PreparedStatement prep = manager.getConnection().prepareStatement(sql);
 
-	            prep.setString(1, "Meeting");
-	            prep.setString(2, "Project discussion");
-	            prep.setDate(3, Date.valueOf("2023-05-19"));
-	            prep.setTime(4, Time.valueOf("10:00:00"));
-
-	        } catch (SQLException e) {
+	            prep.setInt(1, ap.getId());
+	            prep.setInt(2, ap.getPatientId());
+				prep.setString(3, ap.getDescription());
+				String time= ap.getTime().toString();
+				prep.setString(4,time);
+				String date = ap.getDate().toString();
+				prep.setString(5, date);
+	            prep.setInt(6, ap.getDoctorId());
+	            prep.executeUpdate();
+				prep.close();
+				
+	        } catch (Exception e) {
 	            e.printStackTrace();
 	        }
 	    }
