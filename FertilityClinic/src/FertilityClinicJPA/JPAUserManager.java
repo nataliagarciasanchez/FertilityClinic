@@ -4,7 +4,10 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
-import javax.persistence.*;
+import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+import javax.persistence.Persistence;
+import javax.persistence.Query;
 
 
 import FertilityClinicInterfaces.UserManager;
@@ -24,12 +27,9 @@ public class JPAUserManager implements UserManager {
 	
 	public User checkPassword(String email, String pass) {
 		User user=null;
-		
-		Query query = em.createNativeQuery("SELECT * from users where email =? and password=?", User.class);
-		query.setParameter(1, email);
-		
 		try {
-			
+			Query query = em.createNativeQuery("SELECT * from users where email =? and password=?", User.class);
+			query.setParameter(1, email);
 			
 			MessageDigest md = MessageDigest.getInstance("MD5");
 			md.update(pass.getBytes());
@@ -81,11 +81,14 @@ public void connect() {
 
 	   
 @Override
-public List<Role> getRoles() {
-	   
-	    Query query = em.createNativeQuery("SELECT * FROM roles", Role.class);
-	    List<Role>  roles = (List<Role>) query.getResultList();
-	   
+public List<FertilityClinicPOJOs.Role> getRoles() {
+	    List<FertilityClinicPOJOs.Role> roles = null;
+	    try {
+	    	Query query = em.createNativeQuery("SELECT * FROM roles", Role.class);
+	     roles = (List<FertilityClinicPOJOs.Role>) query.getResultList();
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
 	    return roles;
 	}
 
