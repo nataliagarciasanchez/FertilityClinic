@@ -2,9 +2,7 @@ package UI;
 
 import javax.swing.*;
 
-import FertilityClinicInterfaces.DoctorManager;
-import FertilityClinicInterfaces.PatientManager;
-import FertilityClinicInterfaces.UserManager;
+import FertilityClinicInterfaces.*;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -12,9 +10,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 
-import FertilityClinicJDBC.JDBCManager;
-import FertilityClinicJDBC.JDBCDoctorManager;
-import FertilityClinicJDBC.JDBCPatientManager;
+import FertilityClinicJDBC.*;
 import FertilityClinicJPA.JPAUserManager;
 import FertilityClinicPOJOs.Role;
 import FertilityClinicPOJOs.User;
@@ -30,7 +26,9 @@ public class MenuUI extends JFrame {
         setSize(800, 600);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout(5, 5));
-
+/*doctorManager = new JDBCDoctorManager(new JDBCManager());
+        patientManager = new JDBCPatientManager(new JDBCManager());
+*/
         userManager = new JPAUserManager();
         doctorManager = new JDBCDoctorManager(new JDBCManager());
         patientManager = new JDBCPatientManager(new JDBCManager());

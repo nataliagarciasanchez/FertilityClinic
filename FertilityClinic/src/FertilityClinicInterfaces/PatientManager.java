@@ -8,7 +8,7 @@ import FertilityClinicPOJOs.Patient;
 
 public interface PatientManager {
 	
-	public void viewMyInfo();
+	public Patient viewMyInfo(Integer id);
 	public List<Patient> getListOfPatients();
 	public void addPatient( Patient patient);
 	public Patient searchPatientById(Integer id); 

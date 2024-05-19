@@ -12,12 +12,11 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-
-
+import FertilityClinicInterfaces.PatientManager;
 import FertilityClinicInterfaces.TreatmentsManager;
 
 
-public class JDBCPatientManager {	
+public class JDBCPatientManager implements PatientManager{	
   
 	private JDBCManager manager;
 	private TreatmentsManager treatmentmanager;
@@ -210,6 +209,14 @@ public class JDBCPatientManager {
 	        e.printStackTrace();
 	    }
 	    return patient;
+	}
+
+	
+
+	@Override
+	public void assingPatient2Doctor(Integer patient_id, Integer doctor_id) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	
