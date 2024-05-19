@@ -72,21 +72,15 @@ public class JDBCAppointmentManager implements AppointmentManager{
 	        }
 	    }
 
-	    @Override
-	    public void deleteAppointment() {
-	        String query = "DELETE FROM appointments WHERE id = ?";
+	    @Override 
+	    public void deleteAppointment(int appointmentId) {
+	        String sql = "DELETE FROM appointments WHERE id = ?";
 
-	        try (Connection connection = getConnection();
-	             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-
-	            // Dummy data for demonstration
-	            int appointmentId = 1;
-	            preparedStatement.setInt(1, appointmentId);
-
-	            int rowsAffected = preparedStatement.executeUpdate();
-	            if (rowsAffected > 0) {
-	                System.out.println("Appointment deleted successfully.");
-	            }
+	        try {
+	        	PreparedStatement prep = manager.getConnection().prepareStatement(sql);
+	        	prep.setInt(1,appointmentId);
+	        	prep.executeUpdate();
+	        	prep.close();
 
 	        } catch (SQLException e) {
 	            e.printStackTrace();
@@ -95,10 +89,10 @@ public class JDBCAppointmentManager implements AppointmentManager{
 
 	    @Override
 	    public void modifyAppointment() {
-	        String query = "UPDATE appointments SET title = ?, description = ?, date = ?, time = ? WHERE id = ?";
+	        String sql = "UPDATE appointments SET title = ?, description = ?, date = ?, time = ? WHERE id = ?";
 
-	        try (Connection connection = getConnection();
-	             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+	        try {
+	        	PreparedStatement preparedStatement = connection.prepareStatement(query)
 
 	            // Dummy data for demonstration
 	            int appointmentId = 1;

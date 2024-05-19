@@ -31,7 +31,7 @@ public class Doctor implements Serializable {
  
  
  
- public Doctor(Integer id, String email, Integer phone, String name, Speciality speciality, byte[] licensePDF) {
+ public Doctor(Integer id, String email, Integer phone, String name, Speciality speciality, Patient patient, byte[] licensePDF) {
 	this.id = id;
 	this.email = email;
 	this.phone = phone;
@@ -66,7 +66,7 @@ public boolean equals(Object obj) {
 	Doctor other = (Doctor) obj;
 	return Objects.equals(email, other.email) && Objects.equals(id, other.id)
 			&& Arrays.equals(licensePDF, other.licensePDF) && Objects.equals(name, other.name)
-				&& Objects.equals(patients, other.patients)
+		    && Objects.equals(patients, other.patients)
 			&& Objects.equals(phone, other.phone) && Objects.equals(speciality, other.speciality);
 }
 

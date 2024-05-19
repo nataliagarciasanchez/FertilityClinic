@@ -10,11 +10,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
-import FertilityClinicInterfaces.DoctorManager;
 import FertilityClinicInterfaces.TreatmentsManager;
 
 
@@ -22,7 +19,6 @@ public class JDBCPatientManager {
   
 	private JDBCManager manager;
 	private TreatmentsManager treatmentmanager;
-	private DoctorManager doctormanager;
 	
 	public JDBCPatientManager (JDBCManager m) {
 		this.manager = m;
@@ -64,6 +60,13 @@ public class JDBCPatientManager {
 	public List<Patient>  getListOfPatients() {
 		
 		List<Patient> patients= new ArrayList<Patient>();
+<<<<<<< HEAD
+		Patient patient=null;
+=======
+		Patient patient= null;
+		Treatments treatment=null;
+		
+>>>>>>> branch 'master' of https://github.com/nataliagarciasanchez/FertilityClinic.git
 	
 		
 		try {
@@ -73,14 +76,42 @@ public class JDBCPatientManager {
 			
 			while(rs.next())
 			{
+<<<<<<< HEAD
+				 Integer p_id = rs.getInt("ID");
+		            Date dob = rs.getDate("dob");
+		            String email = rs.getString("email");
+		            Integer phoneN = rs.getInt("phoneNumber");
+		            String name = rs.getString("name");
+		            Double height = rs.getDouble("height");
+		            Double weight = rs.getDouble("weight");
+		            String bloodType = rs.getString("bloodType");
+		            String gender = rs.getString("Gender");
+		            Integer treatmentId = rs.getInt("treatment_id");
+		            Treatments treatment = treatmentmanager.getTreatmentById(treatmentId);
+		            
+		           patient = new Patient(p_id,name, dob, email, phoneN, height, weight, bloodType, gender, treatment);
+				patients.add(patient);
+=======
 				Integer id = rs.getInt("ID");
-				String name = rs.getString("name");
 				Date dob = rs.getDate("dob");//esto o lo quitamos o lo añadimos a sql
 				String email = rs.getString("email");
+				Integer phoneN = rs.getInt("phoneNumber");
+				String name = rs.getString("name");
+				Double height = rs.getDouble("height");
+				Double weight= rs.getDouble("weight");
+				String bloodType = rs.getString("bloodType"); 
+				String gender = rs.getString("Gender");
+				Integer treatmentId = rs.getInt("treatment_id");
+	            treatment= treatmentmanager.getTreatmentById(treatmentId);
+	            patient.setTreatmet(treatment);
+	            Integer  doctorIds = rs.getInt("doctor_id");
+	                List<Doctor> doctors = getDoctorsByIds(doctorIds);
+	                patient.setDoctors(doctors);
+			
 				
-				
-				Patient p = new Patient (id, name, dob,email) ;
+				Patient p = new Patient (id,name, dob,email,phoneN,height,weight,bloodType,gender,doctors,treatment);
 				patients.add(p);
+>>>>>>> branch 'master' of https://github.com/nataliagarciasanchez/FertilityClinic.git
 			}
 			
 			rs.close();
@@ -98,69 +129,86 @@ public class JDBCPatientManager {
 
 	
 	public Patient foundPatientByID(Integer id) {
+<<<<<<< HEAD
 	    Patient patient = null;
 
 	    try {
-	        String sql = "SELECT * FROM Patient WHERE ID=?";
-	        PreparedStatement stmt = manager.getConnection().prepareStatement(sql);
-	        stmt.setInt(1, id);
-	        ResultSet rs = stmt.executeQuery();
-
-	        if (rs.next()) {
-	            Integer p_id = rs.getInt("ID");
-	            Date dob = rs.getDate("dob");
-	            String email = rs.getString("email");
-	            Integer phoneN = rs.getInt("phoneNumber");
-	            String name = rs.getString("name");
-	            Double height = rs.getDouble("height");
-	            Double weight = rs.getDouble("weight");
-	            String bloodType = rs.getString("bloodType");
-	            String gender = rs.getString("Gender");
-
-	     
-	            Integer treatmentId = rs.getInt("treatment_id");
-	            Treatments treatment = treatmentmanager.getTreatmentById(treatmentId);
-
-	            List<Integer> doctorIds = new ArrayList<>();
-	            Integer doctorId = rs.getInt("doctor_id");
-	            doctorIds.add(doctorId);
-
-	            List<Doctor> doctors = doctormanager.getDoctorForPatient(doctorIds);
-
-	            // Crear el objeto Patient con los datos obtenidos
-	            patient = new Patient(p_id, dob, email, phoneN, name, height, weight, bloodType, gender, doctors, treatment);
-	        }
-
-	        rs.close();
-	        stmt.close();
-
-	    } catch (SQLException e) {
-	        e.printStackTrace();
-	    }
-
-	    return patient;
+			Statement stmt = manager.getConnection().createStatement();
+			String sql = "SELECT * FROM Patient";
+			ResultSet rs = stmt.executeQuery(sql);
+			
+			while(rs.next())
+			{
+				 Integer p_id = rs.getInt("ID");
+		            Date dob = rs.getDate("dob");
+		            String email = rs.getString("email");
+		            Integer phoneN = rs.getInt("phoneNumber");
+		            String name = rs.getString("name");
+		            Double height = rs.getDouble("height");
+		            Double weight = rs.getDouble("weight");
+		            String bloodType = rs.getString("bloodType");
+		            String gender = rs.getString("Gender");
+		            Integer treatmentId = rs.getInt("treatment_id");
+		            Treatments treatment = treatmentmanager.getTreatmentById(treatmentId);
+		            
+		           patient = new Patient(p_id,name, dob, email, phoneN, height, weight, bloodType, gender, treatment);
+				
+			}
+			
+			rs.close();
+			stmt.close();
+			
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+=======
+	
+		Patient p= null;
+		
+		
+		try {
+			Statement stmt = manager.getConnection().createStatement();
+			String sql = "SELECT * FROM Patient WHERE ID=" + id;
+		
+			ResultSet rs = stmt.executeQuery(sql);
+			
+			Integer p_id = rs.getInt("ID");
+			Date dob = rs.getDate("dob");//esto o lo quitamos o lo añadimos a sql
+			String email = rs.getString("email");
+			Integer phoneN = rs.getInt("phoneNumber");
+			String name = rs.getString("name");
+			Double height = rs.getDouble("height");
+			Double weight= rs.getDouble("weight");
+			String bloodType = rs.getString("bloodType"); 
+			String gender = rs.getString("Gender");
+			
+			
+			
+			
+			 p = new Patient (id,dob,email,phoneN,name,height,weight,bloodType,gender);
+		    
+		    rs.close();
+		    stmt.close();
+		    
+		}catch(Exception e) {e.printStackTrace();}
+		
+		
+		return p;
 	}
-
 	/*
 	
 	@Override
 	public void deleteAppointment() {
 		// TODO Auto-generated method stub
+>>>>>>> branch 'master' of https://github.com/nataliagarciasanchez/FertilityClinic.git
 		
-	}
-	@Override
-	public void modifyAppointment() {
-		// TODO Auto-generated method stub
+		}
 		
+		
+		return patient;
 	}
-	@Override
-	public ArrayList<Patient> readPatients() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	
-	*/
+
+
 	
 	//@Override
 	public void updateTreatment (Integer p_id, String treatment) {
