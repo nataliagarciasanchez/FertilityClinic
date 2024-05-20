@@ -102,6 +102,10 @@ private Connection c = null;
 					+ "";
 			stmt.executeUpdate(sql);
 			
+			sql = "CREATE TABLE treats (doctor_id INTEGER REFERENCES doctors(id),"
+					+ "patient_id REFERENCES patients(id), PRIMARY KEY(doctor_id,patient_id) );";
+			stmt.executeUpdate(sql);
+			
 		}catch(SQLException e) {
 			if(!e.getMessage().contains("already exists")){
 				e.printStackTrace();
