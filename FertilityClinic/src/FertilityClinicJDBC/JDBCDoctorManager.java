@@ -29,17 +29,15 @@ public class JDBCDoctorManager implements DoctorManager {
 	public void createDoctor(Doctor d) {
 			
 			try {
-				String sql= "INSERT INTO doctors (email, phone, name, speciality_id, patient_id )"
-						+ "VALUES (?,?,?,?,?)";
+				String sql= "INSERT INTO doctors (email, phone, name, speciality_id)"
+						+ "VALUES (?,?,?,?)";
 			
 				PreparedStatement p = manager.getConnection().prepareStatement(sql);
 			    p.setString(1, d.getEmail());
 			    p.setInt(2, d.getPhone());
 			    p.setString(3, d.getName());
 			    p.setInt(4, d.getSpeciality().getId());
-			    for(Patient patient: d.getPatients()) {
-			    	p.setInt(5,patient.getId());
-			    }
+			    
 			    
 				p.executeUpdate();
 				p.close();
@@ -142,11 +140,30 @@ public class JDBCDoctorManager implements DoctorManager {
 		
 	}
 
-	@Override
-	public void assingDoctorToPatient(Integer patient_id, Integer doctor_id) {
-		// TODO Auto-generated method stub
+	
 		
+	public void assignPatientToDoctor(int doctorId, int patientId) {
+	    String sql = "INSERT INTO DoctorPatient (doctor_id, patient_id) VALUES (?, ?)";
+	    try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+	        stmt.setInt(1, doctorId);
+	        stmt.setInt(2, patientId);
+	        stmt.executeUpdate();
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
 	}
+
+	public void removePatientFromDoctor(int doctorId, int patientId) {
+	    String sql = "DELETE FROM DoctorPatient WHERE doctor_id = ? AND patient_id = ?";
+	    try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+	        stmt.setInt(1, doctorId);
+	        stmt.setInt(2, patientId);
+	        stmt.executeUpdate();
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	}
+
 	
 
 	
