@@ -57,7 +57,8 @@ private Connection c = null;
 					+ "    height REAL NOT NULL,"
 					+ "    weight REAL NOT NULL,"
 					+ "    bloodType TEXT NOT NULL,"
-					+ "    gender TEXT NOT NULL"
+					+ "    gender TEXT NOT NULL, "
+					+ "    treatment_id INTEGER REFERENCES treatments(id)"
 					+ ");"
 					+ "";
 			stmt.executeUpdate(sql);
