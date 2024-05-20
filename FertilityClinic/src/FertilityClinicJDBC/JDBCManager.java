@@ -92,23 +92,6 @@ private Connection c = null;
 			
 			stmt.executeUpdate(sql);
 			
-			sql = "CREATE TABLE users ("
-					+ "    id INTEGER PRIMARY KEY AUTOINCREMENT,"
-					+ "    email TEXT NOT NULL UNIQUE,"
-					+ "    password BLOB NOT NULL,"
-					+ "    role_id INTEGER NOT NULL,"
-					+ "    FOREIGN KEY (role_id) REFERENCES Roles(id)"
-					+ ");"
-					+ "";
-			stmt.executeUpdate(sql);
-			
-			sql = "CREATE TABLE roles ("
-					+ "    id INTEGER PRIMARY KEY AUTOINCREMENT,"
-					+ "    name TEXT UNIQUE NOT NULL"
-					+ ");"
-					+ "";
-			stmt.executeUpdate(sql);
-			
 			sql = "CREATE TABLE stock ("
 					+ "    id INTEGER PRIMARY KEY AUTOINCREMENT,"
 					+ "    productName TEXT NOT NULL,"

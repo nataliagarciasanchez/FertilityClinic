@@ -14,6 +14,8 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public class MenuUI extends JFrame {
+	
+	private JDBCManager manager;
     private UserManager userManager;
     private DoctorManager doctorManager;
     private PatientManager patientManager;
@@ -25,9 +27,12 @@ public class MenuUI extends JFrame {
         setLocationRelativeTo(null);
         setLayout(new BorderLayout(5, 5));
 
+        manager = new JDBCManager();
+        doctorManager = new JDBCDoctorManager(manager);
+        patientManager = new JDBCPatientManager(manager);
+        
         userManager = new JPAUserManager(); // Aquí usamos JPAUserManager
-        doctorManager = new JDBCDoctorManager(new JDBCManager());
-        patientManager = new JDBCPatientManager(new JDBCManager());
+        
 
         add(createTopPanel(), BorderLayout.NORTH);
         add(createSidePanel(), BorderLayout.WEST);

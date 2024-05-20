@@ -64,7 +64,7 @@ public void connect() {
 	em.createNativeQuery("PRAGMA foreign_keys = ON").executeUpdate();
 	em.getTransaction().commit();
 	
-
+	if(this.getRoles().isEmpty())
 	{
 		Role manager = new Role("manager");
 		Role doctor = new Role("doctor");
@@ -81,8 +81,8 @@ public void connect() {
 
 	   
 @Override
-public List<FertilityClinicPOJOs.Role> getRoles() {
-	    List<FertilityClinicPOJOs.Role> roles = null;
+public List<Role> getRoles() {
+	    List<Role> roles = null;
 	    try {
 	    	Query query = em.createNativeQuery("SELECT * FROM roles", Role.class);
 	     roles = (List<FertilityClinicPOJOs.Role>) query.getResultList();

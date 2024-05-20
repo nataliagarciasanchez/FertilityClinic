@@ -14,7 +14,7 @@ public class Role implements Serializable {
 
 	@Id // Marcar el campo id como la clave primaria de la entidad
     @GeneratedValue(generator = "roles")
-    @TableGenerator(name = "roles", table = "sqite_sequence", pkColumnName = "name", valueColumnName = "seq", pkColumnValue = "roles")
+    @TableGenerator(name = "roles", table = "sqlite_sequence", pkColumnName = "name", valueColumnName = "seq", pkColumnValue = "roles")
     private Integer id;
 
     private String name;
