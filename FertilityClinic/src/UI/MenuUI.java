@@ -12,7 +12,6 @@ import java.awt.*;
 import java.awt.event.*;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.List;
 
 public class MenuUI extends JFrame {
     
@@ -115,10 +114,25 @@ public class MenuUI extends JFrame {
 
     private void loadUserInterface(User user) {
         getContentPane().removeAll();
-
+        
+        // Agregar los elementos comunes a todos los roles
         add(createTopPanel(), BorderLayout.NORTH);
         add(createSidePanel(user.getRole()), BorderLayout.WEST);
-        add(createMainContent(), BorderLayout.CENTER);
+
+        // Determinar el panel específico del usuario y agregarlo al centro
+        JPanel userPanel;
+        if ("doctor".equals(user.getRole().getName())) {
+            userPanel = new DoctorPanel();
+        } else if ("patient".equals(user.getRole().getName())) {
+            userPanel = new PatientPanel();
+        } else if ("manager".equals(user.getRole().getName())) {
+            userPanel = new ManagerPanel();
+        } else {
+            userPanel = new JPanel();
+            userPanel.add(new JLabel("Error: Unknown role."));
+        }
+
+        add(userPanel, BorderLayout.CENTER);
 
         revalidate();
         repaint();
@@ -180,6 +194,6 @@ public class MenuUI extends JFrame {
     }
 
     public static void main(String[] args) {
-        new MenuUI();
+        SwingUtilities.invokeLater(() -> new MenuUI().setVisible(true));
     }
 }
