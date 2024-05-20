@@ -7,9 +7,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import FertilityClinicInterfaces.StockManager;
 import FertilityClinicPOJOs.Stock;
 
-public class JDBCStockManager {
+public class JDBCStockManager  implements StockManager{
 	private JDBCManager manager;
 
 	public JDBCStockManager (JDBCManager manager) {
@@ -145,4 +146,22 @@ public class JDBCStockManager {
 
 	        return available;
 	    }
+
+	@Override
+	public List<Stock> viewStock() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void addStock() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void modifyStock() {
+		// TODO Auto-generated method stub
+		
+	}
 }
