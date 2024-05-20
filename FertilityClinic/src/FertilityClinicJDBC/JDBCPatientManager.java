@@ -29,8 +29,8 @@ public class JDBCPatientManager implements PatientManager{
 		
 		try {
 			String sql= "INSERT INTO patients (name, dob, email,phone, height, weight, bloodType, "
-					+ " Gender, doctor_id, treatment_id)"
-					+ "VALUES (?,?,?,?,?,?,?,?,?,?)";
+					+ " Gender, treatment_id)"
+					+ "VALUES (?,?,?,?,?,?,?,?,?)";
 		
 			PreparedStatement p = manager.getConnection().prepareStatement(sql);
 		    
@@ -43,11 +43,7 @@ public class JDBCPatientManager implements PatientManager{
 		    p.setDouble(6, patient.getWeight());
 		    p.setString(7, patient.getBloodType());
 		    p.setString(8, patient.getGender());
-		   
-		    for(Doctor doctor: patient.getDoctors()) {
-		    	p.setInt(9,doctor.getId());
-		    }
-		    p.setInt(10,patient.getTreatmet().getTreatmentID());
+		    p.setInt(9,patient.getTreatmet().getTreatmentID());
 			p.executeUpdate();
 			p.close();
 			
@@ -216,11 +212,8 @@ public class JDBCPatientManager implements PatientManager{
 
 	
 
-	@Override
-	public void assingPatientToDoctor(Integer patient_id, Integer doctor_id) {
-		// TODO Auto-generated method stub
-		
-	}
+	
+	
 
 	
 	
