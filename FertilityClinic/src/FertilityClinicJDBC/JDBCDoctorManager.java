@@ -1,6 +1,7 @@
 package FertilityClinicJDBC;
 
 import FertilityClinicInterfaces.DoctorManager;
+import FertilityClinicInterfaces.SpecialityManager;
 import FertilityClinicPOJOs.Doctor;
 import FertilityClinicPOJOs.Patient;
 import FertilityClinicPOJOs.Speciality;
@@ -19,7 +20,7 @@ import java.util.List;
 
 public class JDBCDoctorManager implements DoctorManager {
 	private JDBCManager manager;
-	private Speciality specialitymanager;
+	private SpecialityManager specialitymanager;
 	
 	public JDBCDoctorManager (JDBCManager manager) {
 		this.manager=manager;
@@ -28,8 +29,8 @@ public class JDBCDoctorManager implements DoctorManager {
 	public void createDoctor(Doctor d) {
 			
 			try {
-				String sql= "INSERT INTO doctors (email, phone, name, speciality_id )"
-						+ "VALUES (?,?,?,?)";
+				String sql= "INSERT INTO doctors (email, phone, name, speciality_id, patient_id )"
+						+ "VALUES (?,?,?,?,?)";
 			
 				PreparedStatement p = manager.getConnection().prepareStatement(sql);
 			    p.setString(1, d.getEmail());

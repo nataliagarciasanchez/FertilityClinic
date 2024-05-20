@@ -6,9 +6,8 @@ import FertilityClinicPOJOs.Stock;
 
 public interface StockManager {
 	public List<Stock> viewStock(); 
-    List<Stock> sortByName (String name);
-    boolean isItemAvailable(int id);
-	
+    public List<Stock> sortByName (String name);
+    public boolean isItemAvailable(int id);
 	public void addStock();
 	public void modifyStock();
    

@@ -44,7 +44,7 @@ public class JDBCAppointmentManager implements AppointmentManager{
 	            e.printStackTrace();
 	        }
 	    }
-	    
+	     
 	    @Override
 	    public void bookAppointment(Appointment ap) {
 	        String sql = "INSERT INTO appointments ((id, patientId, description, time, date, doctorId) VALUES (?, ?, ?, ?, ?, ?)";

@@ -1,13 +1,13 @@
 package FertilityClinicInterfaces;
 
 import java.util.List;
-import FertilityClinicPOJOs.Doctor;
+
 import FertilityClinicPOJOs.Speciality;
 
 public interface SpecialityManager {
-    void createSpeciality(String name, List<Doctor> doctors);
-    void updateSpeciality(int id, String name, List<Doctor> doctors);
-    void deleteSpeciality(int id);
-    Speciality getSpecialityById(int id);
-    List<Speciality> getAllSpecialities();
+	public void createSpeciality(Speciality speciality);
+    public void updateSpeciality(Speciality speciality);
+    public void deleteSpeciality(Integer id);
+    public Speciality getSpecialityById(Integer id);
+    public List<Speciality> getAllSpecialities();
 }

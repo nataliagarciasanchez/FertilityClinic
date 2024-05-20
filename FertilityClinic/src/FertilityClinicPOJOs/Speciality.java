@@ -10,18 +10,22 @@ public class Speciality implements Serializable{
 	private static final long serialVersionUID = 883349038959300781L;
 	private Integer id;
 	private String name;
-    private List<Doctor> doctors;
+   
+
     
-    public Speciality (Integer id, String name, List<Doctor> doctors) {
+    
+    
+	public Speciality(Integer id, String name) {
+		super();
 		this.id = id;
 		this.name = name;
-		this.doctors = new ArrayList<Doctor>();
 	}
-    
-    
+
+
+
 	@Override
 	public int hashCode() {
-		return Objects.hash(doctors, id, name);
+		return Objects.hash (id, name);
 	}
 
 	
@@ -34,7 +38,7 @@ public class Speciality implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		Speciality other = (Speciality) obj;
-		return Objects.equals(doctors, other.doctors) && Objects.equals(id, other.id)
+		return  Objects.equals(id, other.id)
 				&& Objects.equals(name, other.name);
 	}
 
@@ -54,20 +58,14 @@ public class Speciality implements Serializable{
 		this.name = name;
 	}
 
-	public List<Doctor> getDoctors() {
-		return doctors;
-	}
-
-	public void setDoctors(List<Doctor> doctors) {
-		this.doctors = doctors;
-	}
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
-
+	
+	
 	@Override
 	public String toString() {
-		return "Speciality [id=" + id + ", name=" + name + ", doctors=" + doctors + "]";
+		return "Speciality [id=" + id + ", name=" + name + "]";
 	}
+
+
+
+	
 }
