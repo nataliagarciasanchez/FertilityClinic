@@ -64,7 +64,7 @@ public void connect() {
 	em.createNativeQuery("PRAGMA foreign_keys = ON").executeUpdate();
 	em.getTransaction().commit();
 	
-	if(this.getRoles().isEmpty())
+
 	{
 		Role manager = new Role("manager");
 		Role doctor = new Role("doctor");
