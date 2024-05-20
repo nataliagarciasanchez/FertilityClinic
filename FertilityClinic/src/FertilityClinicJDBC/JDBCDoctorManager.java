@@ -143,22 +143,23 @@ public class JDBCDoctorManager implements DoctorManager {
 	
 		
 	public void assignPatientToDoctor(int doctorId, int patientId) {
-	    String sql = "INSERT INTO DoctorPatient (doctor_id, patient_id) VALUES (?, ?)";
-	    try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-	        stmt.setInt(1, doctorId);
-	        stmt.setInt(2, patientId);
-	        stmt.executeUpdate();
+	    String sql = "INSERT INTO treats (doctor_id, patient_id) VALUES (?, ?)";
+	    try (PreparedStatement p = manager.getConnection().prepareStatement(sql);) {
+	        p.setInt(1, doctorId);
+	        p.setInt(2, patientId);
+	        p.executeUpdate();
 	    } catch (SQLException e) {
 	        e.printStackTrace();
 	    }
 	}
+	
 
 	public void removePatientFromDoctor(int doctorId, int patientId) {
-	    String sql = "DELETE FROM DoctorPatient WHERE doctor_id = ? AND patient_id = ?";
-	    try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-	        stmt.setInt(1, doctorId);
-	        stmt.setInt(2, patientId);
-	        stmt.executeUpdate();
+	    String sql = "DELETE FROM treats WHERE doctor_id = ? AND patient_id = ?";
+	    try (PreparedStatement p = manager.getConnection().prepareStatement(sql);) {
+	        p.setInt(1, doctorId);
+	        p.setInt(2, patientId);
+	        p.executeUpdate();
 	    } catch (SQLException e) {
 	        e.printStackTrace();
 	    }
