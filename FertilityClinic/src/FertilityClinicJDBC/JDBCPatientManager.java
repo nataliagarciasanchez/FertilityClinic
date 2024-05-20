@@ -217,7 +217,7 @@ public class JDBCPatientManager implements PatientManager{
 	
 
 	@Override
-	public void assingPatient2Doctor(Integer patient_id, Integer doctor_id) {
+	public void assingPatientToDoctor(Integer patient_id, Integer doctor_id) {
 		// TODO Auto-generated method stub
 		
 	}

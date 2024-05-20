@@ -141,6 +141,12 @@ public class JDBCDoctorManager implements DoctorManager {
 		}
 		
 	}
+
+	@Override
+	public void assingDoctorToPatient(Integer patient_id, Integer doctor_id) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 
 	

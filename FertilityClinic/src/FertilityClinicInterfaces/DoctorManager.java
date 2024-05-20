@@ -11,5 +11,5 @@ public interface DoctorManager {
 	public Doctor searchDoctorById (Integer Id);
     // vieInfo doctor
 	public void removeDoctorById(Integer id);
-
+	public void assingDoctorToPatient(Integer patient_id, Integer doctor_id);
 }
