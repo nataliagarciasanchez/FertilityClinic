@@ -54,7 +54,6 @@ public class JDBCPatientManager implements PatientManager{
 	    }
 	}
 
-	
 
 					
 	public List<Patient>  getListOfPatients() {
@@ -68,7 +67,7 @@ public class JDBCPatientManager implements PatientManager{
 			
 			while(rs.next())
 			{ 
-				 Integer p_id = rs.getInt("ID");
+				 Integer p_id = rs.getInt("id");
 		            Date dob = rs.getDate("dob");
 		            String email = rs.getString("email");
 		            Integer phoneN = rs.getInt("phoneNumber");
@@ -76,7 +75,7 @@ public class JDBCPatientManager implements PatientManager{
 		            Double height = rs.getDouble("height");
 		            Double weight = rs.getDouble("weight");
 		            String bloodType = rs.getString("bloodType");
-		            String gender = rs.getString("Gender");
+		            String gender = rs.getString("gender");
 		            Integer treatmentId = rs.getInt("treatment_id");
 		            treatment = treatmentmanager.getTreatmentById(treatmentId);
 		            
@@ -96,43 +95,6 @@ public class JDBCPatientManager implements PatientManager{
 		
 		
 		return patients;
-	}
-	public Patient searchPatientById(Integer id) {
-	    Patient patient = null;
-
-	    try {
-	        String sql = "SELECT * FROM patients WHERE ID=?";
-	        PreparedStatement stmt = manager.getConnection().prepareStatement(sql);
-	        stmt.setInt(1, id);
-	        ResultSet rs = stmt.executeQuery();
-
-	        if (rs.next()) {
-	            Integer p_id = rs.getInt("ID");
-	            Date dob = rs.getDate("dob");
-	            String email = rs.getString("email");
-	            Integer phoneN = rs.getInt("phoneNumber");
-	            String name = rs.getString("name");
-	            Double height = rs.getDouble("height");
-	            Double weight = rs.getDouble("weight");
-	            String bloodType = rs.getString("bloodType");
-	            String gender = rs.getString("Gender");
-
-	            
-	            Integer treatmentId = rs.getInt("treatment_id");
-	            Treatments treatment = treatmentmanager.getTreatmentById(treatmentId);
-
-	           
-	            patient = new Patient(p_id,name, dob, email, phoneN, height, weight, bloodType, gender, treatment);
-	        }
-
-	        rs.close();
-	        stmt.close();
-
-	    } catch (SQLException e) {
-	        e.printStackTrace();
-	    }
-
-	    return patient;
 	}
 	
 
@@ -185,7 +147,7 @@ public class JDBCPatientManager implements PatientManager{
 	        ResultSet rs = stmt.executeQuery();
 
 	        if (rs.next()) {
-	            Integer id = rs.getInt("ID");
+	            Integer id = rs.getInt("id");
 	            Date dob = rs.getDate("dob");
 	            String email = rs.getString("email");
 	            Integer phoneN = rs.getInt("phone");
@@ -193,7 +155,7 @@ public class JDBCPatientManager implements PatientManager{
 	            Double height = rs.getDouble("height");
 	            Double weight = rs.getDouble("weight");
 	            String bloodType = rs.getString("bloodType");
-	            String gender = rs.getString("Gender");
+	            String gender = rs.getString("gender");
 	            Integer treatmentId = rs.getInt("treatment_id");
 	            Treatments treatment = treatmentmanager.getTreatmentById(treatmentId);
 
@@ -210,44 +172,82 @@ public class JDBCPatientManager implements PatientManager{
 	    return patient;
 	}
 	
-	public Treatments getTreatmentById(Integer id) {
-	    Treatments t = null;
-	    ResultSet rs = null;
-	    try {
-	        Statement stmt = manager.getConnection().createStatement();
-	        String sql = "SELECT * FROM Treatments WHERE ID=" + id;
-	        rs = stmt.executeQuery(sql);
+	public Patient searchPatientById(Integer id) {
+	    Patient patient = null;
 
-	        // Verificar si hay alguna fila en el conjunto de resultados
+	    try {
+	        String sql = "SELECT * FROM patients WHERE ID=?";
+	        PreparedStatement stmt = manager.getConnection().prepareStatement(sql);
+	        stmt.setInt(1, id);
+	        ResultSet rs = stmt.executeQuery();
+
 	        if (rs.next()) {
 	            Integer p_id = rs.getInt("id");
+	            Date dob = rs.getDate("dob");
+	            String email = rs.getString("email");
+	            Integer phoneN = rs.getInt("phoneNumber");
 	            String name = rs.getString("name");
-	            String description = rs.getString("description");
-	            Integer durationInDays = rs.getInt("duration");
+	            Double height = rs.getDouble("height");
+	            Double weight = rs.getDouble("weight");
+	            String bloodType = rs.getString("bloodType");
+	            String gender = rs.getString("gender");
 
-	            t = new Treatments(p_id, name, description, durationInDays);
+	            
+	            Integer treatmentId = rs.getInt("treatment_id");
+	            Treatments treatment = treatmentmanager.getTreatmentById(treatmentId);
+
+	           
+	            patient = new Patient(p_id,name, dob, email, phoneN, height, weight, bloodType, gender, treatment);
 	        }
-	    } catch (Exception e) {
+
+	        rs.close();
+	        stmt.close();
+
+	    } catch (SQLException e) {
 	        e.printStackTrace();
-	    } finally {
-	        try {
-	        	//  se asegura de que el ResultSet se cierre correctamente
-	            if (rs != null) {
-	                rs.close(); // cierra el ResultSet
-	            }
-	        } catch (SQLException e) {
-	            e.printStackTrace();
-	        }
 	    }
-	    return t;
+
+	    return patient;
 	}
+	
+	
+
 
 	@Override
 	public Patient getPatientByEmail(String email) {
-		// TODO Auto-generated method stub
-		System.out.println("si si si si si si ");
-		return null;
-	}
+        Patient patient = null;
+        
+        try  {
+            String sql = "SELECT * FROM patients WHERE email = ?";
+	        PreparedStatement stmt = manager.getConnection().prepareStatement(sql);
+            stmt.setString(1, email);
+            
+            ResultSet rs = stmt.executeQuery();
+            
+            if (rs.next()) {
+                Integer id = rs.getInt("ID");
+                Date dob = rs.getDate("dob");
+                String emailDb = rs.getString("email");
+                Integer phoneN = rs.getInt("phone");
+                String name = rs.getString("name");
+                Double height = rs.getDouble("height");
+                Double weight = rs.getDouble("weight");
+                String bloodType = rs.getString("bloodType");
+                String gender = rs.getString("Gender");
+                Integer treatmentId = rs.getInt("treatment_id");
+                Treatments treatment = treatmentmanager.getTreatmentById(treatmentId);
+                
+                patient = new Patient(id, name, dob, emailDb, phoneN, height, weight, bloodType, gender, treatment);
+            }
+            
+            rs.close();
+            stmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return patient;
+    }
 
 	
 	

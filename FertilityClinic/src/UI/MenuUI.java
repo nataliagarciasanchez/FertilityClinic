@@ -224,11 +224,10 @@ public class MenuUI extends JFrame {
     
 
     private void loadUserInterface(User user) {
+        // Carga la interfaz específica del usuario según su rol
         getContentPane().removeAll();
-        
-        // elementos comunes a todos los roles
         add(createTopPanel(), BorderLayout.NORTH);
-        add(createSidePanel(user.getRole()), BorderLayout.WEST);
+        //add(createSidePanel(user.getRole()), BorderLayout.WEST);
 
         JPanel userPanel;
         if ("doctor".equals(user.getRole().getName())) {
@@ -249,8 +248,8 @@ public class MenuUI extends JFrame {
         repaint();
     }
 
-
     private JPanel createTopPanel() {
+        // Crea el panel superior con el botón de logout
         JPanel topPanel = new JPanel();
         topPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
         topPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
@@ -263,42 +262,10 @@ public class MenuUI extends JFrame {
             getContentPane().removeAll();
             showInitialDialog();
         });
-        
 
         return topPanel;
     }
-    
 
-    private JPanel createSidePanel(Role role) {
-        JPanel sidePanel = new JPanel();
-        sidePanel.setLayout(new BoxLayout(sidePanel, BoxLayout.Y_AXIS));
-        sidePanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));//alome quitar
-
-        if ("manager".equals(role.getName())) {
-            JButton manageDoctorsButton = new JButton("Manage Doctors");
-            JButton managePatientsButton = new JButton("Manage Patients");
-            manageDoctorsButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-            managePatientsButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-            sidePanel.add(manageDoctorsButton);
-            sidePanel.add(Box.createRigidArea(new Dimension(0, 10)));
-            sidePanel.add(managePatientsButton);
-        } else if ("doctor".equals(role.getName())) {
-            JButton viewPatientsButton = new JButton("View Patients");
-            viewPatientsButton.setAlignmentX(Component.CENTER_ALIGNMENT);//alome quitar
-
-            sidePanel.add(viewPatientsButton);
-        } else if ("patient".equals(role.getName())) {
-            JButton viewAppointmentsButton = new JButton("View Appointments");
-            viewAppointmentsButton.setAlignmentX(Component.CENTER_ALIGNMENT);//alome quitar
-
-            sidePanel.add(viewAppointmentsButton);
-        }
-
-        return sidePanel;
-    }
-    
-   
 /*
     private JPanel createMainContent() {
         JPanel mainPanel = new JPanel();

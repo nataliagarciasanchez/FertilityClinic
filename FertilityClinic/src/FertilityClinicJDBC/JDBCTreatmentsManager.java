@@ -30,14 +30,14 @@ public class JDBCTreatmentsManager implements TreatmentsManager {
 			String sql = "SELECT * FROM Treatments WHERE ID=" + id;
 		
 			ResultSet rs = stmt.executeQuery(sql);
+			while(rs.next()) {
+				Integer p_id = rs.getInt("ID");
+				String name = rs.getString("name");
+				String description = rs.getString("description"); 
+				Integer durationInDays = rs.getInt("duration");
 			
-			Integer p_id = rs.getInt("id");
-			String name = rs.getString("name");
-			String description = rs.getString("description"); 
-			Integer durationInDays = rs.getInt("duration");
-			
-			t = new Treatments (p_id,name,description,durationInDays);
-		    
+				t = new Treatments (p_id,name,description,durationInDays);
+			}
 		    rs.close();
 		    stmt.close();
 		    
