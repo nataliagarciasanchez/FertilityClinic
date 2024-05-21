@@ -18,32 +18,35 @@ public class JDBCAppointmentManager implements AppointmentManager{
 	    	this.manager = manager;
 	    }
 	    
+	    
 	    @Override
-	    public void viewAppointment() {
+	    public ArrayList<Appointment> viewAppointment(int patientId) {
+	        ArrayList<Appointment> appointments = new ArrayList<>();
 	        try {
-		        String sql = "SELECT * FROM appointments";
-		        Statement stmt = manager.getConnection().createStatement();
-		        ResultSet rs = stmt.executeQuery(sql);
-				ArrayList<Appointment> appointments= new ArrayList<>();
-				Appointment ap; 
-		        
+	            String sql = "SELECT * FROM appointments WHERE patient_id = ?";
+	            PreparedStatement stmt = manager.getConnection().prepareStatement(sql);
+	            stmt.setInt(1, patientId);  // Set the patientId dynamically
+	            ResultSet rs = stmt.executeQuery();
+	            
 	            while (rs.next()) {
 	                Integer id = rs.getInt("id");
-	                Integer patientId = rs.getInt("patientId");
+	                Integer patientIdFromDB = rs.getInt("patient_id");  // Adjust the column name if needed
 	                String description = rs.getString("description");
 	                Time time = rs.getTime("time");
 	                Date date = rs.getDate("date");
 	                Integer doctorId = rs.getInt("doctorId");
 	                
-	                ap = new Appointment(id, patientId, description, time, date, doctorId);
+	                Appointment ap = new Appointment(id, patientIdFromDB, description, time, date, doctorId);
 	                appointments.add(ap);
 	            }
 	            rs.close();
 	            stmt.close();
-	        } catch (Exception e) {
+	        } catch (SQLException e) {
 	            e.printStackTrace();
 	        }
+	        return appointments;
 	    }
+
 	     
 	    @Override
 	    public void bookAppointment(Appointment ap) {
@@ -101,5 +104,5 @@ public class JDBCAppointmentManager implements AppointmentManager{
 	    	    } catch (SQLException e) {
 	    	        e.printStackTrace();
 	    	    }
-	    }
+	    }//hola
 }
