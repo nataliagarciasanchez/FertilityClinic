@@ -19,11 +19,12 @@ import FertilityClinicInterfaces.TreatmentsManager;
 public class JDBCPatientManager implements PatientManager{	
   
 	private JDBCManager manager;
-	private TreatmentsManager treatmentmanager;
+    private TreatmentsManager treatmentmanager;
 
-	public JDBCPatientManager (JDBCManager m) {
-		this.manager = m;
-	}
+    public JDBCPatientManager(JDBCManager m, TreatmentsManager tm) {
+        this.manager = m;
+        this.treatmentmanager = tm;
+    }
 	
 	public void addPatient(Patient patient) {
 	    try {
@@ -187,7 +188,7 @@ public class JDBCPatientManager implements PatientManager{
 	            Integer id = rs.getInt("ID");
 	            Date dob = rs.getDate("dob");
 	            String email = rs.getString("email");
-	            Integer phoneN = rs.getInt("phoneNumber");
+	            Integer phoneN = rs.getInt("phone");
 	            String name = rs.getString("name");
 	            Double height = rs.getDouble("height");
 	            Double weight = rs.getDouble("weight");
@@ -208,8 +209,45 @@ public class JDBCPatientManager implements PatientManager{
 	    }
 	    return patient;
 	}
-
 	
+	public Treatments getTreatmentById(Integer id) {
+	    Treatments t = null;
+	    ResultSet rs = null;
+	    try {
+	        Statement stmt = manager.getConnection().createStatement();
+	        String sql = "SELECT * FROM Treatments WHERE ID=" + id;
+	        rs = stmt.executeQuery(sql);
+
+	        // Verificar si hay alguna fila en el conjunto de resultados
+	        if (rs.next()) {
+	            Integer p_id = rs.getInt("id");
+	            String name = rs.getString("name");
+	            String description = rs.getString("description");
+	            Integer durationInDays = rs.getInt("duration");
+
+	            t = new Treatments(p_id, name, description, durationInDays);
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    } finally {
+	        try {
+	        	//  se asegura de que el ResultSet se cierre correctamente
+	            if (rs != null) {
+	                rs.close(); // cierra el ResultSet
+	            }
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        }
+	    }
+	    return t;
+	}
+
+	@Override
+	public Patient getPatientByEmail(String email) {
+		// TODO Auto-generated method stub
+		System.out.println("si si si si si si ");
+		return null;
+	}
 
 	
 	

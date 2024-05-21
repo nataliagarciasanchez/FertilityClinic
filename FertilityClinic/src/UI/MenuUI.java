@@ -21,6 +21,7 @@ public class MenuUI extends JFrame {
     private PatientManager patientManager;
     private ManagerManager managerManager;
     private AppointmentManager appointmentManager; 
+    private TreatmentsManager treatmentManager;
     private User loggedInUser;
    
     public MenuUI() {
@@ -32,9 +33,11 @@ public class MenuUI extends JFrame {
 
         manager = new JDBCManager();
         doctorManager = new JDBCDoctorManager(manager);
-        patientManager = new JDBCPatientManager(manager);
+        treatmentManager = new JDBCTreatmentsManager(manager); // Inicializa treatmentManager
+        patientManager = new JDBCPatientManager(manager, treatmentManager); // Pasa treatmentManager
         managerManager = new JDBCManagerManager(manager);
         appointmentManager = new JDBCAppointmentManager(manager); 
+        
         
         userManager = new JPAUserManager(); 
         
@@ -231,7 +234,8 @@ public class MenuUI extends JFrame {
         if ("doctor".equals(user.getRole().getName())) {
             userPanel = new DoctorPanel();
         } else if ("patient".equals(user.getRole().getName())) {
-        	 userPanel = new PatientPanel(patientManager, appointmentManager, user.getId());
+            Patient patient = patientManager.getPatientByEmail(user.getEmail());
+            userPanel = new PatientPanel(patientManager, appointmentManager, patient.getId());
         } else if ("manager".equals(user.getRole().getName())) {
             userPanel = new ManagerPanel();
         } else {
@@ -244,7 +248,6 @@ public class MenuUI extends JFrame {
         revalidate();
         repaint();
     }
-    
 
 
     private JPanel createTopPanel() {

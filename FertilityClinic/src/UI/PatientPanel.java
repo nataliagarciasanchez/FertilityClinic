@@ -99,23 +99,20 @@ public class PatientPanel extends JPanel {
 	private JPanel createButtonPanel() { 
 		JPanel buttonPanel = new JPanel(); 
 		buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS)); 
-		JButton viewMyInfoBtn = new JButton("View My Information"); 
+		JButton viewMyInfo = new JButton("View My Information"); 
 		JButton extraOption1Btn = new JButton("Extra Option 1"); 
 		JButton extraOption2Btn = new JButton("Extra Option 2"); 
 
  
 
-		viewMyInfoBtn.setMaximumSize(new Dimension(Integer.MAX_VALUE, viewMyInfoBtn.getMinimumSize().height)); 
-
+		viewMyInfo.setMaximumSize(new Dimension(Integer.MAX_VALUE, viewMyInfo.getMinimumSize().height)); 
 		extraOption1Btn.setMaximumSize(new Dimension(Integer.MAX_VALUE, extraOption1Btn.getMinimumSize().height)); 
-
 		extraOption2Btn.setMaximumSize(new Dimension(Integer.MAX_VALUE, extraOption2Btn.getMinimumSize().height)); 
-
-		viewMyInfoBtn.addActionListener(e -> updatePatientInfoView()); 
+		viewMyInfo.addActionListener(e -> updatePatientInfoView()); 
 
  
 
-		buttonPanel.add(viewMyInfoBtn); 
+		buttonPanel.add(viewMyInfo); 
 		buttonPanel.add(extraOption1Btn); 
 		buttonPanel.add(extraOption2Btn); 
 
