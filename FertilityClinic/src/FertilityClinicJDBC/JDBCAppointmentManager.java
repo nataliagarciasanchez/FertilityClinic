@@ -104,5 +104,5 @@ public class JDBCAppointmentManager implements AppointmentManager{
 	    	    } catch (SQLException e) {
 	    	        e.printStackTrace();
 	    	    }
-	    }
+	    }//hola
 }

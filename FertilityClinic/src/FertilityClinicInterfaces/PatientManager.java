@@ -14,7 +14,7 @@ public interface PatientManager {
 	public Patient searchPatientById(Integer id); 
 	public void modifyPatientInfo(Integer patientId, String email, Integer phoneN, String name);
 	public void removePatientById (Integer id);
-	
+	//hola
 	
 	
 }

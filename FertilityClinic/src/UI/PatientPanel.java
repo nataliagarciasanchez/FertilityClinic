@@ -114,5 +114,5 @@ public class PatientPanel extends JPanel {
 
     private void updateAppointmentsView() {
         // Assume this method is implemented correctly
-    }
+    }//hola
 }

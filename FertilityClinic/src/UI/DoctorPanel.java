@@ -13,4 +13,4 @@ public class DoctorPanel extends JPanel {
         add(label, BorderLayout.CENTER);
     }
 }
-
+//hola

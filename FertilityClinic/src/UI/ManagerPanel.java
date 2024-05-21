@@ -13,3 +13,4 @@ class ManagerPanel extends JPanel {
         add(label, BorderLayout.CENTER);
     }
 }
+//hola
