@@ -41,7 +41,6 @@ private Connection c = null;
 					+ "    phone INTEGER NOT NULL,"
 					+ "    name TEXT NOT NULL,\n"
 					+ "    speciality_id INTEGER NOT NULL,"
-					+ "    cardnumber TEXT NOT NULL,"
 					+ "    licensePDF BLOB,"
 					+ "    FOREIGN KEY (speciality_id) REFERENCES Specialities(id)"
 					+ ");"
@@ -99,6 +98,15 @@ private Connection c = null;
 					+ "    category TEXT NOT NULL,"
 					+ "    quantity INTEGER NOT NULL,"
 					+ "    expiryDate DATE"
+					+ ");"
+					+ "";
+			stmt.executeUpdate(sql);
+			
+			sql = "CREATE TABLE managers ("
+					+ "    id INTEGER PRIMARY KEY AUTOINCREMENT,"
+					+ "    email TEXT NOT NULL,"
+					+ "    phone INTEGER NOT NULL,"
+					+ "    name TEXT NOT NULL,"
 					+ ");"
 					+ "";
 			stmt.executeUpdate(sql);

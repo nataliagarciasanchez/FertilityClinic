@@ -19,6 +19,7 @@ public class MenuUI extends JFrame {
     private UserManager userManager;
     private DoctorManager doctorManager;
     private PatientManager patientManager;
+    private ManagerManager managerManager;
     private AppointmentManager appointmentManager; // Ensure this is initialized 
     private User loggedInUser;
    
@@ -104,7 +105,7 @@ public class MenuUI extends JFrame {
         JTextField bloodTypeField = new JTextField();
         JTextField dobField = new JTextField();
         JTextField genderField = new JTextField();
-    
+
         patientPanel.add(new JLabel("Name:"));
         patientPanel.add(nameField);
         patientPanel.add(new JLabel("Phone:"));
@@ -125,7 +126,6 @@ public class MenuUI extends JFrame {
         JTextField doctorNameField = new JTextField();
         JTextField doctorPhoneField = new JTextField();
         JComboBox<Speciality> specialityComboBox = new JComboBox<>(new DefaultComboBoxModel<>(getSpecialities().toArray(new Speciality[0])));
-        JTextField cardNumberField = new JTextField();
         
         doctorPanel.add(new JLabel("Name:"));
         doctorPanel.add(doctorNameField);
@@ -133,28 +133,23 @@ public class MenuUI extends JFrame {
         doctorPanel.add(doctorPhoneField);
         doctorPanel.add(new JLabel("Speciality:"));
         doctorPanel.add(specialityComboBox);
-        doctorPanel.add(new JLabel("Card Number:"));
-        doctorPanel.add(cardNumberField);
         
         //Manager
-        JPanel ManagerPanel = new JPanel(new GridLayout(5, 2));
+        JPanel managerPanel = new JPanel(new GridLayout(5, 2));
         JTextField managerNameField = new JTextField();
         JTextField managerPhoneField = new JTextField();
         
         
-        doctorPanel.add(new JLabel("Name:"));
-        doctorPanel.add(doctorNameField);
-        doctorPanel.add(new JLabel("Phone:"));
-        doctorPanel.add(doctorPhoneField);
-        doctorPanel.add(new JLabel("Speciality:"));
-        doctorPanel.add(specialityComboBox);
-        doctorPanel.add(new JLabel("Card Number:"));
-        doctorPanel.add(cardNumberField);
+        managerPanel.add(new JLabel("Name:"));
+        managerPanel.add(managerNameField);
+        managerPanel.add(new JLabel("Phone:"));
+        managerPanel.add(managerPhoneField);
         
 
         roleSpecificPanel.add(new JPanel(), "default"); // Default empty panel
         roleSpecificPanel.add(patientPanel, "patient");
         roleSpecificPanel.add(doctorPanel, "doctor");
+        roleSpecificPanel.add(managerPanel, "manager");
 
         roleComboBox.addActionListener(e -> {
             CardLayout cl = (CardLayout) roleSpecificPanel.getLayout();
@@ -193,12 +188,17 @@ public class MenuUI extends JFrame {
                 } else if ("doctor".equals(selectedRole.getName())) {
                     int phone = Integer.parseInt(doctorPhoneField.getText());
                     Speciality speciality = (Speciality) specialityComboBox.getSelectedItem();
-                    String cardNumber = cardNumberField.getText();
 
                     Doctor newDoctor = new Doctor(null,email, phone, doctorNameField.getText(), speciality);
                    
                     doctorManager.createDoctor(newDoctor);
                     JOptionPane.showMessageDialog(this, "Doctor registered successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                } else if ("manager".equals(selectedRole.getName())) {
+                    // Crear un nuevo manager con los datos pedidos
+                    Manager newManager = new Manager(null, email, Integer.parseInt(managerPhoneField.getText()), managerNameField.getText());
+                    // Insertar el nuevo manager utilizando el método addManager de JDBCManager
+                    managerManager.addManager(newManager);
+                    JOptionPane.showMessageDialog(this, "Manager registered successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
                 }
 
                 showLoginDialog();
@@ -208,6 +208,7 @@ public class MenuUI extends JFrame {
             }
         }
     }
+
     
     private ArrayList<Speciality> getSpecialities() {
         ArrayList<Speciality> specialities = new ArrayList<>();
