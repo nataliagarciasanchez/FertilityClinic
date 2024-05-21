@@ -110,23 +110,6 @@ public class Treatments implements Serializable {
 	public String toString() {
 		return "Treatments [treatmentID=" + treatmentID + ", name=" + name + ", description=" + description
 				+ ", durationInDays=" + durationInDays + ", patients=" + patients + "]";
-	}
-	
-	
-	
-	
-	
-
-	
-	
-	
-
-	
-
-	
-	
-
-	
-	
+	}	
      
 }

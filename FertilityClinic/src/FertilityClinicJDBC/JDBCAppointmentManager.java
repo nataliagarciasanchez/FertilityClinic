@@ -85,7 +85,7 @@ public class JDBCAppointmentManager implements AppointmentManager{
 	            e.printStackTrace();
 	        }
 	    }
-
+/*
 	    @Override
 	    public void modifyAppointment(Appointment ap) {
 	    	String sql = "UPDATE appointments SET patientId = ?, description = ?, time = ?, date = ?, doctorId = ? WHERE id = ?";
@@ -105,4 +105,81 @@ public class JDBCAppointmentManager implements AppointmentManager{
 	    	        e.printStackTrace();
 	    	    }
 	    }//hola
+	    
+	   */
+	    
+	    @Override
+	    public void updateAppointment(Appointment appointment) {
+	        String sql = "UPDATE appointments SET date = ?, time = ?, doctor_id = ? WHERE id = ?";
+	        try {
+	            PreparedStatement stmt = manager.getConnection().prepareStatement(sql);
+	            
+	            // Convert String to java.sql.Date
+	            java.sql.Date sqlDate = java.sql.Date.valueOf(appointment.getDate().toString());
+	            
+	            // Convert String to java.sql.Time
+	            java.sql.Time sqlTime = java.sql.Time.valueOf(appointment.getTime().toString());
+	            
+	            stmt.setDate(1, sqlDate);
+	            stmt.setTime(2, sqlTime);
+	            stmt.setInt(3, appointment.getDoctorId());
+	            stmt.setInt(4, appointment.getId());
+	            
+	            int rowsAffected = stmt.executeUpdate();
+	            if (rowsAffected > 0) {
+	                System.out.println("Appointment updated successfully.");
+	            } else {
+	                System.out.println("Failed to update appointment. Appointment with ID " + appointment.getId() + " not found.");
+	            }
+	            stmt.close();
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        }
+	    }
+
+	    
+
+/*
+
+		@Override
+		public ArrayList<Appointment> getCurrentAppointments(int patientId) {
+	        ArrayList<Appointment> appointments = new ArrayList<>();
+	        String sql = "SELECT * FROM appointments WHERE patient_id = ?";
+
+	        try{
+	        	
+	        	PreparedStatement prep = manager.getConnection().prepareStatement(sql);
+	        	prep.setInt(1, patientId);
+	        
+	            ResultSet rs = prep.executeQuery();
+
+	            while (rs.next()) {
+	                int id = rs.getInt("id");
+	                String date = rs.getString("date");
+	                String time = rs.getString("time");
+	                int doctorId = rs.getInt("doctor_id");
+	                String doctorName = doctorManager.searchDoctorById(appointment.getDoctorId()); // Assuming you have a method to get the doctor's name by their ID
+
+	                Appointment appointment = new Appointment(id, date, , doctorName);
+	                appointments.add(appointment);
+	                Appointment ap = new Appointment(id, patientIdFromDB, description, time, date, doctorId);
+	                appointments.add(ap);
+	            }
+
+	            rs.close();
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        }
+
+	        return appointments;
+	    }*/
+
+
+		@Override
+		public ArrayList<Appointment> getCurrentAppointments(int patientId) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+
 }

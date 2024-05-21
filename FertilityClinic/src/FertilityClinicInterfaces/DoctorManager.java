@@ -13,5 +13,6 @@ public interface DoctorManager {
 	public void removeDoctorById(Integer id);
 	public void assignPatientToDoctor(int doctorId, int patientId);
 	public void removePatientFromDoctor(int doctorId, int patientId);
-	//hola
+	public List<Doctor> searchDoctorByName(String name);
+		//hola
 }

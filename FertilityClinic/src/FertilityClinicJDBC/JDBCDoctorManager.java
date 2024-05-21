@@ -121,6 +121,34 @@ public class JDBCDoctorManager implements DoctorManager {
 	    return doctor;
 	}
 		
+		public List<Doctor> searchDoctorByName(String name) {
+		    List<Doctor> doctors = new ArrayList<>();
+		    Speciality speciality=null;
+		    try {
+		        String sql = "SELECT * FROM doctors WHERE name LIKE ?";
+		        PreparedStatement stmt = manager.getConnection().prepareStatement(sql);
+		        stmt.setString(1, "%" + name + "%");
+		        ResultSet rs = stmt.executeQuery();
+		        while (rs.next()) {
+		        	Integer d_id = rs.getInt("ID");
+		            String email = rs.getString("email");
+		            Integer phone = rs.getInt("phoneNumber");
+		            String n = rs.getString("name");
+	                Integer speciality_id = rs.getInt("speciality_id");
+		            speciality = specialitymanager.getSpecialityById(speciality_id);
+		           
+		            doctors.add( new Doctor (d_id,email,phone,n,speciality));
+		        
+		        }
+		        rs.close();
+		        stmt.close();
+		    } catch (SQLException e) {
+		        e.printStackTrace();
+		    }
+		    return doctors;
+		}
+
+		
 		
 		
 	public void removeDoctorById(Integer id) {

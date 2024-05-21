@@ -21,11 +21,14 @@ public class JDBCPatientManager implements PatientManager{
 	private JDBCManager manager;
     private TreatmentsManager treatmentmanager;
 
-    public JDBCPatientManager(JDBCManager m, TreatmentsManager tm) {
-        this.manager = m;
-        this.treatmentmanager = tm;
-    }
-	
+
+        public JDBCPatientManager(JDBCManager manager, TreatmentsManager treatmentManager) {
+            this.manager = manager;
+            this.treatmentmanager = treatmentManager;
+        }
+
+    
+
 	public void addPatient(Patient patient) {
 	    try {
 	        String sql = "INSERT INTO patients (name, dob, email, phone, height, weight, bloodType, gender, treatment_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -101,7 +104,7 @@ public class JDBCPatientManager implements PatientManager{
 	
   public void modifyPatientInfo(Integer patientId, String email, Integer phoneN, String name) {
 	    try {
-	        String sql = "UPDATE patients SET email=?, phoneNumber=?, name=? WHERE ID=?";
+	        String sql = "UPDATE patients SET email=?, phone=?, name=? WHERE ID=?";
 	        PreparedStatement stmt = manager.getConnection().prepareStatement(sql);
 	        stmt.setString(1, email);
 	        stmt.setInt(2, phoneN);
@@ -215,39 +218,43 @@ public class JDBCPatientManager implements PatientManager{
 
 	@Override
 	public Patient getPatientByEmail(String email) {
-        Patient patient = null;
-        
-        try  {
-            String sql = "SELECT * FROM patients WHERE email = ?";
+	    Patient patient = null;
+	    
+	    try {
+	        String sql = "SELECT * FROM patients WHERE email = ?";
 	        PreparedStatement stmt = manager.getConnection().prepareStatement(sql);
-            stmt.setString(1, email);
-            
-            ResultSet rs = stmt.executeQuery();
-            
-            if (rs.next()) {
-                Integer id = rs.getInt("ID");
-                Date dob = rs.getDate("dob");
-                String emailDb = rs.getString("email");
-                Integer phoneN = rs.getInt("phone");
-                String name = rs.getString("name");
-                Double height = rs.getDouble("height");
-                Double weight = rs.getDouble("weight");
-                String bloodType = rs.getString("bloodType");
-                String gender = rs.getString("Gender");
-                Integer treatmentId = rs.getInt("treatment_id");
-                Treatments treatment = treatmentmanager.getTreatmentById(treatmentId);
-                
-                patient = new Patient(id, name, dob, emailDb, phoneN, height, weight, bloodType, gender, treatment);
-            }
-            
-            rs.close();
-            stmt.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+	        stmt.setString(1, email);
+	        
+	        ResultSet rs = stmt.executeQuery();
+	        
+	        if (rs.next()) {
+	            Integer id = rs.getInt("ID");
+	            Date dob = rs.getDate("dob");
+	            Integer phoneN = rs.getInt("phone");
+	            String name = rs.getString("name");
+	            Double height = rs.getDouble("height");
+	            Double weight = rs.getDouble("weight");
+	            String bloodType = rs.getString("bloodType");
+	            String gender = rs.getString("Gender");
+	            Integer treatmentId = rs.getInt("treatment_id");
+	            
+	            Treatments treatment = null;
+	            if (treatmentId != null && treatmentId > 0) { // Asegura que el treatmentId es válido
+	                treatment = treatmentmanager.getTreatmentById(treatmentId);
+	            }
 
-        return patient;
-    }
+	            patient = new Patient(id, name, dob, email, phoneN, height, weight, bloodType, gender, treatment);
+	        }
+	        
+	        rs.close();
+	        stmt.close();
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+
+	    return patient;
+	}
+
 
 	
 	

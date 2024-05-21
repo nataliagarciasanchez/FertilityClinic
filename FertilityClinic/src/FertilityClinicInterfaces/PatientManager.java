@@ -2,8 +2,10 @@ package FertilityClinicInterfaces;
 
 
 
+import java.util.ArrayList;
 import java.util.List;
 
+import FertilityClinicPOJOs.Doctor;
 import FertilityClinicPOJOs.Patient;
 
 public interface PatientManager {
@@ -15,7 +17,6 @@ public interface PatientManager {
 	public Patient searchPatientById(Integer id); 
 	public void modifyPatientInfo(Integer patientId, String email, Integer phoneN, String name);
 	public void removePatientById (Integer id);
-	
 	
 	
 }

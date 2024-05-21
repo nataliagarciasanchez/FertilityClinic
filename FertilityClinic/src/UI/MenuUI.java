@@ -84,6 +84,8 @@ public class MenuUI extends JFrame {
             }
         }
     }
+    
+    
     private void showSignUpDialog() {
         JPanel panel = new JPanel(new BorderLayout());
         JPanel initialPanel = new JPanel(new GridLayout(3, 2));
@@ -211,6 +213,8 @@ public class MenuUI extends JFrame {
             }
         }
     }
+ 
+
 
     
     private ArrayList<Speciality> getSpecialities() {
@@ -224,29 +228,32 @@ public class MenuUI extends JFrame {
     
 
     private void loadUserInterface(User user) {
-        // Carga la interfaz específica del usuario según su rol
         getContentPane().removeAll();
         add(createTopPanel(), BorderLayout.NORTH);
-        //add(createSidePanel(user.getRole()), BorderLayout.WEST);
 
         JPanel userPanel;
         if ("doctor".equals(user.getRole().getName())) {
-            userPanel = new DoctorPanel();
+            userPanel = new DoctorPanel(doctorManager, user.getId()); // Assuming DoctorPanel requires a doctorManager and user ID
         } else if ("patient".equals(user.getRole().getName())) {
             Patient patient = patientManager.getPatientByEmail(user.getEmail());
-            userPanel = new PatientPanel(patientManager, appointmentManager, patient.getId());
+            if (patient != null) {
+                userPanel = new PatientPanel(patientManager, appointmentManager, doctorManager, patient.getId());
+            } else {
+                userPanel = new JPanel();
+                userPanel.add(new JLabel("Patient record not found."));
+            }
         } else if ("manager".equals(user.getRole().getName())) {
-            userPanel = new ManagerPanel();
+            userPanel = new ManagerPanel(managerManager); // Assuming ManagerPanel requires a managerManager
         } else {
             userPanel = new JPanel();
-            userPanel.add(new JLabel("Error: Unknown role."));
+            userPanel.add(new JLabel("Unknown role specified."));
         }
 
         add(userPanel, BorderLayout.CENTER);
-
         revalidate();
         repaint();
     }
+
 
     private JPanel createTopPanel() {
         // Crea el panel superior con el botón de logout
