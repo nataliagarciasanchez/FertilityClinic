@@ -50,6 +50,7 @@ public class Doctor implements Serializable {
 	this.name = name;
 	this.speciality = speciality;
 }
+ 
 
 
 

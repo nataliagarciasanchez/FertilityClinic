@@ -10,6 +10,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.*;
 
 
 public class MenuUI extends JFrame {
@@ -78,72 +79,145 @@ public class MenuUI extends JFrame {
             }
         }
     }
-    
-
     private void showSignUpDialog() {
-        JPanel panel = new JPanel(new GridLayout(11, 2));
+        JPanel panel = new JPanel(new BorderLayout());
+        JPanel initialPanel = new JPanel(new GridLayout(3, 2));
         JTextField emailField = new JTextField();
         JPasswordField passwordField = new JPasswordField();
-        JTextField nameField = new JTextField(); 
-    	JTextField phoneField = new JTextField(); 
-    	JTextField heightField = new JTextField(); 
-    	JTextField weightField = new JTextField(); 
-    	JTextField bloodTypeField = new JTextField(); 
-    	JTextField dobField = new JTextField();  
-    	JTextField genderField = new JTextField();
         JComboBox<Role> roleComboBox = new JComboBox<>(new DefaultComboBoxModel<>(userManager.getRoles().toArray(new Role[0])));
         
-        panel.add(new JLabel("Email:")); 
-    	panel.add(emailField); 
-    	panel.add(new JLabel("Password:")); 
-    	panel.add(passwordField); 
-    	panel.add(new JLabel("Name:")); 
-    	panel.add(nameField); 
-    	panel.add(new JLabel("Phone:")); 
-    	panel.add(phoneField); 
-    	panel.add(new JLabel("Height:")); 
-    	panel.add(heightField); 
-    	panel.add(new JLabel("Weight:")); 
-    	panel.add(weightField); 
-    	panel.add(new JLabel("Blood Type:")); 
-    	panel.add(bloodTypeField); 
-    	panel.add(new JLabel("DOB (yyyy-mm-dd):")); 
-    	panel.add(dobField); 
-    	panel.add(new JLabel("Gender:")); 
-    	panel.add(genderField); 
-    	panel.add(new JLabel("Role:")); 
-    	panel.add(roleComboBox); 
+        initialPanel.add(new JLabel("Email:"));
+        initialPanel.add(emailField);
+        initialPanel.add(new JLabel("Password:"));
+        initialPanel.add(passwordField);
+        initialPanel.add(new JLabel("Role:"));
+        initialPanel.add(roleComboBox);
+
+        JPanel roleSpecificPanel = new JPanel(new CardLayout());
+
+        //Patient
+        JPanel patientPanel = new JPanel(new GridLayout(8, 2));
+        JTextField nameField = new JTextField();
+        JTextField phoneField = new JTextField();
+        JTextField heightField = new JTextField();
+        JTextField weightField = new JTextField();
+        JTextField bloodTypeField = new JTextField();
+        JTextField dobField = new JTextField();
+        JTextField genderField = new JTextField();
+    
+        patientPanel.add(new JLabel("Name:"));
+        patientPanel.add(nameField);
+        patientPanel.add(new JLabel("Phone:"));
+        patientPanel.add(phoneField);
+        patientPanel.add(new JLabel("Height:"));
+        patientPanel.add(heightField);
+        patientPanel.add(new JLabel("Weight:"));
+        patientPanel.add(weightField);
+        patientPanel.add(new JLabel("Blood Type:"));
+        patientPanel.add(bloodTypeField);
+        patientPanel.add(new JLabel("DOB (yyyy-mm-dd):"));
+        patientPanel.add(dobField);
+        patientPanel.add(new JLabel("Gender:"));
+        patientPanel.add(genderField);
+
+        // Doctor 
+        JPanel doctorPanel = new JPanel(new GridLayout(5, 2));
+        JTextField doctorNameField = new JTextField();
+        JTextField doctorPhoneField = new JTextField();
+        JComboBox<Speciality> specialityComboBox = new JComboBox<>(new DefaultComboBoxModel<>(getSpecialities().toArray(new Speciality[0])));
+        JTextField cardNumberField = new JTextField();
+        
+        doctorPanel.add(new JLabel("Name:"));
+        doctorPanel.add(doctorNameField);
+        doctorPanel.add(new JLabel("Phone:"));
+        doctorPanel.add(doctorPhoneField);
+        doctorPanel.add(new JLabel("Speciality:"));
+        doctorPanel.add(specialityComboBox);
+        doctorPanel.add(new JLabel("Card Number:"));
+        doctorPanel.add(cardNumberField);
+        
+        //Manager
+        JPanel ManagerPanel = new JPanel(new GridLayout(5, 2));
+        JTextField managerNameField = new JTextField();
+        JTextField managerPhoneField = new JTextField();
+        
+        
+        doctorPanel.add(new JLabel("Name:"));
+        doctorPanel.add(doctorNameField);
+        doctorPanel.add(new JLabel("Phone:"));
+        doctorPanel.add(doctorPhoneField);
+        doctorPanel.add(new JLabel("Speciality:"));
+        doctorPanel.add(specialityComboBox);
+        doctorPanel.add(new JLabel("Card Number:"));
+        doctorPanel.add(cardNumberField);
+        
+
+        roleSpecificPanel.add(new JPanel(), "default"); // Default empty panel
+        roleSpecificPanel.add(patientPanel, "patient");
+        roleSpecificPanel.add(doctorPanel, "doctor");
+
+        roleComboBox.addActionListener(e -> {
+            CardLayout cl = (CardLayout) roleSpecificPanel.getLayout();
+            Role selectedRole = (Role) roleComboBox.getSelectedItem();
+            if (selectedRole != null) {
+                cl.show(roleSpecificPanel, selectedRole.getName());
+            }
+        });
+
+        panel.add(initialPanel, BorderLayout.NORTH);
+        panel.add(roleSpecificPanel, BorderLayout.CENTER);
 
         int result = JOptionPane.showConfirmDialog(this, panel, "Sign Up", JOptionPane.OK_CANCEL_OPTION);
         if (result == JOptionPane.OK_OPTION) {
             String email = emailField.getText();
             String password = new String(passwordField.getPassword());
             Role selectedRole = (Role) roleComboBox.getSelectedItem();
-            if ("patient".equals(selectedRole.getName())) { 
-            	try {
-            		java.sql.Date dob = java.sql.Date.valueOf(dobField.getText()); // Simple date parsing, consider using a more robust method 
-                	double height = Double.parseDouble(heightField.getText()); 
-                	double weight = Double.parseDouble(weightField.getText()); 
-                	int phone = Integer.parseInt(phoneField.getText()); 
-                	 
-            		MessageDigest md = MessageDigest.getInstance("MD5");
-            		md.update(password.getBytes());
-            		byte[] hashedPassword = md.digest();
 
-            		User newUser = new User(email, hashedPassword, selectedRole);
-            		Patient newPatient = new Patient(nameField.getText(), dob, emailField.getText(), phone, height, weight, bloodTypeField.getText(), genderField.getText()); 
+            try {
+                MessageDigest md = MessageDigest.getInstance("MD5");
+                md.update(password.getBytes());
+                byte[] hashedPassword = md.digest();
 
-            		userManager.newUser(newUser);
-            		patientManager.addPatient(newPatient); 
+                User newUser = new User(email, hashedPassword, selectedRole);
+                userManager.newUser(newUser);
 
-            		JOptionPane.showMessageDialog(this, "Patient registered successfully!", "Success", JOptionPane.INFORMATION_MESSAGE); 
-            		showLoginDialog();
-            	} catch (NoSuchAlgorithmException e) {
-            		e.printStackTrace();
-            		JOptionPane.showMessageDialog(this, "Error during sign-up process.", "Error", JOptionPane.ERROR_MESSAGE);
-            	
+                if ("patient".equals(selectedRole.getName())) {
+                    java.sql.Date dob = java.sql.Date.valueOf(dobField.getText());
+                    double height = Double.parseDouble(heightField.getText());
+                    double weight = Double.parseDouble(weightField.getText());
+                    int phone = Integer.parseInt(phoneField.getText());
+
+                    Patient newPatient = new Patient(nameField.getText(), dob, email, phone, height, weight, bloodTypeField.getText(), genderField.getText());
+                    patientManager.addPatient(newPatient);
+                    JOptionPane.showMessageDialog(this, "Patient registered successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                } else if ("doctor".equals(selectedRole.getName())) {
+                    int phone = Integer.parseInt(doctorPhoneField.getText());
+                    Speciality speciality = (Speciality) specialityComboBox.getSelectedItem();
+                    String cardNumber = cardNumberField.getText();
+
+                    Doctor newDoctor = new Doctor(null,email, phone, doctorNameField.getText(), speciality);
+                   
+                    doctorManager.createDoctor(newDoctor);
+                    JOptionPane.showMessageDialog(this, "Doctor registered successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                }
+
+                showLoginDialog();
+            } catch (NoSuchAlgorithmException e) {
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Error during sign-up process.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
         }
-    }	 
+    }
+    
+    private ArrayList<Speciality> getSpecialities() {
+        ArrayList<Speciality> specialities = new ArrayList<>();
+        specialities.add(new Speciality(1, "Urologist"));
+        specialities.add(new Speciality(2, "Gynecologist"));
+        specialities.add(new Speciality(3, "Psychologist"));
+        return specialities;
+    }
+
+    
 
     private void loadUserInterface(User user) {
         getContentPane().removeAll();
@@ -157,7 +231,7 @@ public class MenuUI extends JFrame {
         if ("doctor".equals(user.getRole().getName())) {
             userPanel = new DoctorPanel();
         } else if ("patient".equals(user.getRole().getName())) {
-            userPanel = new PatientPanel();
+        	 userPanel = new PatientPanel(patientManager, appointmentManager, user.getId());
         } else if ("manager".equals(user.getRole().getName())) {
             userPanel = new ManagerPanel();
         } else {
