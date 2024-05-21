@@ -26,33 +26,32 @@ public class JDBCPatientManager implements PatientManager{
 	}
 	
 	public void addPatient(Patient patient) {
-		
-		try {
-			String sql= "INSERT INTO patients (name, dob, email,phone, height, weight, bloodType, "
-					+ " Gender, treatment_id)"
-					+ "VALUES (?,?,?,?,?,?,?,?,?)";
-		
-			PreparedStatement p = manager.getConnection().prepareStatement(sql);
-		    
-		   
-		    p.setString(1, patient.getName());
-		    p.setDate(2, (Date) patient.getDob());
-		    p.setString(3, patient.getEmail());
-		    p.setInt(4, patient.getPhone());
-		    p.setDouble(5, patient.getHeight());
-		    p.setDouble(6, patient.getWeight());
-		    p.setString(7, patient.getBloodType());
-		    p.setString(8, patient.getGender());
-		    p.setInt(9,patient.getTreatmet().getTreatmentID());
-			p.executeUpdate();
-			p.close();
-			
-		}catch(SQLException e ) {
-		e.printStackTrace();
-		
-		}
-		
-		}
+	    try {
+	        String sql = "INSERT INTO patients (name, dob, email, phone, height, weight, bloodType, gender, treatment_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+	        PreparedStatement stmt = manager.getConnection().prepareStatement(sql);
+
+	        stmt.setString(1, patient.getName());
+	        stmt.setDate(2, new java.sql.Date(patient.getDob().getTime()));
+	        stmt.setString(3, patient.getEmail());
+	        stmt.setInt(4, patient.getPhone());
+	        stmt.setDouble(5, patient.getHeight());
+	        stmt.setDouble(6, patient.getWeight());
+	        stmt.setString(7, patient.getBloodType());
+	        stmt.setString(8, patient.getGender());
+	        // Check if treatment is not null
+	        Integer treatmentId = (patient.getTreatmet() != null) ? patient.getTreatmet().getTreatmentID() : null;
+	        if (treatmentId != null) {
+	            stmt.setInt(9, treatmentId);
+	        } else {
+	            stmt.setNull(9, java.sql.Types.INTEGER);
+	        }
+
+	        stmt.executeUpdate();
+	        stmt.close();
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	}
 
 	
 
