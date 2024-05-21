@@ -5,13 +5,12 @@ import javax.swing.*;
 import FertilityClinicInterfaces.*;
 import FertilityClinicJPA.JPAUserManager;
 import FertilityClinicJDBC.*;
-import FertilityClinicPOJOs.Role;
-import FertilityClinicPOJOs.User;
-
+import FertilityClinicPOJOs.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+
 
 public class MenuUI extends JFrame {
     
@@ -19,8 +18,9 @@ public class MenuUI extends JFrame {
     private UserManager userManager;
     private DoctorManager doctorManager;
     private PatientManager patientManager;
+    private AppointmentManager appointmentManager; // Ensure this is initialized 
     private User loggedInUser;
-
+   
     public MenuUI() {
         super("Fertility Clinic System");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -31,11 +31,13 @@ public class MenuUI extends JFrame {
         manager = new JDBCManager();
         doctorManager = new JDBCDoctorManager(manager);
         patientManager = new JDBCPatientManager(manager);
+        appointmentManager = new JDBCAppointmentManager(manager); // Initialize appointmentManager here 
         
         userManager = new JPAUserManager(); // Aquí usamos JPAUserManager
         
         showInitialDialog();
     }
+    
 
     private void showInitialDialog() {
         String[] options = {"Login", "Sign Up"};
@@ -49,7 +51,7 @@ public class MenuUI extends JFrame {
         } else if (choice == 1) {
             showSignUpDialog();
         }
-    }
+    }	 
 
     private void showLoginDialog() {
         JPanel panel = new JPanel(new GridLayout(3, 2));
@@ -60,6 +62,7 @@ public class MenuUI extends JFrame {
         panel.add(emailField);
         panel.add(new JLabel("Password:"));
         panel.add(passwordField);
+
 
         int result = JOptionPane.showConfirmDialog(this, panel, "Login", JOptionPane.OK_CANCEL_OPTION);
         if (result == JOptionPane.OK_OPTION) {
@@ -75,42 +78,72 @@ public class MenuUI extends JFrame {
             }
         }
     }
+    
 
     private void showSignUpDialog() {
-        JPanel panel = new JPanel(new GridLayout(4, 2));
+        JPanel panel = new JPanel(new GridLayout(11, 2));
         JTextField emailField = new JTextField();
         JPasswordField passwordField = new JPasswordField();
+        JTextField nameField = new JTextField(); 
+    	JTextField phoneField = new JTextField(); 
+    	JTextField heightField = new JTextField(); 
+    	JTextField weightField = new JTextField(); 
+    	JTextField bloodTypeField = new JTextField(); 
+    	JTextField dobField = new JTextField();  
+    	JTextField genderField = new JTextField();
         JComboBox<Role> roleComboBox = new JComboBox<>(new DefaultComboBoxModel<>(userManager.getRoles().toArray(new Role[0])));
         
-        panel.add(new JLabel("Email:"));
-        panel.add(emailField);
-        panel.add(new JLabel("Password:"));
-        panel.add(passwordField);
-        panel.add(new JLabel("Role:"));
-        panel.add(roleComboBox);
+        panel.add(new JLabel("Email:")); 
+    	panel.add(emailField); 
+    	panel.add(new JLabel("Password:")); 
+    	panel.add(passwordField); 
+    	panel.add(new JLabel("Name:")); 
+    	panel.add(nameField); 
+    	panel.add(new JLabel("Phone:")); 
+    	panel.add(phoneField); 
+    	panel.add(new JLabel("Height:")); 
+    	panel.add(heightField); 
+    	panel.add(new JLabel("Weight:")); 
+    	panel.add(weightField); 
+    	panel.add(new JLabel("Blood Type:")); 
+    	panel.add(bloodTypeField); 
+    	panel.add(new JLabel("DOB (yyyy-mm-dd):")); 
+    	panel.add(dobField); 
+    	panel.add(new JLabel("Gender:")); 
+    	panel.add(genderField); 
+    	panel.add(new JLabel("Role:")); 
+    	panel.add(roleComboBox); 
 
         int result = JOptionPane.showConfirmDialog(this, panel, "Sign Up", JOptionPane.OK_CANCEL_OPTION);
         if (result == JOptionPane.OK_OPTION) {
             String email = emailField.getText();
             String password = new String(passwordField.getPassword());
             Role selectedRole = (Role) roleComboBox.getSelectedItem();
+            if ("patient".equals(selectedRole.getName())) { 
+            	try {
+            		java.sql.Date dob = java.sql.Date.valueOf(dobField.getText()); // Simple date parsing, consider using a more robust method 
+                	double height = Double.parseDouble(heightField.getText()); 
+                	double weight = Double.parseDouble(weightField.getText()); 
+                	int phone = Integer.parseInt(phoneField.getText()); 
+                	 
+            		MessageDigest md = MessageDigest.getInstance("MD5");
+            		md.update(password.getBytes());
+            		byte[] hashedPassword = md.digest();
 
-            try {
-                MessageDigest md = MessageDigest.getInstance("MD5");
-                md.update(password.getBytes());
-                byte[] hashedPassword = md.digest();
+            		User newUser = new User(email, hashedPassword, selectedRole);
+            		Patient newPatient = new Patient(nameField.getText(), dob, emailField.getText(), phone, height, weight, bloodTypeField.getText(), genderField.getText()); 
 
-                User newUser = new User(email, hashedPassword, selectedRole);
-                userManager.newUser(newUser);
+            		userManager.newUser(newUser);
+            		patientManager.addPatient(newPatient); 
 
-                JOptionPane.showMessageDialog(this, "Sign Up successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
-                showLoginDialog();
-            } catch (NoSuchAlgorithmException e) {
-                e.printStackTrace();
-                JOptionPane.showMessageDialog(this, "Error during sign-up process.", "Error", JOptionPane.ERROR_MESSAGE);
-            }
+            		JOptionPane.showMessageDialog(this, "Patient registered successfully!", "Success", JOptionPane.INFORMATION_MESSAGE); 
+            		showLoginDialog();
+            	} catch (NoSuchAlgorithmException e) {
+            		e.printStackTrace();
+            		JOptionPane.showMessageDialog(this, "Error during sign-up process.", "Error", JOptionPane.ERROR_MESSAGE);
+            	
         }
-    }
+    }	 
 
     private void loadUserInterface(User user) {
         getContentPane().removeAll();
@@ -137,6 +170,8 @@ public class MenuUI extends JFrame {
         revalidate();
         repaint();
     }
+    
+
 
     private JPanel createTopPanel() {
         JPanel topPanel = new JPanel();
@@ -151,14 +186,16 @@ public class MenuUI extends JFrame {
             getContentPane().removeAll();
             showInitialDialog();
         });
+        
 
         return topPanel;
     }
+    
 
     private JPanel createSidePanel(Role role) {
         JPanel sidePanel = new JPanel();
         sidePanel.setLayout(new BoxLayout(sidePanel, BoxLayout.Y_AXIS));
-        sidePanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        sidePanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));//alome quitar
 
         if ("manager".equals(role.getName())) {
             JButton manageDoctorsButton = new JButton("Manage Doctors");
@@ -171,19 +208,21 @@ public class MenuUI extends JFrame {
             sidePanel.add(managePatientsButton);
         } else if ("doctor".equals(role.getName())) {
             JButton viewPatientsButton = new JButton("View Patients");
-            viewPatientsButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+            viewPatientsButton.setAlignmentX(Component.CENTER_ALIGNMENT);//alome quitar
 
             sidePanel.add(viewPatientsButton);
         } else if ("patient".equals(role.getName())) {
             JButton viewAppointmentsButton = new JButton("View Appointments");
-            viewAppointmentsButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+            viewAppointmentsButton.setAlignmentX(Component.CENTER_ALIGNMENT);//alome quitar
 
             sidePanel.add(viewAppointmentsButton);
         }
 
         return sidePanel;
     }
-
+    
+   
+/*
     private JPanel createMainContent() {
         JPanel mainPanel = new JPanel();
         mainPanel.setBorder(BorderFactory.createTitledBorder("Main Area"));
@@ -191,7 +230,7 @@ public class MenuUI extends JFrame {
         label.setHorizontalAlignment(JLabel.CENTER);
         mainPanel.add(label);
         return mainPanel;
-    }
+    }*/
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> new MenuUI().setVisible(true));
