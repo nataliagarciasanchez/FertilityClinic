@@ -20,7 +20,7 @@ public class MenuUI extends JFrame {
     private DoctorManager doctorManager;
     private PatientManager patientManager;
     private ManagerManager managerManager;
-    private AppointmentManager appointmentManager; // Ensure this is initialized 
+    private AppointmentManager appointmentManager; 
     private User loggedInUser;
    
     public MenuUI() {
@@ -33,9 +33,10 @@ public class MenuUI extends JFrame {
         manager = new JDBCManager();
         doctorManager = new JDBCDoctorManager(manager);
         patientManager = new JDBCPatientManager(manager);
-        appointmentManager = new JDBCAppointmentManager(manager); // Initialize appointmentManager here 
+        managerManager = new JDBCManagerManager(manager);
+        appointmentManager = new JDBCAppointmentManager(manager); 
         
-        userManager = new JPAUserManager(); // Aquí usamos JPAUserManager
+        userManager = new JPAUserManager(); 
         
         showInitialDialog();
     }
@@ -194,9 +195,8 @@ public class MenuUI extends JFrame {
                     doctorManager.createDoctor(newDoctor);
                     JOptionPane.showMessageDialog(this, "Doctor registered successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
                 } else if ("manager".equals(selectedRole.getName())) {
-                    // Crear un nuevo manager con los datos pedidos
-                    Manager newManager = new Manager(null, email, Integer.parseInt(managerPhoneField.getText()), managerNameField.getText());
-                    // Insertar el nuevo manager utilizando el método addManager de JDBCManager
+                    int phone = Integer.parseInt(managerPhoneField.getText());
+                    Manager newManager = new Manager(null, email, phone, managerNameField.getText());
                     managerManager.addManager(newManager);
                     JOptionPane.showMessageDialog(this, "Manager registered successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
                 }
@@ -223,11 +223,10 @@ public class MenuUI extends JFrame {
     private void loadUserInterface(User user) {
         getContentPane().removeAll();
         
-        // Agregar los elementos comunes a todos los roles
+        // elementos comunes a todos los roles
         add(createTopPanel(), BorderLayout.NORTH);
         add(createSidePanel(user.getRole()), BorderLayout.WEST);
 
-        // Determinar el panel específico del usuario y agregarlo al centro
         JPanel userPanel;
         if ("doctor".equals(user.getRole().getName())) {
             userPanel = new DoctorPanel();

@@ -8,11 +8,14 @@ import FertilityClinicPOJOs.Manager;
 
 public class JDBCManagerManager implements ManagerManager  {
 	private JDBCManager manager;
+	
+	public JDBCManagerManager (JDBCManager manager) {
+		this.manager=manager;
+	}
 	public void addManager(Manager m) {
 		
 		try {
-			String sql= "INSERT INTO managers (email, phone, name)"
-					+ "VALUES (?,?,?)";
+			String sql= "INSERT INTO managers (email, phone, name) VALUES (?,?,?)";
 		
 			PreparedStatement p = manager.getConnection().prepareStatement(sql);
 		    p.setString(1, m.getEmail());
