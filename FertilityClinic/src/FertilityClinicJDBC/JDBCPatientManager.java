@@ -67,7 +67,7 @@ public class JDBCPatientManager implements PatientManager{
 			ResultSet rs = stmt.executeQuery(sql);
 			
 			while(rs.next())
-			{
+			{ 
 				 Integer p_id = rs.getInt("ID");
 		            Date dob = rs.getDate("dob");
 		            String email = rs.getString("email");
