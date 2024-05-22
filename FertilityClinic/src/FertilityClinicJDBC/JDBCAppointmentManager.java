@@ -61,26 +61,25 @@ public class JDBCAppointmentManager implements AppointmentManager{
 	     
 	    @Override
 	    public void bookAppointment(Appointment ap) {
-	        String sql = "INSERT INTO appointments (id, patient_id, description, time, date, doctor_id) VALUES (?, ?, ?, ?, ?, ?)";
+	        String sql = "INSERT INTO appointments (patient_id, description, time, date, doctor_id) VALUES (?, ?, ?, ?, ?)";
 	        
 	        try {
-				PreparedStatement prep = manager.getConnection().prepareStatement(sql);
+	            PreparedStatement prep = manager.getConnection().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
-	            prep.setInt(1, ap.getId());
-	            prep.setInt(2, ap.getPatientId());
-				prep.setString(3, ap.getDescription());
-				String time= ap.getTime().toString();
-				prep.setString(4,time);
-				String date = ap.getDate().toString();
-				prep.setString(5, date);
-	            prep.setInt(6, ap.getDoctorId());
+	            prep.setInt(1, ap.getPatientId());
+	            prep.setString(2, ap.getDescription());
+	            prep.setString(3, ap.getTime().toString());
+	            prep.setString(4, ap.getDate().toString());
+	            prep.setInt(5, ap.getDoctorId());
 	            prep.executeUpdate();
-				prep.close();
-				
+
+	            prep.close();
+	            
 	        } catch (Exception e) {
 	            e.printStackTrace();
 	        }
 	    }
+
 
 	    @Override 
 	    public void deleteAppointment(int appointmentId) {

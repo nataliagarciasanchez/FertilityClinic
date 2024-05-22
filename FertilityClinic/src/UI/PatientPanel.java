@@ -178,13 +178,10 @@ public class PatientPanel extends JPanel {
         JPanel appointmentsMainPanel = new JPanel(new BorderLayout());
 
         JPanel appointmentsOptionsPanel = new JPanel();
-        appointmentsOptionsPanel.setLayout(new BoxLayout(appointmentsOptionsPanel, BoxLayout.Y_AXIS));
+        appointmentsOptionsPanel.setLayout(new BoxLayout(appointmentsOptionsPanel, BoxLayout.Y_AXIS)); // Cambio a BoxLayout con dirección Y
 
         JButton updateAppBtn = new JButton("Update Appointment");
         JButton addAppBtn = new JButton("Add Appointment");
-
-        updateAppBtn.setMaximumSize(new Dimension(Integer.MAX_VALUE, updateAppBtn.getMinimumSize().height));
-        addAppBtn.setMaximumSize(new Dimension(Integer.MAX_VALUE, addAppBtn.getMinimumSize().height));
 
         updateAppBtn.addActionListener(e -> updateAppointmentPanel());
         addAppBtn.addActionListener(e -> addAppointmentPanel());
@@ -195,39 +192,52 @@ public class PatientPanel extends JPanel {
         appointmentsMainPanel.add(appointmentsOptionsPanel, BorderLayout.WEST);
         appointmentsMainPanel.add(currentAppointmentsPanel(), BorderLayout.CENTER);
 
-        currentPanel = appointmentsOptionsPanel; // Establece el panel actual como el panel de información del paciente
+        currentPanel = appointmentsMainPanel; // Establece el panel actual como el panel principal
         showCurrentPanel(); // Muestra el panel actual en el contenedor principal
-   
     }
 
     private JPanel currentAppointmentsPanel() {
         JPanel panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-        
+        panel.setLayout(new GridLayout(0, 1)); // Cambio a GridLayout con una sola columna
+
         ArrayList<Appointment> appointments = appointmentManager.viewAppointment(patientId);
 
-        for (Appointment appointment : appointments) {
-            panel.add(new JLabel("Appointment with Dr. " + doctorManager.searchDoctorById(appointment.getDoctorId()) + " on " + appointment.getDate() + " at " + appointment.getTime()));
+        if (appointments.isEmpty()) {
+            panel.add(new JLabel("No appointments yet."));
+        } else {
+            for (Appointment appointment : appointments) {
+                JLabel appointmentLabel = new JLabel("<html><b>Date:</b> " + appointment.getDate() + " <b>Time:</b> " + appointment.getTime() + " <b>Doctor's name:</b> " + doctorManager.searchDoctorById(appointment.getDoctorId()).getName()+ " <b>Description:</b> " + appointment.getDescription() + "</html>");
+                panel.add(appointmentLabel);
+            }
         }
 
         return panel;
     }
 
+
+    
+
     private void addAppointmentPanel() {
         JPanel addPanel = new JPanel();
-        addPanel.setLayout(new GridLayout(4, 2)); 
+        addPanel.setLayout(new GridLayout(9, 2, 10, 10));
 
         JTextField dateField = new JTextField();
         JTextField timeField = new JTextField();
-        JTextField doctorIdField = new JTextField();
+        JComboBox<String> doctorIdComboBox = new JComboBox<>(); // Cambio a JComboBox para seleccionar el ID del doctor
         JTextField descriptionField = new JTextField();
+
+        // Obtener todos los doctores disponibles
+        ArrayList<Doctor> allDoctors = doctorManager.getListofDoctors();
+        for (Doctor doctor : allDoctors) {
+            doctorIdComboBox.addItem(String.valueOf(doctor.getId())); // Agregar el ID del doctor al JComboBox
+        }
 
         addPanel.add(new JLabel("Date (YYYY-MM-DD):"));
         addPanel.add(dateField);
-        addPanel.add(new JLabel("Time (HH:MM:SS):")); 
+        addPanel.add(new JLabel("Time (HH:MM:SS):"));
         addPanel.add(timeField);
         addPanel.add(new JLabel("Doctor ID:"));
-        addPanel.add(doctorIdField);
+        addPanel.add(doctorIdComboBox); // Agregar el JComboBox en lugar del JTextField
         addPanel.add(new JLabel("Description:"));
         addPanel.add(descriptionField);
 
@@ -236,7 +246,8 @@ public class PatientPanel extends JPanel {
             try {
                 String dateStr = dateField.getText();
                 String timeStr = timeField.getText();
-                int doctorId = Integer.parseInt(doctorIdField.getText());
+                // Obtener el ID del doctor seleccionado del JComboBox
+                int doctorId = Integer.parseInt((String) doctorIdComboBox.getSelectedItem());
                 String description = descriptionField.getText();
 
                 java.sql.Date sqlDate = java.sql.Date.valueOf(dateStr);
@@ -259,18 +270,19 @@ public class PatientPanel extends JPanel {
 
         currentPanel = addPanel; // Establece el panel actual como el panel de información del paciente
         showCurrentPanel(); // Muestra el panel actual en el contenedor principal
-   
     }
 
+    
+    
     private void updateAppointmentPanel() {
         JPanel updatePanel = new JPanel();
         updatePanel.setLayout(new BoxLayout(updatePanel, BoxLayout.Y_AXIS));
 
         ArrayList<Appointment> appointments = appointmentManager.getCurrentAppointments(patientId);
 
-        if (appointments != null) { // Verificar si appointments no es nulo
+        if (appointments != null && !appointments.isEmpty()) {
             for (Appointment appointment : appointments) {
-                JPanel singleAppointmentPanel = new JPanel(new GridLayout(1, 5)); // Modificamos GridLayout para acomodar la descripción
+                JPanel singleAppointmentPanel = new JPanel(new GridLayout(1, 6)); // Agregamos una columna adicional para el botón de edición
                 singleAppointmentPanel.add(new JLabel("Dr. " + doctorManager.searchDoctorById(appointment.getDoctorId())));
                 JTextField dateField = new JTextField(appointment.getDate().toString());
                 JTextField timeField = new JTextField(appointment.getTime().toString());
@@ -305,15 +317,12 @@ public class PatientPanel extends JPanel {
                 updatePanel.add(singleAppointmentPanel);
             }
         } else {
-            // Manejar el caso en que appointments sea nulo
+            // Manejar el caso en que appointments sea nulo o esté vacío
             JOptionPane.showMessageDialog(this, "No appointments found for this patient.");
         }
-
-        currentPanel = updatePanel; // Establece el panel actual como el panel de información del paciente
-        showCurrentPanel(); // Muestra el panel actual en el contenedor principal
-   
+        currentPanel = updatePanel; 
+        showCurrentPanel(); 
     }
-
     
     //OPTION 4
     private void viewAllDoctorsPanel() {
