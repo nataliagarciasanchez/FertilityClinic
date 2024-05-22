@@ -7,6 +7,7 @@ import FertilityClinicInterfaces.AppointmentManager;
 import FertilityClinicInterfaces.DoctorManager;
 import FertilityClinicInterfaces.PatientManager;
 import FertilityClinicPOJOs.Doctor;
+import FertilityClinicPOJOs.Patient;
 
 public class DoctorPanel extends JPanel {
 	 
@@ -32,9 +33,9 @@ public class DoctorPanel extends JPanel {
     }
     
     private void showCurrentPanel() {
-        removeAll(); // Elimina todo el contenido del contenedor principal
-        add(panelesLadoIzq(), BorderLayout.WEST); // Vuelve a agregar el panel de opciones del paciente
-        add(currentPanel, BorderLayout.CENTER); // Agrega el panel actual al centro
+        removeAll();
+        add(panelesLadoIzq(), BorderLayout.WEST); 
+        add(currentPanel, BorderLayout.CENTER);
         validate();
         repaint();
     }
@@ -48,8 +49,8 @@ public class DoctorPanel extends JPanel {
         JButton op1 = new JButton("View My Information");
         JButton op2 = new JButton("Update My Information");
         JButton op3 = new JButton("My appointments");
-        JButton op4 = new JButton("View All Doctors");
-        JButton op5 = new JButton("My Treatment");
+        JButton op4 = new JButton("View All my Patients");
+        JButton op5 = new JButton("My ");
         
 
         op1.setMaximumSize(new Dimension(Integer.MAX_VALUE, op1.getMinimumSize().height));
@@ -58,10 +59,10 @@ public class DoctorPanel extends JPanel {
         op4.setMaximumSize(new Dimension(Integer.MAX_VALUE, op4.getMinimumSize().height));
         op5.setMaximumSize(new Dimension(Integer.MAX_VALUE, op5.getMinimumSize().height));
 
-        op1.addActionListener(e -> viewMyinfoPanel());
-        op2.addActionListener(e -> updateInfoPanel());
-        op3.addActionListener(e -> appointmentsPanel());
-        op4.addActionListener(e -> viewAllDoctorsPanel());
+        op1.addActionListener(e -> viewMyinfoPanel()); //igual para doctor
+        op2.addActionListener(e -> updateInfoPanel());//igual para doctor 
+        op3.addActionListener(e -> appointmentsPanel()); //igual para doctor pero modificar cita patient solo delete y add
+        op4.addActionListener(e -> viewAllPatientsPanel());//NUEVO
         op5.addActionListener(e -> myTreatmentPanel());
 
         buttonPanel.add(op1);
@@ -72,6 +73,31 @@ public class DoctorPanel extends JPanel {
 
         return buttonPanel;
     }
+    
+  //OPTION 1
+    private void viewMyinfoPanel() {
+        Doctor doctor = doctorManager.viewMyInfo(patientId);
+
+        JPanel infoPanel = new JPanel();
+        infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
+
+        if (doctor != null) {
+            infoPanel.add(new JLabel("Name: " + doctor.getName()));
+            infoPanel.add(new JLabel("Date of Birth: " + doctor.getDob().toString()));
+            infoPanel.add(new JLabel("Gender: " + doctor.getGender()));
+            infoPanel.add(new JLabel("Email: " + doctor.getEmail()));
+            infoPanel.add(new JLabel("Phone: " + doctor.getPhone()));
+            infoPanel.add(new JLabel("Height: " + doctor.getHeight()));
+            infoPanel.add(new JLabel("Weight: " + doctor.getWeight()));
+            infoPanel.add(new JLabel("Blood Type: " + doctor.getBloodType()));
+        } else {
+            infoPanel.add(new JLabel("No information available."));
+        }
+
+        currentPanel = infoPanel; // Establece el panel actual como el panel de información del paciente
+        showCurrentPanel(); // Muestra el panel actual en el contenedor principal
+    }
+
 
 }
 
