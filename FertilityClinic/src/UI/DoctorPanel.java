@@ -2,28 +2,37 @@ package UI;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.List;
 
 import FertilityClinicInterfaces.AppointmentManager;
+import FertilityClinicInterfaces.ArrayList;
+import FertilityClinicInterfaces.BoxLayout;
 import FertilityClinicInterfaces.DoctorManager;
+import FertilityClinicInterfaces.JLabel;
+import FertilityClinicInterfaces.JPanel;
 import FertilityClinicInterfaces.PatientManager;
+import FertilityClinicPOJOs.Appointment;
 import FertilityClinicPOJOs.Doctor;
 import FertilityClinicPOJOs.Patient;
+import FertilityClinicPOJOs.Speciality;
 
 public class DoctorPanel extends JPanel {
 	 
-    private JPanel currentPanel;
+	private static final long serialVersionUID = 6394348626177860687L;
+
+	private JPanel currentPanel;
     
+    private DoctorManager doctorManager;
     private PatientManager patientManager;
     private AppointmentManager appointmentManager;
-    private DoctorManager doctorManager;
-    private int patientId;
+    private int doctorId;
     
     //initializer
     public DoctorPanel(DoctorManager doctorManager,PatientManager patientManager, AppointmentManager appointmentManager,  int patientId) {
     	this.doctorManager = doctorManager;
     	this.patientManager = patientManager;
         this.appointmentManager = appointmentManager;
-        this.patientId = patientId;
+        this.doctorId = patientId;
         initializeUI();
     }
     private void initializeUI() {
@@ -63,7 +72,7 @@ public class DoctorPanel extends JPanel {
         op2.addActionListener(e -> updateInfoPanel());//igual para doctor 
         op3.addActionListener(e -> appointmentsPanel()); //igual para doctor pero modificar cita patient solo delete y add
         op4.addActionListener(e -> viewAllPatientsPanel());//NUEVO
-        op5.addActionListener(e -> myTreatmentPanel());
+        op5.addActionListener(e -> mySpecialityPanel());
 
         buttonPanel.add(op1);
         buttonPanel.add(op2);
@@ -76,28 +85,63 @@ public class DoctorPanel extends JPanel {
     
   //OPTION 1
     private void viewMyinfoPanel() {
-        Doctor doctor = doctorManager.viewMyInfo(patientId);
+        Doctor doctor = doctorManager.viewMyInfo(doctorId);
 
         JPanel infoPanel = new JPanel();
         infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
 
         if (doctor != null) {
             infoPanel.add(new JLabel("Name: " + doctor.getName()));
-            infoPanel.add(new JLabel("Date of Birth: " + doctor.getDob().toString()));
-            infoPanel.add(new JLabel("Gender: " + doctor.getGender()));
             infoPanel.add(new JLabel("Email: " + doctor.getEmail()));
             infoPanel.add(new JLabel("Phone: " + doctor.getPhone()));
-            infoPanel.add(new JLabel("Height: " + doctor.getHeight()));
-            infoPanel.add(new JLabel("Weight: " + doctor.getWeight()));
-            infoPanel.add(new JLabel("Blood Type: " + doctor.getBloodType()));
+            infoPanel.add(new JLabel("Speciality: " + doctor.getSpeciality().getName())); 
         } else {
             infoPanel.add(new JLabel("No information available."));
         }
 
-        currentPanel = infoPanel; // Establece el panel actual como el panel de información del paciente
-        showCurrentPanel(); // Muestra el panel actual en el contenedor principal
+        currentPanel = infoPanel; 
+        showCurrentPanel(); 
     }
 
+    private void viewAllPatientsPanel() {
+        List<Patient> patients = patientManager.getPatientsByDoctorId(doctorId); // Assuming such a method exists
+        JPanel patientPanel = new JPanel();
+        patientPanel.setLayout(new BoxLayout(patientPanel, BoxLayout.Y_AXIS));
+        for (Patient patient : patients) {
+            patientPanel.add(new JLabel("Patient: " + patient.getName() + " - " + patient.getEmail()));
+        }
+        showPanel(patientPanel);
+    }
+
+    // View appointments for this doctor
+    private void viewAppointmentsPanel() {
+        ArrayList<Appointment> appointments = appointmentManager.viewAppointment(doctorId); // Assuming method allows doctorId
+        JPanel apptPanel = new JPanel();
+        apptPanel.setLayout(new BoxLayout(apptPanel, BoxLayout.Y_AXIS));
+        for (Appointment appt : appointments) {
+            apptPanel.add(new JLabel("Appointment: " + appt.getDescription() + " on " + appt.getDate()));
+        }
+        showPanel(apptPanel);
+    }
+
+    // Update information panel (sample layout, real implementation needs more details)
+    private void updateInfoPanel() {
+        // Implementation required similar to viewMyInfoPanel but with editable fields
+    }
+
+    // View the speciality of the doctor
+    private void viewMySpecialityPanel() {
+        // Implementation required based on how speciality data is managed
+    }
+
+    // Utility to switch displayed panel
+    private void showPanel(JPanel panel) {
+        removeAll();
+        add(panelesLadoIzq(), BorderLayout.WEST);
+        add(panel, BorderLayout.CENTER);
+        revalidate();
+        repaint();
+    }
 
 }
 
