@@ -9,6 +9,7 @@ import FertilityClinicInterfaces.PatientManager;
 import FertilityClinicInterfaces.SpecialityManager;
 import FertilityClinicPOJOs.Doctor;
 import FertilityClinicPOJOs.Manager;
+import FertilityClinicPOJOs.Patient;
 
 public class ManagerPanel extends JPanel {
 	
@@ -66,7 +67,7 @@ public class ManagerPanel extends JPanel {
         
         op1.addActionListener(e -> viewMyinfoPanel()); //igual para doctor
         op2.addActionListener(e -> updateInfoPanel());//igual para doctor 
-        op3.addActionListener(e -> viewStockPanel()); //igual para doctor pero modificar cita patient solo delete y add
+        op3.addActionListener(e -> viewMyinfoPanel()); //igual para doctor pero modificar cita patient solo delete y add
         
 
         buttonPanel.add(op1);
@@ -93,4 +94,65 @@ public class ManagerPanel extends JPanel {
         currentPanel = infoPanel;
         showCurrentPanel();
     }
+    //OPCION 2
+    private void updateInfoPanel() {
+        Manager manager = managerManager.viewMyInfo(managerId);
+
+        JPanel updatePanel = new JPanel();
+        updatePanel.setLayout(new GridLayout(9, 2, 10, 10)); // 9 rows for including button row, with gaps for spacing
+
+        JTextField emailField = new JTextField(manager != null ? manager.getEmail() : "");
+        JTextField phoneField = new JTextField(manager != null ? String.valueOf(manager.getPhone()) : "");
+        JTextField nameField = new JTextField(manager != null ? manager.getName() : "");
+        
+        // Adding labels and text fields
+        updatePanel.add(new JLabel("Name:"));
+        updatePanel.add(nameField);
+        updatePanel.add(new JLabel("Email:"));
+        updatePanel.add(emailField);
+        updatePanel.add(new JLabel("Phone:"));
+        updatePanel.add(phoneField);
+        
+
+        JButton updateBtn = new JButton("Update");
+        updateBtn.addActionListener(e -> {
+            try {
+                String email = emailField.getText();
+                Integer phone = Integer.parseInt(phoneField.getText());
+                String name = nameField.getText();
+                
+                
+                // Llamar al método para modificar la información del paciente con los nuevos valores
+                managerManager.modifyManagerInfo(managerId, email, phone, name);
+                
+                JOptionPane.showMessageDialog(this, "Information updated successfully.");
+                
+                // Después de actualizar, volver a mostrar la información actualizada
+                viewMyinfoPanel();
+            } catch (IllegalArgumentException ex) {
+                JOptionPane.showMessageDialog(this, "Please enter valid values.");
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, "An error occurred while updating the information.");
+                ex.printStackTrace();
+            }
+        });
+
+        updatePanel.add(new JLabel());
+        updatePanel.add(updateBtn);
+
+        // Adding padding around the panel
+        JPanel paddedPanel = new JPanel(new BorderLayout());
+        paddedPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        paddedPanel.add(updatePanel, BorderLayout.CENTER);
+
+        // Set a preferred size to ensure the panel is somewhat square
+        paddedPanel.setPreferredSize(new Dimension(400, 400));
+
+        
+        currentPanel = updatePanel; // Establece el panel actual como el panel de información del paciente
+        showCurrentPanel(); // Muestra el panel actual en el contenedor principal
+    }
+    //OPCION 3
+    
+    
 }
