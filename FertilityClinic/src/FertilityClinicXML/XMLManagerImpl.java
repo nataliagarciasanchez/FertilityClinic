@@ -2,6 +2,7 @@ package FertilityClinicXML;
 
 import java.io.File;
 
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +15,8 @@ import FertilityClinicInterfaces.XMLManager;
 import FertilityClinicJDBC.JDBCManager;
 import FertilityClinicJDBC.JDBCDoctorManager;
 import FertilityClinicJDBC.JDBCPatientManager;
+import FertilityClinicJDBC.JDBCSpecialityManager;
+import FertilityClinicJDBC.JDBCTreatmentsManager;
 import FertilityClinicPOJOs.Doctor;
 import FertilityClinicPOJOs.Patient;
 
@@ -25,6 +28,8 @@ public class XMLManagerImpl implements XMLManager {
 	JDBCManager manager;
 	JDBCDoctorManager doctormanager; 
 	JDBCPatientManager patientmanager; 
+	JDBCTreatmentsManager treatmentmanager;
+	JDBCSpecialityManager specialitymanager;
 
 	@Override
 	public void doctor2xml(Integer id) {
@@ -32,8 +37,8 @@ public class XMLManagerImpl implements XMLManager {
 		Doctor d = null;
 		List<Patient> patients = new ArrayList<Patient>();
 		manager = new JDBCManager();
-		doctormanager = new JDBCDoctorManager(manager);// supuestamente asi pero deberian ser pero DoctorManager
-		patientmanager = new JDBCPatientManager(manager);//
+		doctormanager = new JDBCDoctorManager(manager, specialitymanager);// supuestamente asi pero deberian ser pero DoctorManager
+		patientmanager = new JDBCPatientManager(manager, treatmentmanager);//
 		
 		try {
 			//Do a sql query to get the doctor by id
