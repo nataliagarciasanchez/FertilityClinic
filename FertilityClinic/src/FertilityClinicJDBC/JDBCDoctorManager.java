@@ -226,7 +226,7 @@ public class JDBCDoctorManager implements DoctorManager {
 	    return doctor;
 	}
 	public void modifyDoctorInfo(int doctorId, String email, int phone, String name, Speciality speciality, byte[] pdfBytes) {
-	    String sql = "UPDATE doctors SET email = ?, phone = ?, name = ?, speciality_id = ?, license_pdf = ? WHERE id = ?";
+	    String sql = "UPDATE doctors SET email = ?, phone = ?, name = ?, speciality_id = ?, licensePDF = ? WHERE id = ?";
 	    try {
 	    	PreparedStatement stmt = manager.getConnection().prepareStatement(sql);
 	        stmt.setString(1, email);
