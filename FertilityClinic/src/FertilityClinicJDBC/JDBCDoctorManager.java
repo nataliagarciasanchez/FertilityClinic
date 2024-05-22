@@ -3,8 +3,11 @@ package FertilityClinicJDBC;
 import FertilityClinicInterfaces.DoctorManager;
 import FertilityClinicInterfaces.SpecialityManager;
 import FertilityClinicPOJOs.Doctor;
+import FertilityClinicPOJOs.Patient;
 import FertilityClinicPOJOs.Speciality;
+import FertilityClinicPOJOs.Treatments;
 
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -47,7 +50,34 @@ public class JDBCDoctorManager implements DoctorManager {
 			}
 	
 	
-	
+	public Doctor viewMyInfo(Integer doctorId) {
+	    Doctor doctor = null;
+	    try {
+	        String sql = "SELECT * FROM doctors WHERE ID=?";
+	        PreparedStatement stmt = manager.getConnection().prepareStatement(sql);
+	        stmt.setInt(1, doctorId);
+	        ResultSet rs = stmt.executeQuery();
+
+	        if (rs.next()) {
+	            Integer id = rs.getInt("id");
+	            String email = rs.getString("email");
+	            Integer phoneN = rs.getInt("phone");
+	            String name = rs.getString("name");
+	            //speciality 
+	            //license PDF
+
+	            doctor = new Doctor(id, name,email, phoneN, speciality, licensePDF);
+	        } else {
+	            System.out.println("Doctor with ID " + doctorId + " not found.");
+	        }
+
+	        rs.close();
+	        stmt.close();
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return doctor;
+	}
 
 	 @Override
 	    public List<Doctor> getListOfDoctors() {

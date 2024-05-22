@@ -9,7 +9,7 @@ public interface DoctorManager {
 	public void createDoctor(Doctor d);
 	public List<Doctor> getListOfDoctors();
 	public Doctor searchDoctorById (Integer Id);
-    // vieInfo doctor
+	public Doctor viewMyInfo(Integer id);
 	public void removeDoctorById(Integer id);
 	public void assignPatientToDoctor(int doctorId, int patientId);
 	public void removePatientFromDoctor(int doctorId, int patientId);

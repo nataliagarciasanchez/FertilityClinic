@@ -26,7 +26,7 @@ public class JDBCAppointmentManager implements AppointmentManager{
 	    	this.patientManager = patientManager;
 	    }
 	    
-	    
+	 
 	    @Override
 	    public ArrayList<Appointment> viewAppointment(int patientId) {
 	        ArrayList<Appointment> appointments = new ArrayList<>();
@@ -57,6 +57,9 @@ public class JDBCAppointmentManager implements AppointmentManager{
 	        }
 	        return appointments;
 	    }
+	    
+	    
+	    
 
 	     
 	    @Override
@@ -122,7 +125,7 @@ public class JDBCAppointmentManager implements AppointmentManager{
 	    public void updateAppointment(Appointment appointment) {
 	        String sql = "UPDATE appointments SET date = ?, time = ?, doctor_id = ? WHERE id = ?";
 	        try {
-	            PreparedStatement stmt = manager.getConnection().prepareStatement(sql);
+	            PreparedStatement prep = manager.getConnection().prepareStatement(sql);
 	            
 	            // Convert String to java.sql.Date
 	            java.sql.Date sqlDate = java.sql.Date.valueOf(appointment.getDate().toString());
@@ -130,18 +133,18 @@ public class JDBCAppointmentManager implements AppointmentManager{
 	            // Convert String to java.sql.Time
 	            java.sql.Time sqlTime = java.sql.Time.valueOf(appointment.getTime().toString());
 	            
-	            stmt.setDate(1, sqlDate);
-	            stmt.setTime(2, sqlTime);
-	            stmt.setInt(3, appointment.getDoctorId());
-	            stmt.setInt(4, appointment.getId());
+	            prep.setDate(1, sqlDate);
+	            prep.setTime(2, sqlTime);
+	            prep.setInt(3, appointment.getDoctorId());
+	            prep.setInt(4, appointment.getId());
 	            
-	            int rowsAffected = stmt.executeUpdate();
+	            int rowsAffected = prep.executeUpdate();
 	            if (rowsAffected > 0) {
 	                System.out.println("Appointment updated successfully.");
 	            } else {
 	                System.out.println("Failed to update appointment. Appointment with ID " + appointment.getId() + " not found.");
 	            }
-	            stmt.close();
+	            prep.close();
 	        } catch (SQLException e) {
 	            e.printStackTrace();
 	        }
@@ -149,31 +152,31 @@ public class JDBCAppointmentManager implements AppointmentManager{
 
 	    
 
-/*
 
-		@Override
-		public ArrayList<Appointment> getCurrentAppointments(int patientId) {
+
+	    @Override
+	    public ArrayList<Appointment> getCurrentAppointments(int patientId) {
 	        ArrayList<Appointment> appointments = new ArrayList<>();
-	        String sql = "SELECT * FROM appointments WHERE patient_id = ?";
+	        String sql = "SELECT * FROM appointments WHERE patient_id = ? AND date >= DATE('now')";
 
-	        try{
+	        try  {
 	        	
 	        	PreparedStatement prep = manager.getConnection().prepareStatement(sql);
-	        	prep.setInt(1, patientId);
-	        
+	            prep.setInt(1, patientId);
 	            ResultSet rs = prep.executeQuery();
 
 	            while (rs.next()) {
 	                int id = rs.getInt("id");
-	                String date = rs.getString("date");
-	                String time = rs.getString("time");
+	                String timeStr = rs.getString("time");
+	                Time time = Time.valueOf(timeStr); // Convertir la cadena en un objeto Time
+	                String dateStr = rs.getString("date"); // Recuperar la hora como cadena desde la base de datos
+	                Date date = Date.valueOf(dateStr); // Convertir la cadena en un objeto Time
+	                
 	                int doctorId = rs.getInt("doctor_id");
-	                String doctorName = doctorManager.searchDoctorById(appointment.getDoctorId()); // Assuming you have a method to get the doctor's name by their ID
-
-	                Appointment appointment = new Appointment(id, date, , doctorName);
+	                String description = rs.getString("description");
+	                
+	                Appointment appointment = new Appointment(id, patientId, description, time, date, doctorId);
 	                appointments.add(appointment);
-	                Appointment ap = new Appointment(id, patientIdFromDB, description, time, date, doctorId);
-	                appointments.add(ap);
 	            }
 
 	            rs.close();
@@ -182,14 +185,9 @@ public class JDBCAppointmentManager implements AppointmentManager{
 	        }
 
 	        return appointments;
-	    }*/
+	    }
 
 
-		@Override
-		public ArrayList<Appointment> getCurrentAppointments(int patientId) {
-			// TODO Auto-generated method stub
-			return null;
-		}
 
 
 }

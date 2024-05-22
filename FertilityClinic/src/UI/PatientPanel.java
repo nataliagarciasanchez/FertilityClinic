@@ -100,8 +100,6 @@ public class PatientPanel extends JPanel {
         showCurrentPanel(); // Muestra el panel actual en el contenedor principal
     }
 
-    
-    
     //OPTION 2
     private void updateInfoPanel() {
         Patient patient = patientManager.viewMyInfo(patientId);
@@ -180,14 +178,14 @@ public class PatientPanel extends JPanel {
         JPanel appointmentsOptionsPanel = new JPanel();
         appointmentsOptionsPanel.setLayout(new BoxLayout(appointmentsOptionsPanel, BoxLayout.Y_AXIS)); // Cambio a BoxLayout con dirección Y
 
-        JButton updateAppBtn = new JButton("Update Appointment");
-        JButton addAppBtn = new JButton("Add Appointment");
+        JButton op1 = new JButton("Update Appointment");
+        JButton op2 = new JButton("Add Appointment");
 
-        updateAppBtn.addActionListener(e -> updateAppointmentPanel());
-        addAppBtn.addActionListener(e -> addAppointmentPanel());
+        op1.addActionListener(e -> updateAppointmentPanel());
+        op2.addActionListener(e -> addAppointmentPanel());
 
-        appointmentsOptionsPanel.add(updateAppBtn);
-        appointmentsOptionsPanel.add(addAppBtn);
+        appointmentsOptionsPanel.add(op1);
+        appointmentsOptionsPanel.add(op2);
 
         appointmentsMainPanel.add(appointmentsOptionsPanel, BorderLayout.WEST);
         appointmentsMainPanel.add(currentAppointmentsPanel(), BorderLayout.CENTER);
@@ -215,8 +213,6 @@ public class PatientPanel extends JPanel {
     }
 
 
-    
-
     private void addAppointmentPanel() {
         JPanel addPanel = new JPanel();
         addPanel.setLayout(new GridLayout(9, 2, 10, 10));
@@ -227,16 +223,16 @@ public class PatientPanel extends JPanel {
         JTextField descriptionField = new JTextField();
 
         // Obtener todos los doctores disponibles
-        ArrayList<Doctor> allDoctors = doctorManager.getListofDoctors();
+        ArrayList<Doctor> allDoctors = (ArrayList<Doctor>) doctorManager.getListOfDoctors();
         for (Doctor doctor : allDoctors) {
-            doctorIdComboBox.addItem(String.valueOf(doctor.getId())); // Agregar el ID del doctor al JComboBox
+            doctorIdComboBox.addItem(String.valueOf(doctor.getName())); // Agregar el ID del doctor al JComboBox
         }
 
         addPanel.add(new JLabel("Date (YYYY-MM-DD):"));
         addPanel.add(dateField);
         addPanel.add(new JLabel("Time (HH:MM:SS):"));
         addPanel.add(timeField);
-        addPanel.add(new JLabel("Doctor ID:"));
+        addPanel.add(new JLabel("Doctor:"));
         addPanel.add(doctorIdComboBox); // Agregar el JComboBox en lugar del JTextField
         addPanel.add(new JLabel("Description:"));
         addPanel.add(descriptionField);
@@ -273,7 +269,6 @@ public class PatientPanel extends JPanel {
     }
 
     
-    
     private void updateAppointmentPanel() {
         JPanel updatePanel = new JPanel();
         updatePanel.setLayout(new BoxLayout(updatePanel, BoxLayout.Y_AXIS));
@@ -282,13 +277,20 @@ public class PatientPanel extends JPanel {
 
         if (appointments != null && !appointments.isEmpty()) {
             for (Appointment appointment : appointments) {
-                JPanel singleAppointmentPanel = new JPanel(new GridLayout(1, 6)); // Agregamos una columna adicional para el botón de edición
-                singleAppointmentPanel.add(new JLabel("Dr. " + doctorManager.searchDoctorById(appointment.getDoctorId())));
+                JPanel singleAppointmentPanel = new JPanel(new GridLayout(0, 2, 10, 10)); // Panel para cada cita
+
+                JLabel doctorLabel = new JLabel("Dr. " + doctorManager.searchDoctorById(appointment.getDoctorId()).getName());
                 JTextField dateField = new JTextField(appointment.getDate().toString());
                 JTextField timeField = new JTextField(appointment.getTime().toString());
-                JTextField descriptionField = new JTextField(appointment.getDescription()); // Nuevo campo para la descripción
+                JTextField descriptionField = new JTextField(appointment.getDescription());
+
+                singleAppointmentPanel.add(new JLabel("Doctor:"));
+                singleAppointmentPanel.add(doctorLabel);
+                singleAppointmentPanel.add(new JLabel("Date:"));
                 singleAppointmentPanel.add(dateField);
+                singleAppointmentPanel.add(new JLabel("Time:"));
                 singleAppointmentPanel.add(timeField);
+                singleAppointmentPanel.add(new JLabel("Description:"));
                 singleAppointmentPanel.add(descriptionField);
 
                 JButton updateBtn = new JButton("Update");
@@ -304,7 +306,7 @@ public class PatientPanel extends JPanel {
                         Appointment updatedAppointment = new Appointment(appointment.getId(), patientId, newDescription, sqlTime, sqlDate, appointment.getDoctorId());
                         appointmentManager.updateAppointment(updatedAppointment); // Llamar al método de actualización con el nuevo appointment
                         JOptionPane.showMessageDialog(this, "Appointment updated successfully.");
-                        appointmentsPanel(); // Refrescar el panel de appointments después de la actualización
+                        updateAppointmentPanel(); // Refrescar el panel de appointments después de la actualización
                     } catch (IllegalArgumentException ex) {
                         JOptionPane.showMessageDialog(this, "Please enter valid date and time formats.");
                     } catch (Exception ex) {
@@ -313,16 +315,18 @@ public class PatientPanel extends JPanel {
                     }
                 });
 
+                singleAppointmentPanel.add(new JLabel()); // Añadir espacio en blanco
                 singleAppointmentPanel.add(updateBtn);
+
                 updatePanel.add(singleAppointmentPanel);
             }
         } else {
-            // Manejar el caso en que appointments sea nulo o esté vacío
             JOptionPane.showMessageDialog(this, "No appointments found for this patient.");
         }
-        currentPanel = updatePanel; 
-        showCurrentPanel(); 
+        currentPanel = updatePanel;
+        showCurrentPanel();
     }
+
     
     //OPTION 4
     private void viewAllDoctorsPanel() {
