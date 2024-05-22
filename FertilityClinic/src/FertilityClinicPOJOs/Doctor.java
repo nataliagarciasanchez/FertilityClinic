@@ -31,7 +31,7 @@ public class Doctor implements Serializable {
  
  
  
- public Doctor(Integer id, String email, Integer phone, String name, Speciality speciality, Patient patient, byte[] licensePDF) {
+ public Doctor(Integer id, String email, Integer phone, String name, Speciality speciality, byte[] licensePDF) {
 	this.id = id;
 	this.email = email;
 	this.phone = phone;

@@ -100,16 +100,15 @@ public class JDBCPatientManager implements PatientManager{
 	}
 	
 	@Override
-	public List<Patient> getPatientsByDoctorId(int doctorId) {
+	public List<Patient> getPatientsByDoctorId(int doctor_id) {
 	    List<Patient> patients = new ArrayList<>();
 	    String sql = "SELECT patients.*, treatments.* FROM patients " +
 	                 "LEFT JOIN treatments ON patients.treatment_id = treatments.id " +
 	                 "WHERE doctor_id = ?";
-	    try (Connection conn = manager.getConnection();
-	         PreparedStatement pstmt = conn.prepareStatement(sql)) {
-	         
-	        pstmt.setInt(1, doctorId);
-	        ResultSet rs = pstmt.executeQuery();
+	    try  {
+	    	PreparedStatement prep = manager.getConnection().prepareStatement(sql);
+	    	prep.setInt(1, doctor_id);
+	        ResultSet rs = prep.executeQuery();
 
 	        while (rs.next()) {
 	            Treatments treatment = null;

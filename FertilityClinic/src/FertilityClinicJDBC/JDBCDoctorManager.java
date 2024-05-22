@@ -12,6 +12,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -68,7 +69,7 @@ public class JDBCDoctorManager implements DoctorManager {
 	            byte[] licensePDF = rs.getBytes("licensePDF");
 
 	            Speciality speciality = new Speciality(rs.getInt("speciality_id"), specialityName);
-	            doctor = new Doctor(id, name, email, phone, speciality, licensePDF);
+	            doctor = new Doctor(id, name, phone, email, speciality, licensePDF);
 	        } else {
 	            System.out.println("Doctor with ID " + doctorId + " not found.");
 	        }
@@ -190,6 +191,63 @@ public class JDBCDoctorManager implements DoctorManager {
 		}
 		
 	}
+	
+	@Override
+	public Doctor getDoctorByEmail(String email) {
+	    Doctor doctor = null;
+
+	    try {
+	        String sql = "SELECT * FROM doctors WHERE email = ?";
+	        PreparedStatement stmt = manager.getConnection().prepareStatement(sql);
+	        stmt.setString(1, email);
+
+	        ResultSet rs = stmt.executeQuery();
+
+	        if (rs.next()) {
+	            Integer id = rs.getInt("id");
+	            String name = rs.getString("name");
+	            Integer phone = rs.getInt("phone");
+	            Integer specialityId = rs.getInt("speciality_id");
+	            byte[] licensePDF = rs.getBytes("licensePDF");
+
+	            Speciality speciality = specialityManager.getSpecialityById(specialityId); // Assume you have a method to get Speciality
+
+	            doctor = new Doctor(id, email, phone, name, speciality, licensePDF);
+	        } else {
+	            System.out.println("Doctor with email " + email + " not found.");
+	        }
+
+	        rs.close();
+	        stmt.close();
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+
+	    return doctor;
+	}
+	public void modifyDoctorInfo(int doctorId, String email, int phone, String name, Speciality speciality, byte[] pdfBytes) {
+	    String sql = "UPDATE doctors SET email = ?, phone = ?, name = ?, speciality_id = ?, license_pdf = ? WHERE id = ?";
+	    try {
+	    	PreparedStatement stmt = manager.getConnection().prepareStatement(sql);
+	        stmt.setString(1, email);
+	        stmt.setInt(2, phone);
+	        stmt.setString(3, name);
+	        stmt.setInt(4, speciality.getId());
+	        if (pdfBytes.length > 0) {
+	        	stmt.setBytes(5, pdfBytes);
+	        } else {
+	        	stmt.setNull(5, Types.BLOB);
+	        }
+	        stmt.setInt(6, doctorId);
+
+	        stmt.executeUpdate();
+	    } catch (SQLException ex) {
+	        ex.printStackTrace();
+	    }
+	}
+
+
+
 
 	
 		

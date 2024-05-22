@@ -222,7 +222,8 @@ public class MenuUI extends JFrame {
 
 
     
-    private ArrayList<Speciality> getSpecialities() {
+
+    public static ArrayList<Speciality> getSpecialities() {//esto esta bien aqui??
         ArrayList<Speciality> specialities = new ArrayList<>();
         specialities.add(new Speciality(1, "Urologist"));
         specialities.add(new Speciality(2, "Gynecologist"));
@@ -238,7 +239,13 @@ public class MenuUI extends JFrame {
 
         JPanel userPanel;
         if ("doctor".equals(user.getRole().getName())) {
-            userPanel = new DoctorPanel(doctorManager, user.getId()); // Assuming DoctorPanel requires a doctorManager and user ID
+        	Doctor doctor = doctorManager.getDoctorByEmail(user.getEmail());
+            if (doctor != null) {
+                userPanel = new DoctorPanel(doctorManager,patientManager, appointmentManager, doctor.getId());
+            } else {
+                userPanel = new JPanel();
+                userPanel.add(new JLabel("Patient record not found."));
+            }
         } else if ("patient".equals(user.getRole().getName())) {
             Patient patient = patientManager.getPatientByEmail(user.getEmail());
             if (patient != null) {
