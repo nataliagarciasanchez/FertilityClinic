@@ -40,9 +40,12 @@ public class JDBCAppointmentManager implements AppointmentManager{
 	                Integer id = rs.getInt("id");
 	                Integer patientIdFromDB = rs.getInt("patient_id");  // Adjust the column name if needed
 	                String description = rs.getString("description");
-	                Time time = rs.getTime("time");
-	                Date date = rs.getDate("date");
-	                Integer doctorId = rs.getInt("doctorId");
+	                String timeStr = rs.getString("time"); // Recuperar la hora como cadena desde la base de datos
+	                Time time = Time.valueOf(timeStr); // Convertir la cadena en un objeto Time
+	                String dateStr = rs.getString("date"); // Recuperar la hora como cadena desde la base de datos
+	                Date date = Date.valueOf(dateStr); // Convertir la cadena en un objeto Time
+	                Integer doctorId = rs.getInt("doctor_id");
+
 	                
 	                Appointment ap = new Appointment(id, patientIdFromDB, description, time, date, doctorId);
 	                appointments.add(ap);
@@ -58,7 +61,7 @@ public class JDBCAppointmentManager implements AppointmentManager{
 	     
 	    @Override
 	    public void bookAppointment(Appointment ap) {
-	        String sql = "INSERT INTO appointments ((id, patientId, description, time, date, doctorId) VALUES (?, ?, ?, ?, ?, ?)";
+	        String sql = "INSERT INTO appointments (id, patient_id, description, time, date, doctor_id) VALUES (?, ?, ?, ?, ?, ?)";
 	        
 	        try {
 				PreparedStatement prep = manager.getConnection().prepareStatement(sql);

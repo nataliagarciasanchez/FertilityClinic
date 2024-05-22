@@ -101,14 +101,16 @@ public class JDBCPatientManager implements PatientManager{
 	
 
 	
-  public void modifyPatientInfo(Integer patientId, String email, Integer phoneN, String name) {
+	public void modifyPatientInfo(Integer patientId, String email, Integer phoneN, String name, Double height, Double weight) {
 	    try {
-	        String sql = "UPDATE patients SET email=?, phone=?, name=? WHERE ID=?";
+	        String sql = "UPDATE patients SET email=?, phone=?, name=?, height=?, weight=? WHERE ID=?";
 	        PreparedStatement stmt = manager.getConnection().prepareStatement(sql);
 	        stmt.setString(1, email);
 	        stmt.setInt(2, phoneN);
 	        stmt.setString(3, name);
-	        stmt.setInt(4, patientId);
+	        stmt.setDouble(4, height);
+	        stmt.setDouble(5, weight);
+	        stmt.setInt(6, patientId);
 
 	        int rowsAffected = stmt.executeUpdate();
 	        if (rowsAffected > 0) {
@@ -122,6 +124,7 @@ public class JDBCPatientManager implements PatientManager{
 	        e.printStackTrace();
 	    }
 	}
+
 
 
 	public void removePatientById (Integer id) {

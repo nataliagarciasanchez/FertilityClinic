@@ -34,7 +34,7 @@ public class JDBCTreatmentsManager implements TreatmentsManager {
 				Integer p_id = rs.getInt("ID");
 				String name = rs.getString("name");
 				String description = rs.getString("description"); 
-				Integer durationInDays = rs.getInt("duration");
+				Integer durationInDays = rs.getInt("durationInDays");
 			
 				t = new Treatments (p_id,name,description,durationInDays);
 			}

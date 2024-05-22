@@ -135,14 +135,26 @@ public class PatientPanel extends JPanel {
 
         JButton updateBtn = new JButton("Update");
         updateBtn.addActionListener(e -> {
-            String email = emailField.getText();
-            Integer phone = Integer.parseInt(phoneField.getText());
-            String name = nameField.getText();
-            Double height = Double.parseDouble(heightField.getText());
-            Double weight = Double.parseDouble(weightField.getText());
-            patientManager.modifyPatientInfo(patientId, email, phone, name);
-            JOptionPane.showMessageDialog(this, "Information updated successfully.");
-            //viewMyinfoPanel(); // Refresh view after update
+            try {
+                String email = emailField.getText();
+                Integer phone = Integer.parseInt(phoneField.getText());
+                String name = nameField.getText();
+                Double height = Double.parseDouble(heightField.getText());
+                Double weight = Double.parseDouble(weightField.getText());
+                
+                // Llamar al método para modificar la información del paciente con los nuevos valores
+                patientManager.modifyPatientInfo(patientId, email, phone, name, height, weight);
+                
+                JOptionPane.showMessageDialog(this, "Information updated successfully.");
+                
+                // Después de actualizar, volver a mostrar la información actualizada
+                viewMyinfoPanel();
+            } catch (IllegalArgumentException ex) {
+                JOptionPane.showMessageDialog(this, "Please enter valid values.");
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, "An error occurred while updating the information.");
+                ex.printStackTrace();
+            }
         });
 
         updatePanel.add(new JLabel());
@@ -245,11 +257,9 @@ public class PatientPanel extends JPanel {
         addPanel.add(new JLabel());
         addPanel.add(addBtn);
 
-        
-        add(panelesLadoIzq(), BorderLayout.WEST);
-        add(addPanel, BorderLayout.CENTER);
-        validate();
-        repaint();
+        currentPanel = addPanel; // Establece el panel actual como el panel de información del paciente
+        showCurrentPanel(); // Muestra el panel actual en el contenedor principal
+   
     }
 
     private void updateAppointmentPanel() {
@@ -258,49 +268,52 @@ public class PatientPanel extends JPanel {
 
         ArrayList<Appointment> appointments = appointmentManager.getCurrentAppointments(patientId);
 
-        for (Appointment appointment : appointments) {
-            JPanel singleAppointmentPanel = new JPanel(new GridLayout(1, 5)); // Modificamos GridLayout para acomodar la descripción
-            singleAppointmentPanel.add(new JLabel("Dr. " + doctorManager.searchDoctorById(appointment.getDoctorId())));
-            JTextField dateField = new JTextField(appointment.getDate().toString());
-            JTextField timeField = new JTextField(appointment.getTime().toString());
-            JTextField descriptionField = new JTextField(appointment.getDescription()); // Nuevo campo para la descripción
-            singleAppointmentPanel.add(dateField);
-            singleAppointmentPanel.add(timeField);
-            singleAppointmentPanel.add(descriptionField);
+        if (appointments != null) { // Verificar si appointments no es nulo
+            for (Appointment appointment : appointments) {
+                JPanel singleAppointmentPanel = new JPanel(new GridLayout(1, 5)); // Modificamos GridLayout para acomodar la descripción
+                singleAppointmentPanel.add(new JLabel("Dr. " + doctorManager.searchDoctorById(appointment.getDoctorId())));
+                JTextField dateField = new JTextField(appointment.getDate().toString());
+                JTextField timeField = new JTextField(appointment.getTime().toString());
+                JTextField descriptionField = new JTextField(appointment.getDescription()); // Nuevo campo para la descripción
+                singleAppointmentPanel.add(dateField);
+                singleAppointmentPanel.add(timeField);
+                singleAppointmentPanel.add(descriptionField);
 
-            JButton updateBtn = new JButton("Update");
-            updateBtn.addActionListener(e -> {
-                try {
-                    String newDate = dateField.getText();
-                    String newTime = timeField.getText();
-                    String newDescription = descriptionField.getText();
+                JButton updateBtn = new JButton("Update");
+                updateBtn.addActionListener(e -> {
+                    try {
+                        String newDate = dateField.getText();
+                        String newTime = timeField.getText();
+                        String newDescription = descriptionField.getText();
 
-                    java.sql.Date sqlDate = java.sql.Date.valueOf(newDate);
-                    java.sql.Time sqlTime = java.sql.Time.valueOf(newTime);
+                        java.sql.Date sqlDate = java.sql.Date.valueOf(newDate);
+                        java.sql.Time sqlTime = java.sql.Time.valueOf(newTime);
 
-                    Appointment updatedAppointment = new Appointment(appointment.getId(), patientId, newDescription, sqlTime, sqlDate, appointment.getDoctorId());
-                    appointmentManager.updateAppointment(updatedAppointment); // Llamar al método de actualización con el nuevo appointment
-                    JOptionPane.showMessageDialog(this, "Appointment updated successfully.");
-                    appointmentsPanel(); // Refrescar el panel de appointments después de la actualización
-                } catch (IllegalArgumentException ex) {
-                    JOptionPane.showMessageDialog(this, "Please enter valid date and time formats.");
-                } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(this, "An error occurred while updating the appointment.");
-                    ex.printStackTrace();
-                }
-            });
+                        Appointment updatedAppointment = new Appointment(appointment.getId(), patientId, newDescription, sqlTime, sqlDate, appointment.getDoctorId());
+                        appointmentManager.updateAppointment(updatedAppointment); // Llamar al método de actualización con el nuevo appointment
+                        JOptionPane.showMessageDialog(this, "Appointment updated successfully.");
+                        appointmentsPanel(); // Refrescar el panel de appointments después de la actualización
+                    } catch (IllegalArgumentException ex) {
+                        JOptionPane.showMessageDialog(this, "Please enter valid date and time formats.");
+                    } catch (Exception ex) {
+                        JOptionPane.showMessageDialog(this, "An error occurred while updating the appointment.");
+                        ex.printStackTrace();
+                    }
+                });
 
-            singleAppointmentPanel.add(updateBtn);
-            updatePanel.add(singleAppointmentPanel);
+                singleAppointmentPanel.add(updateBtn);
+                updatePanel.add(singleAppointmentPanel);
+            }
+        } else {
+            // Manejar el caso en que appointments sea nulo
+            JOptionPane.showMessageDialog(this, "No appointments found for this patient.");
         }
 
-        // Limpiar los componentes existentes y agregar nuevos componentes
-        removeAll();
-        add(panelesLadoIzq(), BorderLayout.WEST);
-        add(updatePanel, BorderLayout.CENTER);
-        validate();
-        repaint();
+        currentPanel = updatePanel; // Establece el panel actual como el panel de información del paciente
+        showCurrentPanel(); // Muestra el panel actual en el contenedor principal
+   
     }
+
     
     //OPTION 4
     private void viewAllDoctorsPanel() {

@@ -94,7 +94,7 @@ public class JDBCDoctorManager implements DoctorManager {
 	        if (rs.next()) {
 	            Integer d_id = rs.getInt("ID");
 	            String email = rs.getString("email");
-	            Integer phone = rs.getInt("phoneNumber");
+	            Integer phone = rs.getInt("phone");
 	            String name = rs.getString("name");
                 Integer speciality_id = rs.getInt("speciality_id");
 	            speciality = specialityManager.getSpecialityById(speciality_id);

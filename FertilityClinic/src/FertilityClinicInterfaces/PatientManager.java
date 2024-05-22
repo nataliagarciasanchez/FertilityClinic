@@ -15,7 +15,7 @@ public interface PatientManager {
 	public Patient getPatientByEmail(String email);
 	public void addPatient( Patient patient);
 	public Patient searchPatientById(Integer id); 
-	public void modifyPatientInfo(Integer patientId, String email, Integer phoneN, String name);
+	public void modifyPatientInfo(Integer patientId, String email, Integer phoneN, String name, Double height, Double weight);
 	public void removePatientById (Integer id);
 	
 	
