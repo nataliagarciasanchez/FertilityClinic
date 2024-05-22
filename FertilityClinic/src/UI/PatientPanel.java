@@ -214,18 +214,15 @@ public class PatientPanel extends JPanel {
 
 
     private void addAppointmentPanel() {
-        JPanel addPanel = new JPanel();
-        addPanel.setLayout(new GridLayout(9, 2, 10, 10));
-
+        JPanel addPanel = new JPanel(new GridLayout(9, 2, 10, 10));
         JTextField dateField = new JTextField();
         JTextField timeField = new JTextField();
-        JComboBox<String> doctorIdComboBox = new JComboBox<>(); // Cambio a JComboBox para seleccionar el ID del doctor
+        JComboBox<String> doctorIdComboBox = new JComboBox<>();
         JTextField descriptionField = new JTextField();
 
-        // Obtener todos los doctores disponibles
         ArrayList<Doctor> allDoctors = (ArrayList<Doctor>) doctorManager.getListOfDoctors();
         for (Doctor doctor : allDoctors) {
-            doctorIdComboBox.addItem(String.valueOf(doctor.getName())); // Agregar el ID del doctor al JComboBox
+        	doctorIdComboBox.addItem(String.valueOf(doctor.getName()));  
         }
 
         addPanel.add(new JLabel("Date (YYYY-MM-DD):"));
@@ -233,7 +230,7 @@ public class PatientPanel extends JPanel {
         addPanel.add(new JLabel("Time (HH:MM:SS):"));
         addPanel.add(timeField);
         addPanel.add(new JLabel("Doctor:"));
-        addPanel.add(doctorIdComboBox); // Agregar el JComboBox en lugar del JTextField
+        addPanel.add(doctorIdComboBox);
         addPanel.add(new JLabel("Description:"));
         addPanel.add(descriptionField);
 
@@ -242,33 +239,30 @@ public class PatientPanel extends JPanel {
             try {
                 String dateStr = dateField.getText();
                 String timeStr = timeField.getText();
-                // Obtener el ID del doctor seleccionado del JComboBox
-                int doctorId = Integer.parseInt((String) doctorIdComboBox.getSelectedItem());
-                String description = descriptionField.getText();
-
                 java.sql.Date sqlDate = java.sql.Date.valueOf(dateStr);
                 java.sql.Time sqlTime = java.sql.Time.valueOf(timeStr);
 
+                int doctorId = Integer.parseInt((String) doctorIdComboBox.getSelectedItem());
+                
+                String description = descriptionField.getText();
                 Appointment ap = new Appointment(0, patientId, description, sqlTime, sqlDate, doctorId);
                 appointmentManager.bookAppointment(ap);
                 JOptionPane.showMessageDialog(this, "Appointment added successfully.");
-                appointmentsPanel(); // Refresh appointments panel after adding
+                appointmentsPanel();
             } catch (IllegalArgumentException ex) {
                 JOptionPane.showMessageDialog(this, "Please enter valid date and time formats.");
             } catch (Exception ex) {
-                JOptionPane.showMessageDialog(this, "An error occurred while adding the appointment.");
+                JOptionPane.showMessageDialog(this, "An error occurred while adding the appointment: " + ex.getMessage());
                 ex.printStackTrace();
             }
         });
 
         addPanel.add(new JLabel());
         addPanel.add(addBtn);
-
-        currentPanel = addPanel; // Establece el panel actual como el panel de información del paciente
-        showCurrentPanel(); // Muestra el panel actual en el contenedor principal
+        currentPanel = addPanel;
+        showCurrentPanel();
     }
 
-    
     private void updateAppointmentPanel() {
         JPanel updatePanel = new JPanel();
         updatePanel.setLayout(new BoxLayout(updatePanel, BoxLayout.Y_AXIS));
