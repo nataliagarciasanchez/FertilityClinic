@@ -83,6 +83,7 @@ public class DoctorPanel extends JPanel {
         return buttonPanel;
     }
     
+
   //OPTION 1
     private void viewMyinfoPanel() {
         Doctor doctor = doctorManager.viewMyInfo(doctorId);
@@ -94,26 +95,50 @@ public class DoctorPanel extends JPanel {
             infoPanel.add(new JLabel("Name: " + doctor.getName()));
             infoPanel.add(new JLabel("Email: " + doctor.getEmail()));
             infoPanel.add(new JLabel("Phone: " + doctor.getPhone()));
-            infoPanel.add(new JLabel("Speciality: " + doctor.getSpeciality().getName())); 
+            infoPanel.add(new JLabel("Speciality: " + doctor.getSpeciality().getName()));
+
+            // Si licensePDF no es nulo, muestra un botón para abrir/guardar el PDF
+            if (doctor.getLicensePDF() != null && doctor.getLicensePDF().length > 0) {
+                JButton btnViewPDF = new JButton("View License");
+                btnViewPDF.addActionListener(e -> {
+                    // Llama a un método que maneja la visualización del PDF
+                    displayPDF(doctor.getLicensePDF());
+                });
+                infoPanel.add(btnViewPDF);
+            } else {
+                infoPanel.add(new JLabel("No license file available."));
+            }
         } else {
             infoPanel.add(new JLabel("No information available."));
         }
 
-        currentPanel = infoPanel; 
-        showCurrentPanel(); 
+        currentPanel = infoPanel;
+        showCurrentPanel();
     }
 
-    private void viewAllPatientsPanel() {
-        List<Patient> patients = patientManager.getPatientsByDoctorId(doctorId); // Assuming such a method exists
-        JPanel patientPanel = new JPanel();
-        patientPanel.setLayout(new BoxLayout(patientPanel, BoxLayout.Y_AXIS));
-        for (Patient patient : patients) {
-            patientPanel.add(new JLabel("Patient: " + patient.getName() + " - " + patient.getEmail()));
+    /**
+     * Método para mostrar el PDF en una ventana.
+     * Aquí deberás implementar la lógica para abrir un visualizador de PDFs.
+     * Este es solo un placeholder para ilustrar la funcionalidad.
+     * @param pdfBytes El array de bytes del PDF a visualizar.
+     */
+    private void displayPDF(byte[] pdfBytes) {
+        try {
+            File tempFile = File.createTempFile("license", ".pdf");
+            try (FileOutputStream fos = new FileOutputStream(tempFile)) {
+                fos.write(pdfBytes);
+            }
+            // Abre el archivo PDF temporal con el software predeterminado del sistema
+            Desktop.getDesktop().open(tempFile);
+            tempFile.deleteOnExit();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Failed to open PDF.", "Error", JOptionPane.ERROR_MESSAGE);
         }
-        showPanel(patientPanel);
     }
 
-    // View appointments for this doctor
+    
+    //OPTION 3
     private void viewAppointmentsPanel() {
         ArrayList<Appointment> appointments = appointmentManager.viewAppointment(doctorId); // Assuming method allows doctorId
         JPanel apptPanel = new JPanel();
@@ -121,9 +146,23 @@ public class DoctorPanel extends JPanel {
         for (Appointment appt : appointments) {
             apptPanel.add(new JLabel("Appointment: " + appt.getDescription() + " on " + appt.getDate()));
         }
-        showPanel(apptPanel);
+        currentPanel = apptPanel;
+        showCurrentPanel();
     }
 
+    //OPTION 4
+    private void viewAllPatientsPanel() {
+        List<Patient> patients = patientManager.getPatientsByDoctorId(doctorId); // Assuming such a method exists
+        JPanel patientPanel = new JPanel();
+        patientPanel.setLayout(new BoxLayout(patientPanel, BoxLayout.Y_AXIS));
+        for (Patient patient : patients) {
+            patientPanel.add(new JLabel("Patient: " + patient.getName() + " - " + patient.getEmail()));
+        }
+        currentPanel = patientPanel;
+        showCurrentPanel();
+    }
+
+   
     // Update information panel (sample layout, real implementation needs more details)
     private void updateInfoPanel() {
         // Implementation required similar to viewMyInfoPanel but with editable fields
@@ -134,14 +173,6 @@ public class DoctorPanel extends JPanel {
         // Implementation required based on how speciality data is managed
     }
 
-    // Utility to switch displayed panel
-    private void showPanel(JPanel panel) {
-        removeAll();
-        add(panelesLadoIzq(), BorderLayout.WEST);
-        add(panel, BorderLayout.CENTER);
-        revalidate();
-        repaint();
-    }
 
 }
 

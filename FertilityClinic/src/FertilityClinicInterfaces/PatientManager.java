@@ -17,6 +17,6 @@ public interface PatientManager {
 	public Patient searchPatientById(Integer id); 
 	public void modifyPatientInfo(Integer patientId, String email, Integer phoneN, String name, Double height, Double weight);
 	public void removePatientById (Integer id);
-	
+	public List<Patient> getPatientsByDoctorId(int doctorId) 
 	
 }

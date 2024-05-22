@@ -49,11 +49,12 @@ public class JDBCDoctorManager implements DoctorManager {
 			
 			}
 	
-	
 	public Doctor viewMyInfo(Integer doctorId) {
 	    Doctor doctor = null;
 	    try {
-	        String sql = "SELECT * FROM doctors WHERE ID=?";
+	        String sql = "SELECT doctors.*, specialities.name AS specialityName FROM doctors " +
+	                     "LEFT JOIN specialities ON doctors.speciality_id = specialities.id " +
+	                     "WHERE doctors.id = ?";
 	        PreparedStatement stmt = manager.getConnection().prepareStatement(sql);
 	        stmt.setInt(1, doctorId);
 	        ResultSet rs = stmt.executeQuery();
@@ -61,12 +62,13 @@ public class JDBCDoctorManager implements DoctorManager {
 	        if (rs.next()) {
 	            Integer id = rs.getInt("id");
 	            String email = rs.getString("email");
-	            Integer phoneN = rs.getInt("phone");
+	            Integer phone = rs.getInt("phone");
 	            String name = rs.getString("name");
-	            //speciality 
-	            //license PDF
+	            String specialityName = rs.getString("specialityName");
+	            byte[] licensePDF = rs.getBytes("licensePDF");
 
-	            doctor = new Doctor(id, name,email, phoneN, speciality, licensePDF);
+	            Speciality speciality = new Speciality(rs.getInt("speciality_id"), specialityName);
+	            doctor = new Doctor(id, name, email, phone, speciality, licensePDF);
 	        } else {
 	            System.out.println("Doctor with ID " + doctorId + " not found.");
 	        }

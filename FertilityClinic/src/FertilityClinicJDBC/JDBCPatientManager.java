@@ -99,6 +99,51 @@ public class JDBCPatientManager implements PatientManager{
 		return patients;
 	}
 	
+	@Override
+	public List<Patient> getPatientsByDoctorId(int doctorId) {
+	    List<Patient> patients = new ArrayList<>();
+	    String sql = "SELECT patients.*, treatments.* FROM patients " +
+	                 "LEFT JOIN treatments ON patients.treatment_id = treatments.id " +
+	                 "WHERE doctor_id = ?";
+	    try (Connection conn = manager.getConnection();
+	         PreparedStatement pstmt = conn.prepareStatement(sql)) {
+	         
+	        pstmt.setInt(1, doctorId);
+	        ResultSet rs = pstmt.executeQuery();
+
+	        while (rs.next()) {
+	            Treatments treatment = null;
+	            if (rs.getInt("treatment_id") != 0) { // Asumiendo que el 'treatment_id' es un campo en la tabla 'patients'
+	                treatment = new Treatments(
+	                    rs.getInt("treatment_id"),
+	                    rs.getString("name"), // Asumiendo que estos son los campos en la tabla 'treatments'
+	                    rs.getString("description"),
+	                    rs.getInt("durationInDays")
+	                );
+	            }
+
+	            Patient patient = new Patient(
+	                rs.getInt("id"),
+	                rs.getString("name"),
+	                rs.getDate("dob"),
+	                rs.getString("email"),
+	                rs.getInt("phone"),
+	                rs.getDouble("height"),
+	                rs.getDouble("weight"),
+	                rs.getString("bloodType"),
+	                rs.getString("gender"),
+	                treatment
+	            );
+	            patients.add(patient);
+	        }
+	        rs.close();
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return patients;
+	}
+
+	
 
 	
 	public void modifyPatientInfo(Integer patientId, String email, Integer phoneN, String name, Double height, Double weight) {
