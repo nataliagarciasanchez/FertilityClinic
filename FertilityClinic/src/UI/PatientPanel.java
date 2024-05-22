@@ -188,12 +188,13 @@ public class PatientPanel extends JPanel {
         appointmentsOptionsPanel.add(op2);
 
         appointmentsMainPanel.add(appointmentsOptionsPanel, BorderLayout.WEST);
-        appointmentsMainPanel.add(currentAppointmentsPanel(), BorderLayout.CENTER);
+        appointmentsMainPanel.add(new JScrollPane(currentAppointmentsPanel()), BorderLayout.CENTER);
 
+        
         currentPanel = appointmentsMainPanel; // Establece el panel actual como el panel principal
         showCurrentPanel(); // Muestra el panel actual en el contenedor principal
     }
-
+   /*
     private JPanel currentAppointmentsPanel() {
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(0, 1)); // Cambio a GridLayout con una sola columna
@@ -210,9 +211,27 @@ public class PatientPanel extends JPanel {
         }
 
         return panel;
+    }*/
+    
+    private JPanel currentAppointmentsPanel() {
+        JPanel panel = new JPanel(new GridLayout(0, 1)); // Usa GridLayout para una sola columna
+        ArrayList<Appointment> appointments = appointmentManager.viewAppointment(patientId);
+
+        if (appointments.isEmpty()) {
+            panel.add(new JLabel("No appointments yet."));
+        } else {
+            for (Appointment appointment : appointments) {
+                JLabel appointmentLabel = new JLabel("<html><b>Date:</b> " + appointment.getDate() +
+                    " <b>Time:</b> " + appointment.getTime() + 
+                    " <b>Doctor's name:</b> " + doctorManager.searchDoctorById(appointment.getDoctorId()).getName() +
+                    " <b>Description:</b> " + appointment.getDescription() + "</html>");
+                panel.add(appointmentLabel);
+            }
+        }
+        return panel;
     }
 
-
+/*
     private void addAppointmentPanel() {
         JPanel addPanel = new JPanel(new GridLayout(9, 2, 10, 10));
         JTextField dateField = new JTextField();
@@ -261,12 +280,74 @@ public class PatientPanel extends JPanel {
         addPanel.add(addBtn);
         currentPanel = addPanel;
         showCurrentPanel();
+    }*/ 
+    
+    private void addAppointmentPanel() {
+        JPanel addPanel = new JPanel(new GridLayout(9, 2, 10, 10));
+        JTextField dateField = new JTextField();
+        JTextField timeField = new JTextField();
+        JComboBox<Doctor> doctorIdComboBox = new JComboBox<>();  // Modificado para almacenar objetos Doctor directamente
+        JTextField descriptionField = new JTextField();
+
+        ArrayList<Doctor> allDoctors = (ArrayList<Doctor>) doctorManager.getListOfDoctors();
+        for (Doctor doctor : allDoctors) {
+            doctorIdComboBox.addItem(doctor);  // Añadir el objeto Doctor directamente al JComboBox
+        }
+
+        doctorIdComboBox.setRenderer(new DefaultListCellRenderer() {
+            @Override
+            public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+                super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                if (value instanceof Doctor) {
+                    setText(((Doctor) value).getName());  // Mostrar solo el nombre del doctor en el JComboBox
+                }
+                return this;
+            }
+        });
+
+        addPanel.add(new JLabel("Date (YYYY-MM-DD):"));
+        addPanel.add(dateField);
+        addPanel.add(new JLabel("Time (HH:MM:SS):"));
+        addPanel.add(timeField);
+        addPanel.add(new JLabel("Doctor:"));
+        addPanel.add(doctorIdComboBox);
+        addPanel.add(new JLabel("Description:"));
+        addPanel.add(descriptionField);
+
+        JButton addBtn = new JButton("Add Appointment");
+        addBtn.addActionListener(e -> {
+            try {
+                String dateStr = dateField.getText();
+                String timeStr = timeField.getText();
+                java.sql.Date sqlDate = java.sql.Date.valueOf(dateStr);
+                java.sql.Time sqlTime = java.sql.Time.valueOf(timeStr);
+
+                Doctor selectedDoctor = (Doctor) doctorIdComboBox.getSelectedItem();
+                int doctorId = selectedDoctor.getId();  // Recuperar el ID del doctor seleccionado
+
+                String description = descriptionField.getText();
+                Appointment ap = new Appointment(0, patientId, description, sqlTime, sqlDate, doctorId);
+                appointmentManager.bookAppointment(ap);
+                JOptionPane.showMessageDialog(this, "Appointment added successfully.");
+                appointmentsPanel();
+            } catch (IllegalArgumentException ex) {
+                JOptionPane.showMessageDialog(this, "Please enter valid date and time formats.");
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, "An error occurred while adding the appointment: " + ex.getMessage());
+                ex.printStackTrace();
+            }
+        });
+        addPanel.add(new JLabel());
+        addPanel.add(addBtn);
+        currentPanel = addPanel;
+        showCurrentPanel();
     }
+
 
     private void updateAppointmentPanel() {
         JPanel updatePanel = new JPanel();
         updatePanel.setLayout(new BoxLayout(updatePanel, BoxLayout.Y_AXIS));
-
+        
         ArrayList<Appointment> appointments = appointmentManager.getCurrentAppointments(patientId);
 
         if (appointments != null && !appointments.isEmpty()) {
@@ -317,7 +398,11 @@ public class PatientPanel extends JPanel {
         } else {
             JOptionPane.showMessageDialog(this, "No appointments found for this patient.");
         }
-        currentPanel = updatePanel;
+        JPanel mainPanel = new JPanel(new BorderLayout());
+        //updatePanel.add(searchPanel, BorderLayout.NORTH);
+        mainPanel.add(new JScrollPane(updatePanel), BorderLayout.CENTER);
+        
+        currentPanel = mainPanel;
         showCurrentPanel();
     }
 
@@ -362,20 +447,14 @@ public class PatientPanel extends JPanel {
 
     private void displayDoctors(JPanel resultPanel, ArrayList<Doctor> doctors) {
         for (Doctor doctor : doctors) {
-            // Crear un panel para cada doctor
-            JPanel doctorInfoPanel = new JPanel(new GridLayout(1, 2)); // 2 columnas para nombre y detalles
-            // Añadir nombre del doctor al panel
+            JPanel doctorInfoPanel = new JPanel(new GridLayout(1, 2));
             JLabel nameLabel = new JLabel("Name: " + doctor.getName());
             doctorInfoPanel.add(nameLabel);
-            // Obtener la especialidad del doctor
             Speciality speciality = doctor.getSpeciality();
-            // Añadir la especialidad al panel
             JLabel specialityLabel = new JLabel("Speciality: " + (speciality != null ? speciality.getName() : "Unknown"));
             doctorInfoPanel.add(specialityLabel);
-            // Añadir el correo electrónico del doctor al panel
             JLabel emailLabel = new JLabel("Email: " + doctor.getEmail());
             doctorInfoPanel.add(emailLabel);
-            // Añadir el panel de información del doctor al panel de resultados
             resultPanel.add(doctorInfoPanel);
         }
     }

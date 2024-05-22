@@ -64,11 +64,16 @@ public class JDBCAppointmentManager implements AppointmentManager{
 	        
 	        try {
 	            PreparedStatement prep = manager.getConnection().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-
+	         // Convert String to java.sql.Date
+	            java.sql.Date sqlDate = java.sql.Date.valueOf(ap.getDate().toString());
+	            
+	            // Convert String to java.sql.Time
+	            java.sql.Time sqlTime = java.sql.Time.valueOf(ap.getTime().toString());
+	            
 	            prep.setInt(1, ap.getPatientId());
 	            prep.setString(2, ap.getDescription());
-	            prep.setString(3, ap.getTime().toString());
-	            prep.setString(4, ap.getDate().toString());
+	            prep.setTime(3, sqlTime);
+	            prep.setDate(4, sqlDate);
 	            prep.setInt(5, ap.getDoctorId());
 	            prep.executeUpdate();
 
