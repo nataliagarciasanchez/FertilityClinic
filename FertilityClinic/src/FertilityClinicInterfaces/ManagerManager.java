@@ -8,7 +8,7 @@ public interface ManagerManager {
 	// crearManager
 
 	public void addManager(Manager newManager);
-	
+
 	
 	
 	
