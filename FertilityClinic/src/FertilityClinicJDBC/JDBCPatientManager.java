@@ -2,7 +2,6 @@ package FertilityClinicJDBC;
 
 import FertilityClinicPOJOs.Patient;
 import FertilityClinicPOJOs.Treatments;
-import FertilityClinicPOJOs.Doctor;
 
 import java.sql.Date;
 import java.sql.PreparedStatement;

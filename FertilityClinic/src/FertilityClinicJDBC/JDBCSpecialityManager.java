@@ -16,10 +16,10 @@ import FertilityClinicPOJOs.Speciality;
 public class JDBCSpecialityManager implements SpecialityManager {
 	
 	private JDBCManager manager;
-	
-	public JDBCSpecialityManager(JDBCManager manager) {
-		this.manager=manager;
-	}
+
+    public JDBCSpecialityManager(JDBCManager manager) {
+        this.manager = manager;
+    }
 
 	@Override
 	public void createSpeciality(Speciality s) {
@@ -82,32 +82,33 @@ public class JDBCSpecialityManager implements SpecialityManager {
 		
 	}
 
-	@Override
-	public Speciality getSpecialityById(Integer id) {
-		Speciality speciality=null;
+	 @Override
+	    public Speciality getSpecialityById(Integer id) {
+	        Speciality speciality = null;
 
-    try {
-        String sql = "SELECT * FROM specialities WHERE ID=?";
-        PreparedStatement stmt = manager.getConnection().prepareStatement(sql);
-        stmt.setInt(1, id);
-        ResultSet rs = stmt.executeQuery();
+	        try {
+	            String sql = "SELECT * FROM specialities WHERE ID=?";
+	            PreparedStatement stmt = manager.getConnection().prepareStatement(sql);
+	            stmt.setInt(1, id);
+	            ResultSet rs = stmt.executeQuery();
 
-        if (rs.next()) {
-            Integer s_id = rs.getInt("ID");
-            String name = rs.getString("name");
-           
-             speciality = new Speciality (s_id,name);
-        }
+	            if (rs.next()) {
+	                Integer s_id = rs.getInt("ID");
+	                String name = rs.getString("name");
 
-        rs.close();
-        stmt.close();
+	                speciality = new Speciality(s_id, name);
+	            }
 
-    } catch (SQLException e) {
-        e.printStackTrace();
-    }
+	            rs.close();
+	            stmt.close();
 
-    return speciality;
-	}
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        }
+
+	        return speciality;
+	    }
+	
 		
 
 

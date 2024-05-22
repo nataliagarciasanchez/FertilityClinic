@@ -3,28 +3,25 @@ package FertilityClinicJDBC;
 import FertilityClinicInterfaces.DoctorManager;
 import FertilityClinicInterfaces.SpecialityManager;
 import FertilityClinicPOJOs.Doctor;
-import FertilityClinicPOJOs.Patient;
 import FertilityClinicPOJOs.Speciality;
-import FertilityClinicPOJOs.Treatments;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
 
 
 
 public class JDBCDoctorManager implements DoctorManager {
 	private JDBCManager manager;
-	private SpecialityManager specialitymanager;
-	
-	public JDBCDoctorManager (JDBCManager manager) {
-		this.manager=manager;
-	}
+    private SpecialityManager specialityManager;
+
+    public JDBCDoctorManager(JDBCManager manager, SpecialityManager specialityManager) {
+        this.manager = manager;
+        this.specialityManager = specialityManager;
+    }
 	
 	public void createDoctor(Doctor d) {
 			
@@ -52,41 +49,35 @@ public class JDBCDoctorManager implements DoctorManager {
 	
 	
 
-		public List<Doctor> getListOfDoctors()	 {
-		
-		List<Doctor> doctors= new ArrayList<Doctor>();
-		Speciality speciality=null;
-	try {
-			Statement stmt = manager.getConnection().createStatement();
-			String sql = "SELECT * FROM doctors";
-			ResultSet rs = stmt.executeQuery(sql);
-			
-			while(rs.next())
-			{
-				 	Integer d_id = rs.getInt("ID");
-		            String email = rs.getString("email");
-		            Integer phone = rs.getInt("phoneNumber");
-		            String name = rs.getString("name");
-		            Integer speciality_id = rs.getInt("speciality_id");
-		            speciality = specialitymanager.getSpecialityById(speciality_id);
-		            
-		          
-		            Doctor d = new Doctor (d_id,email,phone,name,speciality);
-				doctors.add(d);
-			}
-			
-			rs.close();
-			stmt.close();
-			
-		}catch(Exception e)
-		{
-			e.printStackTrace();
-		
-		}
-		
-		
-		return doctors;
-	}
+	 @Override
+	    public List<Doctor> getListOfDoctors() {
+	        List<Doctor> doctors = new ArrayList<>();
+	        try {
+	            String sql = "SELECT * FROM doctors";
+	            PreparedStatement stmt = manager.getConnection().prepareStatement(sql);
+	            ResultSet rs = stmt.executeQuery();
+
+	            while (rs.next()) {
+	                Integer id = rs.getInt("ID");
+	                String email = rs.getString("email");
+	                Integer phone = rs.getInt("phone");
+	                String name = rs.getString("name");
+	                Integer specialityId = rs.getInt("speciality_id");
+
+	                Speciality speciality = specialityManager.getSpecialityById(specialityId);
+
+	                Doctor doctor = new Doctor(id, email, phone, name, speciality);
+	                doctors.add(doctor);
+	            }
+
+	            rs.close();
+	            stmt.close();
+
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        }
+	        return doctors;
+	    }
 		
 		
 		
@@ -106,7 +97,7 @@ public class JDBCDoctorManager implements DoctorManager {
 	            Integer phone = rs.getInt("phoneNumber");
 	            String name = rs.getString("name");
                 Integer speciality_id = rs.getInt("speciality_id");
-	            speciality = specialitymanager.getSpecialityById(speciality_id);
+	            speciality = specialityManager.getSpecialityById(speciality_id);
 	           
 	             doctor = new Doctor (d_id,email,phone,name,speciality);
 	        }
@@ -132,10 +123,10 @@ public class JDBCDoctorManager implements DoctorManager {
 		        while (rs.next()) {
 		        	Integer d_id = rs.getInt("ID");
 		            String email = rs.getString("email");
-		            Integer phone = rs.getInt("phoneNumber");
+		            Integer phone = rs.getInt("phone");
 		            String n = rs.getString("name");
 	                Integer speciality_id = rs.getInt("speciality_id");
-		            speciality = specialitymanager.getSpecialityById(speciality_id);
+		            speciality = specialityManager.getSpecialityById(speciality_id);
 		           
 		            doctors.add( new Doctor (d_id,email,phone,n,speciality));
 		        

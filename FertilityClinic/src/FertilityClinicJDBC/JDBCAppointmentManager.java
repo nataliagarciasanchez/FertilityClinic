@@ -8,14 +8,22 @@ import java.sql.Statement;
 import java.sql.Time;
 import java.util.ArrayList;
 import FertilityClinicInterfaces.AppointmentManager;
+import FertilityClinicInterfaces.DoctorManager;
+import FertilityClinicInterfaces.PatientManager;
+import FertilityClinicInterfaces.TreatmentsManager;
 import FertilityClinicPOJOs.Appointment;
 
 public class JDBCAppointmentManager implements AppointmentManager{
 	
 	    private JDBCManager manager;
+	    private DoctorManager doctorManager; 
+	    private PatientManager patientManager;
+
 	    
-	    public JDBCAppointmentManager (JDBCManager manager) {
+	    public JDBCAppointmentManager (JDBCManager manager, DoctorManager doctormanager, PatientManager patientManager) {
 	    	this.manager = manager;
+	    	this.doctorManager = doctormanager;
+	    	this.patientManager = patientManager;
 	    }
 	    
 	    

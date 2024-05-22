@@ -1,5 +1,6 @@
 package UI; 
 import javax.swing.*;
+
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -11,12 +12,15 @@ import FertilityClinicPOJOs.*;
 public class PatientPanel extends JPanel {
 
     private static final long serialVersionUID = 7941153790910061405L;
+    
+    private JPanel currentPanel;
+    
     private PatientManager patientManager;
     private AppointmentManager appointmentManager;
     private DoctorManager doctorManager;
     private int patientId;
-
-    // Constructor adjusted to accept all necessary managers and patient ID
+    
+    //initializer
     public PatientPanel(PatientManager patientManager, AppointmentManager appointmentManager, DoctorManager doctorManager, int patientId) {
         this.patientManager = patientManager;
         this.appointmentManager = appointmentManager;
@@ -24,12 +28,22 @@ public class PatientPanel extends JPanel {
         this.patientId = patientId;
         initializeUI();
     }
-
     private void initializeUI() {
+        currentPanel = panelesLadoIzq(); 
         setLayout(new BorderLayout());
-        add(panelesLadoIzq(), BorderLayout.WEST);
+        add(currentPanel, BorderLayout.CENTER);
     }
-
+    
+    private void showCurrentPanel() {
+        removeAll(); // Elimina todo el contenido del contenedor principal
+        add(panelesLadoIzq(), BorderLayout.WEST); // Vuelve a agregar el panel de opciones del paciente
+        add(currentPanel, BorderLayout.CENTER); // Agrega el panel actual al centro
+        validate();
+        repaint();
+    }
+    
+    
+    //Buttons Panel
     private JPanel panelesLadoIzq() {
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
@@ -61,39 +75,14 @@ public class PatientPanel extends JPanel {
 
         return buttonPanel;
     }
-/*
-    private void viewMyinfoPanel() {
-        Patient patient = patientManager.viewMyInfo(patientId);
-        
-        // Create a panel to display patient information
-        JPanel infoPanel = new JPanel();
-        infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
-        
-        if (patient != null) {
-            infoPanel.add(new JLabel("Name: " + patient.getName()));
-            infoPanel.add(new JLabel("Date of Birth: " + patient.getDob().toString()));
-            infoPanel.add(new JLabel("Gender: " + patient.getGender()));
-            infoPanel.add(new JLabel("Email: " + patient.getEmail()));
-            infoPanel.add(new JLabel("Phone: " + patient.getPhone()));
-            infoPanel.add(new JLabel("Height: " + patient.getHeight()));
-            infoPanel.add(new JLabel("Weight: " + patient.getWeight()));
-            infoPanel.add(new JLabel("Blood Type: " + patient.getBloodType()));
-            
-        } else {
-            infoPanel.add(new JLabel("No information available."));
-        }
 
-        add(infoPanel, BorderLayout.CENTER); 
-        validate();
-        repaint();
-    }*/
-    
+    //OPTION 1
     private void viewMyinfoPanel() {
         Patient patient = patientManager.viewMyInfo(patientId);
-        
+
         JPanel infoPanel = new JPanel();
         infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
-        
+
         if (patient != null) {
             infoPanel.add(new JLabel("Name: " + patient.getName()));
             infoPanel.add(new JLabel("Date of Birth: " + patient.getDob().toString()));
@@ -107,18 +96,18 @@ public class PatientPanel extends JPanel {
             infoPanel.add(new JLabel("No information available."));
         }
 
-        removeAll();
-        add(panelesLadoIzq(), BorderLayout.WEST);
-        add(infoPanel, BorderLayout.CENTER);
-        validate();
-        repaint();
+        currentPanel = infoPanel; // Establece el panel actual como el panel de información del paciente
+        showCurrentPanel(); // Muestra el panel actual en el contenedor principal
     }
 
+    
+    
+    //OPTION 2
     private void updateInfoPanel() {
         Patient patient = patientManager.viewMyInfo(patientId);
-        
+
         JPanel updatePanel = new JPanel();
-        updatePanel.setLayout(new GridLayout(8, 2));
+        updatePanel.setLayout(new GridLayout(9, 2, 10, 10)); // 9 rows for including button row, with gaps for spacing
 
         JTextField emailField = new JTextField(patient != null ? patient.getEmail() : "");
         JTextField phoneField = new JTextField(patient != null ? String.valueOf(patient.getPhone()) : "");
@@ -126,6 +115,7 @@ public class PatientPanel extends JPanel {
         JTextField heightField = new JTextField(patient != null ? String.valueOf(patient.getHeight()) : "");
         JTextField weightField = new JTextField(patient != null ? String.valueOf(patient.getWeight()) : "");
 
+        // Adding labels and text fields
         updatePanel.add(new JLabel("Name:"));
         updatePanel.add(nameField);
         updatePanel.add(new JLabel("Date of Birth:"));
@@ -152,19 +142,26 @@ public class PatientPanel extends JPanel {
             Double weight = Double.parseDouble(weightField.getText());
             patientManager.modifyPatientInfo(patientId, email, phone, name);
             JOptionPane.showMessageDialog(this, "Information updated successfully.");
-            viewMyinfoPanel(); // Refresh view after update
+            //viewMyinfoPanel(); // Refresh view after update
         });
 
         updatePanel.add(new JLabel());
         updatePanel.add(updateBtn);
 
-        removeAll();
-        add(panelesLadoIzq(), BorderLayout.WEST);
-        add(updatePanel, BorderLayout.CENTER);
-        validate();
-        repaint();
+        // Adding padding around the panel
+        JPanel paddedPanel = new JPanel(new BorderLayout());
+        paddedPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        paddedPanel.add(updatePanel, BorderLayout.CENTER);
+
+        // Set a preferred size to ensure the panel is somewhat square
+        paddedPanel.setPreferredSize(new Dimension(400, 400));
+
+        
+        currentPanel = updatePanel; // Establece el panel actual como el panel de información del paciente
+        showCurrentPanel(); // Muestra el panel actual en el contenedor principal
     }
-    
+
+    //OPTION 3
     private void appointmentsPanel() {
         JPanel appointmentsMainPanel = new JPanel(new BorderLayout());
 
@@ -186,11 +183,9 @@ public class PatientPanel extends JPanel {
         appointmentsMainPanel.add(appointmentsOptionsPanel, BorderLayout.WEST);
         appointmentsMainPanel.add(currentAppointmentsPanel(), BorderLayout.CENTER);
 
-        removeAll();
-        add(panelesLadoIzq(), BorderLayout.WEST);
-        add(appointmentsMainPanel, BorderLayout.CENTER);
-        validate();
-        repaint();
+        currentPanel = appointmentsOptionsPanel; // Establece el panel actual como el panel de información del paciente
+        showCurrentPanel(); // Muestra el panel actual en el contenedor principal
+   
     }
 
     private JPanel currentAppointmentsPanel() {
@@ -307,6 +302,7 @@ public class PatientPanel extends JPanel {
         repaint();
     }
     
+    //OPTION 4
     private void viewAllDoctorsPanel() {
         JPanel doctorPanel = new JPanel();
         doctorPanel.setLayout(new BorderLayout());
@@ -323,28 +319,49 @@ public class PatientPanel extends JPanel {
         JPanel resultPanel = new JPanel();
         resultPanel.setLayout(new BoxLayout(resultPanel, BoxLayout.Y_AXIS));
 
+        // Load all doctors by default
+        ArrayList<Doctor> allDoctors = (ArrayList<Doctor>) doctorManager.getListOfDoctors(); // Assuming you have this method
+        displayDoctors(resultPanel, allDoctors);
+
         searchBtn.addActionListener(e -> {
             String searchQuery = searchField.getText();
             ArrayList<Doctor> doctors = (ArrayList<Doctor>) doctorManager.searchDoctorByName(searchQuery);
             resultPanel.removeAll();
-            for (Doctor doctor : doctors) {
-                resultPanel.add(new JLabel(doctor.getName()));
-            }
+            displayDoctors(resultPanel, doctors);
             validate();
             repaint();
         });
 
         doctorPanel.add(searchPanel, BorderLayout.NORTH);
         doctorPanel.add(new JScrollPane(resultPanel), BorderLayout.CENTER);
-
-        removeAll();
-        add(panelesLadoIzq(), BorderLayout.WEST);
-        add(doctorPanel, BorderLayout.CENTER);
-        validate();
-        repaint();
+        
+        currentPanel = doctorPanel; // Establece el panel actual como el panel de información del paciente
+        showCurrentPanel(); // Muestra el panel actual en el contenedor principal
+   
     }
 
-    
+    private void displayDoctors(JPanel resultPanel, ArrayList<Doctor> doctors) {
+        for (Doctor doctor : doctors) {
+            // Crear un panel para cada doctor
+            JPanel doctorInfoPanel = new JPanel(new GridLayout(1, 2)); // 2 columnas para nombre y detalles
+            // Añadir nombre del doctor al panel
+            JLabel nameLabel = new JLabel("Name: " + doctor.getName());
+            doctorInfoPanel.add(nameLabel);
+            // Obtener la especialidad del doctor
+            Speciality speciality = doctor.getSpeciality();
+            // Añadir la especialidad al panel
+            JLabel specialityLabel = new JLabel("Speciality: " + (speciality != null ? speciality.getName() : "Unknown"));
+            doctorInfoPanel.add(specialityLabel);
+            // Añadir el correo electrónico del doctor al panel
+            JLabel emailLabel = new JLabel("Email: " + doctor.getEmail());
+            doctorInfoPanel.add(emailLabel);
+            // Añadir el panel de información del doctor al panel de resultados
+            resultPanel.add(doctorInfoPanel);
+        }
+    }
+
+
+    //OPTION 5
     private void myTreatmentPanel() {
         Patient patient = patientManager.viewMyInfo(patientId);
         Treatments treatment = patient.getTreatmet();
@@ -360,14 +377,11 @@ public class PatientPanel extends JPanel {
             treatmentPanel.add(new JLabel("No treatment information available."));
         }
 
-        removeAll();
-        add(panelesLadoIzq(), BorderLayout.WEST);
-        add(treatmentPanel, BorderLayout.CENTER);
-        validate();
-        repaint();
+        currentPanel = treatmentPanel; // Establece el panel actual como el panel de información del paciente
+        showCurrentPanel(); // Muestra el panel actual en el contenedor principal
+   
+       
     }
-
-
 
 
 }

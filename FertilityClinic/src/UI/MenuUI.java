@@ -22,6 +22,7 @@ public class MenuUI extends JFrame {
     private ManagerManager managerManager;
     private AppointmentManager appointmentManager; 
     private TreatmentsManager treatmentManager;
+    private SpecialityManager specialityManager;
     private User loggedInUser;
    
     public MenuUI() {
@@ -30,14 +31,18 @@ public class MenuUI extends JFrame {
         setSize(800, 600);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout(5, 5));
-
         manager = new JDBCManager();
-        doctorManager = new JDBCDoctorManager(manager);
-        treatmentManager = new JDBCTreatmentsManager(manager); // Inicializa treatmentManager
-        patientManager = new JDBCPatientManager(manager, treatmentManager); // Pasa treatmentManager
-        managerManager = new JDBCManagerManager(manager);
-        appointmentManager = new JDBCAppointmentManager(manager); 
+
         
+        specialityManager = new JDBCSpecialityManager(manager);
+
+        doctorManager = new JDBCDoctorManager(manager, specialityManager);
+        treatmentManager = new JDBCTreatmentsManager(manager);
+        patientManager = new JDBCPatientManager(manager, treatmentManager);
+        managerManager = new JDBCManagerManager(manager);
+        appointmentManager = new JDBCAppointmentManager(manager, doctorManager, patientManager);
+
+        userManager = new JPAUserManager();
         
         userManager = new JPAUserManager(); 
         
