@@ -2,7 +2,9 @@ package UI;
 
 import javax.swing.*;
 import java.awt.*;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import FertilityClinicInterfaces.ManagerManager;
 import FertilityClinicInterfaces.AppointmentManager;
@@ -200,7 +202,7 @@ public class ManagerPanel extends JPanel {
         return panel;
     }
     
-    private void updateStockPanel(int managerId) {
+    private void updateStockPanel() {
         JPanel updatePanel = new JPanel();
         updatePanel.setLayout(new BoxLayout(updatePanel, BoxLayout.Y_AXIS));
 
@@ -237,7 +239,7 @@ public class ManagerPanel extends JPanel {
                         Stock updatedStock = new Stock(stock.getProductID(), newProductName, newCategory, newQuantity, sqlExpiryDate);
                         stockManager.updateStock(updatedStock); // Llamar al método de actualización con el nuevo stock
                         JOptionPane.showMessageDialog(this, "Stock updated successfully.");
-                        updateStockPanel(managerId); // Refrescar el panel de stock después de la actualización
+                        updateStockPanel(); // Refrescar el panel de stock después de la actualización
                     } catch (IllegalArgumentException ex) {
                         JOptionPane.showMessageDialog(this, "Please enter valid values.");
                     } catch (Exception ex) {
@@ -255,6 +257,58 @@ public class ManagerPanel extends JPanel {
             JOptionPane.showMessageDialog(this, "No stocks found for this manager.");
         }
         currentPanel = updatePanel;
+        showCurrentPanel();
+    }
+    
+    
+    private void addStockPanel() {
+        JPanel addPanel = new JPanel();
+        addPanel.setLayout(new GridLayout(0, 2, 10, 10));
+
+        JTextField productNameField = new JTextField();
+        JTextField categoryField = new JTextField();
+        JTextField quantityField = new JTextField();
+        JTextField expiryDateField = new JTextField("yyyy-MM-dd");
+
+        addPanel.add(new JLabel("Product Name:"));
+        addPanel.add(productNameField);
+        addPanel.add(new JLabel("Category:"));
+        addPanel.add(categoryField);
+        addPanel.add(new JLabel("Quantity:"));
+        addPanel.add(quantityField);
+        addPanel.add(new JLabel("Expiry Date (yyyy-MM-dd):"));
+        addPanel.add(expiryDateField);
+
+        JButton addBtn = new JButton("Add Stock");
+        addBtn.addActionListener(e -> {
+            try {
+                String productName = productNameField.getText();
+                String category = categoryField.getText();
+                int quantity = Integer.parseInt(quantityField.getText());
+                String expiryDateStr = expiryDateField.getText();
+
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                Date expiryDate = dateFormat.parse(expiryDateStr);
+
+                // Llamar al método para agregar el nuevo stock
+                stockManager.addStock(managerId, productName, category, quantity, expiryDate);
+
+                JOptionPane.showMessageDialog(this, "Stock added successfully.");
+
+                // Refrescar el panel de stocks después de la adición
+                updateStockPanel();
+            } catch (IllegalArgumentException ex) {
+                JOptionPane.showMessageDialog(this, "Please enter valid values.");
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, "An error occurred while adding the stock.");
+                ex.printStackTrace();
+            }
+        });
+
+        addPanel.add(new JLabel()); // Añadir espacio en blanco
+        addPanel.add(addBtn);
+
+        currentPanel = addPanel;
         showCurrentPanel();
     }
 

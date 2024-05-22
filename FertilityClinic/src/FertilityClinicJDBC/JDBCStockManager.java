@@ -179,15 +179,56 @@ public class JDBCStockManager  implements StockManager{
     }
 	
 
+	
 	@Override
-	public void addStock() {
-		// TODO Auto-generated method stub
-		
+	public void addStock(int managerId, String productName, String category, int quantity, Date expiryDate) {
+	    try {
+	        String sql = "INSERT INTO stocks (manager_id, product_name, category, quantity, expiry_date) VALUES (?, ?, ?, ?, ?)";
+	        PreparedStatement stmt = manager.getConnection().prepareStatement(sql);
+	        stmt.setInt(1, managerId);
+	        stmt.setString(2, productName);
+	        stmt.setString(3, category);
+	        stmt.setInt(4, quantity);
+	        stmt.setDate(5, new java.sql.Date(expiryDate.getTime()));
+
+	        int rowsAffected = stmt.executeUpdate();
+	        if (rowsAffected > 0) {
+	            System.out.println("Stock added successfully.");
+	        } else {
+	            System.out.println("Failed to add stock.");
+	        }
+
+	        stmt.close();
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
 	}
+	
 
 	@Override
-	public void modifyStock() {
-		// TODO Auto-generated method stub
-		
+	public void updateStock(Stock stock) {
+		java.sql.Date sqlExpiryDate = new java.sql.Date(stock.getExpiryDate().getTime());
+	    try {
+	        String sql = "UPDATE stocks SET productName=?, category=?, quantity=?, expiryDate=? WHERE productID=?";
+	        PreparedStatement stmt = manager.getConnection().prepareStatement(sql);
+	        stmt.setString(1, stock.getProductName());
+	        stmt.setString(2, stock.getCategory());
+	        stmt.setInt(3, stock.getQuantity());
+	        stmt.setDate(4, sqlExpiryDate);  // Ensure expiryDate is of type java.sql.Date
+	        stmt.setInt(5, stock.getProductID());
+
+	        int rowsAffected = stmt.executeUpdate();
+	        if (rowsAffected > 0) {
+	            System.out.println("Stock information updated successfully.");
+	        } else {
+	            System.out.println("Failed to update stock information. Stock with productID " + stock.getProductName() + " not found.");
+	        }
+
+	        stmt.close();
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+
 	}
 }
+
