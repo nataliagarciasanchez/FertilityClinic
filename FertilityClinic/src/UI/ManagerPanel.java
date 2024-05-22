@@ -2,14 +2,19 @@ package UI;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
+
 import FertilityClinicInterfaces.ManagerManager;
 import FertilityClinicInterfaces.AppointmentManager;
 import FertilityClinicInterfaces.DoctorManager;
 import FertilityClinicInterfaces.PatientManager;
 import FertilityClinicInterfaces.SpecialityManager;
+import FertilityClinicInterfaces.StockManager;
+import FertilityClinicPOJOs.Appointment;
 import FertilityClinicPOJOs.Doctor;
 import FertilityClinicPOJOs.Manager;
 import FertilityClinicPOJOs.Patient;
+import FertilityClinicPOJOs.Stock;
 
 public class ManagerPanel extends JPanel {
 	
@@ -21,16 +26,16 @@ public class ManagerPanel extends JPanel {
     private ManagerManager managerManager;
     private DoctorManager doctorManager;
     private PatientManager patientManager;
-    private AppointmentManager appointmentManager;
+    private StockManager stockManager;
     private SpecialityManager specialityManager;
     private int managerId;
 
     // Constructor que acepta interfaces para la gestión de doctores y pacientes
-    public ManagerPanel(ManagerManager managerManager,DoctorManager doctorManager,PatientManager patientManager, AppointmentManager appointmentManager,  int managerId) {
+    public ManagerPanel(ManagerManager managerManager,DoctorManager doctorManager,PatientManager patientManager, StockManager stockManager,  int managerId) {
         this.managerManager = managerManager;
         this.doctorManager = doctorManager;
     	this.patientManager = patientManager;
-        this.appointmentManager = appointmentManager;
+        this.stockManager = stockManager;
         this.managerId = managerId;
         initializeUI();
     }
@@ -67,7 +72,7 @@ public class ManagerPanel extends JPanel {
         
         op1.addActionListener(e -> viewMyinfoPanel()); //igual para doctor
         op2.addActionListener(e -> updateInfoPanel());//igual para doctor 
-        op3.addActionListener(e -> viewMyinfoPanel()); //igual para doctor pero modificar cita patient solo delete y add
+        op3.addActionListener(e -> viewStockPanel()); //igual para doctor pero modificar cita patient solo delete y add
         
 
         buttonPanel.add(op1);
@@ -153,6 +158,108 @@ public class ManagerPanel extends JPanel {
         showCurrentPanel(); // Muestra el panel actual en el contenedor principal
     }
     //OPCION 3
+  //OPTION 3
+    private void viewStockPanel() {
+        JPanel stockMainPanel = new JPanel(new BorderLayout());
+
+        JPanel stockOptionsPanel = new JPanel();
+        stockOptionsPanel.setLayout(new BoxLayout(stockOptionsPanel, BoxLayout.Y_AXIS)); // Cambio a BoxLayout con dirección Y
+
+        JButton op1 = new JButton("Update Appointment");
+        JButton op2 = new JButton("Add Appointment");
+
+        op1.addActionListener(e -> updateStockPanel());
+        op2.addActionListener(e -> addStockPanel());
+
+        stockOptionsPanel.add(op1);
+        stockOptionsPanel.add(op2);
+
+        stockMainPanel.add(stockOptionsPanel, BorderLayout.WEST);
+        stockMainPanel.add(currentStockPanel(), BorderLayout.CENTER);
+
+        currentPanel = stockMainPanel; // Establece el panel actual como el panel principal
+        showCurrentPanel(); // Muestra el panel actual en el contenedor principal
+    }
+    
+    
+    private JPanel currentStockPanel() {
+        JPanel panel = new JPanel();
+        panel.setLayout(new GridLayout(0, 1)); // Cambio a GridLayout con una sola columna
+
+        ArrayList<Stock> stocks = (ArrayList<Stock>) stockManager.viewStock(managerId);
+
+        if (stocks.isEmpty()) {
+            panel.add(new JLabel("No stocks yet."));
+        } else {
+            for (Stock stock : stocks) {
+                JLabel appointmentLabel = new JLabel("hola");
+                panel.add(appointmentLabel);
+            }
+        }
+
+        return panel;
+    }
+    
+    private void updateStockPanel(int managerId) {
+        JPanel updatePanel = new JPanel();
+        updatePanel.setLayout(new BoxLayout(updatePanel, BoxLayout.Y_AXIS));
+
+        ArrayList<Stock> stocks =(ArrayList<Stock>) stockManager.viewStock(managerId);
+
+        if (stocks != null && !stocks.isEmpty()) {
+            for (Stock stock : stocks) {
+                JPanel singleStockPanel = new JPanel(new GridLayout(0, 2, 10, 10)); // Panel para cada stock
+
+                JTextField productNameField = new JTextField(stock.getProductName());
+                JTextField categoryField = new JTextField(stock.getCategory());
+                JTextField quantityField = new JTextField(String.valueOf(stock.getQuantity()));
+                JTextField expiryDateField = new JTextField(stock.getExpiryDate().toString());
+
+                singleStockPanel.add(new JLabel("Product Name:"));
+                singleStockPanel.add(productNameField);
+                singleStockPanel.add(new JLabel("Category:"));
+                singleStockPanel.add(categoryField);
+                singleStockPanel.add(new JLabel("Quantity:"));
+                singleStockPanel.add(quantityField);
+                singleStockPanel.add(new JLabel("Expiry Date:"));
+                singleStockPanel.add(expiryDateField);
+
+                JButton updateBtn = new JButton("Update");
+                updateBtn.addActionListener(e -> {
+                    try {
+                        String newProductName = productNameField.getText();
+                        String newCategory = categoryField.getText();
+                        int newQuantity = Integer.parseInt(quantityField.getText());
+                        String newExpiryDate = expiryDateField.getText();
+
+                        java.sql.Date sqlExpiryDate = java.sql.Date.valueOf(newExpiryDate);
+
+                        Stock updatedStock = new Stock(stock.getProductID(), newProductName, newCategory, newQuantity, sqlExpiryDate);
+                        stockManager.updateStock(updatedStock); // Llamar al método de actualización con el nuevo stock
+                        JOptionPane.showMessageDialog(this, "Stock updated successfully.");
+                        updateStockPanel(managerId); // Refrescar el panel de stock después de la actualización
+                    } catch (IllegalArgumentException ex) {
+                        JOptionPane.showMessageDialog(this, "Please enter valid values.");
+                    } catch (Exception ex) {
+                        JOptionPane.showMessageDialog(this, "An error occurred while updating the stock.");
+                        ex.printStackTrace();
+                    }
+                });
+
+                singleStockPanel.add(new JLabel()); // Añadir espacio en blanco
+                singleStockPanel.add(updateBtn);
+
+                updatePanel.add(singleStockPanel);
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "No stocks found for this manager.");
+        }
+        currentPanel = updatePanel;
+        showCurrentPanel();
+    }
+
+
+
     
     
 }

@@ -23,6 +23,7 @@ public class MenuUI extends JFrame {
     private AppointmentManager appointmentManager; 
     private TreatmentsManager treatmentManager;
     private SpecialityManager specialityManager;
+    private StockManager stockManager;
     private User loggedInUser;
    
     public MenuUI() {
@@ -257,7 +258,7 @@ public class MenuUI extends JFrame {
         } else if ("manager".equals(user.getRole().getName())) {
         	Manager manager = managerManager.getManagerByEmail(user.getEmail());
             if (manager != null) {
-            	userPanel = new ManagerPanel(managerManager,doctorManager,patientManager,appointmentManager,manager.getId());
+            	userPanel = new ManagerPanel(managerManager,doctorManager,patientManager,stockManager,manager.getId());
             } else {
                 userPanel = new JPanel();
                 userPanel.add(new JLabel("Manager record not found."));

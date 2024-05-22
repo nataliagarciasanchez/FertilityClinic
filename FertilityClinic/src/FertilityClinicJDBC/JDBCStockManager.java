@@ -2,6 +2,7 @@ package FertilityClinicJDBC;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
@@ -148,10 +149,35 @@ public class JDBCStockManager  implements StockManager{
 	    }
 
 	@Override
-	public List<Stock> viewStock() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	public List<Stock> viewStock(int id) {
+		ArrayList<Stock> stocks = new ArrayList<>();
+        try {
+            String sql = "SELECT p.product_id, p.product_name, p.category, p.quantity, p.expiry_date " +
+                         "FROM products p " +
+                         "JOIN managers_products mp ON p.product_id = mp.product_id " +
+                         "WHERE mp.manager_id = ?";
+            PreparedStatement stmt = manager.getConnection().prepareStatement(sql);
+            stmt.setInt(1, id);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                Integer productID = rs.getInt("product_id");
+                String productName = rs.getString("product_name");
+                String category = rs.getString("category");
+                int quantity = rs.getInt("quantity");
+                Date expiryDate = rs.getDate("expiry_date");
+
+                Stock stock = new Stock(productID, productName, category, quantity, expiryDate);
+                stocks.add(stock);
+            }
+            rs.close();
+            stmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return stocks;
+    }
+	
 
 	@Override
 	public void addStock() {
