@@ -64,23 +64,35 @@ public class MenuUI extends JFrame {
         mainPanel.setBackground(new Color(30, 144, 255));  // Color verde clarito
 
         // Panel para la imagen
-        JLabel imageLabel = new JLabel(new ImageIcon("./logo/photo.png"));  // Asegúrate de poner la ruta correcta de la imagen
+        JLabel imageLabel = new JLabel();
+        // Cargar imagen
+        try {
+            ImageIcon image = new ImageIcon("path_to_your_image.jpg");
+            imageLabel.setIcon(image);
+        } catch (Exception e) {
+            e.printStackTrace();
+            imageLabel.setText("Image not found");
+        }
         imageLabel.setHorizontalAlignment(JLabel.CENTER);
 
         // Panel para los botones y el título
         JPanel rightPanel = new JPanel(new BorderLayout());
-        rightPanel.setBackground(new Color(30, 144, 255));
+        rightPanel.setBackground(new Color(204, 255, 204));
         JLabel titleLabel = new JLabel("NEW LIFE CLINIC", JLabel.CENTER);
         titleLabel.setFont(new Font("Garamond", Font.BOLD, 30));
         titleLabel.setBorder(BorderFactory.createEmptyBorder(20, 0, 20, 0));
 
-        JPanel buttonPanel = new JPanel(new GridLayout(2, 1, 10, 10));
-        buttonPanel.setBackground(new Color(204, 255, 204));
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
+        buttonPanel.setBackground(new Color(30, 144, 255));
         JButton loginButton = new JButton("Log in");
         JButton signupButton = new JButton("Sign up");
 
         loginButton.setFont(new Font("Garamond", Font.BOLD, 16));
         signupButton.setFont(new Font("Garamond", Font.BOLD, 16));
+
+        // Establecer un tamaño preferido para los botones
+        loginButton.setPreferredSize(new Dimension(100, 30));
+        signupButton.setPreferredSize(new Dimension(100, 30));
 
         buttonPanel.add(loginButton);
         buttonPanel.add(signupButton);
