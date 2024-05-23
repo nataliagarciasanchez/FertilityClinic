@@ -49,8 +49,6 @@ public class MenuUI extends JFrame {
         
         showInitialDialog();
     }
-    
-
     private void showInitialDialog() {
         setTitle("NEW LIFE CLINIC");
         Toolkit toolkit = Toolkit.getDefaultToolkit();
@@ -64,11 +62,15 @@ public class MenuUI extends JFrame {
 
         JLabel imageLabel = new JLabel();
         try {
-            ImageIcon image = new ImageIcon(getClass().getResource("/logo/photo.png")); // Carga la imagen desde el recurso
+            File imagePath = new File("./logo/photo.png");  // Suponiendo que la carpeta logo está en el mismo nivel que src
+            if (!imagePath.exists()) {
+                throw new IllegalArgumentException("Image file not found at: " + imagePath.getAbsolutePath());
+            }
+            ImageIcon image = new ImageIcon(imagePath.getAbsolutePath());
             imageLabel.setIcon(image);
         } catch (Exception e) {
             e.printStackTrace();
-            imageLabel.setText("Image not found");
+            imageLabel.setText("Image not found: " + e.getMessage());
         }
         imageLabel.setHorizontalAlignment(JLabel.CENTER);
         mainPanel.add(imageLabel, BorderLayout.WEST);
@@ -114,6 +116,7 @@ public class MenuUI extends JFrame {
 
         add(mainPanel);
     }
+
     
 
 
