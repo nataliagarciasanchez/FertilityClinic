@@ -54,9 +54,10 @@ public class MenuUI extends JFrame {
     private void showInitialDialog() {
         JDialog dialog = new JDialog(this, "Welcome", true);
         dialog.setLayout(new BorderLayout());
-        
+     // Load the image
         ImageIcon icon = new ImageIcon("./logo/Clinic_logo.png");
-        dialog.setIconImage(icon.getImage());
+        JLabel imageLabel = new JLabel(icon);
+
 
         // Create an exit button
         JButton exitButton = new JButton("Exit");
@@ -119,6 +120,8 @@ public class MenuUI extends JFrame {
                 JOptionPane.showMessageDialog(this, "Invalid email or password.", "Error", JOptionPane.ERROR_MESSAGE);
                 showLoginDialog();
             }
+        }if (result == JOptionPane.OK_CANCEL_OPTION) {
+        	showSignUpDialog();
         }
     }
     
@@ -248,6 +251,8 @@ public class MenuUI extends JFrame {
                 e.printStackTrace();
                 JOptionPane.showMessageDialog(this, "Error during sign-up process.", "Error", JOptionPane.ERROR_MESSAGE);
             }
+        }if (result == JOptionPane.OK_CANCEL_OPTION) {
+        	showSignUpDialog();
         }
     }
  
