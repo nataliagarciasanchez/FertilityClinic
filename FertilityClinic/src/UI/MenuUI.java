@@ -52,61 +52,64 @@ public class MenuUI extends JFrame {
     
 
     private void showInitialDialog() {
-    	 setTitle("NEW LIFE CLINIC");
-         Toolkit toolkit = Toolkit.getDefaultToolkit();
-         Dimension screenSize = toolkit.getScreenSize();
-         setSize(screenSize.width - 100, screenSize.height - 100);
-         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-         setLocationRelativeTo(null);
+        setTitle("NEW LIFE CLINIC");
+        Toolkit toolkit = Toolkit.getDefaultToolkit();
+        Dimension screenSize = toolkit.getScreenSize();
+        setSize(screenSize.width - 100, screenSize.height - 100);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
 
-         // Panel principal con BorderLayout
-         JPanel mainPanel = new JPanel(new BorderLayout(10, 10));
-         mainPanel.setBackground(new Color(204, 255, 204));  // Color verde clarito
+        JPanel mainPanel = new JPanel(new BorderLayout(10, 10));
+        mainPanel.setBackground(new Color(135, 206, 250));
 
-         // Cargar y añadir la imagen
-         ImageIcon imageIcon = new ImageIcon("./photo.png");  // Asegúrate de que la ruta es correcta
-         JLabel imageLabel = new JLabel(imageIcon);
-         JPanel imagePanel = new JPanel(new BorderLayout());
-         imagePanel.add(imageLabel, BorderLayout.CENTER);
-         mainPanel.add(imagePanel, BorderLayout.WEST);
+        JLabel imageLabel = new JLabel();
+        try {
+            // Ajuste de la ruta relativa para salir del paquete actual y acceder a la carpeta logo
+            ImageIcon image = new ImageIcon(getClass().getResource("/../logo/photo.png"));
+            if (image.getIconWidth() == -1) {
+                System.out.println("Image file not loaded properly: Check file path or file format");
+                throw new Exception("Image file not loaded properly");
+            }
+            imageLabel.setIcon(image);
+        } catch (Exception e) {
+            e.printStackTrace();
+            imageLabel.setText("Image not found");
+        }
+        imageLabel.setHorizontalAlignment(JLabel.CENTER);
 
-         // Panel derecho para título y botones
-         JPanel rightPanel = new JPanel();
-         rightPanel.setLayout(new BorderLayout());
-         rightPanel.setBackground(new Color(204, 255, 204));
+        JPanel rightPanel = new JPanel(new BorderLayout());
+        rightPanel.setBackground(new Color(135, 206, 250));
+        JLabel titleLabel = new JLabel("NEW LIFE CLINIC", JLabel.CENTER);
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 30));
+        titleLabel.setForeground(Color.BLACK);
 
-         // Título en la parte superior del panel derecho
-         JLabel titleLabel = new JLabel("NEW LIFE CLINIC", SwingConstants.CENTER);
-         titleLabel.setFont(new Font("Garamond", Font.BOLD, 30));
-         titleLabel.setBorder(BorderFactory.createEmptyBorder(20, 0, 20, 0));
-         rightPanel.add(titleLabel, BorderLayout.NORTH);
+        JLabel questionLabel = new JLabel("Do you want to log in or sign up?");
+        questionLabel.setFont(new Font("Arial", Font.PLAIN, 20));
+        questionLabel.setHorizontalAlignment(JLabel.CENTER);
+        questionLabel.setForeground(Color.BLACK);
 
-         // Panel para botones
-         JPanel buttonPanel = new JPanel();
-         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
-         buttonPanel.setBackground(new Color(204, 255, 204));
-         buttonPanel.setBorder(BorderFactory.createEmptyBorder(50, 50, 50, 50));
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 5));
+        buttonPanel.setBackground(new Color(135, 206, 250));
+        JButton loginButton = new JButton("Log in");
+        JButton signupButton = new JButton("Sign up");
 
-         JButton loginButton = new JButton("Log in");
-         loginButton.setFont(new Font("Garamond", Font.PLAIN, 16));
-         loginButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        loginButton.setBackground(Color.WHITE);
+        signupButton.setBackground(Color.WHITE);
 
-         JButton signUpButton = new JButton("Sign up");
-         signUpButton.setFont(new Font("Garamond", Font.PLAIN, 16));
-         signUpButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        loginButton.setFont(new Font("Arial", Font.BOLD, 16));
+        signupButton.setFont(new Font("Arial", Font.BOLD, 16));
 
-         buttonPanel.add(loginButton);
-         buttonPanel.add(Box.createRigidArea(new Dimension(0, 10)));  // Espacio entre botones
-         buttonPanel.add(signUpButton);
+        buttonPanel.add(loginButton);
+        buttonPanel.add(signupButton);
 
-         // Añadir el panel de botones al panel derecho
-         rightPanel.add(buttonPanel, BorderLayout.CENTER);
+        rightPanel.add(titleLabel, BorderLayout.NORTH);
+        rightPanel.add(questionLabel, BorderLayout.CENTER);
+        rightPanel.add(buttonPanel, BorderLayout.SOUTH);
 
-         // Añadir el panel derecho al panel principal
-         mainPanel.add(rightPanel, BorderLayout.EAST);
+        mainPanel.add(imageLabel, BorderLayout.WEST);
+        mainPanel.add(rightPanel, BorderLayout.CENTER);
 
-         // Añadir el panel principal al JFrame
-         this.add(mainPanel);
+        add(mainPanel);
     }
 
     //ESTE ES EL QUE FUNCIONA
