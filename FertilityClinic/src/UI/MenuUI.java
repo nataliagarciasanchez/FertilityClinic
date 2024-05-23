@@ -80,7 +80,7 @@ public class MenuUI extends JFrame {
         mainPanel.add(imageLabel, BorderLayout.WEST);
 
         JPanel rightPanel = new JPanel(new BorderLayout());
-        rightPanel.setBackground(new Color(135, 206, 235));
+        rightPanel.setBackground(new Color(100, 149, 237));
         JLabel titleLabel = new JLabel("NEW LIFE CLINIC", JLabel.CENTER);
         titleLabel.setFont(new Font("Calibri", Font.BOLD, 70)); // Fuente más grande
         titleLabel.setForeground(Color.BLACK);
