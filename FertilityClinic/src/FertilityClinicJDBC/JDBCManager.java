@@ -14,7 +14,7 @@ private Connection c = null;
 		try {
 			
 			Class.forName("org.sqlite.JDBC");
-			c = DriverManager.getConnection("jdbc:sqlite:./db/FertilityClinic.db");
+			c = DriverManager.getConnection("jdbc:sqlite:./db/FertilityClinic2.db");
 			c.createStatement().execute("PRAGMA foreign_keys=ON");
 			
 			System.out.print("Database Connection opened.");
