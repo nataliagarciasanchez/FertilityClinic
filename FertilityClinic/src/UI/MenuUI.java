@@ -178,17 +178,7 @@ public class MenuUI extends JFrame {
         }
     }
 
-    private void loadUserInterface(User user) {
-        // Lógica de carga de la interfaz de usuario
-    }
-
-    private UserManager userManager = getUserManager(); // Obtener la instancia de UserManager
-
-    private UserManager getUserManager() {
-        // Esta debería retornar una instancia de UserManager
-        return null; // Espacio reservado
-    }
-
+    
     
     
     private void showSignUpDialog() {
