@@ -13,7 +13,8 @@ import java.security.NoSuchAlgorithmException;
 import java.util.*;
 import java.io.File;
 
-/*
+
+
 public class MenuUI extends JFrame {
     
     private JDBCManager manager;
@@ -374,132 +375,10 @@ public class MenuUI extends JFrame {
         return mainPanel;
     }*/
 
-   // public static void main(String[] args) {
-    //    SwingUtilities.invokeLater(() -> new MenuUI().setVisible(true));
-    //ultimos
-//}*/
-
-public class MenuUI extends JFrame {
-    private CardLayout cardLayout = new CardLayout();
-    private JPanel cards; // Panel que usa CardLayout
-
-    public MenuUI() {
-        setTitle("NEW LIFE CLINIC");
-        setSize(800, 600);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
-        initComponents();
-        setVisible(true);
-    }
-
-    private void initComponents() {
-        JPanel mainPanel = new JPanel(new BorderLayout(10, 10));
-        mainPanel.setBackground(new Color(25, 25, 112));  // Dark blue color
-
-        JLabel imageLabel = setupImageLabel();
-        mainPanel.add(imageLabel, BorderLayout.WEST);
-
-        JPanel rightPanel = new JPanel(new BorderLayout());
-        rightPanel.setBackground(new Color(25, 25, 112));
-        JLabel titleLabel = setupTitleLabel();
-        rightPanel.add(titleLabel, BorderLayout.NORTH);
-
-        cards = new JPanel(cardLayout);
-        JPanel questionPanel = setupQuestionPanel();
-        JPanel loginPanel = setupLoginPanel();
-        cards.add(questionPanel, "Question Panel");
-        cards.add(loginPanel, "Login Panel");
-
-        rightPanel.add(cards, BorderLayout.CENTER);
-
-        mainPanel.add(rightPanel, BorderLayout.CENTER);
-        add(mainPanel);
-    }
-
-    private JLabel setupTitleLabel() {
-        JLabel titleLabel = new JLabel("NEW LIFE CLINIC", JLabel.CENTER);
-        titleLabel.setFont(new Font("Calibri", Font.BOLD, 70));
-        titleLabel.setForeground(Color.WHITE);
-        titleLabel.setBorder(BorderFactory.createEmptyBorder(20, 0, 20, 0));
-        return titleLabel;
-    }
-
-    private JLabel setupImageLabel() {
-        JLabel imageLabel = new JLabel();
-        try {
-            File imagePath = new File("./logo/photo.png");
-            if (!imagePath.exists()) {
-                throw new IllegalArgumentException("Image file not found at: " + imagePath.getAbsolutePath());
-            }
-            ImageIcon originalIcon = new ImageIcon(imagePath.getAbsolutePath());
-            Image image = originalIcon.getImage();
-            Image newimg = image.getScaledInstance(300, 300, Image.SCALE_SMOOTH);
-            imageLabel.setIcon(new ImageIcon(newimg));
-        } catch (Exception e) {
-            e.printStackTrace();
-            imageLabel.setText("Image not found: " + e.getMessage());
-        }
-        imageLabel.setHorizontalAlignment(JLabel.CENTER);
-        imageLabel.setBorder(BorderFactory.createEmptyBorder(0, 50, 0, 0));
-        return imageLabel;
-    }
-
-    private JPanel setupQuestionPanel() {
-        JPanel panel = new JPanel(new GridLayout(1, 2, 10, 10));
-        panel.setBackground(new Color(25, 25, 112));
-        JButton loginButton = new JButton("Log in");
-        JButton signupButton = new JButton("Sign up");
-
-        loginButton.setBackground(Color.WHITE);
-        signupButton.setBackground(Color.WHITE);
-
-        loginButton.setFont(new Font("Calibri", Font.BOLD, 16));
-        signupButton.setFont(new Font("Calibri", Font.BOLD, 16));
-
-        loginButton.addActionListener(e -> cardLayout.show(cards, "Login Panel"));
-        signupButton.addActionListener(e -> showSignUpDialog());  // Assuming showSignUpDialog is similarly implemented
-
-        panel.add(loginButton);
-        panel.add(signupButton);
-
-        return panel;
-    }
-
-    private JPanel setupLoginPanel() {
-        JPanel panel = new JPanel(new GridLayout(3, 2, 10, 10));
-        panel.setBackground(new Color(25, 25, 112)); // Background color
-
-        JLabel emailLabel = new JLabel("Email:");
-        emailLabel.setForeground(Color.WHITE);
-        JTextField emailField = new JTextField();
-        JLabel passwordLabel = new JLabel("Password:");
-        passwordLabel.setForeground(Color.WHITE);
-        JPasswordField passwordField = new JPasswordField();
-
-        panel.add(emailLabel);
-        panel.add(emailField);
-        panel.add(passwordLabel);
-        panel.add(passwordField);
-
-        JButton submitButton = new JButton("Submit");
-        submitButton.addActionListener(e -> loginUser(emailField.getText(), new String(passwordField.getPassword())));
-        panel.add(new JLabel()); // Placeholder to align the button in the grid
-        panel.add(submitButton);
-
-        return panel;
-    }
-
-    private void loginUser(String email, String password) {
-        System.out.println("Attempted login with email: " + email + " and password: " + password);
-        // Here, add your logic to handle the login
-    }
-
-    private void showSignUpDialog() {
-        System.out.println("Sign Up Dialog Shown");
-        // Implement the signup dialog similarly
-    }
-
     public static void main(String[] args) {
-        new MenuUI();
-    }
+         SwingUtilities.invokeLater(() -> new MenuUI().setVisible(true));
+	}	
+}
+
+
 }
