@@ -67,7 +67,7 @@ public class MenuUI extends JFrame {
         JLabel imageLabel = new JLabel();
         // Cargar imagen
         try {
-            ImageIcon image = new ImageIcon("./logo/Clinic_logo.png"); // Verificar la ruta y el formato
+            ImageIcon image = new ImageIcon("./logo/logo.png"); // Verificar la ruta y el formato
             if (image.getIconWidth() == -1) {
                 throw new Exception("Image file not loaded properly");
             }
