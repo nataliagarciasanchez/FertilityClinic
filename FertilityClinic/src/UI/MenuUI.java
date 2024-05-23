@@ -64,7 +64,7 @@ public class MenuUI extends JFrame {
         mainPanel.setBackground(new Color(204, 255, 204));  // Color verde clarito
 
         // Panel para la imagen
-        JLabel imageLabel = new JLabel(new ImageIcon("./logo/logo.png"));  // Asegúrate de poner la ruta correcta de la imagen
+        JLabel imageLabel = new JLabel(new ImageIcon("./logo/photo.png"));  // Asegúrate de poner la ruta correcta de la imagen
         imageLabel.setHorizontalAlignment(JLabel.CENTER);
 
         // Panel para los botones y el título
