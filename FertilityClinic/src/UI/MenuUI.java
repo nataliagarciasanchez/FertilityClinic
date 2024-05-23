@@ -60,9 +60,9 @@ public class MenuUI extends JFrame {
         setLocationRelativeTo(null);
 
         JPanel mainPanel = new JPanel(new BorderLayout(10, 10));
-        mainPanel.setBackground(new Color(135, 206, 250));
+        mainPanel.setBackground(new Color(135, 206, 250));  // Color azul claro
 
-        JLabel imageLabel = new JLabel("Here goes the image", JLabel.CENTER); // Replace with actual image loading
+        JLabel imageLabel = new JLabel("Here goes the image", JLabel.CENTER); // Simula una imagen
         imageLabel.setFont(new Font("Arial", Font.PLAIN, 20));
         mainPanel.add(imageLabel, BorderLayout.WEST);
 
@@ -78,11 +78,6 @@ public class MenuUI extends JFrame {
         questionLabel.setHorizontalAlignment(JLabel.CENTER);
         questionLabel.setForeground(Color.BLACK);
 
-        JPanel questionPanel = new JPanel();
-        questionPanel.setLayout(new BorderLayout());
-        questionPanel.setBackground(new Color(135, 206, 250));
-        questionPanel.add(questionLabel, BorderLayout.NORTH);
-
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
         buttonPanel.setBackground(new Color(135, 206, 250));
         JButton loginButton = new JButton("Log in");
@@ -94,15 +89,18 @@ public class MenuUI extends JFrame {
         loginButton.setFont(new Font("Cooper Black", Font.BOLD, 16));
         signupButton.setFont(new Font("Cooper Black", Font.BOLD, 16));
 
+        // Añadir funcionalidad a los botones
         loginButton.addActionListener(e -> showLoginDialog());
         signupButton.addActionListener(e -> showSignUpDialog());
 
         buttonPanel.add(loginButton);
         buttonPanel.add(signupButton);
 
-        questionPanel.add(buttonPanel, BorderLayout.CENTER);
+        // Añade un borde para crear espacio en la parte inferior
+        buttonPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 50, 0)); // 50 pixels de margen en la parte inferior
 
-        rightPanel.add(questionPanel, BorderLayout.CENTER);
+        rightPanel.add(questionLabel, BorderLayout.CENTER);
+        rightPanel.add(buttonPanel, BorderLayout.SOUTH);
 
         mainPanel.add(rightPanel, BorderLayout.CENTER);
 
