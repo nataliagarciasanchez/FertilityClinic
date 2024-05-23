@@ -109,7 +109,7 @@ public class MenuUI extends JFrame {
         } else if (choice == 1) {
             showSignUpDialog();
         }
-    }	 
+    }	*/ 
 
     private void showLoginDialog() {
         JPanel panel = new JPanel(new GridLayout(3, 2));
@@ -137,7 +137,7 @@ public class MenuUI extends JFrame {
         }if (result == JOptionPane.OK_CANCEL_OPTION) {
         	showSignUpDialog();
         }
-    }*/ 
+    }
     
     
     
