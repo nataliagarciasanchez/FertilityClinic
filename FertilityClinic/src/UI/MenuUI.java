@@ -52,7 +52,7 @@ public class MenuUI extends JFrame {
     
 
     private void showInitialDialog() {
-    	setTitle("NEW LIFE CLINIC");
+        setTitle("NEW LIFE CLINIC");
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         Dimension screenSize = toolkit.getScreenSize();
         setSize(screenSize.width - 100, screenSize.height - 100);
@@ -61,13 +61,13 @@ public class MenuUI extends JFrame {
 
         // Panel principal con BorderLayout
         JPanel mainPanel = new JPanel(new BorderLayout(10, 10));
-        mainPanel.setBackground(new Color(30, 144, 255));  
+        mainPanel.setBackground(new Color(30, 144, 255));  // Azul más intenso
 
         // Panel para la imagen
         JLabel imageLabel = new JLabel();
         // Cargar imagen
         try {
-            ImageIcon image = new ImageIcon("./logo/Clinic_logo");
+            ImageIcon image = new ImageIcon("./logo/Clinic_logo.png");  // Asegúrate de incluir la extensión correcta del archivo
             imageLabel.setIcon(image);
         } catch (Exception e) {
             e.printStackTrace();
@@ -82,15 +82,26 @@ public class MenuUI extends JFrame {
         titleLabel.setFont(new Font("Garamond", Font.BOLD, 30));
         titleLabel.setBorder(BorderFactory.createEmptyBorder(20, 0, 20, 0));
 
+        // Frase de pregunta
+        JLabel questionLabel = new JLabel("Do you want to log in or sign up?");
+        questionLabel.setFont(new Font("Zapfino", Font.PLAIN, 20));  // Cambio a Zapfino o similar
+        questionLabel.setHorizontalAlignment(JLabel.CENTER);
+        questionLabel.setForeground(Color.WHITE);  // Color de letra
+
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
         buttonPanel.setBackground(new Color(30, 144, 255));
         JButton loginButton = new JButton("Log in");
         JButton signupButton = new JButton("Sign up");
 
+        // Color de los botones
+        Color buttonColor = new Color(135, 206, 250);
+        loginButton.setBackground(buttonColor);
+        signupButton.setBackground(buttonColor);
+
         loginButton.setFont(new Font("Garamond", Font.BOLD, 16));
         signupButton.setFont(new Font("Garamond", Font.BOLD, 16));
 
-        // Establecer un tamaño preferido para los botones
+        // Tamaño preferido para los botones
         loginButton.setPreferredSize(new Dimension(100, 30));
         signupButton.setPreferredSize(new Dimension(100, 30));
 
@@ -98,7 +109,8 @@ public class MenuUI extends JFrame {
         buttonPanel.add(signupButton);
 
         rightPanel.add(titleLabel, BorderLayout.NORTH);
-        rightPanel.add(buttonPanel, BorderLayout.CENTER);
+        rightPanel.add(questionLabel, BorderLayout.CENTER);  // Agrega la pregunta al centro
+        rightPanel.add(buttonPanel, BorderLayout.SOUTH);  // Mueve los botones al sur
 
         // Agregar componentes al panel principal
         mainPanel.add(imageLabel, BorderLayout.WEST);
@@ -107,7 +119,7 @@ public class MenuUI extends JFrame {
         // Agregar el panel principal al frame
         add(mainPanel);
     }
-    
+
     //ESTE ES EL QUE FUNCIONA
     /*
     private void showInitialDialog() {
