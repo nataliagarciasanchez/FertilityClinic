@@ -61,13 +61,13 @@ public class MenuUI extends JFrame {
 
         // Panel principal con BorderLayout
         JPanel mainPanel = new JPanel(new BorderLayout(10, 10));
-        mainPanel.setBackground(new Color(30, 144, 255));  // Color verde clarito
+        mainPanel.setBackground(new Color(30, 144, 255));  
 
         // Panel para la imagen
         JLabel imageLabel = new JLabel();
         // Cargar imagen
         try {
-            ImageIcon image = new ImageIcon("path_to_your_image.jpg");
+            ImageIcon image = new ImageIcon("./logo/Clinic_logo");
             imageLabel.setIcon(image);
         } catch (Exception e) {
             e.printStackTrace();
@@ -77,7 +77,7 @@ public class MenuUI extends JFrame {
 
         // Panel para los botones y el título
         JPanel rightPanel = new JPanel(new BorderLayout());
-        rightPanel.setBackground(new Color(204, 255, 204));
+        rightPanel.setBackground(new Color(30, 144, 255));
         JLabel titleLabel = new JLabel("NEW LIFE CLINIC", JLabel.CENTER);
         titleLabel.setFont(new Font("Garamond", Font.BOLD, 30));
         titleLabel.setBorder(BorderFactory.createEmptyBorder(20, 0, 20, 0));
