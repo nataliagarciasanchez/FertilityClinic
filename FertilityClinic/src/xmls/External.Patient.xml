@@ -1,0 +1,35 @@
+<?xml version= "1.0" encoding= "UTF-8" standalone= "yes"?>
+
+<!DOCTYPE Patient [
+
+<!ELEMENT Patient (dob,email, phone, height, weight, bloodType, gender, doctor)>
+	<!ATTLIST Patient name CDATA #REQUIRED>
+		<!ELEMENT dob (#PCDATA)>
+		<!ELEMENT email (#PCDATA)>
+		<!ELEMENT phone (#PCDATA)>
+		<!ELEMENT  height (#PCDATA)>
+		<!ELEMENT weight (#PCDATA)>
+		<!ELEMENT bloodType (#PCDATA)>
+		<!ELEMENT gender (#PCDATA)>
+		<!ELEMENT doctor (name, phone, email, speciality)>
+		<!ATTLIST Doctor name CDATA #REQUIRED>
+			<!ELEMENT name (#PCDATA)>
+			<!ELEMENT phone (#PCDATA)>
+			<!ELEMENT email (#PCDATA)>
+			<!ELEMENT  speciality (#PCDATA)>
+]>
+<Patient name="Miguel">
+  <dob>2003-03-21</dob>
+  <email>miguel@example.com</email>
+  <phone>1234567890</phone>
+  <height>150</height>
+  <weight>150</weight>
+  <bloodType>O+</bloodType>
+  <gender>Male</gender>
+  <doctor name="David">
+    <name>David</name>
+    <phone>0987654321</phone>
+    <email>david@example.com</email>
+    <speciality>Urologist</speciality>
+  </doctor>
+</Patient>
