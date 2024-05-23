@@ -64,13 +64,13 @@ public class MenuUI extends JFrame {
 
         JLabel imageLabel = new JLabel();
         try {
-            // Ajuste de la ruta relativa para salir del paquete actual y acceder a la carpeta logo
-            ImageIcon image = new ImageIcon(getClass().getResource("/../logo/photo.png"));
-            if (image.getIconWidth() == -1) {
-                System.out.println("Image file not loaded properly: Check file path or file format");
-                throw new Exception("Image file not loaded properly");
+            var imgURL = getClass().getResource("/logo/photo.png");
+            if (imgURL != null) {
+                ImageIcon image = new ImageIcon(imgURL);
+                imageLabel.setIcon(image);
+            } else {
+                throw new Exception("Resource not found: " + "/logo/photo.png");
             }
-            imageLabel.setIcon(image);
         } catch (Exception e) {
             e.printStackTrace();
             imageLabel.setText("Image not found");
@@ -82,6 +82,7 @@ public class MenuUI extends JFrame {
         JLabel titleLabel = new JLabel("NEW LIFE CLINIC", JLabel.CENTER);
         titleLabel.setFont(new Font("Cooper Black", Font.BOLD, 30));
         titleLabel.setForeground(Color.BLACK);
+        titleLabel.setBorder(BorderFactory.createEmptyBorder(50, 0, 0, 0));  // More space above title
 
         JLabel questionLabel = new JLabel("Do you want to log in or sign up?");
         questionLabel.setFont(new Font("Cooper Black", Font.PLAIN, 20));
@@ -103,14 +104,8 @@ public class MenuUI extends JFrame {
         buttonPanel.add(signupButton);
 
         rightPanel.add(titleLabel, BorderLayout.NORTH);
-        rightPanel.add(questionLabel, BorderLayout.CENTER);
-        rightPanel.add(buttonPanel, BorderLayout.SOUTH);
+        rightPanel.add(questionLabel, BorderLayout
 
-        mainPanel.add(imageLabel, BorderLayout.WEST);
-        mainPanel.add(rightPanel, BorderLayout.CENTER);
-
-        add(mainPanel);
-    }
 
 
     //ESTE ES EL QUE FUNCIONA
