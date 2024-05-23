@@ -134,25 +134,46 @@ public class MenuUI extends JFrame {
         JPanel mainPanel = new JPanel(new BorderLayout(10, 10));
         mainPanel.setBackground(new Color(25, 25, 112));  // Dark blue color
 
-        // Image setup
         JLabel imageLabel = setupImageLabel();
         mainPanel.add(imageLabel, BorderLayout.WEST);
 
-        // Right panel setup
         JPanel rightPanel = new JPanel(new BorderLayout());
         rightPanel.setBackground(new Color(25, 25, 112));
         JLabel titleLabel = new JLabel("NEW LIFE CLINIC", JLabel.CENTER);
-        titleLabel.setFont(new Font("Calibri", Font.BOLD, 70)); 
+        titleLabel.setFont(new Font("Calibri", Font.BOLD, 70));
         titleLabel.setForeground(Color.WHITE);
         titleLabel.setBorder(BorderFactory.createEmptyBorder(100, 0, 0, 0));
         rightPanel.add(titleLabel, BorderLayout.NORTH);
 
-        // Add the right panel to the main panel
-        mainPanel.add(rightPanel, BorderLayout.CENTER);
-        add(mainPanel);
+        JLabel questionLabel = new JLabel("Do you want to log in or sign up?");
+        questionLabel.setFont(new Font("Cooper Black", Font.PLAIN, 20));
+        questionLabel.setHorizontalAlignment(JLabel.CENTER);
+        questionLabel.setForeground(Color.WHITE);
 
-        // Directly ask if user wants to log in or sign up
-        askLoginOrSignUp();
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
+        buttonPanel.setBackground(new Color(25, 25, 112));
+        JButton loginButton = new JButton("Log in");
+        JButton signupButton = new JButton("Sign up");
+
+        loginButton.setBackground(Color.WHITE);
+        signupButton.setBackground(Color.WHITE);
+
+        loginButton.setFont(new Font("Calibri", Font.BOLD, 16));
+        signupButton.setFont(new Font("Calibri", Font.BOLD, 16));
+
+        loginButton.addActionListener(e -> showLoginDialog());
+        signupButton.addActionListener(e -> showSignUpDialog());
+
+        buttonPanel.add(loginButton);
+        buttonPanel.add(signupButton);
+
+        rightPanel.add(questionLabel, BorderLayout.CENTER);
+        rightPanel.add(buttonPanel, BorderLayout.SOUTH);
+
+        mainPanel.add(rightPanel, BorderLayout.CENTER);
+
+        add(mainPanel);
+        setVisible(true);
     }
 
     private JLabel setupImageLabel() {
@@ -175,18 +196,6 @@ public class MenuUI extends JFrame {
         return imageLabel;
     }
 
-    private void askLoginOrSignUp() {
-        Object[] options = {"Log In", "Sign Up"};
-        int result = JOptionPane.showOptionDialog(this, "Do you want to log in or sign up?",
-            "User Authentication", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, 
-            null, options, options[0]);
-
-        if (result == JOptionPane.YES_OPTION) {
-            showLoginDialog();
-        } else if (result == JOptionPane.NO_OPTION) {
-            showSignUpDialog();
-        }
-    }
     //ESTE ES EL QUE FUNCIONA
     /*
     private void showInitialDialog() {
