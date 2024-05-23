@@ -171,7 +171,7 @@ public class MenuUI extends JFrame {
                 loadUserInterface(loggedInUser); // Carga la interfaz principal para el usuario conectado
             } else {
                 JOptionPane.showMessageDialog(this, "Invalid email or password.", "Error", JOptionPane.ERROR_MESSAGE);
-                showLoginPanel(); // Reabrir el diálogo de inicio de sesión en caso de falla de autenticación
+                showLoginDialog(); // Reabrir el diálogo de inicio de sesión en caso de falla de autenticación
             }
         } else if (result == JOptionPane.CANCEL_OPTION) {
             showSignUpDialog(); // Si el usuario cancela, ofrecer registrarse en su lugar.
