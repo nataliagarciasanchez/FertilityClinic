@@ -119,18 +119,6 @@ public class MenuUI extends JFrame {
         add(mainPanel);
     }
 
-    // Métodos para mostrar los diálogos de Login y Signup
-    private void showLoginDialog() {
-        // Aquí implementas la lógica para mostrar el diálogo de Login
-        JOptionPane.showMessageDialog(this, "Login Dialog Placeholder", "Login", JOptionPane.INFORMATION_MESSAGE);
-    }
-
-    private void showSignupDialog() {
-        // Aquí implementas la lógica para mostrar el diálogo de Signup
-        JOptionPane.showMessageDialog(this, "Signup Dialog Placeholder", "Sign Up", JOptionPane.INFORMATION_MESSAGE);
-    }
-
-
     //ESTE ES EL QUE FUNCIONA
     /*
     private void showInitialDialog() {
