@@ -3,11 +3,13 @@ package FertilityClinicXML;
 import java.io.File;
 
 
+
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
 
 import FertilityClinicInterfaces.DoctorManager;
 import FertilityClinicInterfaces.PatientManager;
@@ -48,18 +50,31 @@ public class XMLManagerImpl implements XMLManager {
 			
 			JAXBContext jaxbContext= JAXBContext.newInstance(Doctor.class);
 			Marshaller marshaller=jaxbContext.createMarshaller();
-			File file=new File("./xmls/Doctor.xml");
+			File file=new File("Doctor.xml");
 			marshaller.marshal(d, file);
+			System.out.print(d);
 		} catch(Exception e) {
 			
 		}
 	}
-
+	
 	@Override
-	public Doctor xml2Doctor(File xml) {
-		// TODO Auto-generated method stub
-		return null;
+public Patient xml2Patient (File xml) {
+	//TODO Auto-generated method sub
+	 Patient  p=null;
+	 manager=new JDBCManager();
+	 patientmanager=new JDBCPatientManager(manager, treatmentmanager);
+	 try {
+		 JAXBContext jaxbContext =JAXBContext.newInstance(Patient.class);
+		 Unmarshaller unmarshaller=jaxbContext.createUnmarshaller();
+		 
+		 p=(Patient) unmarshaller.unmarshal(xml);
+		 patientmanager.addPatient(p);
+	 }catch (Exception e) {
+		 e.printStackTrace();
+	 }
+	 return p;
 	}
 	
-	
+
 }

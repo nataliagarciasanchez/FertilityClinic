@@ -52,8 +52,26 @@ public class MenuUI extends JFrame {
     
 
     private void showInitialDialog() {
+        JDialog dialog = new JDialog(this, "Welcome", true);
+        dialog.setLayout(new BorderLayout());
+        
+        ImageIcon icon = new ImageIcon("./logo/Clinic_logo.png");
+        dialog.setIconImage(icon.getImage());
+
+        // Create an exit button
+        JButton exitButton = new JButton("Exit");
+        exitButton.addActionListener(e -> System.exit(0));
+
+        // Create a cancel button
+        JButton cancelButton = new JButton("Cancel");
+        cancelButton.addActionListener(e -> {
+        	showInitialDialog();
+        });
+
+        // Create the main message panel
         String[] options = {"Login", "Sign Up"};
-        int choice = JOptionPane.showOptionDialog(this, "Do you want to Login or Sign Up?", 
+        JPanel messagePanel = new JPanel();
+        int choice = JOptionPane.showOptionDialog(dialog, "Do you want to Login or Sign Up?", 
                                                   "Welcome", JOptionPane.DEFAULT_OPTION, 
                                                   JOptionPane.QUESTION_MESSAGE, null, 
                                                   options, options[0]);
@@ -63,7 +81,20 @@ public class MenuUI extends JFrame {
         } else if (choice == 1) {
             showSignUpDialog();
         }
-    }	 
+
+        // Create a panel to hold the exit and cancel buttons and add them to the top
+        JPanel buttonPanel = new JPanel(new BorderLayout());
+        buttonPanel.add(exitButton, BorderLayout.WEST);
+        buttonPanel.add(cancelButton, BorderLayout.EAST);
+        
+
+        dialog.add(buttonPanel, BorderLayout.NORTH);
+        dialog.add(messagePanel, BorderLayout.CENTER);
+
+        dialog.pack();
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
+    }
 
     private void showLoginDialog() {
         JPanel panel = new JPanel(new GridLayout(3, 2));
