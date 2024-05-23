@@ -28,11 +28,7 @@ public class MenuUI extends JFrame {
     private User loggedInUser;
    
     public MenuUI() {
-        super("Fertility Clinic System");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(800, 600);
-        setLocationRelativeTo(null);
-        setLayout(new BorderLayout(5, 5));
+        
         manager = new JDBCManager();
 
         
@@ -125,20 +121,6 @@ public class MenuUI extends JFrame {
         return imageLabel;
     }
 
-    //ESTE ES EL QUE FUNCIONA
-    /*
-    private void showInitialDialog() {
-        String[] options = {"Login", "Sign Up"};
-        int choice = JOptionPane.showOptionDialog(this, "Do you want to Login or Sign Up?", 
-                                                  "Welcome", JOptionPane.DEFAULT_OPTION, 
-                                                  JOptionPane.QUESTION_MESSAGE, null, 
-                                                  options, options[0]);
-        if (choice == 0) {
-            showLoginDialog();
-        } else if (choice == 1) {
-            showSignUpDialog();
-        }
-    }	*/ 
 
     private void showLoginDialog() {
         // Crear un panel con un diseño de cuadrícula para los campos de entrada
