@@ -89,7 +89,7 @@ public class MenuUI extends JFrame {
         questionLabel.setForeground(Color.BLACK);  // Color negro para uniformidad
         questionLabel.setHorizontalAlignment(JLabel.CENTER);
 
-        JPanel buttonPanel = new JPanel(new GridLayout(1, 2, 10, 0));
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 5));
         buttonPanel.setBackground(new Color(135, 206, 250));
         JButton loginButton = new JButton("Log in");
         JButton signupButton = new JButton("Sign up");
@@ -100,16 +100,23 @@ public class MenuUI extends JFrame {
         loginButton.setFont(new Font("Garamond", Font.BOLD, 16));
         signupButton.setFont(new Font("Garamond", Font.BOLD, 16));
 
+        // Establecer un tamaño más pequeño para los botones
+        loginButton.setPreferredSize(new Dimension(80, 25));
+        signupButton.setPreferredSize(new Dimension(80, 25));
+
         // Acción de los botones
         loginButton.addActionListener(e -> showLoginDialog());
-        signupButton.addActionListener(e -> showSignUpDialog());
+        signupButton.addActionListener(e -> showSignupDialog());
 
         buttonPanel.add(loginButton);
         buttonPanel.add(signupButton);
 
+        JPanel upperPanel = new JPanel(new BorderLayout());
+        upperPanel.add(questionLabel, BorderLayout.NORTH);
+        upperPanel.add(buttonPanel, BorderLayout.CENTER);
+
         rightPanel.add(titleLabel, BorderLayout.NORTH);
-        rightPanel.add(questionLabel, BorderLayout.CENTER);
-        rightPanel.add(buttonPanel, BorderLayout.SOUTH);
+        rightPanel.add(upperPanel, BorderLayout.CENTER);
 
         // Agregar componentes al panel principal
         mainPanel.add(imageLabel, BorderLayout.WEST);
