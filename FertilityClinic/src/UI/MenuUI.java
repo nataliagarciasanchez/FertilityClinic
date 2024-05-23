@@ -50,53 +50,54 @@ public class MenuUI extends JFrame {
         showInitialDialog();
     }
     
-/*
+
     private void showInitialDialog() {
-        JDialog dialog = new JDialog(this, "Welcome", true);
-        dialog.setLayout(new BorderLayout());
-     // Load the image
-       // ImageIcon icon = new ImageIcon("./logo/Clinic_logo.png");
-       // JLabel imageLabel = new JLabel(icon);
+    	setTitle("NEW LIFE CLINIC");
+        Toolkit toolkit = Toolkit.getDefaultToolkit();
+        Dimension screenSize = toolkit.getScreenSize();
+        setSize(screenSize.width - 100, screenSize.height - 100);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
 
+        // Panel principal con BorderLayout
+        JPanel mainPanel = new JPanel(new BorderLayout(10, 10));
+        mainPanel.setBackground(new Color(204, 255, 204));  // Color verde clarito
 
-        // Create an exit button
-       // JButton exitButton = new JButton("Exit");
-       // exitButton.addActionListener(e -> System.exit(0));
+        // Panel para la imagen
+        JLabel imageLabel = new JLabel(new ImageIcon("path_to_your_image.jpg"));  // Asegúrate de poner la ruta correcta de la imagen
+        imageLabel.setHorizontalAlignment(JLabel.CENTER);
 
-        // Create a cancel button
-        JButton cancelButton = new JButton("Cancel");
-        cancelButton.addActionListener(e -> {
-        	showInitialDialog();
-        });
+        // Panel para los botones y el título
+        JPanel rightPanel = new JPanel(new BorderLayout());
+        rightPanel.setBackground(new Color(204, 255, 204));
+        JLabel titleLabel = new JLabel("NEW LIFE CLINIC", JLabel.CENTER);
+        titleLabel.setFont(new Font("Garamond", Font.BOLD, 30));
+        titleLabel.setBorder(BorderFactory.createEmptyBorder(20, 0, 20, 0));
 
-        // Create the main message panel
-        String[] options = {"Login", "Sign Up"};
-        JPanel messagePanel = new JPanel();
-        int choice = JOptionPane.showOptionDialog(dialog, "Do you want to Login or Sign Up?", 
-                                                  "Welcome", JOptionPane.DEFAULT_OPTION, 
-                                                  JOptionPane.QUESTION_MESSAGE, null, 
-                                                  options, options[0]);
+        JPanel buttonPanel = new JPanel(new GridLayout(2, 1, 10, 10));
+        buttonPanel.setBackground(new Color(204, 255, 204));
+        JButton loginButton = new JButton("Log in");
+        JButton signupButton = new JButton("Sign up");
 
-        if (choice == 0) {
-            showLoginDialog();
-        } else if (choice == 1) {
-            showSignUpDialog();
-        }
+        loginButton.setFont(new Font("Garamond", Font.BOLD, 16));
+        signupButton.setFont(new Font("Garamond", Font.BOLD, 16));
 
-        // Create a panel to hold the exit and cancel buttons and add them to the top
-       // JPanel buttonPanel = new JPanel(new BorderLayout());
-      //  buttonPanel.add(exitButton, BorderLayout.WEST);
-      //  buttonPanel.add(cancelButton, BorderLayout.EAST);
-        
+        buttonPanel.add(loginButton);
+        buttonPanel.add(signupButton);
 
-        dialog.add(buttonPanel, BorderLayout.NORTH);
-        dialog.add(messagePanel, BorderLayout.CENTER);
+        rightPanel.add(titleLabel, BorderLayout.NORTH);
+        rightPanel.add(buttonPanel, BorderLayout.CENTER);
 
-        dialog.pack();
-        dialog.setLocationRelativeTo(this);
-        dialog.setVisible(true);
-    }*/
+        // Agregar componentes al panel principal
+        mainPanel.add(imageLabel, BorderLayout.WEST);
+        mainPanel.add(rightPanel, BorderLayout.CENTER);
+
+        // Agregar el panel principal al frame
+        add(mainPanel);
+    }
     
+    //ESTE ES EL QUE FUNCIONA
+    /*
     private void showInitialDialog() {
         String[] options = {"Login", "Sign Up"};
         int choice = JOptionPane.showOptionDialog(this, "Do you want to Login or Sign Up?", 
@@ -136,7 +137,8 @@ public class MenuUI extends JFrame {
         }if (result == JOptionPane.OK_CANCEL_OPTION) {
         	showSignUpDialog();
         }
-    }
+    }*/ 
+    
     
     
     private void showSignUpDialog() {
