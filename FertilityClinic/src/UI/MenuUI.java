@@ -76,7 +76,7 @@ public class MenuUI extends JFrame {
             imageLabel.setText("Image not found: " + e.getMessage());
         }
         imageLabel.setHorizontalAlignment(JLabel.CENTER);
-        imageLabel.setBorder(BorderFactory.createEmptyBorder(0, 50, 0, 0)); // Reduce the left border padding
+        imageLabel.setBorder(BorderFactory.createEmptyBorder(0, 100, 0, 0)); // Reduce the left border padding
         mainPanel.add(imageLabel, BorderLayout.WEST);
 
         JPanel rightPanel = new JPanel(new BorderLayout());
