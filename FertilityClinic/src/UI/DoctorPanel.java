@@ -57,11 +57,12 @@ public class DoctorPanel extends JPanel {
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
 
-        JButton op1 = new JButton("View My Information");
-        JButton op2 = new JButton("Update My Information");
+        JButton op1 = new JButton("View my Information");
+        JButton op2 = new JButton("Update my Information");
         JButton op3 = new JButton("My appointments");
-        JButton op4 = new JButton("View All my Patients");
-        JButton op5 = new JButton("My ");
+        JButton op4 = new JButton("View all my Patients");
+        JButton op5 = new JButton("Assign a patient ");
+        JButton op6 = new JButton("View stock ");
         
 
         op1.setMaximumSize(new Dimension(Integer.MAX_VALUE, op1.getMinimumSize().height));
@@ -69,12 +70,14 @@ public class DoctorPanel extends JPanel {
         op3.setMaximumSize(new Dimension(Integer.MAX_VALUE, op3.getMinimumSize().height));
         op4.setMaximumSize(new Dimension(Integer.MAX_VALUE, op4.getMinimumSize().height));
         op5.setMaximumSize(new Dimension(Integer.MAX_VALUE, op5.getMinimumSize().height));
+        op6.setMaximumSize(new Dimension(Integer.MAX_VALUE, op5.getMinimumSize().height));
 
         op1.addActionListener(e -> viewMyinfoPanel()); //igual para doctor
         op2.addActionListener(e -> updateInfoPanel());//igual para doctor 
         op3.addActionListener(e -> viewMyinfoPanel()); //igual para doctor pero modificar cita patient solo delete y add
-        op4.addActionListener(e -> viewAllPatientsPanel());//NUEVO
+        op4.addActionListener(e -> viewMyinfoPanel());//NUEVO
         op5.addActionListener(e -> viewMyinfoPanel());
+        op6.addActionListener(e -> viewMyinfoPanel());
 
         buttonPanel.add(op1);
         buttonPanel.add(op2);
@@ -101,7 +104,7 @@ public class DoctorPanel extends JPanel {
 
             // Si licensePDF no es nulo, muestra un botón para abrir/guardar el PDF
             if (doctor.getLicensePDF() != null && doctor.getLicensePDF().length > 0) {
-                JButton btnViewPDF = new JButton("View License");
+                JButton btnViewPDF = new JButton("View Photo");
                 btnViewPDF.addActionListener(e -> {
                     // Llama a un método que maneja la visualización del PDF
                     displayPDF(doctor.getLicensePDF());
@@ -175,7 +178,7 @@ public class DoctorPanel extends JPanel {
         JTextField phoneField = new JTextField(doctor != null ? String.valueOf(doctor.getPhone()) : "");
         JTextField nameField = new JTextField(doctor != null ? doctor.getName() : "");
         JComboBox<Speciality> specialityComboBox = new JComboBox<>(new DefaultComboBoxModel<>(MenuUI.getSpecialities().toArray(new Speciality[0])));
-        JButton selectPDFButton = new JButton("Select License PDF");
+        JButton selectPDFButton = new JButton("Select Photo PDF");
         JLabel pdfLabel = new JLabel("No file selected");
 
         // Preset the selected speciality if available

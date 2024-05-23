@@ -50,17 +50,18 @@ public class MenuUI extends JFrame {
         showInitialDialog();
     }
     
-
+/*
     private void showInitialDialog() {
         JDialog dialog = new JDialog(this, "Welcome", true);
         dialog.setLayout(new BorderLayout());
-        
-        ImageIcon icon = new ImageIcon("./logo/Clinic_logo.png");
-        dialog.setIconImage(icon.getImage());
+     // Load the image
+       // ImageIcon icon = new ImageIcon("./logo/Clinic_logo.png");
+       // JLabel imageLabel = new JLabel(icon);
+
 
         // Create an exit button
-        JButton exitButton = new JButton("Exit");
-        exitButton.addActionListener(e -> System.exit(0));
+       // JButton exitButton = new JButton("Exit");
+       // exitButton.addActionListener(e -> System.exit(0));
 
         // Create a cancel button
         JButton cancelButton = new JButton("Cancel");
@@ -83,9 +84,9 @@ public class MenuUI extends JFrame {
         }
 
         // Create a panel to hold the exit and cancel buttons and add them to the top
-        JPanel buttonPanel = new JPanel(new BorderLayout());
-        buttonPanel.add(exitButton, BorderLayout.WEST);
-        buttonPanel.add(cancelButton, BorderLayout.EAST);
+       // JPanel buttonPanel = new JPanel(new BorderLayout());
+      //  buttonPanel.add(exitButton, BorderLayout.WEST);
+      //  buttonPanel.add(cancelButton, BorderLayout.EAST);
         
 
         dialog.add(buttonPanel, BorderLayout.NORTH);
@@ -94,7 +95,20 @@ public class MenuUI extends JFrame {
         dialog.pack();
         dialog.setLocationRelativeTo(this);
         dialog.setVisible(true);
-    }
+    }*/
+    
+    private void showInitialDialog() {
+        String[] options = {"Login", "Sign Up"};
+        int choice = JOptionPane.showOptionDialog(this, "Do you want to Login or Sign Up?", 
+                                                  "Welcome", JOptionPane.DEFAULT_OPTION, 
+                                                  JOptionPane.QUESTION_MESSAGE, null, 
+                                                  options, options[0]);
+        if (choice == 0) {
+            showLoginDialog();
+        } else if (choice == 1) {
+            showSignUpDialog();
+        }
+    }	 
 
     private void showLoginDialog() {
         JPanel panel = new JPanel(new GridLayout(3, 2));
@@ -119,6 +133,8 @@ public class MenuUI extends JFrame {
                 JOptionPane.showMessageDialog(this, "Invalid email or password.", "Error", JOptionPane.ERROR_MESSAGE);
                 showLoginDialog();
             }
+        }if (result == JOptionPane.OK_CANCEL_OPTION) {
+        	showSignUpDialog();
         }
     }
     
@@ -248,6 +264,8 @@ public class MenuUI extends JFrame {
                 e.printStackTrace();
                 JOptionPane.showMessageDialog(this, "Error during sign-up process.", "Error", JOptionPane.ERROR_MESSAGE);
             }
+        }if (result == JOptionPane.OK_CANCEL_OPTION) {
+        	showSignUpDialog();
         }
     }
  
