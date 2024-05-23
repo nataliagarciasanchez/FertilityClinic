@@ -49,7 +49,7 @@ public class MenuUI extends JFrame {
         userManager = new JPAUserManager(); 
         
         showInitialDialog();
-    }
+    }/*
     private void showInitialDialog() {
         setTitle("NEW LIFE CLINIC");
         Toolkit toolkit = Toolkit.getDefaultToolkit();
@@ -121,7 +121,72 @@ public class MenuUI extends JFrame {
         add(mainPanel);
     }
 
+*/
+    
+    private void showInitialDialog() {
+        setTitle("NEW LIFE CLINIC");
+        Toolkit toolkit = Toolkit.getDefaultToolkit();
+        Dimension screenSize = toolkit.getScreenSize();
+        setSize(screenSize.width - 100, screenSize.height - 100);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
 
+        JPanel mainPanel = new JPanel(new BorderLayout(10, 10));
+        mainPanel.setBackground(new Color(25, 25, 112));  // Dark blue color
+
+        // Image setup
+        JLabel imageLabel = setupImageLabel();
+        mainPanel.add(imageLabel, BorderLayout.WEST);
+
+        // Right panel setup
+        JPanel rightPanel = new JPanel(new BorderLayout());
+        rightPanel.setBackground(new Color(25, 25, 112));
+        JLabel titleLabel = new JLabel("NEW LIFE CLINIC", JLabel.CENTER);
+        titleLabel.setFont(new Font("Calibri", Font.BOLD, 70)); 
+        titleLabel.setForeground(Color.WHITE);
+        titleLabel.setBorder(BorderFactory.createEmptyBorder(100, 0, 0, 0));
+        rightPanel.add(titleLabel, BorderLayout.NORTH);
+
+        // Add the right panel to the main panel
+        mainPanel.add(rightPanel, BorderLayout.CENTER);
+        add(mainPanel);
+
+        // Directly ask if user wants to log in or sign up
+        askLoginOrSignUp();
+    }
+
+    private JLabel setupImageLabel() {
+        JLabel imageLabel = new JLabel();
+        try {
+            File imagePath = new File("./logo/photo.png");
+            if (!imagePath.exists()) {
+                throw new IllegalArgumentException("Image file not found at: " + imagePath.getAbsolutePath());
+            }
+            ImageIcon originalIcon = new ImageIcon(imagePath.getAbsolutePath());
+            Image image = originalIcon.getImage();
+            Image newimg = image.getScaledInstance(300, 300, Image.SCALE_SMOOTH);
+            imageLabel.setIcon(new ImageIcon(newimg));
+        } catch (Exception e) {
+            e.printStackTrace();
+            imageLabel.setText("Image not found: " + e.getMessage());
+        }
+        imageLabel.setHorizontalAlignment(JLabel.CENTER);
+        imageLabel.setBorder(BorderFactory.createEmptyBorder(0, 50, 0, 0));
+        return imageLabel;
+    }
+
+    private void askLoginOrSignUp() {
+        Object[] options = {"Log In", "Sign Up"};
+        int result = JOptionPane.showOptionDialog(this, "Do you want to log in or sign up?",
+            "User Authentication", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, 
+            null, options, options[0]);
+
+        if (result == JOptionPane.YES_OPTION) {
+            showLoginDialog();
+        } else if (result == JOptionPane.NO_OPTION) {
+            showSignUpDialog();
+        }
+    }
     //ESTE ES EL QUE FUNCIONA
     /*
     private void showInitialDialog() {
