@@ -23,6 +23,7 @@ public class MenuUI extends JFrame {
     private AppointmentManager appointmentManager; 
     private TreatmentsManager treatmentManager;
     private SpecialityManager specialityManager;
+    private StockManager stockManager;
     private User loggedInUser;
    
     public MenuUI() {
@@ -244,7 +245,7 @@ public class MenuUI extends JFrame {
                 userPanel = new DoctorPanel(doctorManager,patientManager, appointmentManager, doctor.getId());
             } else {
                 userPanel = new JPanel();
-                userPanel.add(new JLabel("Patient record not found."));
+                userPanel.add(new JLabel("Doctor record not found."));
             }
         } else if ("patient".equals(user.getRole().getName())) {
             Patient patient = patientManager.getPatientByEmail(user.getEmail());
@@ -255,7 +256,16 @@ public class MenuUI extends JFrame {
                 userPanel.add(new JLabel("Patient record not found."));
             }
         } else if ("manager".equals(user.getRole().getName())) {
-            userPanel = new ManagerPanel(managerManager); // Assuming ManagerPanel requires a managerManager
+        	Manager manager = managerManager.getManagerByEmail(user.getEmail());
+            if (manager != null) {
+            	userPanel = new ManagerPanel(managerManager,doctorManager,patientManager,stockManager,manager.getId());
+            } else {
+                userPanel = new JPanel();
+                userPanel.add(new JLabel("Manager record not found."));
+            }
+        	
+        	
+        	 // Assuming ManagerPanel requires a managerManager
         } else {
             userPanel = new JPanel();
             userPanel.add(new JLabel("Unknown role specified."));

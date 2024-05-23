@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Time;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import FertilityClinicInterfaces.AppointmentManager;
 import FertilityClinicInterfaces.DoctorManager;
@@ -38,14 +40,11 @@ public class JDBCAppointmentManager implements AppointmentManager{
 	            
 	            while (rs.next()) {
 	                Integer id = rs.getInt("id");
-	                Integer patientIdFromDB = rs.getInt("patient_id");  // Adjust the column name if needed
+	                Integer patientIdFromDB = rs.getInt("patient_id");
 	                String description = rs.getString("description");
-	                String timeStr = rs.getString("time"); // Recuperar la hora como cadena desde la base de datos
-	                Time time = Time.valueOf(timeStr); // Convertir la cadena en un objeto Time
-	                String dateStr = rs.getString("date"); // Recuperar la hora como cadena desde la base de datos
-	                Date date = Date.valueOf(dateStr); // Convertir la cadena en un objeto Time
+	                Time time = rs.getTime("time");  // Obtener directamente el objeto Time
+	                Date date = rs.getDate("date");  // Obtener directamente el objeto Date
 	                Integer doctorId = rs.getInt("doctor_id");
-
 	                
 	                Appointment ap = new Appointment(id, patientIdFromDB, description, time, date, doctorId);
 	                appointments.add(ap);
@@ -57,22 +56,24 @@ public class JDBCAppointmentManager implements AppointmentManager{
 	        }
 	        return appointments;
 	    }
-	    
-	    
-	    
 
-	     
+	   
 	    @Override
 	    public void bookAppointment(Appointment ap) {
 	        String sql = "INSERT INTO appointments (patient_id, description, time, date, doctor_id) VALUES (?, ?, ?, ?, ?)";
 	        
 	        try {
 	            PreparedStatement prep = manager.getConnection().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-
+	         // Convert String to java.sql.Date
+	            java.sql.Date sqlDate = java.sql.Date.valueOf(ap.getDate().toString());
+	            
+	            // Convert String to java.sql.Time
+	            java.sql.Time sqlTime = java.sql.Time.valueOf(ap.getTime().toString());
+	            
 	            prep.setInt(1, ap.getPatientId());
 	            prep.setString(2, ap.getDescription());
-	            prep.setString(3, ap.getTime().toString());
-	            prep.setString(4, ap.getDate().toString());
+	            prep.setTime(3, sqlTime);
+	            prep.setDate(4, sqlDate);
 	            prep.setInt(5, ap.getDoctorId());
 	            prep.executeUpdate();
 
@@ -153,41 +154,31 @@ public class JDBCAppointmentManager implements AppointmentManager{
 	    
 
 
-
 	    @Override
 	    public ArrayList<Appointment> getCurrentAppointments(int patientId) {
 	        ArrayList<Appointment> appointments = new ArrayList<>();
-	        String sql = "SELECT * FROM appointments WHERE patient_id = ? AND date >= DATE('now')";
+	        String sql = "SELECT * FROM appointments WHERE patient_id = ?";  // Eliminado el filtro de fecha
 
-	        try  {
-	        	
-	        	PreparedStatement prep = manager.getConnection().prepareStatement(sql);
+	        try (PreparedStatement prep = manager.getConnection().prepareStatement(sql)) {
 	            prep.setInt(1, patientId);
-	            ResultSet rs = prep.executeQuery();
-
-	            while (rs.next()) {
-	                int id = rs.getInt("id");
-	                String timeStr = rs.getString("time");
-	                Time time = Time.valueOf(timeStr); // Convertir la cadena en un objeto Time
-	                String dateStr = rs.getString("date"); // Recuperar la hora como cadena desde la base de datos
-	                Date date = Date.valueOf(dateStr); // Convertir la cadena en un objeto Time
-	                
-	                int doctorId = rs.getInt("doctor_id");
-	                String description = rs.getString("description");
-	                
-	                Appointment appointment = new Appointment(id, patientId, description, time, date, doctorId);
-	                appointments.add(appointment);
+	            try (ResultSet rs = prep.executeQuery()) {
+	                while (rs.next()) {
+	                    int id = rs.getInt("id");
+	                    Time time = rs.getTime("time"); // Obteniendo directamente el objeto Time
+	                    Date date = rs.getDate("date"); // Obteniendo directamente el objeto Date
+	                    int doctorId = rs.getInt("doctor_id");
+	                    String description = rs.getString("description");
+	                    
+	                    Appointment appointment = new Appointment(id, patientId, description, time, date, doctorId);
+	                    appointments.add(appointment);
+	                }
 	            }
-
-	            rs.close();
 	        } catch (SQLException e) {
 	            e.printStackTrace();
 	        }
 
 	        return appointments;
 	    }
-
-
 
 
 }
