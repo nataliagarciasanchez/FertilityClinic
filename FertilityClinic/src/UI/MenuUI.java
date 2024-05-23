@@ -59,7 +59,7 @@ public class MenuUI extends JFrame {
         setLocationRelativeTo(null);
 
         JPanel mainPanel = new JPanel(new BorderLayout(10, 10));
-        mainPanel.setBackground(new Color(135, 206, 235));  // Color azul claro
+        mainPanel.setBackground(new Color(100, 149, 237));  // Color azul claro
 
         JLabel imageLabel = new JLabel();
         try {
@@ -82,7 +82,7 @@ public class MenuUI extends JFrame {
         JPanel rightPanel = new JPanel(new BorderLayout());
         rightPanel.setBackground(new Color(135, 206, 235));
         JLabel titleLabel = new JLabel("NEW LIFE CLINIC", JLabel.CENTER);
-        titleLabel.setFont(new Font("Cooper Black", Font.BOLD, 70)); // Fuente más grande
+        titleLabel.setFont(new Font("Calibri", Font.BOLD, 70)); // Fuente más grande
         titleLabel.setForeground(Color.BLACK);
         titleLabel.setBorder(BorderFactory.createEmptyBorder(100, 0, 0, 0)); // Espacio arriba del título
         rightPanel.add(titleLabel, BorderLayout.NORTH);
@@ -93,15 +93,15 @@ public class MenuUI extends JFrame {
         questionLabel.setForeground(Color.BLACK);
 
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
-        buttonPanel.setBackground(new Color(135, 206, 235));
+        buttonPanel.setBackground(new Color(100, 149, 237));
         JButton loginButton = new JButton("Log in");
         JButton signupButton = new JButton("Sign up");
 
         loginButton.setBackground(Color.WHITE);
         signupButton.setBackground(Color.WHITE);
 
-        loginButton.setFont(new Font("Cooper Black", Font.BOLD, 16));
-        signupButton.setFont(new Font("Cooper Black", Font.BOLD, 16));
+        loginButton.setFont(new Font("Calibri", Font.BOLD, 16));
+        signupButton.setFont(new Font("Calibri", Font.BOLD, 16));
 
         // Añadir funcionalidad a los botones
         loginButton.addActionListener(e -> showLoginDialog());
