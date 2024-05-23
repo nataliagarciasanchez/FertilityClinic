@@ -76,7 +76,7 @@ public class MenuUI extends JFrame {
         JPanel rightPanel = new JPanel(new BorderLayout());
         rightPanel.setBackground(new Color(135, 206, 235));
         JLabel titleLabel = new JLabel("NEW LIFE CLINIC", JLabel.CENTER);
-        titleLabel.setFont(new Font("Cooper Black", Font.BOLD, 40)); // Fuente más grande
+        titleLabel.setFont(new Font("Cooper Black", Font.BOLD, 70)); // Fuente más grande
         titleLabel.setForeground(Color.BLACK);
         titleLabel.setBorder(BorderFactory.createEmptyBorder(100, 0, 0, 0)); // Espacio arriba del título
         rightPanel.add(titleLabel, BorderLayout.NORTH);
