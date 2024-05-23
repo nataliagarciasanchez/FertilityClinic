@@ -49,79 +49,7 @@ public class MenuUI extends JFrame {
         userManager = new JPAUserManager(); 
         
         showInitialDialog();
-    }/*
-    private void showInitialDialog() {
-        setTitle("NEW LIFE CLINIC");
-        Toolkit toolkit = Toolkit.getDefaultToolkit();
-        Dimension screenSize = toolkit.getScreenSize();
-        setSize(screenSize.width - 100, screenSize.height - 100);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
-
-        JPanel mainPanel = new JPanel(new BorderLayout(10, 10));
-        mainPanel.setBackground(new Color(25, 25, 112));  // Color más oscuro
-
-        JLabel imageLabel = new JLabel();
-        try {
-            File imagePath = new File("./logo/photo.png");  // Verificar la ubicación de la carpeta logo
-            if (!imagePath.exists()) {
-                throw new IllegalArgumentException("Image file not found at: " + imagePath.getAbsolutePath());
-            }
-            ImageIcon originalIcon = new ImageIcon(imagePath.getAbsolutePath());
-            Image image = originalIcon.getImage(); // Transform it 
-            Image newimg = image.getScaledInstance(300, 300,  Image.SCALE_SMOOTH); // Increase the size of the image
-            imageLabel.setIcon(new ImageIcon(newimg));  // Set the resized image
-        } catch (Exception e) {
-            e.printStackTrace();
-            imageLabel.setText("Image not found: " + e.getMessage());
-        }
-        imageLabel.setHorizontalAlignment(JLabel.CENTER);
-        imageLabel.setBorder(BorderFactory.createEmptyBorder(0, 100, 0, 0)); // Reduce the left border padding
-        mainPanel.add(imageLabel, BorderLayout.WEST);
-
-        JPanel rightPanel = new JPanel(new BorderLayout());
-        rightPanel.setBackground(new Color(25, 25, 112));
-        JLabel titleLabel = new JLabel("NEW LIFE CLINIC", JLabel.CENTER);
-        titleLabel.setFont(new Font("Calibri", Font.BOLD, 70)); // Font size updated
-        titleLabel.setForeground(Color.WHITE); // Make sure the title is visible
-        titleLabel.setBorder(BorderFactory.createEmptyBorder(100, 0, 0, 0)); // Space above the title
-        rightPanel.add(titleLabel, BorderLayout.NORTH);
-
-        JLabel questionLabel = new JLabel("Do you want to log in or sign up?");
-        questionLabel.setFont(new Font("Cooper Black", Font.PLAIN, 20));
-        questionLabel.setHorizontalAlignment(JLabel.CENTER);
-        questionLabel.setForeground(Color.WHITE); // Updated for visibility
-
-        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
-        buttonPanel.setBackground(new Color(25, 25, 112));
-        JButton loginButton = new JButton("Log in");
-        JButton signupButton = new JButton("Sign up");
-
-        loginButton.setBackground(Color.WHITE);
-        signupButton.setBackground(Color.WHITE);
-
-        loginButton.setFont(new Font("Calibri", Font.BOLD, 16));
-        signupButton.setFont(new Font("Calibri", Font.BOLD, 16));
-
-        // Adding functionality to the buttons
-        loginButton.addActionListener(e -> showLoginDialog());
-        signupButton.addActionListener(e -> showSignUpDialog());
-
-        buttonPanel.add(loginButton);
-        buttonPanel.add(signupButton);
-
-        // Add more space at the bottom
-        buttonPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 200, 0)); // Increase bottom margin
-
-        rightPanel.add(questionLabel, BorderLayout.CENTER);
-        rightPanel.add(buttonPanel, BorderLayout.SOUTH);
-
-        mainPanel.add(rightPanel, BorderLayout.CENTER);
-
-        add(mainPanel);
     }
-
-*/
     
     private void showInitialDialog() {
         setTitle("NEW LIFE CLINIC");
@@ -212,34 +140,55 @@ public class MenuUI extends JFrame {
         }
     }	*/ 
 
-    private void showLoginDialog() {
-        JPanel panel = new JPanel(new GridLayout(3, 2));
+    private void showLoginPanel() {
+        // Crear un panel con un diseño de cuadrícula para los campos de entrada
+        JPanel panel = new JPanel(new GridLayout(3, 2, 10, 10));
+        panel.setBackground(new Color(25, 25, 112)); // Color de fondo consistente
+
+        // Crear los campos de texto y etiquetas con el estilo apropiado
+        JLabel emailLabel = new JLabel("Email:");
+        emailLabel.setForeground(Color.WHITE); // Color de texto para visibilidad
         JTextField emailField = new JTextField();
+        JLabel passwordLabel = new JLabel("Password:");
+        passwordLabel.setForeground(Color.WHITE);
         JPasswordField passwordField = new JPasswordField();
         
-        panel.add(new JLabel("Email:"));
+        // Añadir componentes al panel
+        panel.add(emailLabel);
         panel.add(emailField);
-        panel.add(new JLabel("Password:"));
+        panel.add(passwordLabel);
         panel.add(passwordField);
 
-
-        int result = JOptionPane.showConfirmDialog(this, panel, "Login", JOptionPane.OK_CANCEL_OPTION);
+        // Mostrar el panel en un diálogo de confirmación
+        int result = JOptionPane.showConfirmDialog(this, panel, "Login", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
         if (result == JOptionPane.OK_OPTION) {
             String email = emailField.getText();
             String password = new String(passwordField.getPassword());
+            // Suponiendo que userManager es un miembro de clase que gestiona la autenticación del usuario
             loggedInUser = userManager.checkPassword(email, password);
 
             if (loggedInUser != null) {
-                loadUserInterface(loggedInUser);
+                loadUserInterface(loggedInUser); // Carga la interfaz principal para el usuario conectado
             } else {
                 JOptionPane.showMessageDialog(this, "Invalid email or password.", "Error", JOptionPane.ERROR_MESSAGE);
-                showLoginDialog();
+                showLoginPanel(); // Reabrir el diálogo de inicio de sesión en caso de falla de autenticación
             }
-        }if (result == JOptionPane.OK_CANCEL_OPTION) {
-        	showSignUpDialog();
+        } else if (result == JOptionPane.CANCEL_OPTION) {
+            showSignUpDialog(); // Si el usuario cancela, ofrecer registrarse en su lugar.
         }
     }
-    
+
+    private void loadUserInterface(User user) {
+        // Lógica de carga de la interfaz de usuario
+    }
+
+    private UserManager userManager = getUserManager(); // Obtener la instancia de UserManager
+
+    private UserManager getUserManager() {
+        // Esta debería retornar una instancia de UserManager
+        return null; // Espacio reservado
+    }
+
     
     
     private void showSignUpDialog() {
