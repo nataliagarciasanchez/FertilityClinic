@@ -76,8 +76,8 @@ public class MenuUI extends JFrame {
             imageLabel.setText("Image not found: " + e.getMessage());
         }
         imageLabel.setHorizontalAlignment(JLabel.CENTER);
+        imageLabel.setBorder(BorderFactory.createEmptyBorder(0, 200, 0, 0));
         mainPanel.add(imageLabel, BorderLayout.WEST);
-        mainPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 200, 0));
 
         JPanel rightPanel = new JPanel(new BorderLayout());
         rightPanel.setBackground(new Color(135, 206, 235));
