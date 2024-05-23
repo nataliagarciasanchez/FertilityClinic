@@ -67,8 +67,10 @@ public class MenuUI extends JFrame {
             if (!imagePath.exists()) {
                 throw new IllegalArgumentException("Image file not found at: " + imagePath.getAbsolutePath());
             }
-            ImageIcon image = new ImageIcon(imagePath.getAbsolutePath());
-            imageLabel.setIcon(image);
+            ImageIcon originalIcon = new ImageIcon(imagePath.getAbsolutePath());
+            Image image = originalIcon.getImage(); // Transform it 
+            Image newimg = image.getScaledInstance(200, 200,  Image.SCALE_SMOOTH); // Scale it the smooth way  
+            imageLabel.setIcon(new ImageIcon(newimg));  // Transform it back
         } catch (Exception e) {
             e.printStackTrace();
             imageLabel.setText("Image not found: " + e.getMessage());
@@ -117,8 +119,6 @@ public class MenuUI extends JFrame {
 
         add(mainPanel);
     }
-
-    
 
 
 
