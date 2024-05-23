@@ -21,3 +21,5 @@ public interface PatientManager {
 	public List<Patient> getPatientsByDoctorId(int doctorId);
 	
 }
+
+//Coment
