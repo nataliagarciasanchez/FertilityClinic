@@ -193,7 +193,7 @@ public class MenuUI extends JFrame {
             imageLabel.setText("Image not found: " + e.getMessage());
         }
         imageLabel.setHorizontalAlignment(JLabel.CENTER);
-        imageLabel.setBorder(BorderFactory.createEmptyBorder(0, 50, 0, 0));
+        imageLabel.setBorder(BorderFactory.createEmptyBorder(0, 150, 0, 0));
         return imageLabel;
     }
 
