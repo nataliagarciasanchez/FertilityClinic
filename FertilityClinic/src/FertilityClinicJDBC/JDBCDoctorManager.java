@@ -274,7 +274,4 @@ public class JDBCDoctorManager implements DoctorManager {
 	    }
 	}
 
-	
-
-	
 }

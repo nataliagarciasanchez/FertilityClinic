@@ -161,14 +161,6 @@ public class JDBCTreatmentsManager implements TreatmentsManager {
 
 	    return treatmentList;
 	}
-	
-	
-		
-
-
-	 
-
-	
 
 }
 	
