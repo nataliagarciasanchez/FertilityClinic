@@ -382,7 +382,6 @@ public class MenuUI extends JFrame {
 public class MenuUI extends JFrame {
     private CardLayout cardLayout = new CardLayout();
     private JPanel cards; // Panel que usa CardLayout
-    private JPanel loginPanel; // Panel de inicio de sesión
 
     public MenuUI() {
         setTitle("NEW LIFE CLINIC");
@@ -394,8 +393,6 @@ public class MenuUI extends JFrame {
     }
 
     private void initComponents() {
-        cards = new JPanel(cardLayout);
-
         JPanel mainPanel = new JPanel(new BorderLayout(10, 10));
         mainPanel.setBackground(new Color(25, 25, 112));  // Dark blue color
 
@@ -404,37 +401,52 @@ public class MenuUI extends JFrame {
 
         JPanel rightPanel = new JPanel(new BorderLayout());
         rightPanel.setBackground(new Color(25, 25, 112));
-        JLabel titleLabel = new JLabel("NEW LIFE CLINIC", JLabel.CENTER);
-        titleLabel.setFont(new Font("Calibri", Font.BOLD, 70));
-        titleLabel.setForeground(Color.WHITE);
-        titleLabel.setBorder(BorderFactory.createEmptyBorder(100, 0, 0, 0));
+        JLabel titleLabel = setupTitleLabel();
         rightPanel.add(titleLabel, BorderLayout.NORTH);
 
-        // Panel de preguntas y botones
+        cards = new JPanel(cardLayout);
         JPanel questionPanel = setupQuestionPanel();
-
-        // Panel de login
-        loginPanel = setupLoginPanel();
-
+        JPanel loginPanel = setupLoginPanel();
         cards.add(questionPanel, "Question Panel");
         cards.add(loginPanel, "Login Panel");
 
         rightPanel.add(cards, BorderLayout.CENTER);
 
         mainPanel.add(rightPanel, BorderLayout.CENTER);
-
         add(mainPanel);
     }
 
-    private JPanel setupQuestionPanel() {
-        JPanel panel = new JPanel(new BorderLayout());
-        JLabel questionLabel = new JLabel("Do you want to log in or sign up?");
-        questionLabel.setFont(new Font("Cooper Black", Font.PLAIN, 20));
-        questionLabel.setHorizontalAlignment(JLabel.CENTER);
-        questionLabel.setForeground(Color.WHITE);
+    private JLabel setupTitleLabel() {
+        JLabel titleLabel = new JLabel("NEW LIFE CLINIC", JLabel.CENTER);
+        titleLabel.setFont(new Font("Calibri", Font.BOLD, 70));
+        titleLabel.setForeground(Color.WHITE);
+        titleLabel.setBorder(BorderFactory.createEmptyBorder(20, 0, 20, 0));
+        return titleLabel;
+    }
 
-        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
-        buttonPanel.setBackground(new Color(25, 25, 112));
+    private JLabel setupImageLabel() {
+        JLabel imageLabel = new JLabel();
+        try {
+            File imagePath = new File("./logo/photo.png");
+            if (!imagePath.exists()) {
+                throw new IllegalArgumentException("Image file not found at: " + imagePath.getAbsolutePath());
+            }
+            ImageIcon originalIcon = new ImageIcon(imagePath.getAbsolutePath());
+            Image image = originalIcon.getImage();
+            Image newimg = image.getScaledInstance(300, 300, Image.SCALE_SMOOTH);
+            imageLabel.setIcon(new ImageIcon(newimg));
+        } catch (Exception e) {
+            e.printStackTrace();
+            imageLabel.setText("Image not found: " + e.getMessage());
+        }
+        imageLabel.setHorizontalAlignment(JLabel.CENTER);
+        imageLabel.setBorder(BorderFactory.createEmptyBorder(0, 50, 0, 0));
+        return imageLabel;
+    }
+
+    private JPanel setupQuestionPanel() {
+        JPanel panel = new JPanel(new GridLayout(1, 2, 10, 10));
+        panel.setBackground(new Color(25, 25, 112));
         JButton loginButton = new JButton("Log in");
         JButton signupButton = new JButton("Sign up");
 
@@ -445,13 +457,10 @@ public class MenuUI extends JFrame {
         signupButton.setFont(new Font("Calibri", Font.BOLD, 16));
 
         loginButton.addActionListener(e -> cardLayout.show(cards, "Login Panel"));
-        signupButton.addActionListener(e -> showSignUpDialog());
+        signupButton.addActionListener(e -> showSignUpDialog());  // Assuming showSignUpDialog is similarly implemented
 
-        buttonPanel.add(loginButton);
-        buttonPanel.add(signupButton);
-
-        panel.add(questionLabel, BorderLayout.CENTER);
-        panel.add(buttonPanel, BorderLayout.SOUTH);
+        panel.add(loginButton);
+        panel.add(signupButton);
 
         return panel;
     }
@@ -481,34 +490,13 @@ public class MenuUI extends JFrame {
     }
 
     private void loginUser(String email, String password) {
+        System.out.println("Attempted login with email: " + email + " and password: " + password);
         // Here, add your logic to handle the login
-        System.out.println("Logged in with email: " + email + " and password: " + password);
-        // Example of handling login
     }
 
     private void showSignUpDialog() {
-        // Show sign up dialog logic
         System.out.println("Sign Up Dialog Shown");
-    }
-
-    private JLabel setupImageLabel() {
-        JLabel imageLabel = new JLabel();
-        try {
-            File imagePath = new File("./logo/photo.png");
-            if (!imagePath.exists()) {
-                throw new IllegalArgumentException("Image file not found at: " + imagePath.getAbsolutePath());
-            }
-            ImageIcon originalIcon = new ImageIcon(imagePath.getAbsolutePath());
-            Image image = originalIcon.getImage();
-            Image newimg = image.getScaledInstance(300, 300, Image.SCALE_SMOOTH);
-            imageLabel.setIcon(new ImageIcon(newimg));
-        } catch (Exception e) {
-            e.printStackTrace();
-            imageLabel.setText("Image not found: " + e.getMessage());
-        }
-        imageLabel.setHorizontalAlignment(JLabel.CENTER);
-        imageLabel.setBorder(BorderFactory.createEmptyBorder(0, 150, 0, 0));
-        return imageLabel;
+        // Implement the signup dialog similarly
     }
 
     public static void main(String[] args) {
