@@ -67,7 +67,10 @@ public class MenuUI extends JFrame {
         JLabel imageLabel = new JLabel();
         // Cargar imagen
         try {
-            ImageIcon image = new ImageIcon("./logo/Clinic_logo.png");
+            ImageIcon image = new ImageIcon("./logo/Clinic_logo.png"); // Verificar la ruta y el formato
+            if (image.getIconWidth() == -1) {
+                throw new Exception("Image file not loaded properly");
+            }
             imageLabel.setIcon(image);
         } catch (Exception e) {
             e.printStackTrace();
@@ -79,15 +82,14 @@ public class MenuUI extends JFrame {
         JPanel rightPanel = new JPanel(new BorderLayout());
         rightPanel.setBackground(new Color(135, 206, 250));
         JLabel titleLabel = new JLabel("NEW LIFE CLINIC", JLabel.CENTER);
-        titleLabel.setFont(new Font("Garamond", Font.BOLD, 30));
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 30));
         titleLabel.setForeground(Color.BLACK);  // Color negro para el título
-        titleLabel.setBorder(BorderFactory.createEmptyBorder(20, 0, 10, 0));
 
         // Frase de pregunta
         JLabel questionLabel = new JLabel("Do you want to log in or sign up?");
-        questionLabel.setFont(new Font("Garamond", Font.BOLD, 20));  // Garamond para la pregunta
-        questionLabel.setForeground(Color.BLACK);  // Color negro para uniformidad
+        questionLabel.setFont(new Font("Arial", Font.PLAIN, 20));  // Arial para la pregunta
         questionLabel.setHorizontalAlignment(JLabel.CENTER);
+        questionLabel.setForeground(Color.BLACK);  // Color negro para uniformidad
 
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 5));
         buttonPanel.setBackground(new Color(135, 206, 250));
@@ -97,12 +99,12 @@ public class MenuUI extends JFrame {
         loginButton.setBackground(Color.WHITE);
         signupButton.setBackground(Color.WHITE);
 
-        loginButton.setFont(new Font("Garamond", Font.BOLD, 16));
-        signupButton.setFont(new Font("Garamond", Font.BOLD, 16));
+        loginButton.setFont(new Font("Arial", Font.BOLD, 16));
+        signupButton.setFont(new Font("Arial", Font.BOLD, 16));
 
-        // Establecer un tamaño más pequeño para los botones
-        loginButton.setPreferredSize(new Dimension(80, 25));
-        signupButton.setPreferredSize(new Dimension(80, 25));
+        // Tamaño ligeramente más grande para los botones
+        loginButton.setPreferredSize(new Dimension(120, 35));
+        signupButton.setPreferredSize(new Dimension(120, 35));
 
         // Acción de los botones
         loginButton.addActionListener(e -> showLoginDialog());
@@ -111,12 +113,9 @@ public class MenuUI extends JFrame {
         buttonPanel.add(loginButton);
         buttonPanel.add(signupButton);
 
-        JPanel upperPanel = new JPanel(new BorderLayout());
-        upperPanel.add(questionLabel, BorderLayout.NORTH);
-        upperPanel.add(buttonPanel, BorderLayout.CENTER);
-
         rightPanel.add(titleLabel, BorderLayout.NORTH);
-        rightPanel.add(upperPanel, BorderLayout.CENTER);
+        rightPanel.add(questionLabel, BorderLayout.CENTER);
+        rightPanel.add(buttonPanel, BorderLayout.SOUTH);
 
         // Agregar componentes al panel principal
         mainPanel.add(imageLabel, BorderLayout.WEST);
