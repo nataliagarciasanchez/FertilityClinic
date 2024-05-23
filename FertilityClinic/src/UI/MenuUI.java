@@ -71,6 +71,7 @@ public class MenuUI extends JFrame {
         JLabel titleLabel = new JLabel("NEW LIFE CLINIC", JLabel.CENTER);
         titleLabel.setFont(new Font("Cooper Black", Font.BOLD, 30));
         titleLabel.setForeground(Color.BLACK);
+        titleLabel.setBorder(BorderFactory.createEmptyBorder(100, 0, 0, 0));  // More space above title
         rightPanel.add(titleLabel, BorderLayout.NORTH);
 
         JLabel questionLabel = new JLabel("Do you want to log in or sign up?");
@@ -97,7 +98,7 @@ public class MenuUI extends JFrame {
         buttonPanel.add(signupButton);
 
         // Añade un borde para crear espacio en la parte inferior
-        buttonPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 50, 0)); // 50 pixels de margen en la parte inferior
+        buttonPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 200, 0)); // 50 pixels de margen en la parte inferior
 
         rightPanel.add(questionLabel, BorderLayout.CENTER);
         rightPanel.add(buttonPanel, BorderLayout.SOUTH);
