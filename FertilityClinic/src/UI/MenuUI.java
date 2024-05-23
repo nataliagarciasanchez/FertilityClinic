@@ -77,6 +77,7 @@ public class MenuUI extends JFrame {
         }
         imageLabel.setHorizontalAlignment(JLabel.CENTER);
         mainPanel.add(imageLabel, BorderLayout.WEST);
+        mainPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 200, 0));
 
         JPanel rightPanel = new JPanel(new BorderLayout());
         rightPanel.setBackground(new Color(135, 206, 235));
