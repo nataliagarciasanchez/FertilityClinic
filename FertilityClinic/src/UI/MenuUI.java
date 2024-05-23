@@ -166,6 +166,7 @@ public class MenuUI extends JFrame {
 
         buttonPanel.add(loginButton);
         buttonPanel.add(signupButton);
+        buttonPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 200, 0)); // Increase bottom margin
 
         rightPanel.add(questionLabel, BorderLayout.CENTER);
         rightPanel.add(buttonPanel, BorderLayout.SOUTH);
