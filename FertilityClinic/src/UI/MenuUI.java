@@ -80,11 +80,11 @@ public class MenuUI extends JFrame {
         JPanel rightPanel = new JPanel(new BorderLayout());
         rightPanel.setBackground(new Color(135, 206, 250));
         JLabel titleLabel = new JLabel("NEW LIFE CLINIC", JLabel.CENTER);
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 30));
+        titleLabel.setFont(new Font("Cooper Black", Font.BOLD, 30));
         titleLabel.setForeground(Color.BLACK);
 
         JLabel questionLabel = new JLabel("Do you want to log in or sign up?");
-        questionLabel.setFont(new Font("Arial", Font.PLAIN, 20));
+        questionLabel.setFont(new Font("Cooper Black", Font.PLAIN, 20));
         questionLabel.setHorizontalAlignment(JLabel.CENTER);
         questionLabel.setForeground(Color.BLACK);
 
@@ -96,8 +96,8 @@ public class MenuUI extends JFrame {
         loginButton.setBackground(Color.WHITE);
         signupButton.setBackground(Color.WHITE);
 
-        loginButton.setFont(new Font("Arial", Font.BOLD, 16));
-        signupButton.setFont(new Font("Arial", Font.BOLD, 16));
+        loginButton.setFont(new Font("Cooper Black", Font.BOLD, 16));
+        signupButton.setFont(new Font("Cooper Black", Font.BOLD, 16));
 
         buttonPanel.add(loginButton);
         buttonPanel.add(signupButton);
@@ -111,6 +111,7 @@ public class MenuUI extends JFrame {
 
         add(mainPanel);
     }
+
 
     //ESTE ES EL QUE FUNCIONA
     /*
