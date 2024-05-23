@@ -140,7 +140,7 @@ public class MenuUI extends JFrame {
         }
     }	*/ 
 
-    private void showLoginPanel() {
+    private void showLoginDialog() {
         // Crear un panel con un diseño de cuadrícula para los campos de entrada
         JPanel panel = new JPanel(new GridLayout(3, 2, 10, 10));
         panel.setBackground(new Color(25, 25, 112)); // Color de fondo consistente
