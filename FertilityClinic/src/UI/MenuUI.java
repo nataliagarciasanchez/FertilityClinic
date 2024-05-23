@@ -374,10 +374,10 @@ public class MenuUI extends JFrame {
         return mainPanel;
     }*/
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new MenuUI().setVisible(true));
+   // public static void main(String[] args) {
+    //    SwingUtilities.invokeLater(() -> new MenuUI().setVisible(true));
     }//ultimos
-}*/
+//}*/
 
 public class MenuUI extends JFrame {
     private CardLayout cardLayout = new CardLayout();
