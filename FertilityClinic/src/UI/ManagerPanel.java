@@ -65,6 +65,7 @@ public class ManagerPanel extends JPanel {
         JButton op1 = new JButton("View My Information");
         JButton op2 = new JButton("Update My Information");
         JButton op3 = new JButton("View Stock");
+        JButton op4 = new JButton("Manage doctors");
        
         
 
@@ -74,8 +75,8 @@ public class ManagerPanel extends JPanel {
         
         op1.addActionListener(e -> viewMyinfoPanel()); //igual para doctor
         op2.addActionListener(e -> updateInfoPanel());//igual para doctor 
-        op3.addActionListener(e -> viewStockPanel()); //igual para doctor pero modificar cita patient solo delete y add
-        
+        op3.addActionListener(e -> viewMyinfoPanel()); //igual para doctor pero modificar cita patient solo delete y add
+        op4.addActionListener(e -> viewMyinfoPanel()); 
 
         buttonPanel.add(op1);
         buttonPanel.add(op2);
