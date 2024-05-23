@@ -60,18 +60,25 @@ public class MenuUI extends JFrame {
         setLocationRelativeTo(null);
 
         JPanel mainPanel = new JPanel(new BorderLayout(10, 10));
-        mainPanel.setBackground(new Color(135, 206, 250));  // Color azul claro
+        mainPanel.setBackground(new Color(135, 206, 235));  // Color azul claro
 
-        JLabel imageLabel = new JLabel("Here goes the image", JLabel.CENTER); // Simula una imagen
-        imageLabel.setFont(new Font("Arial", Font.PLAIN, 20));
+        JLabel imageLabel = new JLabel();
+        try {
+            ImageIcon image = new ImageIcon(getClass().getResource("/logo/photo.png")); // Carga la imagen desde el recurso
+            imageLabel.setIcon(image);
+        } catch (Exception e) {
+            e.printStackTrace();
+            imageLabel.setText("Image not found");
+        }
+        imageLabel.setHorizontalAlignment(JLabel.CENTER);
         mainPanel.add(imageLabel, BorderLayout.WEST);
 
         JPanel rightPanel = new JPanel(new BorderLayout());
-        rightPanel.setBackground(new Color(135, 206, 250));
+        rightPanel.setBackground(new Color(135, 206, 235));
         JLabel titleLabel = new JLabel("NEW LIFE CLINIC", JLabel.CENTER);
-        titleLabel.setFont(new Font("Cooper Black", Font.BOLD, 30));
+        titleLabel.setFont(new Font("Cooper Black", Font.BOLD, 40)); // Fuente más grande
         titleLabel.setForeground(Color.BLACK);
-        titleLabel.setBorder(BorderFactory.createEmptyBorder(100, 0, 0, 0));  // More space above title
+        titleLabel.setBorder(BorderFactory.createEmptyBorder(100, 0, 0, 0)); // Espacio arriba del título
         rightPanel.add(titleLabel, BorderLayout.NORTH);
 
         JLabel questionLabel = new JLabel("Do you want to log in or sign up?");
@@ -80,7 +87,7 @@ public class MenuUI extends JFrame {
         questionLabel.setForeground(Color.BLACK);
 
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
-        buttonPanel.setBackground(new Color(135, 206, 250));
+        buttonPanel.setBackground(new Color(135, 206, 235));
         JButton loginButton = new JButton("Log in");
         JButton signupButton = new JButton("Sign up");
 
@@ -97,8 +104,8 @@ public class MenuUI extends JFrame {
         buttonPanel.add(loginButton);
         buttonPanel.add(signupButton);
 
-        // Añade un borde para crear espacio en la parte inferior
-        buttonPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 200, 0)); // 50 pixels de margen en la parte inferior
+        // Añade más espacio en la parte inferior
+        buttonPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 200, 0)); // Aumentar margen inferior
 
         rightPanel.add(questionLabel, BorderLayout.CENTER);
         rightPanel.add(buttonPanel, BorderLayout.SOUTH);
@@ -107,7 +114,7 @@ public class MenuUI extends JFrame {
 
         add(mainPanel);
     }
-
+    
 
 
 
