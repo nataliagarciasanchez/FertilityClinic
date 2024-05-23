@@ -104,7 +104,14 @@ public class MenuUI extends JFrame {
         buttonPanel.add(signupButton);
 
         rightPanel.add(titleLabel, BorderLayout.NORTH);
-        rightPanel.add(questionLabel, BorderLayout
+        rightPanel.add(questionLabel, BorderLayout.CENTER);
+        rightPanel.add(buttonPanel, BorderLayout.SOUTH);
+
+        mainPanel.add(imageLabel, BorderLayout.WEST);
+        mainPanel.add(rightPanel, BorderLayout.CENTER);
+
+        add(mainPanel);
+    }
 
 
 
