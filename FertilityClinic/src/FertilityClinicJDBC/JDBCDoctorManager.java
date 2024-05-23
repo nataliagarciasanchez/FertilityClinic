@@ -69,7 +69,7 @@ public class JDBCDoctorManager implements DoctorManager {
 	            byte[] licensePDF = rs.getBytes("licensePDF");
 
 	            Speciality speciality = new Speciality(rs.getInt("speciality_id"), specialityName);
-	            doctor = new Doctor(id, name, phone, email, speciality, licensePDF);
+	            doctor = new Doctor(id, email, phone, name, speciality, licensePDF);
 	        } else {
 	            System.out.println("Doctor with ID " + doctorId + " not found.");
 	        }
