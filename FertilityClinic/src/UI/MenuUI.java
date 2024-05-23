@@ -102,7 +102,7 @@ public class MenuUI extends JFrame {
 
         // Acción de los botones
         loginButton.addActionListener(e -> showLoginDialog());
-        signupButton.addActionListener(e -> showSignupDialog());
+        signupButton.addActionListener(e -> showSignUpDialog());
 
         buttonPanel.add(loginButton);
         buttonPanel.add(signupButton);
