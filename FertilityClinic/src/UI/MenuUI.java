@@ -61,13 +61,13 @@ public class MenuUI extends JFrame {
 
         // Panel principal con BorderLayout
         JPanel mainPanel = new JPanel(new BorderLayout(10, 10));
-        mainPanel.setBackground(new Color(30, 144, 255));  // Azul más intenso
+        mainPanel.setBackground(new Color(135, 206, 250));  // Azul más claro
 
         // Panel para la imagen
         JLabel imageLabel = new JLabel();
         // Cargar imagen
         try {
-            ImageIcon image = new ImageIcon("./logo/Clinic_logo.png");  // Asegúrate de incluir la extensión correcta del archivo
+            ImageIcon image = new ImageIcon("./logo/Clinic_logo.png");
             imageLabel.setIcon(image);
         } catch (Exception e) {
             e.printStackTrace();
@@ -77,40 +77,39 @@ public class MenuUI extends JFrame {
 
         // Panel para los botones y el título
         JPanel rightPanel = new JPanel(new BorderLayout());
-        rightPanel.setBackground(new Color(30, 144, 255));
+        rightPanel.setBackground(new Color(135, 206, 250));
         JLabel titleLabel = new JLabel("NEW LIFE CLINIC", JLabel.CENTER);
         titleLabel.setFont(new Font("Garamond", Font.BOLD, 30));
-        titleLabel.setBorder(BorderFactory.createEmptyBorder(20, 0, 20, 0));
+        titleLabel.setForeground(Color.BLACK);  // Color negro para el título
+        titleLabel.setBorder(BorderFactory.createEmptyBorder(20, 0, 10, 0));
 
         // Frase de pregunta
         JLabel questionLabel = new JLabel("Do you want to log in or sign up?");
-        questionLabel.setFont(new Font("Zapfino", Font.PLAIN, 20));  // Cambio a Zapfino o similar
+        questionLabel.setFont(new Font("Garamond", Font.BOLD, 20));  // Garamond para la pregunta
+        questionLabel.setForeground(Color.BLACK);  // Color negro para uniformidad
         questionLabel.setHorizontalAlignment(JLabel.CENTER);
-        questionLabel.setForeground(Color.WHITE);  // Color de letra
 
-        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
-        buttonPanel.setBackground(new Color(30, 144, 255));
+        JPanel buttonPanel = new JPanel(new GridLayout(1, 2, 10, 0));
+        buttonPanel.setBackground(new Color(135, 206, 250));
         JButton loginButton = new JButton("Log in");
         JButton signupButton = new JButton("Sign up");
 
-        // Color de los botones
-        Color buttonColor = new Color(135, 206, 250);
-        loginButton.setBackground(buttonColor);
-        signupButton.setBackground(buttonColor);
+        loginButton.setBackground(Color.WHITE);
+        signupButton.setBackground(Color.WHITE);
 
         loginButton.setFont(new Font("Garamond", Font.BOLD, 16));
         signupButton.setFont(new Font("Garamond", Font.BOLD, 16));
 
-        // Tamaño preferido para los botones
-        loginButton.setPreferredSize(new Dimension(100, 30));
-        signupButton.setPreferredSize(new Dimension(100, 30));
+        // Acción de los botones
+        loginButton.addActionListener(e -> showLoginDialog());
+        signupButton.addActionListener(e -> showSignupDialog());
 
         buttonPanel.add(loginButton);
         buttonPanel.add(signupButton);
 
         rightPanel.add(titleLabel, BorderLayout.NORTH);
-        rightPanel.add(questionLabel, BorderLayout.CENTER);  // Agrega la pregunta al centro
-        rightPanel.add(buttonPanel, BorderLayout.SOUTH);  // Mueve los botones al sur
+        rightPanel.add(questionLabel, BorderLayout.CENTER);
+        rightPanel.add(buttonPanel, BorderLayout.SOUTH);
 
         // Agregar componentes al panel principal
         mainPanel.add(imageLabel, BorderLayout.WEST);
@@ -119,6 +118,18 @@ public class MenuUI extends JFrame {
         // Agregar el panel principal al frame
         add(mainPanel);
     }
+
+    // Métodos para mostrar los diálogos de Login y Signup
+    private void showLoginDialog() {
+        // Aquí implementas la lógica para mostrar el diálogo de Login
+        JOptionPane.showMessageDialog(this, "Login Dialog Placeholder", "Login", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    private void showSignupDialog() {
+        // Aquí implementas la lógica para mostrar el diálogo de Signup
+        JOptionPane.showMessageDialog(this, "Signup Dialog Placeholder", "Sign Up", JOptionPane.INFORMATION_MESSAGE);
+    }
+
 
     //ESTE ES EL QUE FUNCIONA
     /*
