@@ -59,41 +59,41 @@ public class MenuUI extends JFrame {
         setLocationRelativeTo(null);
 
         JPanel mainPanel = new JPanel(new BorderLayout(10, 10));
-        mainPanel.setBackground(new Color(100, 149, 237));  // Color azul claro
+        mainPanel.setBackground(new Color(25, 25, 112));  // Color más oscuro
 
         JLabel imageLabel = new JLabel();
         try {
-            File imagePath = new File("./logo/photo.png");  // Suponiendo que la carpeta logo está en el mismo nivel que src
+            File imagePath = new File("./logo/photo.png");  // Verificar la ubicación de la carpeta logo
             if (!imagePath.exists()) {
                 throw new IllegalArgumentException("Image file not found at: " + imagePath.getAbsolutePath());
             }
             ImageIcon originalIcon = new ImageIcon(imagePath.getAbsolutePath());
             Image image = originalIcon.getImage(); // Transform it 
-            Image newimg = image.getScaledInstance(200, 200,  Image.SCALE_SMOOTH); // Scale it the smooth way  
-            imageLabel.setIcon(new ImageIcon(newimg));  // Transform it back
+            Image newimg = image.getScaledInstance(300, 300,  Image.SCALE_SMOOTH); // Increase the size of the image
+            imageLabel.setIcon(new ImageIcon(newimg));  // Set the resized image
         } catch (Exception e) {
             e.printStackTrace();
             imageLabel.setText("Image not found: " + e.getMessage());
         }
         imageLabel.setHorizontalAlignment(JLabel.CENTER);
-        imageLabel.setBorder(BorderFactory.createEmptyBorder(0, 200, 0, 0));
+        imageLabel.setBorder(BorderFactory.createEmptyBorder(0, 50, 0, 0)); // Reduce the left border padding
         mainPanel.add(imageLabel, BorderLayout.WEST);
 
         JPanel rightPanel = new JPanel(new BorderLayout());
-        rightPanel.setBackground(new Color(100, 149, 237));
+        rightPanel.setBackground(new Color(25, 25, 112));
         JLabel titleLabel = new JLabel("NEW LIFE CLINIC", JLabel.CENTER);
-        titleLabel.setFont(new Font("Calibri", Font.BOLD, 70)); // Fuente más grande
-        titleLabel.setForeground(Color.BLACK);
-        titleLabel.setBorder(BorderFactory.createEmptyBorder(100, 0, 0, 0)); // Espacio arriba del título
+        titleLabel.setFont(new Font("Calibri", Font.BOLD, 70)); // Font size updated
+        titleLabel.setForeground(Color.WHITE); // Make sure the title is visible
+        titleLabel.setBorder(BorderFactory.createEmptyBorder(100, 0, 0, 0)); // Space above the title
         rightPanel.add(titleLabel, BorderLayout.NORTH);
 
         JLabel questionLabel = new JLabel("Do you want to log in or sign up?");
         questionLabel.setFont(new Font("Cooper Black", Font.PLAIN, 20));
         questionLabel.setHorizontalAlignment(JLabel.CENTER);
-        questionLabel.setForeground(Color.BLACK);
+        questionLabel.setForeground(Color.WHITE); // Updated for visibility
 
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
-        buttonPanel.setBackground(new Color(100, 149, 237));
+        buttonPanel.setBackground(new Color(25, 25, 112));
         JButton loginButton = new JButton("Log in");
         JButton signupButton = new JButton("Sign up");
 
@@ -103,15 +103,15 @@ public class MenuUI extends JFrame {
         loginButton.setFont(new Font("Calibri", Font.BOLD, 16));
         signupButton.setFont(new Font("Calibri", Font.BOLD, 16));
 
-        // Añadir funcionalidad a los botones
+        // Adding functionality to the buttons
         loginButton.addActionListener(e -> showLoginDialog());
         signupButton.addActionListener(e -> showSignUpDialog());
 
         buttonPanel.add(loginButton);
         buttonPanel.add(signupButton);
 
-        // Añade más espacio en la parte inferior
-        buttonPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 200, 0)); // Aumentar margen inferior
+        // Add more space at the bottom
+        buttonPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 200, 0)); // Increase bottom margin
 
         rightPanel.add(questionLabel, BorderLayout.CENTER);
         rightPanel.add(buttonPanel, BorderLayout.SOUTH);
@@ -120,7 +120,6 @@ public class MenuUI extends JFrame {
 
         add(mainPanel);
     }
-
 
 
     //ESTE ES EL QUE FUNCIONA
