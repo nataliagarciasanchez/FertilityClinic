@@ -62,34 +62,28 @@ public class MenuUI extends JFrame {
         JPanel mainPanel = new JPanel(new BorderLayout(10, 10));
         mainPanel.setBackground(new Color(135, 206, 250));
 
-        JLabel imageLabel = new JLabel();
-        try {
-            var imgURL = getClass().getResource("/logo/photo.png");
-            if (imgURL != null) {
-                ImageIcon image = new ImageIcon(imgURL);
-                imageLabel.setIcon(image);
-            } else {
-                throw new Exception("Resource not found: " + "/logo/photo.png");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            imageLabel.setText("Image not found");
-        }
-        imageLabel.setHorizontalAlignment(JLabel.CENTER);
+        JLabel imageLabel = new JLabel("Here goes the image", JLabel.CENTER); // Replace with actual image loading
+        imageLabel.setFont(new Font("Arial", Font.PLAIN, 20));
+        mainPanel.add(imageLabel, BorderLayout.WEST);
 
         JPanel rightPanel = new JPanel(new BorderLayout());
         rightPanel.setBackground(new Color(135, 206, 250));
         JLabel titleLabel = new JLabel("NEW LIFE CLINIC", JLabel.CENTER);
         titleLabel.setFont(new Font("Cooper Black", Font.BOLD, 30));
         titleLabel.setForeground(Color.BLACK);
-        titleLabel.setBorder(BorderFactory.createEmptyBorder(50, 0, 0, 0));  // More space above title
+        rightPanel.add(titleLabel, BorderLayout.NORTH);
 
         JLabel questionLabel = new JLabel("Do you want to log in or sign up?");
         questionLabel.setFont(new Font("Cooper Black", Font.PLAIN, 20));
         questionLabel.setHorizontalAlignment(JLabel.CENTER);
         questionLabel.setForeground(Color.BLACK);
 
-        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 5));
+        JPanel questionPanel = new JPanel();
+        questionPanel.setLayout(new BorderLayout());
+        questionPanel.setBackground(new Color(135, 206, 250));
+        questionPanel.add(questionLabel, BorderLayout.NORTH);
+
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
         buttonPanel.setBackground(new Color(135, 206, 250));
         JButton loginButton = new JButton("Log in");
         JButton signupButton = new JButton("Sign up");
@@ -100,18 +94,21 @@ public class MenuUI extends JFrame {
         loginButton.setFont(new Font("Cooper Black", Font.BOLD, 16));
         signupButton.setFont(new Font("Cooper Black", Font.BOLD, 16));
 
+        loginButton.addActionListener(e -> showLoginDialog());
+        signupButton.addActionListener(e -> showSignUpDialog());
+
         buttonPanel.add(loginButton);
         buttonPanel.add(signupButton);
 
-        rightPanel.add(titleLabel, BorderLayout.NORTH);
-        rightPanel.add(questionLabel, BorderLayout.CENTER);
-        rightPanel.add(buttonPanel, BorderLayout.SOUTH);
+        questionPanel.add(buttonPanel, BorderLayout.CENTER);
 
-        mainPanel.add(imageLabel, BorderLayout.WEST);
+        rightPanel.add(questionPanel, BorderLayout.CENTER);
+
         mainPanel.add(rightPanel, BorderLayout.CENTER);
 
         add(mainPanel);
     }
+
 
 
 
