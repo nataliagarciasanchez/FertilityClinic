@@ -169,7 +169,7 @@ public class MenuUI extends JFrame {
     }*/
 
     
-    
+    /*
     
     private void showSignUpDialog() {
         JPanel panel = new JPanel(new BorderLayout());
@@ -299,7 +299,7 @@ public class MenuUI extends JFrame {
         }if (result == JOptionPane.OK_CANCEL_OPTION) {
         	showSignUpDialog();
         }
-    }
+    }*/
  
 
 
