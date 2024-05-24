@@ -117,8 +117,11 @@ public class MenuUI extends JFrame {
     }
 
     private JPanel createLoginPanel() {
-        JPanel loginPanel = new JPanel(new GridBagLayout());
+        JPanel loginPanel = new JPanel(new BorderLayout());
         loginPanel.setBackground(new Color(25, 25, 112));
+
+        JPanel fieldsPanel = new JPanel(new GridBagLayout());
+        fieldsPanel.setBackground(new Color(25, 25, 112));
         GridBagConstraints gbc = new GridBagConstraints();
 
         JLabel emailLabel = new JLabel("Email:");
@@ -135,37 +138,32 @@ public class MenuUI extends JFrame {
         JPasswordField passwordField = new JPasswordField(15);
         passwordField.setHorizontalAlignment(JTextField.CENTER);
 
-        JButton loginButton = new JButton("Login");
-        JButton cancelButton = new JButton("Cancel");
-
-        // Configuración de los componentes en el GridBagLayout
+        // Ajustes para alinear los componentes más cerca y arriba
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.gridwidth = 2; // Abarca dos columnas
-        gbc.insets = new Insets(10, 10, 5, 10);
-        loginPanel.add(emailLabel, gbc);
-
-        gbc.gridy = 1;
-        loginPanel.add(emailField, gbc);
-
-        gbc.gridy = 2;
-        loginPanel.add(passwordLabel, gbc);
-
-        gbc.gridy = 3;
-        loginPanel.add(passwordField, gbc);
-
-        gbc.gridy = 4;
-        gbc.gridwidth = 1; // Vuelve a una columna para los botones
-        gbc.insets = new Insets(10, 10, 10, 5);
-        loginPanel.add(loginButton, gbc);
+        gbc.gridwidth = 1;
+        gbc.insets = new Insets(10, 10, 2, 10); // Menor espacio entre los componentes
+        fieldsPanel.add(emailLabel, gbc);
 
         gbc.gridx = 1;
-        gbc.insets = new Insets(10, 5, 10, 10);
-        loginPanel.add(cancelButton, gbc);
+        fieldsPanel.add(emailField, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        fieldsPanel.add(passwordLabel, gbc);
+
+        gbc.gridx = 1;
+        fieldsPanel.add(passwordField, gbc);
+
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 0)); // Reducir el espacio entre los botones y los campos
+        buttonPanel.setBackground(new Color(25, 25, 112));
+
+        JButton loginButton = new JButton("Login");
+        JButton cancelButton = new JButton("Cancel");
 
         loginButton.addActionListener(e -> {
-            int result = JOptionPane.showConfirmDialog(null, loginPanel, "Login", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+            int result = JOptionPane.showConfirmDialog(null, fieldsPanel, "Login", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
             if (result == JOptionPane.OK_OPTION) {
                 String email = emailField.getText();
                 String password = new String(passwordField.getPassword());
@@ -175,18 +173,29 @@ public class MenuUI extends JFrame {
                     loadUserInterface(loggedInUser);
                 } else {
                     JOptionPane.showMessageDialog(loginPanel, "Invalid email or password.", "Error", JOptionPane.ERROR_MESSAGE);
-                    // No need to navigate as we're using a dialog
+                    cardLayout.show(rightPanel, "Login");
                 }
+            } else if (result == JOptionPane.CANCEL_OPTION) {
+                cardLayout.show(rightPanel, "Initial");
             }
         });
 
-        cancelButton.addActionListener(e -> {
-            // Simply hide the dialog
-        });
+        cancelButton.addActionListener(e -> cardLayout.show(rightPanel, "Initial"));
+
+        buttonPanel.add(loginButton);
+        buttonPanel.add(cancelButton);
+
+        // Reducir el espacio entre los campos y los botones
+        JPanel southPanel = new JPanel(new BorderLayout());
+        southPanel.add(buttonPanel, BorderLayout.NORTH);
+        southPanel.setBackground(new Color(25, 25, 112));
+        southPanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0)); // Ajustar el padding para que los botones estén más cerca de los campos
+
+        loginPanel.add(fieldsPanel, BorderLayout.NORTH);
+        loginPanel.add(southPanel, BorderLayout.CENTER);
 
         return loginPanel;
     }
-
 
 
 
