@@ -483,30 +483,55 @@ public class PatientPanel extends JPanel {
 
 
     private void updateAppointmentPanel() {
+        // Usando un panel de contenedor para proporcionar padding
+        JPanel wrapperPanel = new JPanel(new BorderLayout());
         JPanel updatePanel = new JPanel();
-        updatePanel.setLayout(new BoxLayout(updatePanel, BoxLayout.Y_AXIS));
-        
+        updatePanel.setLayout(new GridLayout(0, 2, 10, 10)); // GridLayout con huecos para el espaciado
+        updatePanel.setBorder(BorderFactory.createEmptyBorder(10, 50, 10, 10)); // Top, left, bottom, right padding
+
         ArrayList<Appointment> appointments = appointmentManager.getCurrentAppointments(patientId);
+
+        Font labelFont = new Font("Calibri", Font.BOLD, 18);
+        Font fieldFont = new Font("Calibri", Font.PLAIN, 18);
 
         if (appointments != null && !appointments.isEmpty()) {
             for (Appointment appointment : appointments) {
                 JPanel singleAppointmentPanel = new JPanel(new GridLayout(0, 2, 10, 10)); // Panel para cada cita
+                singleAppointmentPanel.setBackground(new Color(240, 240, 240)); // Fondo blanco para cada cita
 
                 JLabel doctorLabel = new JLabel("Dr. " + doctorManager.searchDoctorById(appointment.getDoctorId()).getName());
+                doctorLabel.setFont(fieldFont);
                 JTextField dateField = new JTextField(appointment.getDate().toString());
+                dateField.setFont(fieldFont);
                 JTextField timeField = new JTextField(appointment.getTime().toString());
+                timeField.setFont(fieldFont);
                 JTextField descriptionField = new JTextField(appointment.getDescription());
+                descriptionField.setFont(fieldFont);
 
-                singleAppointmentPanel.add(new JLabel("Doctor:"));
+                JLabel doctorTextLabel = new JLabel("Doctor:");
+                doctorTextLabel.setFont(labelFont);
+                singleAppointmentPanel.add(doctorTextLabel);
                 singleAppointmentPanel.add(doctorLabel);
-                singleAppointmentPanel.add(new JLabel("Date:"));
+
+                JLabel dateTextLabel = new JLabel("Date:");
+                dateTextLabel.setFont(labelFont);
+                singleAppointmentPanel.add(dateTextLabel);
                 singleAppointmentPanel.add(dateField);
-                singleAppointmentPanel.add(new JLabel("Time:"));
+
+                JLabel timeTextLabel = new JLabel("Time:");
+                timeTextLabel.setFont(labelFont);
+                singleAppointmentPanel.add(timeTextLabel);
                 singleAppointmentPanel.add(timeField);
-                singleAppointmentPanel.add(new JLabel("Description:"));
+
+                JLabel descriptionTextLabel = new JLabel("Description:");
+                descriptionTextLabel.setFont(labelFont);
+                singleAppointmentPanel.add(descriptionTextLabel);
                 singleAppointmentPanel.add(descriptionField);
 
                 JButton updateBtn = new JButton("Update");
+                updateBtn.setFont(new Font("Calibri", Font.BOLD, 18));
+                updateBtn.setBackground(Color.WHITE);
+                updateBtn.setForeground(Color.BLACK);
                 updateBtn.addActionListener(e -> {
                     try {
                         String newDate = dateField.getText();
@@ -528,7 +553,7 @@ public class PatientPanel extends JPanel {
                     }
                 });
 
-                singleAppointmentPanel.add(new JLabel()); // Añadir espacio en blanco
+                singleAppointmentPanel.add(new JLabel()); // Placeholder for spacing
                 singleAppointmentPanel.add(updateBtn);
 
                 updatePanel.add(singleAppointmentPanel);
@@ -536,13 +561,13 @@ public class PatientPanel extends JPanel {
         } else {
             JOptionPane.showMessageDialog(this, "No appointments found for this patient.");
         }
-        JPanel mainPanel = new JPanel(new BorderLayout());
-        //updatePanel.add(searchPanel, BorderLayout.NORTH);
-        mainPanel.add(new JScrollPane(updatePanel), BorderLayout.CENTER);
-        
-        currentPanel = mainPanel;
-        showCurrentPanel();
+
+        wrapperPanel.add(new JScrollPane(updatePanel), BorderLayout.CENTER);
+
+        currentPanel = wrapperPanel; // Set the current panel to the wrapper panel
+        showCurrentPanel(); // Display the current panel in the main container
     }
+
 
     
     //OPTION 4
