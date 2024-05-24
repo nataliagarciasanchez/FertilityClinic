@@ -386,7 +386,7 @@ public class PatientPanel extends JPanel {
     
     private void addAppointmentPanel() {
         JPanel addPanel = new JPanel(new GridBagLayout());
-        addPanel.setBorder(BorderFactory.createEmptyBorder(10, 50, 10, 10)); // Separación de 50 a la izquierda y 10 arriba
+        addPanel.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 10)); // Separación de 20 a la derecha y 10 arriba
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -450,7 +450,7 @@ public class PatientPanel extends JPanel {
         gbc.gridx = 0;
         gbc.gridy = 4;
         gbc.gridwidth = 2;
-        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.anchor = GridBagConstraints.WEST;
         addPanel.add(addBtn, gbc);
 
         addBtn.addActionListener(e -> {
