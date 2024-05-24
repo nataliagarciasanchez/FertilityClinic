@@ -500,18 +500,29 @@ public class MenuUI extends JFrame {
         doctorPanel.add(specialityComboBox);
 
         // Manager Panel
-        JPanel managerPanel = new JPanel(new GridLayout(3, 2, 10, 10));
+        JPanel managerPanel = new JPanel(new GridBagLayout());
         managerPanel.setBackground(new Color(25, 25, 112));
+        GridBagConstraints gbc = new GridBagConstraints();
 
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.insets = new Insets(5, 5, 5, 5);  // Margins around components
+        gbc.weightx = 1;  // Give extra space to expand horizontally
+
+        gbc.gridx = 0; gbc.gridy = 0;
+        managerPanel.add(createLabel("Name:"), gbc);
+        gbc.gridx = 1;
         JTextField managerNameField = new JTextField();
-        managerNameField.setFont(new Font("Calibri", Font.PLAIN, 18));  // Setting font size to match other fields
-        JTextField managerPhoneField = new JTextField();
-        managerPhoneField.setFont(new Font("Calibri", Font.PLAIN, 18));  // Setting font size to match other fields
+        managerNameField.setFont(new Font("Calibri", Font.PLAIN, 18));
+        managerNameField.setColumns(10); // Controls width of the text field
+        managerPanel.add(managerNameField, gbc);
 
-        managerPanel.add(createLabel("Name:"));
-        managerPanel.add(managerNameField);
-        managerPanel.add(createLabel("Phone:"));
-        managerPanel.add(managerPhoneField);
+        gbc.gridx = 0; gbc.gridy = 1;
+        managerPanel.add(createLabel("Phone:"), gbc);
+        gbc.gridx = 1;
+        JTextField managerPhoneField = new JTextField();
+        managerPhoneField.setFont(new Font("Calibri", Font.PLAIN, 18));
+        managerPhoneField.setColumns(10); // Controls width of the text field
+        managerPanel.add(managerPhoneField, gbc);
 
         roleSpecificPanel.add(defaultPanel, "default");
         roleSpecificPanel.add(patientPanel, "patient");
