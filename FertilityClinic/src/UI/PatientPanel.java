@@ -8,6 +8,7 @@ import FertilityClinicInterfaces.PatientManager;
 import FertilityClinicInterfaces.AppointmentManager;
 import FertilityClinicInterfaces.DoctorManager;
 import FertilityClinicPOJOs.*;
+import UI.*;
 
 public class PatientPanel extends JPanel {
 
@@ -31,7 +32,7 @@ public class PatientPanel extends JPanel {
     private void initializeUI() {
         currentPanel = panelesLadoIzq(); 
         setLayout(new BorderLayout());
-        add(MenuUI.createTopPanel(), BorderLayout.NORTH); // Adds the top panel at the top
+        add(createTopPanel(), BorderLayout.NORTH); // Adds the top panel at the top
         add(currentPanel, BorderLayout.CENTER); // Adds the side panel in the center
     }
     
