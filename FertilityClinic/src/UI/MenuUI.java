@@ -142,13 +142,13 @@ public class MenuUI extends JFrame {
                 String email = emailField.getText();
                 String password = new String(passwordField.getPassword());
                 // Simulando una verificación de credenciales
-                boolean isValidUser = userManager.checkPassword(email, password);
-                if (isValidUser) {
+                loggedInUser = userManager.checkPassword(email, password); // userManager debe devolver un usuario o null
+                if (loggedInUser != null) {
                     System.out.println("Login successful");
                     loadUserInterface(loggedInUser);  // Suponiendo que este método carga la interfaz de usuario del sistema para el usuario
                 } else {
                     JOptionPane.showMessageDialog(loginPanel, "Invalid email or password.", "Error", JOptionPane.ERROR_MESSAGE);
-                    cardLayout.show(rightPanel, "Login"); // Para volver a mostrar el panel de login
+                    cardLayout.show(rightPanel, "Login"); // Para volver a mostrar el panel de login si la autenticación falla
                 }
             } else if (result == JOptionPane.CANCEL_OPTION) {
                 cardLayout.show(rightPanel, "Initial"); // Volver al panel inicial
@@ -212,31 +212,30 @@ public class MenuUI extends JFrame {
                     userManager.newUser(newUser);
 
                     if ("patient".equals(selectedRole.getName())) {
-                        JTextField dobField = new JTextField();  // Example field, adjust as needed
-                        JTextField heightField = new JTextField();
-                        JTextField weightField = new JTextField();
-                        JTextField bloodTypeField = new JTextField();
-                        JTextField genderField = new JTextField();
-                        java.sql.Date dob = java.sql.Date.valueOf(dobField.getText());
+                    	java.sql.Date dob = java.sql.Date.valueOf(dobField.getText());
                         double height = Double.parseDouble(heightField.getText());
                         double weight = Double.parseDouble(weightField.getText());
-                        int phone = Integer.parseInt(emailField.getText());  // Adjust for actual phone field
-
-                        Patient newPatient = new Patient(email, dob, email, phone, height, weight, bloodTypeField.getText(), genderField.getText());
+                        int phone = Integer.parseInt(phoneField.getText());
+                        Patient newPatient = new Patient(nameField.getText(), dob, email, phone, height, weight, bloodTypeField.getText(), genderField.getText());
                         patientManager.addPatient(newPatient);
+                        JOptionPane.showMessageDialog(this, "Patient registered successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                        cardLayout.show(rightPanel, "Login");
                     } else if ("doctor".equals(selectedRole.getName())) {
-                        JTextField specialityField = new JTextField();  // Adjust as needed
-                        Speciality speciality = (Speciality) specialityField.getText();
-
-                        Doctor newDoctor = new Doctor(email, speciality);
+                    	int phone = Integer.parseInt(doctorPhoneField.getText());
+                        Speciality speciality = (Speciality) specialityComboBox.getSelectedItem();
+                        Doctor newDoctor = new Doctor(null,email, phone, doctorNameField.getText(), speciality);
+                       
                         doctorManager.createDoctor(newDoctor);
+                        JOptionPane.showMessageDialog(this, "Doctor registered successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                        cardLayout.show(rightPanel, "Login");
                     } else if ("manager".equals(selectedRole.getName())) {
-                        Manager newManager = new Manager(email);
+                    	int phone = Integer.parseInt(managerPhoneField.getText());
+                        Manager newManager = new Manager(null, email, phone, managerNameField.getText());
                         managerManager.addManager(newManager);
+                        JOptionPane.showMessageDialog(this, "Manager registered successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                        cardLayout.show(rightPanel, "Login");
                     }
 
-                    JOptionPane.showMessageDialog(null, "Registration successful.", "Success", JOptionPane.INFORMATION_MESSAGE);
-                    cardLayout.show(rightPanel, "Login");
                 } catch (NoSuchAlgorithmException ex) {
                     JOptionPane.showMessageDialog(null, "Error during sign-up process.", "Error", JOptionPane.ERROR_MESSAGE);
                 }
