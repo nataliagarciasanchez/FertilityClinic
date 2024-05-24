@@ -220,8 +220,10 @@ public class MenuUI extends JFrame {
 
         JLabel roleLabel = new JLabel("Role:");
         roleLabel.setForeground(Color.WHITE);
+        roleLabel.setFont(new Font("Calibri", Font.BOLD, 20));
         JComboBox<Role> roleComboBox = new JComboBox<>(new DefaultComboBoxModel<>(userManager.getRoles().toArray(new Role[0])));
-
+        roleComboBox.setFont(new Font("Calibri", Font.PLAIN, 18));
+        
         fieldsPanel.add(emailLabel);
         fieldsPanel.add(emailField);
         fieldsPanel.add(passwordLabel);
@@ -237,27 +239,14 @@ public class MenuUI extends JFrame {
         JPanel patientPanel = new JPanel(new GridLayout(8, 2));
         patientPanel.setBackground(new Color(25, 25, 112));
         JTextField nameField = new JTextField();
-        nameField.setForeground(Color.WHITE);
-        nameField.setFont(new Font("Calibri", Font.BOLD, 20));
         JTextField phoneField = new JTextField();
-        phoneField.setForeground(Color.WHITE);
-        phoneField.setFont(new Font("Calibri", Font.BOLD, 20));
         JTextField heightField = new JTextField();
-        heightField.setForeground(Color.WHITE);
-        heightField.setFont(new Font("Calibri", Font.BOLD, 20));
         JTextField weightField = new JTextField();
-        weightField.setForeground(Color.WHITE);
-        weightField.setFont(new Font("Calibri", Font.BOLD, 20));
         JTextField bloodTypeField = new JTextField();
-        bloodTypeField.setForeground(Color.WHITE);
-        bloodTypeField.setFont(new Font("Calibri", Font.BOLD, 20));
         JTextField dobField = new JTextField();
-        dobField.setForeground(Color.WHITE);
-        dobField.setFont(new Font("Calibri", Font.BOLD, 20));
         JTextField genderField = new JTextField();
-        genderField.setForeground(Color.WHITE);
-        genderField.setFont(new Font("Calibri", Font.BOLD, 20));
         patientPanel.add(new JLabel("Name:"));
+        patientPanel.setFont(new Font("Calibri", Font.BOLD, 20));
         patientPanel.add(nameField);
         patientPanel.add(new JLabel("Phone:"));
         patientPanel.add(phoneField);
