@@ -49,10 +49,7 @@ public class MenuUI extends JFrame {
         
         showInitialDialog();
     }
-    
-    
-    private JPanel rightPanel;  // Usar CardLayout para manejar paneles
-    private CardLayout cardLayout;
+   
 
     private void showInitialDialog() {
         setTitle("NEW LIFE CLINIC");
@@ -139,18 +136,30 @@ public class MenuUI extends JFrame {
         JButton loginButton = new JButton("Login");
         JButton cancelButton = new JButton("Cancel");
 
-        loginButton.addActionListener(e -> {
-            String email = emailField.getText();
-            String password = new String(passwordField.getPassword());
-            // Aquí simularía un intento de login
-            boolean isValidUser = userManager.checkPassword(email, password);
-            if (isValidUser) {
-                System.out.println("Login successful");
-                // Aquí podrías llamar a una función que cambie la interfaz de usuario al entorno del usuario logueado
-            } else {
-                JOptionPane.showMessageDialog(loginPanel, "Invalid email or password.", "Error", JOptionPane.ERROR_MESSAGE);
+        signupButton.addActionListener(e -> {
+            int result = JOptionPane.showConfirmDialog(null, fieldsPanel, "Sign Up", JOptionPane.OK_CANCEL_OPTION);
+            if (result == JOptionPane.OK_OPTION) {
+                String email = emailField.getText();
+                String password = new String(passwordField.getPassword());
+                Role selectedRole = (Role) roleComboBox.getSelectedItem();
+                try {
+                    MessageDigest md = MessageDigest.getInstance("MD5");
+                    md.update(password.getBytes());
+                    byte[] hashedPassword = md.digest();
+                    User newUser = new User(email, hashedPassword, selectedRole);
+                    userManager.newUser(newUser);
+                    // Handle additional registration details based on role
+                    handleAdditionalRegistration(selectedRole, emailField, passwordField, roleComboBox);
+                } catch (NoSuchAlgorithmException ex) {
+                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(signupPanel, "Error during sign-up process.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            } else if (result == JOptionPane.CANCEL_OPTION) {
+                cardLayout.show(rightPanel, "Initial");
             }
         });
+
+
         cancelButton.addActionListener(e -> cardLayout.show(rightPanel, "Initial"));
 
         buttonPanel.add(loginButton);
