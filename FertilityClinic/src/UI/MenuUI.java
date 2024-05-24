@@ -141,7 +141,7 @@ public class MenuUI extends JFrame {
         return imageLabel;
     }
 
-
+/*
     private void showLoginDialog() {
         // Crear los campos de texto y etiquetas con el estilo apropiado
         JLabel emailLabel = new JLabel("Email:");
@@ -174,7 +174,7 @@ public class MenuUI extends JFrame {
         } else if (result == JOptionPane.CANCEL_OPTION) {
             showSignUpDialog(); // Si el usuario cancela, ofrecer registrarse en su lugar.
         }
-    }
+    }*/
 
     
     
