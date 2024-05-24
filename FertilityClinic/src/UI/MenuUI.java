@@ -197,8 +197,7 @@ public class MenuUI extends JFrame {
         return loginPanel;
     }
 
-
-
+/*
     private JPanel createSignupPanel() {
         JPanel signupPanel = new JPanel(new BorderLayout());
         signupPanel.setBackground(new Color(25, 25, 112));
@@ -372,7 +371,94 @@ public class MenuUI extends JFrame {
 
         return signupPanel;
     }
+*/ 
+    private JPanel createSignupPanel() {
+        JPanel signupPanel = new JPanel(new BorderLayout());
+        signupPanel.setBackground(new Color(25, 25, 112));
 
+        JPanel fieldsPanel = new JPanel(new GridLayout(3, 2, 10, 10));
+        fieldsPanel.setBackground(new Color(25, 25, 112));
+
+        JLabel emailLabel = new JLabel("Email:");
+        emailLabel.setForeground(Color.WHITE);
+        emailLabel.setFont(new Font("Calibri", Font.BOLD, 20));
+        JTextField emailField = new JTextField();
+        emailField.setFont(new Font("Calibri", Font.PLAIN, 18));
+
+        JLabel passwordLabel = new JLabel("Password:");
+        passwordLabel.setForeground(Color.WHITE);
+        passwordLabel.setFont(new Font("Calibri", Font.BOLD, 20));
+        JPasswordField passwordField = new JPasswordField();
+        passwordField.setFont(new Font("Calibri", Font.PLAIN, 18));
+
+        JLabel roleLabel = new JLabel("Role:");
+        roleLabel.setForeground(Color.WHITE);
+        roleLabel.setFont(new Font("Calibri", Font.BOLD, 20));
+        JComboBox<Role> roleComboBox = new JComboBox<>(new DefaultComboBoxModel<>(userManager.getRoles().toArray(new Role[0])));
+        roleComboBox.setFont(new Font("Calibri", Font.PLAIN, 18));
+
+        fieldsPanel.add(emailLabel);
+        fieldsPanel.add(emailField);
+        fieldsPanel.add(passwordLabel);
+        fieldsPanel.add(passwordField);
+        fieldsPanel.add(roleLabel);
+        fieldsPanel.add(roleComboBox);
+
+        // Role specific panels
+        JPanel roleSpecificPanel = new JPanel(new CardLayout());
+        roleSpecificPanel.setBackground(new Color(25, 25, 112));
+        JPanel patientPanel = new JPanel(new GridLayout(8, 2));
+        patientPanel.setBackground(new Color(25, 25, 112));
+        addRoleFields(patientPanel, new String[]{"Name", "Phone", "Height", "Weight", "Blood Type", "DOB (yyyy-mm-dd)", "Gender"});
+
+        JPanel doctorPanel = new JPanel(new GridLayout(5, 2));
+        doctorPanel.setBackground(new Color(25, 25, 112));
+        addRoleFields(doctorPanel, new String[]{"Name", "Phone", "Speciality"});
+
+        JPanel managerPanel = new JPanel(new GridLayout(5, 2));
+        managerPanel.setBackground(new Color(25, 25, 112));
+        addRoleFields(managerPanel, new String[]{"Name", "Phone"});
+
+        roleSpecificPanel.add(patientPanel, "patient");
+        roleSpecificPanel.add(doctorPanel, "doctor");
+        roleSpecificPanel.add(managerPanel, "manager");
+
+        roleComboBox.addActionListener(e -> {
+            CardLayout cl = (CardLayout) roleSpecificPanel.getLayout();
+            Role selectedRole = (Role) roleComboBox.getSelectedItem();
+            if (selectedRole != null) {
+                cl.show(roleSpecificPanel, selectedRole.getName());
+            }
+        });
+
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
+        buttonPanel.setBackground(new Color(25, 25, 112));
+        JButton signupButton = new JButton("Sign up");
+        JButton cancelButton = new JButton("Cancel");
+
+        buttonPanel.add(signupButton);
+        buttonPanel.add(cancelButton);
+
+        signupPanel.add(fieldsPanel, BorderLayout.NORTH);
+        signupPanel.add(roleSpecificPanel, BorderLayout.CENTER);
+        signupPanel.add(buttonPanel, BorderLayout.SOUTH);
+
+        return signupPanel;
+    }
+
+    private void addRoleFields(JPanel panel, String[] fields) {
+        for (String field : fields) {
+            JLabel label = new JLabel(field + ":");
+            label.setForeground(Color.WHITE);
+            label.setFont(new Font("Calibri", Font.BOLD, 20));
+            JTextField textField = new JTextField();
+            textField.setFont(new Font("Calibri", Font.PLAIN, 18));
+            panel.add(label);
+            panel.add(textField);
+        }
+    }
+
+    
     private JLabel setupImageLabel() {
         JLabel imageLabel = new JLabel();
         try {
