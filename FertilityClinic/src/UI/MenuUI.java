@@ -160,10 +160,10 @@ public class MenuUI extends JFrame {
                 loadUserInterface(loggedInUser); // Carga la interfaz principal para el usuario conectado
             } else {
                 JOptionPane.showMessageDialog(this, "Invalid email or password.", "Error", JOptionPane.ERROR_MESSAGE);
-                showLoginDialog(); // Reabrir el diálogo de inicio de sesión en caso de falla de autenticación
+                createLoginPanel(); // Reabrir el diálogo de inicio de sesión en caso de falla de autenticación
             }
         } else if (result == JOptionPane.CANCEL_OPTION) {
-            showSignUpDialog(); // Si el usuario cancela, ofrecer registrarse en su lugar.
+        	showInitialDialog(); // Si el usuario cancela, ofrecer registrarse en su lugar.
         }
     }
 
@@ -171,7 +171,7 @@ public class MenuUI extends JFrame {
     
     
     private void createSignupPanel() {
-        JPanel signupPanel = new JPanel(new BorderLayout());
+        JPanel panel = new JPanel(new BorderLayout());
         JPanel initialPanel = new JPanel(new GridLayout(3, 2));
         initialPanel.setBackground(new Color(25, 25, 112));
         JTextField emailField = new JTextField();
@@ -319,7 +319,7 @@ public class MenuUI extends JFrame {
                 JOptionPane.showMessageDialog(this, "Error during sign-up process.", "Error", JOptionPane.ERROR_MESSAGE);
             }
         }if (result == JOptionPane.OK_CANCEL_OPTION) {
-        	showSignUpDialog();
+        	showInitialDialog();
         }
     }
  
