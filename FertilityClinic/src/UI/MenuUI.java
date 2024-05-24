@@ -26,7 +26,7 @@ public class MenuUI extends JFrame {
     private SpecialityManager specialityManager;
     private StockManager stockManager;
     private User loggedInUser;
-    private JPanel rightPanel = new JPanel(new CardLayout());
+    private  JPanel rightPanel = new JPanel(new CardLayout());
    
     public MenuUI() {
         
@@ -62,7 +62,7 @@ public class MenuUI extends JFrame {
         JLabel imageLabel = setupImageLabel();
         mainPanel.add(imageLabel, BorderLayout.WEST);
 
-        JPanel rightPanel = new JPanel(new BorderLayout());
+      
         rightPanel.setBackground(new Color(25, 25, 112));
         JLabel titleLabel = new JLabel("NEW LIFE CLINIC", JLabel.CENTER);
         titleLabel.setFont(new Font("Calibri", Font.BOLD, 70));
