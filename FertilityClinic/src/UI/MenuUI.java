@@ -395,7 +395,7 @@ public class MenuUI extends JFrame {
         roleLabel.setForeground(Color.WHITE);
         roleLabel.setFont(new Font("Calibri", Font.BOLD, 20));
         JComboBox<Role> roleComboBox = new JComboBox<>(new DefaultComboBoxModel<>(userManager.getRoles().toArray(new Role[0])));
-        roleComboBox.setForeground(Color.WHITE);
+ 
         roleComboBox.setFont(new Font("Calibri", Font.PLAIN, 18));
 
         fieldsPanel.add(emailLabel);
