@@ -578,20 +578,19 @@ public class PatientPanel extends JPanel {
     
     //OPTION 4
     private void viewAllDoctorsPanel() {
-        JPanel doctorPanel = new JPanel();
-        doctorPanel.setLayout(new BorderLayout());
+        JPanel doctorPanel = new JPanel(new BorderLayout());
 
         JTextField searchField = new JTextField();
         JButton searchBtn = new JButton("Search");
 
-        JPanel searchPanel = new JPanel();
-        searchPanel.setLayout(new BorderLayout());
+        JPanel searchPanel = new JPanel(new BorderLayout());
         searchPanel.add(new JLabel("Search Doctor by Name: "), BorderLayout.WEST);
         searchPanel.add(searchField, BorderLayout.CENTER);
         searchPanel.add(searchBtn, BorderLayout.EAST);
 
         JPanel resultPanel = new JPanel();
         resultPanel.setLayout(new BoxLayout(resultPanel, BoxLayout.Y_AXIS));
+        resultPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Padding around the result panel
 
         // Load all doctors by default
         ArrayList<Doctor> allDoctors = (ArrayList<Doctor>) doctorManager.getListOfDoctors(); // Assuming you have this method
@@ -608,25 +607,35 @@ public class PatientPanel extends JPanel {
 
         doctorPanel.add(searchPanel, BorderLayout.NORTH);
         doctorPanel.add(new JScrollPane(resultPanel), BorderLayout.CENTER);
-        
+
         currentPanel = doctorPanel; // Establece el panel actual como el panel de información del paciente
         showCurrentPanel(); // Muestra el panel actual en el contenedor principal
-   
     }
 
     private void displayDoctors(JPanel resultPanel, ArrayList<Doctor> doctors) {
+        Font infoFont = new Font("Calibri", Font.PLAIN, 16); // Font size set to 16
+
         for (Doctor doctor : doctors) {
-            JPanel doctorInfoPanel = new JPanel(new GridLayout(1, 2));
+            JPanel doctorInfoPanel = new JPanel(new GridLayout(0, 1));
+            doctorInfoPanel.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10)); // Padding inside each doctor's info panel
+
             JLabel nameLabel = new JLabel("Name: " + doctor.getName());
+            nameLabel.setFont(infoFont);
             doctorInfoPanel.add(nameLabel);
+
             Speciality speciality = doctor.getSpeciality();
             JLabel specialityLabel = new JLabel("Speciality: " + (speciality != null ? speciality.getName() : "Unknown"));
+            specialityLabel.setFont(infoFont);
             doctorInfoPanel.add(specialityLabel);
+
             JLabel emailLabel = new JLabel("Email: " + doctor.getEmail());
+            emailLabel.setFont(infoFont);
             doctorInfoPanel.add(emailLabel);
+
             resultPanel.add(doctorInfoPanel);
         }
     }
+
 
 /*
     //OPTION 5
