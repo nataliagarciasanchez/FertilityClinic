@@ -56,70 +56,62 @@ public class MenuUI extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
+        // Panel principal que incluye todo
         JPanel mainPanel = new JPanel(new BorderLayout(10, 10));
         mainPanel.setBackground(new Color(25, 25, 112));  // Dark blue color
 
-        JLabel imageLabel = setupImageLabel();
+        // Configuración de la imagen y el título
+        JLabel imageLabel = new JLabel(new ImageIcon("./logo/photo.png"), JLabel.CENTER);
         mainPanel.add(imageLabel, BorderLayout.WEST);
 
-        JPanel rightPanel = new JPanel(new BorderLayout());
-        rightPanel.setBackground(new Color(25, 25, 112));
         JLabel titleLabel = new JLabel("NEW LIFE CLINIC", JLabel.CENTER);
         titleLabel.setFont(new Font("Calibri", Font.BOLD, 70));
         titleLabel.setForeground(Color.WHITE);
-        titleLabel.setBorder(BorderFactory.createEmptyBorder(100, 0, 0, 0));
-        rightPanel.add(titleLabel, BorderLayout.NORTH);
+        mainPanel.add(titleLabel, BorderLayout.NORTH);
 
-        
-        JPanel cards = new JPanel(new CardLayout());//new
-        JLabel questionLabel = new JLabel("Do you want to log in or sign up?");
-        questionLabel.setFont(new Font("Cooper Black", Font.PLAIN, 20));
-        questionLabel.setHorizontalAlignment(JLabel.CENTER);
-        questionLabel.setForeground(Color.WHITE);
-
-        
-        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
-        buttonPanel.setBackground(new Color(25, 25, 112));
+        // CardLayout para cambiar entre paneles
+        JPanel cards = new JPanel(new CardLayout());
+        JPanel questionPanel = new JPanel();
+        questionPanel.setBackground(new Color(25, 25, 112));
         JButton loginButton = new JButton("Log in");
         JButton signupButton = new JButton("Sign up");
 
-        loginButton.setBackground(Color.WHITE);
-        signupButton.setBackground(Color.WHITE);
+        // Acciones para cambiar al formulario de login y registro
+        loginButton.addActionListener(e -> ((CardLayout) cards.getLayout()).show(cards, "LoginForm"));
+        signupButton.addActionListener(e -> ((CardLayout) cards.getLayout()).show(cards, "SignUpForm"));
 
-        loginButton.setFont(new Font("Calibri", Font.BOLD, 16));
-        signupButton.setFont(new Font("Calibri", Font.BOLD, 16));
+        questionPanel.add(loginButton);
+        questionPanel.add(signupButton);
 
-        loginButton.addActionListener(e -> ((CardLayout) cards.getLayout()).show(cards, "LoginForm"); //new
-        signupButton.addActionListener(e -> ((CardLayout) cards.getLayout()).show(cards, "SignUpForm");//new
-
-        buttonPanel.add(loginButton);
-        buttonPanel.add(signupButton);
-        buttonPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 200, 0)); // Increase bottom margin
-
-        rightPanel.add(questionLabel, BorderLayout.CENTER);
-        rightPanel.add(buttonPanel, BorderLayout.SOUTH);
-
-        
+        // Configuración de los formularios de login y registro
         JPanel loginPanel = new JPanel(new GridLayout(3, 2, 10, 10));
-        loginPanel.setBackground(new Color(25, 25, 112));
         loginPanel.add(new JLabel("Email:"));
-        JTextField emailField = new JTextField(10);
+        JTextField emailField = new JTextField();
         loginPanel.add(emailField);
         loginPanel.add(new JLabel("Password:"));
-        JPasswordField passwordField = new JPasswordField(10);
+        JPasswordField passwordField = new JPasswordField();
         loginPanel.add(passwordField);
-        JButton submitButton = new JButton("Submit");
-        loginPanel.add(submitButton);
-        submitButton.addActionListener(e -> loginUser(emailField.getText(), new String(passwordField.getPassword())));
+
+        JPanel signUpPanel = new JPanel(new GridLayout(4, 2, 10, 10));
+        signUpPanel.add(new JLabel("Email:"));
+        JTextField signUpEmailField = new JTextField();
+        signUpPanel.add(signUpEmailField);
+        signUpPanel.add(new JLabel("Password:"));
+        JPasswordField signUpPasswordField = new JPasswordField();
+        signUpPanel.add(signUpPasswordField);
+        signUpPanel.add(new JLabel("Confirm Password:"));
+        JPasswordField confirmPasswordField = new JPasswordField();
+        signUpPanel.add(confirmPasswordField);
 
         cards.add(questionPanel, "QuestionPanel");
         cards.add(loginPanel, "LoginForm");
+        cards.add(signUpPanel, "SignUpForm");
 
-        mainPanel.add(rightPanel, BorderLayout.CENTER);
-
+        mainPanel.add(cards, BorderLayout.CENTER);
         add(mainPanel);
         setVisible(true);
     }
+
 
     private JLabel setupImageLabel() {
         JLabel imageLabel = new JLabel();
