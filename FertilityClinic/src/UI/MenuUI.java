@@ -56,12 +56,11 @@ public class MenuUI extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        // Panel principal que incluye todo
         JPanel mainPanel = new JPanel(new BorderLayout(10, 10));
         mainPanel.setBackground(new Color(25, 25, 112));  // Dark blue color
 
-        // Configuración de la imagen y el título
-        JLabel imageLabel = new JLabel(new ImageIcon("./logo/photo.png"), JLabel.CENTER);
+        // Ajuste y adición de la imagen
+        JLabel imageLabel = setupImageLabel();
         mainPanel.add(imageLabel, BorderLayout.WEST);
 
         JLabel titleLabel = new JLabel("NEW LIFE CLINIC", JLabel.CENTER);
@@ -69,47 +68,69 @@ public class MenuUI extends JFrame {
         titleLabel.setForeground(Color.WHITE);
         mainPanel.add(titleLabel, BorderLayout.NORTH);
 
-        // CardLayout para cambiar entre paneles
         JPanel cards = new JPanel(new CardLayout());
-        JPanel questionPanel = new JPanel();
-        questionPanel.setBackground(new Color(25, 25, 112));
-        JButton loginButton = new JButton("Log in");
-        JButton signupButton = new JButton("Sign up");
+        JPanel questionPanel = setupQuestionPanel();
+        JPanel loginPanel = setupLoginForm();
+        JPanel signUpPanel = setupSignUpForm();
 
-        // Acciones para cambiar al formulario de login y registro
-        loginButton.addActionListener(e -> ((CardLayout) cards.getLayout()).show(cards, "LoginForm"));
-        signupButton.addActionListener(e -> ((CardLayout) cards.getLayout()).show(cards, "SignUpForm"));
-
-        questionPanel.add(loginButton);
-        questionPanel.add(signupButton);
-
-        // Configuración de los formularios de login y registro
-        JPanel loginPanel = new JPanel(new GridLayout(3, 2, 10, 10));
-        loginPanel.add(new JLabel("Email:"));
-        JTextField emailField = new JTextField();
-        loginPanel.add(emailField);
-        loginPanel.add(new JLabel("Password:"));
-        JPasswordField passwordField = new JPasswordField();
-        loginPanel.add(passwordField);
-
-        JPanel signUpPanel = new JPanel(new GridLayout(4, 2, 10, 10));
-        signUpPanel.add(new JLabel("Email:"));
-        JTextField signUpEmailField = new JTextField();
-        signUpPanel.add(signUpEmailField);
-        signUpPanel.add(new JLabel("Password:"));
-        JPasswordField signUpPasswordField = new JPasswordField();
-        signUpPanel.add(signUpPasswordField);
-        signUpPanel.add(new JLabel("Confirm Password:"));
-        JPasswordField confirmPasswordField = new JPasswordField();
-        signUpPanel.add(confirmPasswordField);
-
-        cards.add(questionPanel, "QuestionPanel");
-        cards.add(loginPanel, "LoginForm");
-        cards.add(signUpPanel, "SignUpForm");
+        cards.add(questionPanel, "Question Panel");
+        cards.add(loginPanel, "Login Form");
+        cards.add(signUpPanel, "Sign Up Form");
 
         mainPanel.add(cards, BorderLayout.CENTER);
         add(mainPanel);
         setVisible(true);
+    }
+
+    private JLabel setupImageLabel() {
+        JLabel imageLabel = new JLabel();
+        try {
+            ImageIcon icon = new ImageIcon("./logo/photo.png");
+            Image image = icon.getImage();
+            Image newimg = image.getScaledInstance(300, 300,  Image.SCALE_SMOOTH); // Adjust the size here
+            imageLabel.setIcon(new ImageIcon(newimg));
+        } catch (Exception e) {
+            imageLabel.setText("Image not found");
+            e.printStackTrace();
+        }
+        imageLabel.setHorizontalAlignment(JLabel.CENTER);
+        return imageLabel;
+    }
+
+    private JPanel setupQuestionPanel() {
+        JPanel panel = new JPanel(new GridLayout(1, 2, 10, 10));
+        JButton loginButton = new JButton("Log in");
+        JButton signUpButton = new JButton("Sign up");
+        loginButton.addActionListener(e -> ((CardLayout) cards.getLayout()).show(cards, "Login Form"));
+        signUpButton.addActionListener(e -> ((CardLayout) cards.getLayout()).show(cards, "Sign Up Form"));
+        panel.add(loginButton);
+        panel.add(signUpButton);
+        return panel;
+    }
+
+    private JPanel setupLoginForm() {
+        JPanel panel = new JPanel(new GridLayout(3, 2, 10, 10));
+        panel.add(new JLabel("Email:"));
+        JTextField emailField = new JTextField();
+        panel.add(emailField);
+        panel.add(new JLabel("Password:"));
+        JPasswordField passwordField = new JPasswordField();
+        panel.add(passwordField);
+        return panel;
+    }
+
+    private JPanel setupSignUpForm() {
+        JPanel panel = new JPanel(new GridLayout(4, 2, 10, 10));
+        panel.add(new JLabel("Email:"));
+        JTextField signUpEmailField = new JTextField();
+        panel.add(signUpEmailField);
+        panel.add(new JLabel("Password:"));
+        JPasswordField signUpPasswordField = new JPasswordField();
+        panel.add(signUpPasswordField);
+        panel.add(new JLabel("Confirm Password:"));
+        JPasswordField confirmPasswordField = new JPasswordField();
+        panel.add(confirmPasswordField);
+        return panel;
     }
 
 
@@ -169,8 +190,9 @@ public class MenuUI extends JFrame {
     }*/
 
     
-    /*
     
+
+    /*
     private void showSignUpDialog() {
         JPanel panel = new JPanel(new BorderLayout());
         JPanel initialPanel = new JPanel(new GridLayout(3, 2));
