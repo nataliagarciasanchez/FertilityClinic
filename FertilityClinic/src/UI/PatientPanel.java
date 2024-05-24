@@ -261,15 +261,33 @@ public class PatientPanel extends JPanel {
 
         JPanel appointmentsOptionsPanel = new JPanel();
         appointmentsOptionsPanel.setLayout(new BoxLayout(appointmentsOptionsPanel, BoxLayout.Y_AXIS)); // Cambio a BoxLayout con dirección Y
+        appointmentsOptionsPanel.setBackground(new Color(25, 25, 112)); // Fondo azul oscuro
+        Font buttonFont = new Font("Calibri", Font.BOLD, 18);
 
         JButton op1 = new JButton("Update Appointment");
+        op1.setFont(buttonFont);
+        op1.setBackground(Color.WHITE);
+        op1.setForeground(Color.BLACK);
+        op1.setAlignmentX(Component.CENTER_ALIGNMENT); // Centrar el botón horizontalmente
+        op1.setMaximumSize(new Dimension(Integer.MAX_VALUE, op1.getMinimumSize().height)); // Asegurar que el botón ocupe todo el ancho disponible
+
         JButton op2 = new JButton("Add Appointment");
+        op2.setFont(buttonFont);
+        op2.setBackground(Color.WHITE);
+        op2.setForeground(Color.BLACK);
+        op2.setAlignmentX(Component.CENTER_ALIGNMENT); // Centrar el botón horizontalmente
+        op2.setMaximumSize(new Dimension(Integer.MAX_VALUE, op2.getMinimumSize().height)); // Asegurar que el botón ocupe todo el ancho disponible
 
         op1.addActionListener(e -> updateAppointmentPanel());
         op2.addActionListener(e -> addAppointmentPanel());
-
+        appointmentsOptionsPanel.add(Box.createVerticalStrut(10)); // Añadir espacio vertical entre botones
         appointmentsOptionsPanel.add(op1);
+        appointmentsOptionsPanel.add(Box.createVerticalStrut(10)); // Añadir espacio vertical entre botones
         appointmentsOptionsPanel.add(op2);
+
+        appointmentsMainPanel.add(appointmentsOptionsPanel, BorderLayout.WEST);
+        appointmentsMainPanel.add(new JScrollPane(currentAppointmentsPanel()), BorderLayout.CENTER);
+
 
         appointmentsMainPanel.add(appointmentsOptionsPanel, BorderLayout.WEST);
         appointmentsMainPanel.add(new JScrollPane(currentAppointmentsPanel()), BorderLayout.CENTER);
