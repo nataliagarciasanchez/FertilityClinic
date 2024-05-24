@@ -385,38 +385,74 @@ public class PatientPanel extends JPanel {
     }*/ 
     
     private void addAppointmentPanel() {
-        JPanel addPanel = new JPanel(new GridLayout(9, 2, 10, 10));
-        JTextField dateField = new JTextField();
-        JTextField timeField = new JTextField();
-        JComboBox<Doctor> doctorIdComboBox = new JComboBox<>();  // Modificado para almacenar objetos Doctor directamente
-        JTextField descriptionField = new JTextField();
+        JPanel addPanel = new JPanel(new GridBagLayout());
+        addPanel.setBorder(BorderFactory.createEmptyBorder(10, 50, 10, 10)); // Separación de 50 a la izquierda y 10 arriba
 
-        ArrayList<Doctor> allDoctors = (ArrayList<Doctor>) doctorManager.getListOfDoctors();
-        for (Doctor doctor : allDoctors) {
-            doctorIdComboBox.addItem(doctor);  // Añadir el objeto Doctor directamente al JComboBox
-        }
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.insets = new Insets(10, 10, 10, 10); // Espaciado entre componentes
+        gbc.anchor = GridBagConstraints.WEST;
 
+        JLabel dateLabel = new JLabel("Date (YYYY-MM-DD):");
+        dateLabel.setFont(new Font("Calibri", Font.BOLD, 18));
+        JTextField dateField = new JTextField(15);
+        dateField.setFont(new Font("Calibri", Font.PLAIN, 18));
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        addPanel.add(dateLabel, gbc);
+        gbc.gridx = 1;
+        addPanel.add(dateField, gbc);
+
+        JLabel timeLabel = new JLabel("Time (HH:MM:SS):");
+        timeLabel.setFont(new Font("Calibri", Font.BOLD, 18));
+        JTextField timeField = new JTextField(15);
+        timeField.setFont(new Font("Calibri", Font.PLAIN, 18));
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        addPanel.add(timeLabel, gbc);
+        gbc.gridx = 1;
+        addPanel.add(timeField, gbc);
+
+        JLabel doctorLabel = new JLabel("Doctor:");
+        doctorLabel.setFont(new Font("Calibri", Font.BOLD, 18));
+        JComboBox<Doctor> doctorIdComboBox = new JComboBox<>(new DefaultComboBoxModel<>(doctorManager.getListOfDoctors().toArray(new Doctor[0])));
+        doctorIdComboBox.setFont(new Font("Calibri", Font.PLAIN, 18));
         doctorIdComboBox.setRenderer(new DefaultListCellRenderer() {
             @Override
             public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
                 super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
                 if (value instanceof Doctor) {
-                    setText(((Doctor) value).getName());  // Mostrar solo el nombre del doctor en el JComboBox
+                    setText(((Doctor) value).getName());
                 }
                 return this;
             }
         });
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        addPanel.add(doctorLabel, gbc);
+        gbc.gridx = 1;
+        addPanel.add(doctorIdComboBox, gbc);
 
-        addPanel.add(new JLabel("Date (YYYY-MM-DD):"));
-        addPanel.add(dateField);
-        addPanel.add(new JLabel("Time (HH:MM:SS):"));
-        addPanel.add(timeField);
-        addPanel.add(new JLabel("Doctor:"));
-        addPanel.add(doctorIdComboBox);
-        addPanel.add(new JLabel("Description:"));
-        addPanel.add(descriptionField);
+        JLabel descriptionLabel = new JLabel("Description:");
+        descriptionLabel.setFont(new Font("Calibri", Font.BOLD, 18));
+        JTextField descriptionField = new JTextField(15);
+        descriptionField.setFont(new Font("Calibri", Font.PLAIN, 18));
+        gbc.gridx = 0;
+        gbc.gridy = 3;
+        addPanel.add(descriptionLabel, gbc);
+        gbc.gridx = 1;
+        addPanel.add(descriptionField, gbc);
 
         JButton addBtn = new JButton("Add Appointment");
+        addBtn.setFont(new Font("Calibri", Font.BOLD, 18));
+        addBtn.setBackground(Color.WHITE);
+        addBtn.setForeground(Color.BLACK);
+        gbc.gridx = 0;
+        gbc.gridy = 4;
+        gbc.gridwidth = 2;
+        gbc.anchor = GridBagConstraints.CENTER;
+        addPanel.add(addBtn, gbc);
+
         addBtn.addActionListener(e -> {
             try {
                 String dateStr = dateField.getText();
@@ -425,7 +461,7 @@ public class PatientPanel extends JPanel {
                 java.sql.Time sqlTime = java.sql.Time.valueOf(timeStr);
 
                 Doctor selectedDoctor = (Doctor) doctorIdComboBox.getSelectedItem();
-                int doctorId = selectedDoctor.getId();  // Recuperar el ID del doctor seleccionado
+                int doctorId = selectedDoctor.getId();
 
                 String description = descriptionField.getText();
                 Appointment ap = new Appointment(0, patientId, description, sqlTime, sqlDate, doctorId);
@@ -439,11 +475,11 @@ public class PatientPanel extends JPanel {
                 ex.printStackTrace();
             }
         });
-        addPanel.add(new JLabel());
-        addPanel.add(addBtn);
+
         currentPanel = addPanel;
         showCurrentPanel();
     }
+
 
 
     private void updateAppointmentPanel() {
