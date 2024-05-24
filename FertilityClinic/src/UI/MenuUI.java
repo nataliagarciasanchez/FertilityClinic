@@ -64,6 +64,11 @@ public class MenuUI extends JFrame {
 
       
         rightPanel.setBackground(new Color(25, 25, 112));
+        
+        //JPanel lohinPanel = createLoginPanel();
+        //JPanel signupPanel = createSignupPanel();
+        // rightPanel.add(loginpanel, "login");
+        //rightPanel.add(signupPanel, "Signup");
         JLabel titleLabel = new JLabel("NEW LIFE CLINIC", JLabel.CENTER);
         titleLabel.setFont(new Font("Calibri", Font.BOLD, 70));
         titleLabel.setForeground(Color.WHITE);
@@ -86,8 +91,8 @@ public class MenuUI extends JFrame {
         loginButton.setFont(new Font("Calibri", Font.BOLD, 16));
         signupButton.setFont(new Font("Calibri", Font.BOLD, 16));
 
-        loginButton.addActionListener(e -> showLoginDialog());
-        signupButton.addActionListener(e -> showSignUpDialog());
+        loginButton.addActionListener(e -> cardLayout.show(rightPanel, "Login"));
+        signupButton.addActionListener(e -> cardLayout.show(rightPanel, "Signup"));
 
         buttonPanel.add(loginButton);
         buttonPanel.add(signupButton);
@@ -123,10 +128,10 @@ public class MenuUI extends JFrame {
     }
 
 
-    private void showLoginDialog() {
+    private void createLoginPanel() {
         // Crear un panel con un diseño de cuadrícula para los campos de entrada
-       // JPanel panel = new JPanel(new GridLayout(3, 2, 10, 10));
-        //panel.setBackground(new Color(25, 25, 112)); // Color de fondo consistente
+        JPanel loginpanel = new JPanel(new GridLayout(3, 2, 10, 10));
+        loginpanel.setBackground(new Color(25, 25, 112)); // Color de fondo consistente
 
         // Crear los campos de texto y etiquetas con el estilo apropiado
         JLabel emailLabel = new JLabel("Email:");
@@ -137,13 +142,14 @@ public class MenuUI extends JFrame {
         JPasswordField passwordField = new JPasswordField();
         
         // Añadir componentes al panel
-        rightPanel.add(emailLabel);
-        rightPanel.add(emailField);
-        rightPanel.add(passwordLabel);
-        rightPanel.add(passwordField);
+        loginpanel.add(emailLabel);
+        loginpanel.add(emailField);
+        loginpanel.add(passwordLabel);
+        loginpanel.add(passwordField);
+        
 
         // Mostrar el panel en un diálogo de confirmación
-        int result = JOptionPane.showConfirmDialog(this, rightPanel, "Login", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+        int result = JOptionPane.showConfirmDialog(this, loginpanel, "Login", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
         if (result == JOptionPane.OK_OPTION) {
             String email = emailField.getText();
             String password = new String(passwordField.getPassword());
@@ -164,23 +170,24 @@ public class MenuUI extends JFrame {
     
     
     
-    private void showSignUpDialog() {
-       // JPanel panel = new JPanel(new BorderLayout());
+    private void createSignupPanel() {
+        JPanel signupPanel = new JPanel(new BorderLayout());
         JPanel initialPanel = new JPanel(new GridLayout(3, 2));
         initialPanel.setBackground(new Color(25, 25, 112));
         JTextField emailField = new JTextField();
         JPasswordField passwordField = new JPasswordField();
         JComboBox<Role> roleComboBox = new JComboBox<>(new DefaultComboBoxModel<>(userManager.getRoles().toArray(new Role[0])));
         
-        rightPanel.add(new JLabel("Email:"));
+        panel.add(new JLabel("Email:"));
         emailField.setForeground(Color.WHITE);
-        rightPanel.add(emailField);
-        rightPanel.add(new JLabel("Password:"));
+        panel.add(emailField);
+        panel.add(new JLabel("Password:"));
         passwordField.setForeground(Color.WHITE);
-        rightPanel.add(passwordField);
-        rightPanel.add(new JLabel("Role:"));
+        panel.add(passwordField);
+        panel.add(new JLabel("Role:"));
         roleComboBox.setForeground(Color.WHITE);
-        rightPanel.add(roleComboBox);
+        panel.add(roleComboBox);
+        
         
 
         JPanel roleSpecificPanel = new JPanel(new CardLayout());
@@ -265,10 +272,10 @@ public class MenuUI extends JFrame {
             }
         });
 
-        rightPanel.add(initialPanel, BorderLayout.NORTH);
-        rightPanel.add(roleSpecificPanel, BorderLayout.CENTER);
+        signupPanel.add(initialPanel, BorderLayout.NORTH);
+        signupPanel.add(roleSpecificPanel, BorderLayout.CENTER);
 
-        int result = JOptionPane.showConfirmDialog(this, rightPanel, "Sign Up", JOptionPane.OK_CANCEL_OPTION);
+        int result = JOptionPane.showConfirmDialog(this, signupPanel, "Sign Up", JOptionPane.OK_CANCEL_OPTION);
         if (result == JOptionPane.OK_OPTION) {
             String email = emailField.getText();
             String password = new String(passwordField.getPassword());
