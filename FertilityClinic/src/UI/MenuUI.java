@@ -115,6 +115,7 @@ public class MenuUI extends JFrame {
         setVisible(true);
         cardLayout.show(rightPanel, "Initial");  // Mostrar el panel inicial por defecto
     }
+    
     private JPanel createLoginPanel() {
         JPanel loginPanel = new JPanel(new BorderLayout());
         loginPanel.setBackground(new Color(25, 25, 112));
@@ -425,22 +426,21 @@ public class MenuUI extends JFrame {
         roleLabel.setFont(new Font("Calibri", Font.BOLD, 20));
         JComboBox<Role> roleComboBox = new JComboBox<>(new DefaultComboBoxModel<>(userManager.getRoles().toArray(new Role[0])));
         roleComboBox.setFont(new Font("Calibri", Font.PLAIN, 18));
-        
+
         fieldsPanel.add(emailLabel);
         fieldsPanel.add(emailField);
         fieldsPanel.add(passwordLabel);
         fieldsPanel.add(passwordField);
         fieldsPanel.add(roleLabel);
         fieldsPanel.add(roleComboBox);
-        
-       // Role specific panels
+
+        // Role specific panels
         JPanel roleSpecificPanel = new JPanel(new CardLayout());
         roleSpecificPanel.setBackground(new Color(25, 25, 112));
-        
-        
-         JPanel defaultPanel = new JPanel();
+
+        JPanel defaultPanel = new JPanel();
         defaultPanel.setBackground(new Color(25, 25, 112));
-        
+
         // Patient Panel
         JPanel patientPanel = new JPanel(new GridLayout(8, 2, 10, 10));
         patientPanel.setBackground(new Color(25, 25, 112));
@@ -473,8 +473,7 @@ public class MenuUI extends JFrame {
         patientPanel.add(dobField);
         patientPanel.add(genderLabel);
         patientPanel.add(genderField);
-        
-        
+
         // Doctor Panel
         JPanel doctorPanel = new JPanel(new GridLayout(5, 2, 10, 10));
         doctorPanel.setBackground(new Color(25, 25, 112));
@@ -524,53 +523,59 @@ public class MenuUI extends JFrame {
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
         buttonPanel.setBackground(new Color(25, 25, 112));
         JButton signupButton = new JButton("Sign up");
+        signupButton.setFont(new Font("Calibri", Font.BOLD, 18));
+        signupButton.setBackground(Color.WHITE);
+        signupButton.setForeground(Color.BLACK);
         JButton cancelButton = new JButton("Cancel");
+        cancelButton.setFont(new Font("Calibri", Font.BOLD, 18));
+        cancelButton.setBackground(Color.WHITE);
+        cancelButton.setForeground(Color.BLACK);
 
         signupButton.addActionListener(e -> {
-            int result = JOptionPane.showConfirmDialog(null, fieldsPanel, "Sign Up", JOptionPane.OK_CANCEL_OPTION);
-            if (result == JOptionPane.OK_OPTION) {
-                String email = emailField.getText();
-                String password = new String(passwordField.getPassword());
-                Role selectedRole = (Role) roleComboBox.getSelectedItem();
-                try {
-                    MessageDigest md = MessageDigest.getInstance("MD5");
-                    md.update(password.getBytes());
-                    byte[] hashedPassword = md.digest();
-                    User newUser = new User(email, hashedPassword, selectedRole);
-                    userManager.newUser(newUser);
+            String email = emailField.getText();
+            String password = new String(passwordField.getPassword());
+            Role selectedRole = (Role) roleComboBox.getSelectedItem();
+            try {
+                MessageDigest md = MessageDigest.getInstance("MD5");
+                md.update(password.getBytes());
+                byte[] hashedPassword = md.digest();
+                User newUser = new User(email, hashedPassword, selectedRole);
+                userManager.newUser(newUser);
 
-                    if ("patient".equals(selectedRole.getName())) {
-                    	java.sql.Date dob = java.sql.Date.valueOf(dobField.getText());
-                        double height = Double.parseDouble(heightField.getText());
-                        double weight = Double.parseDouble(weightField.getText());
-                        int phone = Integer.parseInt(phoneField.getText());
-                        Patient newPatient = new Patient(nameField.getText(), dob, email, phone, height, weight, bloodTypeField.getText(), genderField.getText());
-                        patientManager.addPatient(newPatient);
-                        JOptionPane.showMessageDialog(this, "Patient registered successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
-                        cardLayout.show(rightPanel, "Login");
-                    } else if ("doctor".equals(selectedRole.getName())) {
-                    	int phone = Integer.parseInt(doctorPhoneField.getText());
-                        Speciality speciality = (Speciality) specialityComboBox.getSelectedItem();
-                        Doctor newDoctor = new Doctor(null,email, phone, doctorNameField.getText(), speciality);
-                       
-                        doctorManager.createDoctor(newDoctor);
-                        JOptionPane.showMessageDialog(this, "Doctor registered successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
-                        cardLayout.show(rightPanel, "Login");
-                    } else if ("manager".equals(selectedRole.getName())) {
-                    	int phone = Integer.parseInt(managerPhoneField.getText());
-                        Manager newManager = new Manager(null, email, phone, managerNameField.getText());
-                        managerManager.addManager(newManager);
-                        JOptionPane.showMessageDialog(this, "Manager registered successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
-                        cardLayout.show(rightPanel, "Login");
-                    }
-
-                } catch (NoSuchAlgorithmException ex) {
-                    JOptionPane.showMessageDialog(null, "Error during sign-up process.", "Error", JOptionPane.ERROR_MESSAGE);
+                if ("patient".equals(selectedRole.getName())) {
+                    java.sql.Date dob = java.sql.Date.valueOf(dobField.getText());
+                    double height = Double.parseDouble(heightField.getText());
+                    double weight = Double.parseDouble(weightField.getText());
+                    int phone = Integer.parseInt(phoneField.getText());
+                    Patient newPatient = new Patient(nameField.getText(), dob, email, phone, height, weight, bloodTypeField.getText(), genderField.getText());
+                    patientManager.addPatient(newPatient);
+                    JOptionPane.showMessageDialog(this, "Patient registered successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    cardLayout.show(rightPanel, "Login");
+                } else if ("doctor".equals(selectedRole.getName())) {
+                    int phone = Integer.parseInt(doctorPhoneField.getText());
+                    Speciality speciality = (Speciality) specialityComboBox.getSelectedItem();
+                    Doctor newDoctor = new Doctor(null, email, phone, doctorNameField.getText(), speciality);
+                    doctorManager.createDoctor(newDoctor);
+                    JOptionPane.showMessageDialog(this, "Doctor registered successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    cardLayout.show(rightPanel, "Login");
+                } else if ("manager".equals(selectedRole.getName())) {
+                    int phone = Integer.parseInt(managerPhoneField.getText());
+                    Manager newManager = new Manager(null, email, phone, managerNameField.getText());
+                    managerManager.addManager(newManager);
+                    JOptionPane.showMessageDialog(this, "Manager registered successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    cardLayout.show(rightPanel, "Login");
                 }
-            } else if (result == JOptionPane.CANCEL_OPTION) {
-                cardLayout.show(rightPanel, "Initial");
+
+            } catch (NoSuchAlgorithmException ex) {
+                JOptionPane.showMessageDialog(signupPanel, "Error during sign-up process.", "Error", JOptionPane.ERROR_MESSAGE);
+            } catch (IllegalArgumentException ex) {
+                JOptionPane.showMessageDialog(signupPanel, "Please enter valid values.", "Error", JOptionPane.ERROR_MESSAGE);
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(signupPanel, "An error occurred during the sign-up process.", "Error", JOptionPane.ERROR_MESSAGE);
+                ex.printStackTrace();
             }
         });
+
         cancelButton.addActionListener(e -> cardLayout.show(rightPanel, "Initial"));
 
         buttonPanel.add(signupButton);
@@ -582,6 +587,7 @@ public class MenuUI extends JFrame {
 
         return signupPanel;
     }
+
 
     private JLabel createLabel(String text) {
         JLabel label = new JLabel(text);
