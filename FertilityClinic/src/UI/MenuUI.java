@@ -74,15 +74,17 @@ public class MenuUI extends JFrame {
         rightPanel.add(loginPanel, "Login");
         rightPanel.add(signupPanel, "Signup");
 
-        JPanel initialPanel = new JPanel(new BorderLayout());
-        initialPanel.setBackground(new Color(25, 25, 112));
+        JPanel contentPanel = new JPanel(new BorderLayout());
+        contentPanel.setBackground(new Color(25, 25, 112));
 
         JLabel titleLabel = new JLabel("NEW LIFE CLINIC", JLabel.CENTER);
         titleLabel.setFont(new Font("Calibri", Font.BOLD, 70));
         titleLabel.setForeground(Color.WHITE);
         titleLabel.setBorder(BorderFactory.createEmptyBorder(100, 0, 0, 0));
-        initialPanel.add(titleLabel, BorderLayout.NORTH);
+        contentPanel.add(titleLabel, BorderLayout.NORTH);
 
+        JPanel initialPanel = new JPanel(new BorderLayout());
+        initialPanel.setBackground(new Color(25, 25, 112));
         JLabel questionLabel = new JLabel("Do you want to log in or sign up?");
         questionLabel.setFont(new Font("Cooper Black", Font.PLAIN, 20));
         questionLabel.setHorizontalAlignment(JLabel.CENTER);
@@ -105,12 +107,15 @@ public class MenuUI extends JFrame {
         initialPanel.add(buttonPanel, BorderLayout.SOUTH);
 
         rightPanel.add(initialPanel, "Initial");
-        mainPanel.add(rightPanel, BorderLayout.CENTER);
+
+        contentPanel.add(rightPanel, BorderLayout.CENTER);
+        mainPanel.add(contentPanel, BorderLayout.CENTER);
 
         add(mainPanel);
         setVisible(true);
         cardLayout.show(rightPanel, "Initial");  // Mostrar el panel inicial por defecto
     }
+
     private JPanel createLoginPanel() {
         JPanel loginPanel = new JPanel(new BorderLayout());
         loginPanel.setBackground(new Color(25, 25, 112));
