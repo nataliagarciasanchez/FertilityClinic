@@ -407,12 +407,18 @@ public class MenuUI extends JFrame {
         // Role specific panels
         JPanel roleSpecificPanel = new JPanel(new CardLayout());
         roleSpecificPanel.setBackground(new Color(25, 25, 112));
+        JPanel patientPanel = new JPanel(new GridLayout(8, 2));
+        patientPanel.setBackground(new Color(25, 25, 112));
+        addRoleFields(patientPanel, new String[]{"Name", "Phone", "Height", "Weight", "Blood Type", "DOB (yyyy-mm-dd)", "Gender"});
 
-        JPanel patientPanel = createRolePanel("Patient");
-        JPanel doctorPanel = createRolePanel("Doctor");
-        JPanel managerPanel = createRolePanel("Manager");
+        JPanel doctorPanel = new JPanel(new GridLayout(5, 2));
+        doctorPanel.setBackground(new Color(25, 25, 112));
+        addRoleFields(doctorPanel, new String[]{"Name", "Phone", "Speciality"});
 
-        roleSpecificPanel.add(new JPanel(), "default");
+        JPanel managerPanel = new JPanel(new GridLayout(5, 2));
+        managerPanel.setBackground(new Color(25, 25, 112));
+        addRoleFields(managerPanel, new String[]{"Name", "Phone"});
+
         roleSpecificPanel.add(patientPanel, "patient");
         roleSpecificPanel.add(doctorPanel, "doctor");
         roleSpecificPanel.add(managerPanel, "manager");
@@ -440,80 +446,17 @@ public class MenuUI extends JFrame {
         return signupPanel;
     }
 
-    private JPanel createRolePanel(String roleType) {
-        JPanel panel = new JPanel(new GridLayout(8, 2)); // Adjust grid layout as needed
-        panel.setBackground(new Color(25, 25, 112));
-        if (roleType.equals("Doctor")) {
-            addDoctorFields(panel);
-        } else if (roleType.equals("Manager")) {
-            addManagerFields(panel);
-        } else if (roleType.equals("Patient")) {
-            addPatientFields(panel);
-        }
-        return panel;
-    }
-
-    private void addDoctorFields(JPanel panel) {
-        String[] labels = {"Name", "Phone", "Speciality"};
-        for (String label : labels) {
-            panel.add(createLabel(label));
-            if ("Speciality".equals(label)) {
-                JComboBox<Speciality> comboBox = new JComboBox<>(new DefaultComboBoxModel<>(getSpecialities().toArray(new Speciality[0])));
-                comboBox.setFont(new Font("Calibri", Font.PLAIN, 18));
-                panel.add(comboBox);
-            } else {
-                JTextField textField = new JTextField();
-                textField.setFont(new Font("Calibri", Font.PLAIN, 18));
-                panel.add(textField);
-            }
-        }
-    }
-
-    private JLabel createLabel(String text) {
-        JLabel label = new JLabel(text + ":");
-        label.setForeground(Color.WHITE);
-        label.setFont(new Font("Calibri", Font.BOLD, 20));
-        return label;
-    }
-
-
-    private void addRoleFields(JPanel panel, String[] fields, boolean isPatient) {
+    private void addRoleFields(JPanel panel, String[] fields) {
         for (String field : fields) {
             JLabel label = new JLabel(field + ":");
             label.setForeground(Color.WHITE);
             label.setFont(new Font("Calibri", Font.BOLD, 20));
             JTextField textField = new JTextField();
             textField.setFont(new Font("Calibri", Font.PLAIN, 18));
-            if (isPatient) {
-                textField.setColumns(10); // Make fields narrower for patients
-            }
             panel.add(label);
             panel.add(textField);
         }
     }
-
-    private void addManagerFields(JPanel panel, String[] fields) {
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.gridwidth = GridBagConstraints.RELATIVE;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.weightx = 0.5;
-        int row = 0;
-        for (String field : fields) {
-            JLabel label = new JLabel(field + ":");
-            label.setForeground(Color.WHITE);
-            label.setFont(new Font("Calibri", Font.BOLD, 20));
-            JTextField textField = new JTextField();
-            textField.setFont(new Font("Calibri", Font.PLAIN, 18));
-            textField.setColumns(15);
-            gbc.gridx = 0;
-            gbc.gridy = row;
-            panel.add(label, gbc);
-            gbc.gridx = 1;
-            panel.add(textField, gbc);
-            row++;
-        }
-    }
-
 
     
     private JLabel setupImageLabel() {
