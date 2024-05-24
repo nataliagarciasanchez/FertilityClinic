@@ -103,7 +103,7 @@ public class MenuUI extends JFrame {
         signupButton.addActionListener(e -> cardLayout.show(rightPanel, "Signup"));
         buttonPanel.add(loginButton);
         buttonPanel.add(signupButton);
-        buttonPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 200, 0));
+        buttonPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 500, 0));
         initialPanel.add(buttonPanel, BorderLayout.SOUTH);
 
         rightPanel.add(initialPanel, "Initial");
