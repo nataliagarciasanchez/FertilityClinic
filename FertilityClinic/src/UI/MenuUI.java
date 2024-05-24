@@ -915,45 +915,45 @@ public class MenuUI extends JFrame {
 
 
     private JPanel createTopPanel() {
-    	// Crea el panel superior con el botón de logout y el título desplazado hacia la izquierda
+        // Create the top panel using BorderLayout for precise control over component positioning
         JPanel topPanel = new JPanel(new BorderLayout());
-        topPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        topPanel.setBackground(new Color(25, 25, 112));
-        
-        // Create a label for the title
+        topPanel.setBackground(new Color(25, 25, 112)); // Set the background color
+
+        // Create the title label with left alignment
         JLabel titleLabel = new JLabel("-- NEW LIFE CLINIC --");
-        titleLabel.setFont(new Font("Calibri", Font.BOLD, 30)); // Adjust the font size as needed
-        titleLabel.setForeground(Color.WHITE);
-        titleLabel.setHorizontalAlignment(JLabel.CENTER); // Set horizontal alignment to left
+        titleLabel.setFont(new Font("Calibri", Font.BOLD, 30)); // Increase the font size for visibility
+        titleLabel.setForeground(Color.WHITE); // Set text color to white
+        titleLabel.setHorizontalAlignment(JLabel.LEFT); // Align text to the left
 
-        // Create a panel that will hold the title and give it a smaller width to push it to the left
-        JPanel titlePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        titlePanel.setBackground(new Color(25, 25, 112)); // Match the background color of the top panel
-        titlePanel.add(titleLabel);
+        // Create a container panel for the title with minimal padding
+        JPanel titleContainer = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0)); // No horizontal or vertical padding
+        titleContainer.setBackground(new Color(25, 25, 112)); // Ensure the background matches the top panel
+        titleContainer.add(titleLabel); // Add the title label to the container
 
-        // Create a button for logout
+        // Create a logout button aligned to the right
         JButton logoutButton = new JButton("Logout");
+        logoutButton.setFont(new Font("Calibri", Font.BOLD, 20));
         logoutButton.setBackground(Color.WHITE);
         logoutButton.setForeground(Color.BLACK);
-        logoutButton.setFont(new Font("Calibri", Font.BOLD, 20));
+
         logoutButton.addActionListener(e -> {
             loggedInUser = null;
             getContentPane().removeAll();
             showInitialDialog();
         });
 
-        // Create a panel for the logout button to ensure it stays at the right
-        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        // Add the title container to the west of the top panel to ensure it's positioned as left as possible
+        topPanel.add(titleContainer, BorderLayout.WEST);
+
+        // Add the logout button to the east
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 0, 0)); // No padding
         buttonPanel.setBackground(new Color(25, 25, 112)); // Match the background
         buttonPanel.add(logoutButton);
-        
-        // Add the title panel to the west of the top panel to make it appear more to the left
-        topPanel.add(titlePanel, BorderLayout.WEST);
-        // Add the button panel to the east
         topPanel.add(buttonPanel, BorderLayout.EAST);
 
         return topPanel;
     }
+
 
 /*
     private JPanel createMainContent() {
