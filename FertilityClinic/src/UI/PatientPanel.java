@@ -32,7 +32,7 @@ public class PatientPanel extends JPanel {
     private void initializeUI() {
         currentPanel = panelesLadoIzq(); 
         setLayout(new BorderLayout());
-        add(createTopPanel(), BorderLayout.NORTH); // Adds the top panel at the top
+        //add(createTopPanel(), BorderLayout.NORTH); // Adds the top panel at the top
         add(currentPanel, BorderLayout.CENTER); // Adds the side panel in the center
     }
     
