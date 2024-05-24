@@ -633,6 +633,7 @@ public class PatientPanel extends JPanel {
             doctorInfoPanel.add(emailLabel);
 
             resultPanel.add(doctorInfoPanel);
+            resultPanel.add(Box.createRigidArea(new Dimension(0, 20))); // Add space between doctor panels
         }
     }
 
