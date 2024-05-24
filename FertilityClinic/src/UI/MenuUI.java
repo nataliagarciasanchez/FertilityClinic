@@ -136,26 +136,22 @@ public class MenuUI extends JFrame {
         JButton loginButton = new JButton("Login");
         JButton cancelButton = new JButton("Cancel");
 
-        signupButton.addActionListener(e -> {
-            int result = JOptionPane.showConfirmDialog(null, fieldsPanel, "Sign Up", JOptionPane.OK_CANCEL_OPTION);
+        loginButton.addActionListener(e -> {
+            int result = JOptionPane.showConfirmDialog(null, fieldsPanel, "Login", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
             if (result == JOptionPane.OK_OPTION) {
                 String email = emailField.getText();
                 String password = new String(passwordField.getPassword());
-                Role selectedRole = (Role) roleComboBox.getSelectedItem();
-                try {
-                    MessageDigest md = MessageDigest.getInstance("MD5");
-                    md.update(password.getBytes());
-                    byte[] hashedPassword = md.digest();
-                    User newUser = new User(email, hashedPassword, selectedRole);
-                    userManager.newUser(newUser);
-                    // Handle additional registration details based on role
-                    handleAdditionalRegistration(selectedRole, emailField, passwordField, roleComboBox);
-                } catch (NoSuchAlgorithmException ex) {
-                    ex.printStackTrace();
-                    JOptionPane.showMessageDialog(signupPanel, "Error during sign-up process.", "Error", JOptionPane.ERROR_MESSAGE);
+                // Simulando una verificación de credenciales
+                boolean isValidUser = userManager.checkPassword(email, password);
+                if (isValidUser) {
+                    System.out.println("Login successful");
+                    loadUserInterface(loggedInUser);  // Suponiendo que este método carga la interfaz de usuario del sistema para el usuario
+                } else {
+                    JOptionPane.showMessageDialog(loginPanel, "Invalid email or password.", "Error", JOptionPane.ERROR_MESSAGE);
+                    cardLayout.show(rightPanel, "Login"); // Para volver a mostrar el panel de login
                 }
             } else if (result == JOptionPane.CANCEL_OPTION) {
-                cardLayout.show(rightPanel, "Initial");
+                cardLayout.show(rightPanel, "Initial"); // Volver al panel inicial
             }
         });
 
@@ -204,10 +200,11 @@ public class MenuUI extends JFrame {
 
         signupButton.addActionListener(e -> {
             String email = emailField.getText();
-            String password = new String(passwordField.getPassword())
+            String password = new String(passwordField.getPassword());
             Role selectedRole = (Role) roleComboBox.getSelectedItem();
             // Aquí se simula el registro de un nuevo usuario
-            boolean isRegistered = userManager.registerNewUser(email, password, selectedRole);
+            
+            boolean isRegistered = userManager.newUser(new User(email, password, selectedRole));
             if (isRegistered) {
                 JOptionPane.showMessageDialog(signupPanel, "Registration successful.", "Success", JOptionPane.INFORMATION_MESSAGE);
                 cardLayout.show(rightPanel, "Login");  // Cambiar a login tras registrarse exitosamente
