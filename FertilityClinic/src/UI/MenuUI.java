@@ -920,6 +920,12 @@ public class MenuUI extends JFrame {
         topPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
         topPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         topPanel.setBackground(new Color(25, 25, 112));
+        // Create a label for the title
+        JLabel titleLabel = new JLabel("NEW LIFE CLINIC");
+        titleLabel.setFont(new Font("Calibri", Font.BOLD, 24)); // Adjust the font size as needed
+        titleLabel.setForeground(Color.WHITE);
+        titleLabel.setHorizontalAlignment(JLabel.CENTER);
+        topPanel.add(titleLabel, BorderLayout.CENTER);
         
         JButton logoutButton = new JButton("Logout");
         logoutButton.setBackground(Color.WHITE);
