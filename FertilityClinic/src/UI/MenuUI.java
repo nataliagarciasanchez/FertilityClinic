@@ -915,28 +915,42 @@ public class MenuUI extends JFrame {
 
 
     private JPanel createTopPanel() {
-        // Crea el panel superior con el botón de logout
-        JPanel topPanel = new JPanel();
-        topPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
+    	// Crea el panel superior con el botón de logout y el título desplazado hacia la izquierda
+        JPanel topPanel = new JPanel(new BorderLayout());
         topPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         topPanel.setBackground(new Color(25, 25, 112));
+        
         // Create a label for the title
-        JLabel titleLabel = new JLabel("NEW LIFE CLINIC");
+        JLabel titleLabel = new JLabel("-- NEW LIFE CLINIC --");
         titleLabel.setFont(new Font("Calibri", Font.BOLD, 24)); // Adjust the font size as needed
         titleLabel.setForeground(Color.WHITE);
-        titleLabel.setHorizontalAlignment(JLabel.CENTER);
-        topPanel.add(titleLabel, BorderLayout.CENTER);
-        
+        titleLabel.setHorizontalAlignment(JLabel.LEFT); // Set horizontal alignment to left
+
+        // Create a panel that will hold the title and give it a smaller width to push it to the left
+        JPanel titlePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        titlePanel.setBackground(new Color(25, 25, 112)); // Match the background color of the top panel
+        titlePanel.add(titleLabel);
+
+        // Create a button for logout
         JButton logoutButton = new JButton("Logout");
         logoutButton.setBackground(Color.WHITE);
+        logoutButton.setForeground(Color.BLACK);
         logoutButton.setFont(new Font("Calibri", Font.BOLD, 20));
-        topPanel.add(logoutButton);
-
         logoutButton.addActionListener(e -> {
             loggedInUser = null;
             getContentPane().removeAll();
             showInitialDialog();
         });
+
+        // Create a panel for the logout button to ensure it stays at the right
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        buttonPanel.setBackground(new Color(25, 25, 112)); // Match the background
+        buttonPanel.add(logoutButton);
+        
+        // Add the title panel to the west of the top panel to make it appear more to the left
+        topPanel.add(titlePanel, BorderLayout.WEST);
+        // Add the button panel to the east
+        topPanel.add(buttonPanel, BorderLayout.EAST);
 
         return topPanel;
     }
