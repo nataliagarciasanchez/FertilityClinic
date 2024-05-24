@@ -113,8 +113,7 @@ public class DoctorPanel extends JPanel {
     }
 
 
-  //OPTION 1
-  //OPTION 1
+    //OPTION 1
     private void viewMyinfoPanel() {
         Doctor doctor = doctorManager.viewMyInfo(doctorId);
 
@@ -279,8 +278,11 @@ public class DoctorPanel extends JPanel {
     private void updateInfoPanel() {
         Doctor doctor = doctorManager.viewMyInfo(doctorId);
 
+        // Usar un panel envolvente para proporcionar padding
+        JPanel wrapperPanel = new JPanel(new BorderLayout());
         JPanel updatePanel = new JPanel();
-        updatePanel.setLayout(new GridLayout(7, 2, 10, 10)); // Adjusted rows for doctor-specific fields including PDF upload
+        updatePanel.setLayout(new GridLayout(7, 2, 10, 10)); // Ajustar filas para campos específicos del doctor, incluyendo PDF
+        updatePanel.setBorder(BorderFactory.createEmptyBorder(10, 50, 10, 10)); // Padding: arriba, izquierda, abajo, derecha
 
         JTextField emailField = new JTextField(doctor != null ? doctor.getEmail() : "");
         JTextField phoneField = new JTextField(doctor != null ? String.valueOf(doctor.getPhone()) : "");
@@ -288,6 +290,9 @@ public class DoctorPanel extends JPanel {
         JComboBox<Speciality> specialityComboBox = new JComboBox<>(new DefaultComboBoxModel<>(MenuUI.getSpecialities().toArray(new Speciality[0])));
         JButton selectPDFButton = new JButton("Select Photo PDF");
         JLabel pdfLabel = new JLabel("No file selected");
+
+        Font labelFont = new Font("Calibri", Font.BOLD, 18);
+        Font fieldFont = new Font("Calibri", Font.PLAIN, 18);
 
         // Preset the selected speciality if available
         if (doctor != null && doctor.getSpeciality() != null) {
@@ -313,18 +318,42 @@ public class DoctorPanel extends JPanel {
         });
 
         // Adding labels and text fields/components
-        updatePanel.add(new JLabel("Name:"));
+        JLabel nameLabel = new JLabel("Name:");
+        nameLabel.setFont(labelFont);
+        updatePanel.add(nameLabel);
+        nameField.setFont(fieldFont);
         updatePanel.add(nameField);
-        updatePanel.add(new JLabel("Email:"));
+
+        JLabel emailLabel = new JLabel("Email:");
+        emailLabel.setFont(labelFont);
+        updatePanel.add(emailLabel);
+        emailField.setFont(fieldFont);
         updatePanel.add(emailField);
-        updatePanel.add(new JLabel("Phone:"));
+
+        JLabel phoneLabel = new JLabel("Phone:");
+        phoneLabel.setFont(labelFont);
+        updatePanel.add(phoneLabel);
+        phoneField.setFont(fieldFont);
         updatePanel.add(phoneField);
-        updatePanel.add(new JLabel("Speciality:"));
+
+        JLabel specialityLabel = new JLabel("Speciality:");
+        specialityLabel.setFont(labelFont);
+        updatePanel.add(specialityLabel);
+        specialityComboBox.setFont(fieldFont);
         updatePanel.add(specialityComboBox);
+
+        selectPDFButton.setFont(new Font("Calibri", Font.BOLD, 18)); // Establecer fuente para el botón
+        selectPDFButton.setBackground(Color.WHITE); // Fondo blanco
+        selectPDFButton.setForeground(Color.BLACK); // Texto negro
         updatePanel.add(selectPDFButton);
+
+        pdfLabel.setFont(new Font("Calibri", Font.PLAIN, 18));
         updatePanel.add(pdfLabel);
 
         JButton updateBtn = new JButton("Update");
+        updateBtn.setFont(new Font("Calibri", Font.BOLD, 18));
+        updateBtn.setBackground(Color.WHITE);
+        updateBtn.setForeground(Color.BLACK);
         updateBtn.addActionListener(e -> {
             try {
                 String email = emailField.getText();
@@ -348,11 +377,15 @@ public class DoctorPanel extends JPanel {
             }
         });
 
+        updatePanel.add(new JLabel()); // Placeholder for spacing
         updatePanel.add(updateBtn);
 
-        currentPanel = updatePanel;
-        showCurrentPanel();
+        wrapperPanel.add(updatePanel, BorderLayout.CENTER);
+
+        currentPanel = wrapperPanel; // Establecer el panel actual al panel envolvente
+        showCurrentPanel(); // Mostrar el panel actual en el contenedor principal
     }
+
 
 
 
