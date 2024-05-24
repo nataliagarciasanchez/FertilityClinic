@@ -265,6 +265,54 @@ public class MenuUI extends JFrame {
         JButton signupButton = new JButton("Sign up");
         JButton cancelButton = new JButton("Cancel");
 
+        signupButton.addActionListener(e -> {
+            int result = JOptionPane.showConfirmDialog(null, fieldsPanel, "Sign Up", JOptionPane.OK_CANCEL_OPTION);
+            if (result == JOptionPane.OK_OPTION) {
+                String email = emailField.getText();
+                String password = new String(passwordField.getPassword());
+                Role selectedRole = (Role) roleComboBox.getSelectedItem();
+                try {
+                    MessageDigest md = MessageDigest.getInstance("MD5");
+                    md.update(password.getBytes());
+                    byte[] hashedPassword = md.digest();
+                    User newUser = new User(email, hashedPassword, selectedRole);
+                    userManager.newUser(newUser);
+
+                    if ("patient".equals(selectedRole.getName())) {
+                    	java.sql.Date dob = java.sql.Date.valueOf(dobField.getText());
+                        double height = Double.parseDouble(heightField.getText());
+                        double weight = Double.parseDouble(weightField.getText());
+                        int phone = Integer.parseInt(phoneField.getText());
+                        Patient newPatient = new Patient(nameField.getText(), dob, email, phone, height, weight, bloodTypeField.getText(), genderField.getText());
+                        patientManager.addPatient(newPatient);
+                        JOptionPane.showMessageDialog(this, "Patient registered successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                        cardLayout.show(rightPanel, "Login");
+                    } else if ("doctor".equals(selectedRole.getName())) {
+                    	int phone = Integer.parseInt(doctorPhoneField.getText());
+                        Speciality speciality = (Speciality) specialityComboBox.getSelectedItem();
+                        Doctor newDoctor = new Doctor(null,email, phone, doctorNameField.getText(), speciality);
+                       
+                        doctorManager.createDoctor(newDoctor);
+                        JOptionPane.showMessageDialog(this, "Doctor registered successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                        cardLayout.show(rightPanel, "Login");
+                    } else if ("manager".equals(selectedRole.getName())) {
+                    	int phone = Integer.parseInt(managerPhoneField.getText());
+                        Manager newManager = new Manager(null, email, phone, managerNameField.getText());
+                        managerManager.addManager(newManager);
+                        JOptionPane.showMessageDialog(this, "Manager registered successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                        cardLayout.show(rightPanel, "Login");
+                    }
+
+                } catch (NoSuchAlgorithmException ex) {
+                    JOptionPane.showMessageDialog(null, "Error during sign-up process.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            } else if (result == JOptionPane.CANCEL_OPTION) {
+                cardLayout.show(rightPanel, "Initial");
+            }
+        });
+        
+        cancelButton.addActionListener(e -> cardLayout.show(rightPanel, "Initial"));
+       
         buttonPanel.add(signupButton);
         buttonPanel.add(cancelButton);
 
