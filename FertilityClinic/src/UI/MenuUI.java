@@ -914,7 +914,7 @@ public class MenuUI extends JFrame {
     }
 
 
-    public JPanel createTopPanel() {
+    public static JPanel createTopPanel() {
         // Crea el panel superior con el botón de logout
         JPanel topPanel = new JPanel();
         topPanel.setBackground(new Color(25, 25, 112)); // Sets the background to match other parts of the UI
