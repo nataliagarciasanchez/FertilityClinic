@@ -500,7 +500,7 @@ public class MenuUI extends JFrame {
         doctorPanel.add(specialityComboBox);
 
         // Manager Panel
-        JPanel managerPanel = new JPanel(new GridLayout(5, 2, 10, 10));
+        JPanel managerPanel = new JPanel(new GridLayout(3, 2, 10, 10));
         managerPanel.setBackground(new Color(25, 25, 112));
 
         JTextField managerNameField = new JTextField();
