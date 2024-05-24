@@ -56,6 +56,7 @@ public class DoctorPanel extends JPanel {
     private JPanel panelesLadoIzq() {
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
+        buttonPanel.setBackground(new Color(25, 25, 112)); // Fondo azul
 
         JButton op1 = new JButton("View my Information");
         JButton op2 = new JButton("Update my Information");
@@ -63,14 +64,17 @@ public class DoctorPanel extends JPanel {
         JButton op4 = new JButton("View all my Patients");
         JButton op5 = new JButton("Assign a patient ");
         JButton op6 = new JButton("View stock ");
-        
 
-        op1.setMaximumSize(new Dimension(Integer.MAX_VALUE, op1.getMinimumSize().height));
-        op2.setMaximumSize(new Dimension(Integer.MAX_VALUE, op2.getMinimumSize().height));
-        op3.setMaximumSize(new Dimension(Integer.MAX_VALUE, op3.getMinimumSize().height));
-        op4.setMaximumSize(new Dimension(Integer.MAX_VALUE, op4.getMinimumSize().height));
-        op5.setMaximumSize(new Dimension(Integer.MAX_VALUE, op5.getMinimumSize().height));
-        op6.setMaximumSize(new Dimension(Integer.MAX_VALUE, op5.getMinimumSize().height));
+        // Configurar botones
+        Font buttonFont = new Font("Calibri", Font.BOLD, 18);
+        Dimension buttonSize = new Dimension(Integer.MAX_VALUE, 40);
+
+        configureButton(op1, buttonFont, buttonSize);
+        configureButton(op2, buttonFont, buttonSize);
+        configureButton(op3, buttonFont, buttonSize);
+        configureButton(op4, buttonFont, buttonSize);
+        configureButton(op5, buttonFont, buttonSize);
+        configureButton(op6, buttonFont, buttonSize);
 
         op1.addActionListener(e -> viewMyinfoPanel()); //igual para doctor
         op2.addActionListener(e -> updateInfoPanel());//igual para doctor 
@@ -79,15 +83,31 @@ public class DoctorPanel extends JPanel {
         op5.addActionListener(e -> viewMyinfoPanel());
         op6.addActionListener(e -> viewMyinfoPanel());
 
+        buttonPanel.add(Box.createRigidArea(new Dimension(0, 10))); // Espacio arriba
         buttonPanel.add(op1);
+        buttonPanel.add(Box.createRigidArea(new Dimension(0, 10))); // Espacio entre botones
         buttonPanel.add(op2);
+        buttonPanel.add(Box.createRigidArea(new Dimension(0, 10)));
         buttonPanel.add(op3);
+        buttonPanel.add(Box.createRigidArea(new Dimension(0, 10)));
         buttonPanel.add(op4);
+        buttonPanel.add(Box.createRigidArea(new Dimension(0, 10)));
         buttonPanel.add(op5);
+        buttonPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+        buttonPanel.add(op6);
+        buttonPanel.add(Box.createRigidArea(new Dimension(0, 10))); // Espacio abajo
 
         return buttonPanel;
     }
-    
+
+    private void configureButton(JButton button, Font font, Dimension size) {
+        button.setFont(font);
+        button.setBackground(Color.WHITE);
+        button.setForeground(Color.BLACK);
+        button.setMaximumSize(size);
+        button.setAlignmentX(Component.CENTER_ALIGNMENT);
+    }
+
 
   //OPTION 1
     private void viewMyinfoPanel() {

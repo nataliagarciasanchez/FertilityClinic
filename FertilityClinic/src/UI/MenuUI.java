@@ -103,7 +103,7 @@ public class MenuUI extends JFrame {
         signupButton.addActionListener(e -> cardLayout.show(rightPanel, "Signup"));
         buttonPanel.add(loginButton);
         buttonPanel.add(signupButton);
-        buttonPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 500, 0));
+        buttonPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 200, 0));
         initialPanel.add(buttonPanel, BorderLayout.SOUTH);
 
         rightPanel.add(initialPanel, "Initial");
@@ -122,6 +122,7 @@ public class MenuUI extends JFrame {
 
         JPanel fieldsPanel = new JPanel(new GridBagLayout());
         fieldsPanel.setBackground(new Color(25, 25, 112));
+        fieldsPanel.setBorder(BorderFactory.createEmptyBorder(75, 0, 0, 0)); // Añadir espacio extra arriba
         GridBagConstraints gbc = new GridBagConstraints();
 
         JLabel emailLabel = new JLabel("Email:");
@@ -160,7 +161,14 @@ public class MenuUI extends JFrame {
         buttonPanel.setBackground(new Color(25, 25, 112));
 
         JButton loginButton = new JButton("Login");
+        loginButton.setFont(new Font("Calibri", Font.BOLD, 18));
+        loginButton.setBackground(Color.WHITE);
+        loginButton.setForeground(Color.BLACK);
+
         JButton cancelButton = new JButton("Cancel");
+        cancelButton.setFont(new Font("Calibri", Font.BOLD, 18));
+        cancelButton.setBackground(Color.WHITE);
+        cancelButton.setForeground(Color.BLACK);
 
         loginButton.addActionListener(e -> {
             String email = emailField.getText();
