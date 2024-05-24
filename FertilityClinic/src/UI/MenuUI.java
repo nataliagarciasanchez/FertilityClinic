@@ -199,17 +199,49 @@ public class MenuUI extends JFrame {
         JButton cancelButton = new JButton("Cancel");
 
         signupButton.addActionListener(e -> {
-            String email = emailField.getText();
-            String password = new String(passwordField.getPassword());
-            Role selectedRole = (Role) roleComboBox.getSelectedItem();
-            // Aquí se simula el registro de un nuevo usuario
-            
-            boolean isRegistered = userManager.newUser(new User(email, password, selectedRole));
-            if (isRegistered) {
-                JOptionPane.showMessageDialog(signupPanel, "Registration successful.", "Success", JOptionPane.INFORMATION_MESSAGE);
-                cardLayout.show(rightPanel, "Login");  // Cambiar a login tras registrarse exitosamente
-            } else {
-                JOptionPane.showMessageDialog(signupPanel, "Registration failed. Please try again.", "Error", JOptionPane.ERROR_MESSAGE);
+            int result = JOptionPane.showConfirmDialog(null, fieldsPanel, "Sign Up", JOptionPane.OK_CANCEL_OPTION);
+            if (result == JOptionPane.OK_OPTION) {
+                String email = emailField.getText();
+                String password = new String(passwordField.getPassword());
+                Role selectedRole = (Role) roleComboBox.getSelectedItem();
+                try {
+                    MessageDigest md = MessageDigest.getInstance("MD5");
+                    md.update(password.getBytes());
+                    byte[] hashedPassword = md.digest();
+                    User newUser = new User(email, hashedPassword, selectedRole);
+                    userManager.newUser(newUser);
+
+                    if ("patient".equals(selectedRole.getName())) {
+                        JTextField dobField = new JTextField();  // Example field, adjust as needed
+                        JTextField heightField = new JTextField();
+                        JTextField weightField = new JTextField();
+                        JTextField bloodTypeField = new JTextField();
+                        JTextField genderField = new JTextField();
+                        java.sql.Date dob = java.sql.Date.valueOf(dobField.getText());
+                        double height = Double.parseDouble(heightField.getText());
+                        double weight = Double.parseDouble(weightField.getText());
+                        int phone = Integer.parseInt(emailField.getText());  // Adjust for actual phone field
+
+                        Patient newPatient = new Patient(email, dob, email, phone, height, weight, bloodTypeField.getText(), genderField.getText());
+                        patientManager.addPatient(newPatient);
+                    } else if ("doctor".equals(selectedRole.getName())) {
+                        JTextField specialityField = new JTextField();  // Adjust as needed
+                        Speciality speciality = (Speciality) specialityField.getText();
+
+                        Doctor newDoctor = new Doctor(email, speciality);
+                        doctorManager.createDoctor(newDoctor);
+                    } else if ("manager".equals(selectedRole.getName())) {
+                        Manager newManager = new Manager(email);
+                        managerManager.addManager(newManager);
+                    }
+
+                    JOptionPane.showMessageDialog(null, "Registration successful.", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    cardLayout.show(rightPanel, "Login");
+                } catch (NoSuchAlgorithmException ex) {
+                    JOptionPane.showMessageDialog(null, "Error during sign-up process.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            } else if (result == JOptionPane.CANCEL_OPTION) {
+                cardLayout.show(rightPanel, "Initial");
             }
         });
         cancelButton.addActionListener(e -> cardLayout.show(rightPanel, "Initial"));
