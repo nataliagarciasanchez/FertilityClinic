@@ -27,6 +27,7 @@ public class MenuUI extends JFrame {
     private SpecialityManager specialityManager;
     private StockManager stockManager;
     private User loggedInUser;
+    private JPanel cards; 
    
     public MenuUI() {
         
@@ -134,25 +135,7 @@ public class MenuUI extends JFrame {
     }
 
 
-    private JLabel setupImageLabel() {
-        JLabel imageLabel = new JLabel();
-        try {
-            File imagePath = new File("./logo/photo.png");
-            if (!imagePath.exists()) {
-                throw new IllegalArgumentException("Image file not found at: " + imagePath.getAbsolutePath());
-            }
-            ImageIcon originalIcon = new ImageIcon(imagePath.getAbsolutePath());
-            Image image = originalIcon.getImage();
-            Image newimg = image.getScaledInstance(300, 300, Image.SCALE_SMOOTH);
-            imageLabel.setIcon(new ImageIcon(newimg));
-        } catch (Exception e) {
-            e.printStackTrace();
-            imageLabel.setText("Image not found: " + e.getMessage());
-        }
-        imageLabel.setHorizontalAlignment(JLabel.CENTER);
-        imageLabel.setBorder(BorderFactory.createEmptyBorder(0, 150, 0, 0));
-        return imageLabel;
-    }
+    
 
 /*
     private void showLoginDialog() {
