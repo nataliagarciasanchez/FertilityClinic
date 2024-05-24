@@ -628,7 +628,7 @@ public class PatientPanel extends JPanel {
         }
     }
 
-
+/*
     //OPTION 5
     private void myTreatmentPanel() {
         Patient patient = patientManager.viewMyInfo(patientId);
@@ -649,7 +649,45 @@ public class PatientPanel extends JPanel {
         showCurrentPanel(); // Muestra el panel actual en el contenedor principal
    
        
+    }*/
+    
+    private void myTreatmentPanel() {
+        Patient patient = patientManager.viewMyInfo(patientId);
+        Treatments treatment = patient.getTreatmet();
+
+        // Using a wrapper panel to provide padding
+        JPanel wrapperPanel = new JPanel(new BorderLayout());
+        JPanel treatmentPanel = new JPanel();
+        treatmentPanel.setLayout(new BoxLayout(treatmentPanel, BoxLayout.Y_AXIS));
+        treatmentPanel.setBorder(BorderFactory.createEmptyBorder(10, 50, 10, 10)); // Padding: top, left, bottom, right
+
+        Font infoFont = new Font("Calibri", Font.PLAIN, 24); // Larger font size for better readability
+        Font labelFont = new Font("Calibri", Font.BOLD, 24);
+
+        if (treatment != null) {
+            JLabel nameLabel = new JLabel("Name of Treatment: " + treatment.getName());
+            nameLabel.setFont(labelFont);
+            treatmentPanel.add(nameLabel);
+
+            String descriptionText = "Description: " + treatment.getDescription().replace("  ", "<br>"); // Replace double spaces with HTML line break
+            JLabel descriptionLabel = new JLabel("<html>" + descriptionText + "</html>"); // Wrap text in HTML to handle line breaks
+            descriptionLabel.setFont(infoFont);
+            treatmentPanel.add(descriptionLabel);
+
+            JLabel durationLabel = new JLabel("Duration: " + treatment.getDurationInDays() + " days");
+            durationLabel.setFont(labelFont);
+            treatmentPanel.add(durationLabel);
+        } else {
+            JLabel noInfoLabel = new JLabel("No treatment information available.");
+            noInfoLabel.setFont(labelFont);
+            treatmentPanel.add(noInfoLabel);
+        }
+
+        wrapperPanel.add(treatmentPanel, BorderLayout.CENTER);
+        currentPanel = wrapperPanel; // Set the current panel to the wrapper panel
+        showCurrentPanel(); // Display the current panel in the main container
     }
+
 
 
 }
