@@ -120,46 +120,45 @@ public class MenuUI extends JFrame {
         JPanel loginPanel = new JPanel(new BorderLayout());
         loginPanel.setBackground(new Color(25, 25, 112));
 
-        JPanel fieldsPanel = new JPanel(new GridBagLayout()); // Usamos GridBagLayout para más control
+        JPanel fieldsPanel = new JPanel(new GridBagLayout());
         fieldsPanel.setBackground(new Color(25, 25, 112));
         GridBagConstraints gbc = new GridBagConstraints();
 
         JLabel emailLabel = new JLabel("Email:");
         emailLabel.setForeground(Color.WHITE);
-        emailLabel.setFont(new Font("Calibri", Font.BOLD, 20)); // Fuente más grande para las etiquetas
+        emailLabel.setFont(new Font("Calibri", Font.BOLD, 20));
 
-        JTextField emailField = new JTextField(15); // Tamaño reducido del campo de texto
-        emailField.setHorizontalAlignment(JTextField.CENTER); // Texto centrado
+        JTextField emailField = new JTextField(15);
+        emailField.setHorizontalAlignment(JTextField.CENTER);
 
         JLabel passwordLabel = new JLabel("Password:");
         passwordLabel.setForeground(Color.WHITE);
-        passwordLabel.setFont(new Font("Calibri", Font.BOLD, 20)); // Fuente más grande para las etiquetas
+        passwordLabel.setFont(new Font("Calibri", Font.BOLD, 20));
 
-        JPasswordField passwordField = new JPasswordField(15); // Tamaño reducido del campo de texto
-        passwordField.setHorizontalAlignment(JTextField.CENTER); // Texto centrado
+        JPasswordField passwordField = new JPasswordField(15);
+        passwordField.setHorizontalAlignment(JTextField.CENTER);
 
-        // Configuración de los componentes en el GridBagLayout
+        // Ajustes para alinear los componentes más cerca y arriba
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.insets = new Insets(10, 0, 5, 10); // Padding top, left, bottom, right
+        gbc.gridwidth = 1;
+        gbc.insets = new Insets(10, 10, 2, 10); // Menor espacio entre los componentes
         fieldsPanel.add(emailLabel, gbc);
 
         gbc.gridx = 1;
-        gbc.gridy = 0;
         fieldsPanel.add(emailField, gbc);
 
         gbc.gridx = 0;
         gbc.gridy = 1;
-        gbc.insets = new Insets(5, 0, 10, 10); // Padding más ajustado entre la etiqueta y el campo
         fieldsPanel.add(passwordLabel, gbc);
 
         gbc.gridx = 1;
-        gbc.gridy = 1;
         fieldsPanel.add(passwordField, gbc);
 
-        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 0)); // Reducir el espacio entre los botones y los campos
         buttonPanel.setBackground(new Color(25, 25, 112));
+
         JButton loginButton = new JButton("Login");
         JButton cancelButton = new JButton("Cancel");
 
@@ -168,17 +167,16 @@ public class MenuUI extends JFrame {
             if (result == JOptionPane.OK_OPTION) {
                 String email = emailField.getText();
                 String password = new String(passwordField.getPassword());
-                // Simulando una verificación de credenciales
-                loggedInUser = userManager.checkPassword(email, password); // userManager debe devolver un usuario o null
+                loggedInUser = userManager.checkPassword(email, password);
                 if (loggedInUser != null) {
                     System.out.println("Login successful");
-                    loadUserInterface(loggedInUser);  // Suponiendo que este método carga la interfaz de usuario del sistema para el usuario
+                    loadUserInterface(loggedInUser);
                 } else {
                     JOptionPane.showMessageDialog(loginPanel, "Invalid email or password.", "Error", JOptionPane.ERROR_MESSAGE);
-                    cardLayout.show(rightPanel, "Login"); // Para volver a mostrar el panel de login si la autenticación falla
+                    cardLayout.show(rightPanel, "Login");
                 }
             } else if (result == JOptionPane.CANCEL_OPTION) {
-                cardLayout.show(rightPanel, "Initial"); // Volver al panel inicial
+                cardLayout.show(rightPanel, "Initial");
             }
         });
 
@@ -187,11 +185,18 @@ public class MenuUI extends JFrame {
         buttonPanel.add(loginButton);
         buttonPanel.add(cancelButton);
 
-        loginPanel.add(fieldsPanel, BorderLayout.CENTER);
-        loginPanel.add(buttonPanel, BorderLayout.SOUTH);
+        // Reducir el espacio entre los campos y los botones
+        JPanel southPanel = new JPanel(new BorderLayout());
+        southPanel.add(buttonPanel, BorderLayout.NORTH);
+        southPanel.setBackground(new Color(25, 25, 112));
+        southPanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0)); // Ajustar el padding para que los botones estén más cerca de los campos
+
+        loginPanel.add(fieldsPanel, BorderLayout.NORTH);
+        loginPanel.add(southPanel, BorderLayout.CENTER);
 
         return loginPanel;
     }
+
 
 
     private JPanel createSignupPanel() {
