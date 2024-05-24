@@ -923,7 +923,7 @@ public class MenuUI extends JFrame {
         
         JButton logoutButton = new JButton("Logout");
         logoutButton.setBackground(Color.WHITE);
-        logoutButton.setForeground(new Font("Calibri", Font.BOLD, 20));
+        logoutButton.setFont(new Font("Calibri", Font.BOLD, 20));
         topPanel.add(logoutButton);
 
         logoutButton.addActionListener(e -> {
