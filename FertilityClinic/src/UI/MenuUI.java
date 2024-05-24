@@ -449,7 +449,6 @@ public class MenuUI extends JFrame {
         // Patient Panel
         JPanel patientPanel = new JPanel(new GridLayout(8, 2, 10, 10));
         patientPanel.setBackground(new Color(25, 25, 112));
-        patientPanel.setForeground(Color.WHITE);
 
         JTextField nameField = new JTextField();
         JTextField phoneField = new JTextField();
@@ -458,58 +457,60 @@ public class MenuUI extends JFrame {
         JTextField bloodTypeField = new JTextField();
         JTextField dobField = new JTextField();
         JTextField genderField = new JTextField();
-        patientPanel.add(new JLabel("Name:"));
-        patientPanel.setFont(new Font("Calibri", Font.BOLD, 20));
+        JLabel nameLabel = createLabel("Name:");
+        JLabel phoneLabel = createLabel("Phone:");
+        JLabel heightLabel = createLabel("Height:");
+        JLabel weightLabel = createLabel("Weight:");
+        JLabel bloodTypeLabel = createLabel("Blood Type:");
+        JLabel dobLabel = createLabel("DOB (yyyy-mm-dd):");
+        JLabel genderLabel = createLabel("Gender:");
+        patientPanel.add(nameLabel);
         patientPanel.add(nameField);
-        patientPanel.add(new JLabel("Phone:"));
+        patientPanel.add(phoneLabel);
         patientPanel.add(phoneField);
-        patientPanel.add(new JLabel("Height:"));
+        patientPanel.add(heightLabel);
         patientPanel.add(heightField);
-        patientPanel.add(new JLabel("Weight:"));
+        patientPanel.add(weightLabel);
         patientPanel.add(weightField);
-        patientPanel.add(new JLabel("Blood Type:"));
+        patientPanel.add(bloodTypeLabel);
         patientPanel.add(bloodTypeField);
-        patientPanel.add(new JLabel("DOB (yyyy-mm-dd):"));
+        patientPanel.add(dobLabel);
         patientPanel.add(dobField);
-        patientPanel.add(new JLabel("Gender:"));
+        patientPanel.add(genderLabel);
         patientPanel.add(genderField);
-
-        // Doctor Panel
-        JPanel doctorPanel = new JPanel(new GridLayout(8, 2, 10, 10));
-        doctorPanel.setBackground(new Color(25, 25, 112));
-        doctorPanel.setForeground(Color.WHITE);
-        JTextField doctorNameField = new JTextField();
-        doctorNameField.setForeground(Color.WHITE);
-        doctorNameField.setFont(new Font("Calibri", Font.BOLD, 20));
-        JTextField doctorPhoneField = new JTextField();
-        doctorPhoneField.setForeground(Color.WHITE);
-        doctorPhoneField.setFont(new Font("Calibri", Font.BOLD, 20));
-        JComboBox<Speciality> specialityComboBox = new JComboBox<>(new DefaultComboBoxModel<>(getSpecialities().toArray(new Speciality[0])));
-        specialityComboBox.setFont(new Font("Calibri", Font.BOLD, 20));
         
-        doctorPanel.add(new JLabel("Name:"));
+        
+        // Doctor Panel
+        JPanel doctorPanel = new JPanel(new GridLayout(5, 2, 10, 10));
+        doctorPanel.setBackground(new Color(25, 25, 112));
+
+        JTextField doctorNameField = new JTextField();
+        doctorNameField.setFont(new Font("Calibri", Font.PLAIN, 18));  // Setting font size to match other fields
+        JTextField doctorPhoneField = new JTextField();
+        doctorPhoneField.setFont(new Font("Calibri", Font.PLAIN, 18));  // Setting font size to match other fields
+
+        JComboBox<Speciality> specialityComboBox = new JComboBox<>(new DefaultComboBoxModel<>(getSpecialities().toArray(new Speciality[0])));
+        specialityComboBox.setFont(new Font("Calibri", Font.PLAIN, 18));  // Ensure consistent font styling
+
+        doctorPanel.add(createLabel("Name:"));
         doctorPanel.add(doctorNameField);
-        doctorPanel.add(new JLabel("Phone:"));
+        doctorPanel.add(createLabel("Phone:"));
         doctorPanel.add(doctorPhoneField);
-        doctorPanel.add(new JLabel("Speciality:"));
+        doctorPanel.add(createLabel("Speciality:"));
         doctorPanel.add(specialityComboBox);
 
         // Manager Panel
-        JPanel managerPanel = new JPanel(new GridLayout(8, 2, 10, 10));
+        JPanel managerPanel = new JPanel(new GridLayout(5, 2, 10, 10));
         managerPanel.setBackground(new Color(25, 25, 112));
-        managerPanel.setForeground(Color.WHITE);
+
         JTextField managerNameField = new JTextField();
-        managerNameField.setForeground(Color.WHITE);
-        managerNameField.setFont(new Font("Calibri", Font.BOLD, 20));
-        
+        managerNameField.setFont(new Font("Calibri", Font.PLAIN, 18));  // Setting font size to match other fields
         JTextField managerPhoneField = new JTextField();
-        managerPhoneField.setForeground(Color.WHITE);
-        managerPhoneField.setFont(new Font("Calibri", Font.BOLD, 20));
-        
-        managerPanel.add(new JLabel("Name:"));
+        managerPhoneField.setFont(new Font("Calibri", Font.PLAIN, 18));  // Setting font size to match other fields
+
+        managerPanel.add(createLabel("Name:"));
         managerPanel.add(managerNameField);
-        
-        managerPanel.add(new JLabel("Phone:"));
+        managerPanel.add(createLabel("Phone:"));
         managerPanel.add(managerPhoneField);
 
         roleSpecificPanel.add(defaultPanel, "default");
@@ -587,6 +588,12 @@ public class MenuUI extends JFrame {
         return signupPanel;
     }
 
+    private JLabel createLabel(String text) {
+        JLabel label = new JLabel(text);
+        label.setForeground(Color.WHITE);  // Establece el color de la letra a blanco
+        label.setFont(new Font("Calibri", Font.BOLD, 20));  // Establece la fuente a Calibri, en negrita y tamaño 20
+        return label;
+    }
 
 
 
