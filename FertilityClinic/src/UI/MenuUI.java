@@ -196,7 +196,7 @@ public class MenuUI extends JFrame {
 
         return loginPanel;
     }
- 
+ /*
     private JPanel createSignupPanel() {
         JPanel signupPanel = new JPanel(new BorderLayout());
         signupPanel.setBackground(new Color(25, 25, 112));
@@ -380,7 +380,7 @@ public class MenuUI extends JFrame {
             panel.add(textField, gbc);
             row++;
         }
-    }
+    }*/
 
 
     
@@ -442,9 +442,14 @@ public class MenuUI extends JFrame {
         JPanel roleSpecificPanel = new JPanel(new CardLayout());
         roleSpecificPanel.setBackground(new Color(25, 25, 112));
         
+        
+         JPanel defaultPanel = new JPanel();
+        defaultPanel.setBackground(new Color(25, 25, 112));
+        
         // Patient Panel
-        JPanel patientPanel = new JPanel(new GridLayout(8, 2));
+        JPanel patientPanel = new JPanel(new GridLayout(8, 2, 10, 10));
         patientPanel.setBackground(new Color(25, 25, 112));
+
         JTextField nameField = new JTextField();
         JTextField phoneField = new JTextField();
         JTextField heightField = new JTextField();
@@ -469,7 +474,7 @@ public class MenuUI extends JFrame {
         patientPanel.add(genderField);
 
         // Doctor Panel
-        JPanel doctorPanel = new JPanel(new GridLayout(5, 2));
+        JPanel doctorPanel = new JPanel(new GridLayout(5, 2, 10, 10));
         doctorPanel.setBackground(new Color(25, 25, 112));
         JTextField doctorNameField = new JTextField();
         doctorNameField.setForeground(Color.WHITE);
@@ -489,7 +494,7 @@ public class MenuUI extends JFrame {
         doctorPanel.add(specialityComboBox);
 
         // Manager Panel
-        JPanel managerPanel = new JPanel(new GridLayout(5, 2));
+        JPanel managerPanel = new JPanel(new GridLayout(5, 2, 10, 10));
         managerPanel.setBackground(new Color(25, 25, 112));
         JTextField managerNameField = new JTextField();
         managerNameField.setForeground(Color.WHITE);
@@ -505,7 +510,7 @@ public class MenuUI extends JFrame {
         managerPanel.add(new JLabel("Phone:"));
         managerPanel.add(managerPhoneField);
 
-        roleSpecificPanel.add(new JPanel(), "default"); // Default empty panel
+        roleSpecificPanel.add(defaultPanel, "default");
         roleSpecificPanel.add(patientPanel, "patient");
         roleSpecificPanel.add(doctorPanel, "doctor");
         roleSpecificPanel.add(managerPanel, "manager");
