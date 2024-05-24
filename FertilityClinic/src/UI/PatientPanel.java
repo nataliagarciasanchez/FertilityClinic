@@ -28,7 +28,6 @@ public class PatientPanel extends JPanel {
         this.patientId = patientId;
         initializeUI();
     }
-    /* funcionaaaaaa
     private void initializeUI() {
         currentPanel = panelesLadoIzq(); 
         setLayout(new BorderLayout());
@@ -42,65 +41,13 @@ public class PatientPanel extends JPanel {
         validate();
         repaint();
     }
-    */
-    
-    private void initializeUI() {
-        setLayout(new BorderLayout());
-        add(createSidePanel(), BorderLayout.WEST);
-        showInitialPanel();
-    }
-    
-    private JPanel createSidePanel() {
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
-        buttonPanel.setBackground(new Color(25, 25, 112));
-
-        String[] buttonLabels = {"View My Information", "Update My Information", "My Appointments", "View All Doctors", "My Treatment"};
-        for (String label : buttonLabels) {
-            JButton button = new JButton(label);
-            button.setMaximumSize(new Dimension(Integer.MAX_VALUE, button.getMinimumSize().height));
-            button.addActionListener(e -> switchPanel(label));
-            buttonPanel.add(button);
-        }
-        return buttonPanel;
-    }
-    
-    private void switchPanel(String label) {
-        switch (label) {
-            case "View My Information":
-                currentPanel = viewMyInfoPanel();
-                break;
-            case "Update My Information":
-                currentPanel = updateInfoPanel();
-                break;
-            case "My Appointments":
-                currentPanel = appointmentsPanel();
-                break;
-            case "View All Doctors":
-                currentPanel = viewAllDoctorsPanel();
-                break;
-            case "My Treatment":
-                currentPanel = myTreatmentPanel();
-                break;
-            default:
-                currentPanel = new JPanel();
-        }
-        showCurrentPanel();
-    }
-    private void showCurrentPanel() {
-        removeAll();
-        add(createSidePanel(), BorderLayout.WEST);
-        add(currentPanel, BorderLayout.CENTER);
-        validate();
-        repaint();
-    }
     
     
-    /*
     //Buttons Panel
     private JPanel panelesLadoIzq() {
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
+        buttonPanel.setBackground(new Color(25, 25, 112)); 
 
         JButton op1 = new JButton("View My Information");
         JButton op2 = new JButton("Update My Information");
@@ -114,7 +61,23 @@ public class PatientPanel extends JPanel {
         op3.setMaximumSize(new Dimension(Integer.MAX_VALUE, op3.getMinimumSize().height));
         op4.setMaximumSize(new Dimension(Integer.MAX_VALUE, op4.getMinimumSize().height));
         op5.setMaximumSize(new Dimension(Integer.MAX_VALUE, op5.getMinimumSize().height));
-
+        
+        Font buttonFont = new Font("Calibri", Font.BOLD, 20);
+        op1.setFont(buttonFont);
+        op1.setBackground(Color.WHITE);
+        op1.setForeground(Color.BLACK);
+        op2.setFont(buttonFont);
+        op2.setForeground(Color.BLACK);
+        op3.setFont(buttonFont);
+        op3.setBackground(Color.WHITE);
+        op3.setForeground(Color.BLACK);
+        op4.setFont(buttonFont);
+        op4.setBackground(Color.WHITE);
+        op4.setForeground(Color.BLACK);
+        op5.setFont(buttonFont);
+        op5.setBackground(Color.WHITE);
+        op5.setForeground(Color.BLACK);
+        
         op1.addActionListener(e -> viewMyinfoPanel());
         op2.addActionListener(e -> updateInfoPanel());
         op3.addActionListener(e -> appointmentsPanel());
@@ -128,10 +91,8 @@ public class PatientPanel extends JPanel {
         buttonPanel.add(op5);
 
         return buttonPanel;
-    }*/ 
-    
-    
-/*
+    }
+
     //OPTION 1
     private void viewMyinfoPanel() {
         Patient patient = patientManager.viewMyInfo(patientId);
@@ -226,9 +187,7 @@ public class PatientPanel extends JPanel {
         currentPanel = updatePanel; // Establece el panel actual como el panel de información del paciente
         showCurrentPanel(); // Muestra el panel actual en el contenedor principal
     }
-    */
 
-    /*
     //OPTION 3
     private void appointmentsPanel() {
         JPanel appointmentsMainPanel = new JPanel(new BorderLayout());
@@ -252,9 +211,6 @@ public class PatientPanel extends JPanel {
         currentPanel = appointmentsMainPanel; // Establece el panel actual como el panel principal
         showCurrentPanel(); // Muestra el panel actual en el contenedor principal
     }
-
-    */
-    
    /*
     private JPanel currentAppointmentsPanel() {
         JPanel panel = new JPanel();
@@ -343,7 +299,6 @@ public class PatientPanel extends JPanel {
         showCurrentPanel();
     }*/ 
     
-    /*
     private void addAppointmentPanel() {
         JPanel addPanel = new JPanel(new GridLayout(9, 2, 10, 10));
         JTextField dateField = new JTextField();
@@ -467,8 +422,8 @@ public class PatientPanel extends JPanel {
         currentPanel = mainPanel;
         showCurrentPanel();
     }
-*/
-  /*  
+
+    
     //OPTION 4
     private void viewAllDoctorsPanel() {
         JPanel doctorPanel = new JPanel();
@@ -542,71 +497,7 @@ public class PatientPanel extends JPanel {
         showCurrentPanel(); // Muestra el panel actual en el contenedor principal
    
        
-    }*/
-    private JPanel viewMyInfoPanel() {
-        Patient patient = patientManager.viewMyInfo(patientId);
-        JPanel infoPanel = new JPanel(new GridLayout(0, 1));
-        infoPanel.setBackground(new Color(25, 25, 112));
-
-        if (patient != null) {
-            String[] info = {
-                "Name: " + patient.getName(),
-                "Date of Birth: " + patient.getDob().toString(),
-                "Gender: " + patient.getGender(),
-                "Email: " + patient.getEmail(),
-                "Phone: " + patient.getPhone(),
-                "Height: " + patient.getHeight(),
-                "Weight: " + patient.getWeight(),
-                "Blood Type: " + patient.getBloodType()
-            };
-            for (String s : info) {
-                infoPanel.add(new JLabel(s));
-            }
-        } else {
-            infoPanel.add(new JLabel("No information available."));
-        }
-        return infoPanel;
     }
-
-    // This method shows a simplified example. You would define each method like updateInfoPanel similarly.
-    private JPanel updateInfoPanel() {
-        JPanel updatePanel = new JPanel(new GridLayout(9, 2, 10, 10)); // 9 rows for including button row, with gaps for spacing
-        updatePanel.setBackground(new Color(25, 25, 112));
-
-        // Mock-up of components, actual initialization would be more complex
-        updatePanel.add(new JLabel("Email:"));
-        updatePanel.add(new JTextField("test@example.com"));
-
-        // Add other components and setup similar to the previous examples
-
-        return updatePanel;
-    }
-
-    private JPanel appointmentsPanel() {
-        JPanel appointmentsPanel = new JPanel(new GridLayout(0, 1));
-        appointmentsPanel.setBackground(new Color(25, 25, 112));
-        // Add components similarly
-
-        return appointmentsPanel;
-    }
-
-    private JPanel viewAllDoctorsPanel() {
-        JPanel doctorPanel = new JPanel(new GridLayout(0, 1));
-        doctorPanel.setBackground(new Color(25, 25, 112));
-        // Add components similarly
-
-        return doctorPanel;
-    }
-
-    private JPanel myTreatmentPanel() {
-        JPanel treatmentPanel = new JPanel(new GridLayout(0, 1));
-        treatmentPanel.setBackground(new Color(25, 25, 112));
-        // Add components similarly
-
-        return treatmentPanel;
-    }
-    
-    
 
 
 }
