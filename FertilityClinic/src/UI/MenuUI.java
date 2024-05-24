@@ -70,11 +70,14 @@ public class MenuUI extends JFrame {
         titleLabel.setBorder(BorderFactory.createEmptyBorder(100, 0, 0, 0));
         rightPanel.add(titleLabel, BorderLayout.NORTH);
 
+        
+        JPanel cards = new JPanel(new CardLayout());//new
         JLabel questionLabel = new JLabel("Do you want to log in or sign up?");
         questionLabel.setFont(new Font("Cooper Black", Font.PLAIN, 20));
         questionLabel.setHorizontalAlignment(JLabel.CENTER);
         questionLabel.setForeground(Color.WHITE);
 
+        
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
         buttonPanel.setBackground(new Color(25, 25, 112));
         JButton loginButton = new JButton("Log in");
@@ -86,8 +89,8 @@ public class MenuUI extends JFrame {
         loginButton.setFont(new Font("Calibri", Font.BOLD, 16));
         signupButton.setFont(new Font("Calibri", Font.BOLD, 16));
 
-        loginButton.addActionListener(e -> showLoginDialog());
-        signupButton.addActionListener(e -> showSignUpDialog());
+        loginButton.addActionListener(e -> ((CardLayout) cards.getLayout()).show(cards, "LoginForm"); //new
+        signupButton.addActionListener(e -> ((CardLayout) cards.getLayout()).show(cards, "SignUpForm");//new
 
         buttonPanel.add(loginButton);
         buttonPanel.add(signupButton);
@@ -95,6 +98,22 @@ public class MenuUI extends JFrame {
 
         rightPanel.add(questionLabel, BorderLayout.CENTER);
         rightPanel.add(buttonPanel, BorderLayout.SOUTH);
+
+        
+        JPanel loginPanel = new JPanel(new GridLayout(3, 2, 10, 10));
+        loginPanel.setBackground(new Color(25, 25, 112));
+        loginPanel.add(new JLabel("Email:"));
+        JTextField emailField = new JTextField(10);
+        loginPanel.add(emailField);
+        loginPanel.add(new JLabel("Password:"));
+        JPasswordField passwordField = new JPasswordField(10);
+        loginPanel.add(passwordField);
+        JButton submitButton = new JButton("Submit");
+        loginPanel.add(submitButton);
+        submitButton.addActionListener(e -> loginUser(emailField.getText(), new String(passwordField.getPassword())));
+
+        cards.add(questionPanel, "QuestionPanel");
+        cards.add(loginPanel, "LoginForm");
 
         mainPanel.add(rightPanel, BorderLayout.CENTER);
 
@@ -378,7 +397,5 @@ public class MenuUI extends JFrame {
     public static void main(String[] args) {
          SwingUtilities.invokeLater(() -> new MenuUI().setVisible(true));
 	}	
-}
-
 
 }
