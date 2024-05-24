@@ -27,7 +27,6 @@ public class MenuUI extends JFrame {
     private SpecialityManager specialityManager;
     private StockManager stockManager;
     private User loggedInUser;
-    private JPanel cards; 
    
     public MenuUI() {
         
@@ -60,25 +59,45 @@ public class MenuUI extends JFrame {
         JPanel mainPanel = new JPanel(new BorderLayout(10, 10));
         mainPanel.setBackground(new Color(25, 25, 112));  // Dark blue color
 
-        // Ajuste y adición de la imagen
         JLabel imageLabel = setupImageLabel();
         mainPanel.add(imageLabel, BorderLayout.WEST);
 
+        JPanel rightPanel = new JPanel(new BorderLayout());
+        rightPanel.setBackground(new Color(25, 25, 112));
         JLabel titleLabel = new JLabel("NEW LIFE CLINIC", JLabel.CENTER);
         titleLabel.setFont(new Font("Calibri", Font.BOLD, 70));
         titleLabel.setForeground(Color.WHITE);
-        mainPanel.add(titleLabel, BorderLayout.NORTH);
+        titleLabel.setBorder(BorderFactory.createEmptyBorder(100, 0, 0, 0));
+        rightPanel.add(titleLabel, BorderLayout.NORTH);
 
-        JPanel cards = new JPanel(new CardLayout());
-        JPanel questionPanel = setupQuestionPanel();
-        JPanel loginPanel = setupLoginForm();
-        JPanel signUpPanel = setupSignUpForm();
+        JLabel questionLabel = new JLabel("Do you want to log in or sign up?");
+        questionLabel.setFont(new Font("Cooper Black", Font.PLAIN, 20));
+        questionLabel.setHorizontalAlignment(JLabel.CENTER);
+        questionLabel.setForeground(Color.WHITE);
 
-        cards.add(questionPanel, "Question Panel");
-        cards.add(loginPanel, "Login Form");
-        cards.add(signUpPanel, "Sign Up Form");
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
+        buttonPanel.setBackground(new Color(25, 25, 112));
+        JButton loginButton = new JButton("Log in");
+        JButton signupButton = new JButton("Sign up");
 
-        mainPanel.add(cards, BorderLayout.CENTER);
+        loginButton.setBackground(Color.WHITE);
+        signupButton.setBackground(Color.WHITE);
+
+        loginButton.setFont(new Font("Calibri", Font.BOLD, 16));
+        signupButton.setFont(new Font("Calibri", Font.BOLD, 16));
+
+        loginButton.addActionListener(e -> showLoginDialog());
+        signupButton.addActionListener(e -> showSignUpDialog());
+
+        buttonPanel.add(loginButton);
+        buttonPanel.add(signupButton);
+        buttonPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 200, 0)); // Increase bottom margin
+
+        rightPanel.add(questionLabel, BorderLayout.CENTER);
+        rightPanel.add(buttonPanel, BorderLayout.SOUTH);
+
+        mainPanel.add(rightPanel, BorderLayout.CENTER);
+
         add(mainPanel);
         setVisible(true);
     }
@@ -86,58 +105,24 @@ public class MenuUI extends JFrame {
     private JLabel setupImageLabel() {
         JLabel imageLabel = new JLabel();
         try {
-            ImageIcon icon = new ImageIcon("./logo/photo.png");
-            Image image = icon.getImage();
-            Image newimg = image.getScaledInstance(300, 300,  Image.SCALE_SMOOTH); // Adjust the size here
+            File imagePath = new File("./logo/photo.png");
+            if (!imagePath.exists()) {
+                throw new IllegalArgumentException("Image file not found at: " + imagePath.getAbsolutePath());
+            }
+            ImageIcon originalIcon = new ImageIcon(imagePath.getAbsolutePath());
+            Image image = originalIcon.getImage();
+            Image newimg = image.getScaledInstance(300, 300, Image.SCALE_SMOOTH);
             imageLabel.setIcon(new ImageIcon(newimg));
         } catch (Exception e) {
-            imageLabel.setText("Image not found");
             e.printStackTrace();
+            imageLabel.setText("Image not found: " + e.getMessage());
         }
         imageLabel.setHorizontalAlignment(JLabel.CENTER);
+        imageLabel.setBorder(BorderFactory.createEmptyBorder(0, 150, 0, 0));
         return imageLabel;
     }
 
-    private JPanel setupQuestionPanel() {
-        JPanel panel = new JPanel(new GridLayout(1, 2, 10, 10));
-        JButton loginButton = new JButton("Log in");
-        JButton signUpButton = new JButton("Sign up");
-        loginButton.addActionListener(e -> ((CardLayout) cards.getLayout()).show(cards, "Login Form"));
-        signUpButton.addActionListener(e -> ((CardLayout) cards.getLayout()).show(cards, "Sign Up Form"));
-        panel.add(loginButton);
-        panel.add(signUpButton);
-        return panel;
-    }
 
-    private JPanel setupLoginForm() {
-        JPanel panel = new JPanel(new GridLayout(3, 2, 10, 10));
-        panel.add(new JLabel("Email:"));
-        JTextField emailField = new JTextField();
-        panel.add(emailField);
-        panel.add(new JLabel("Password:"));
-        JPasswordField passwordField = new JPasswordField();
-        panel.add(passwordField);
-        return panel;
-    }
-
-    private JPanel setupSignUpForm() {
-        JPanel panel = new JPanel(new GridLayout(4, 2, 10, 10));
-        panel.add(new JLabel("Email:"));
-        JTextField signUpEmailField = new JTextField();
-        panel.add(signUpEmailField);
-        panel.add(new JLabel("Password:"));
-        JPasswordField signUpPasswordField = new JPasswordField();
-        panel.add(signUpPasswordField);
-        panel.add(new JLabel("Confirm Password:"));
-        JPasswordField confirmPasswordField = new JPasswordField();
-        panel.add(confirmPasswordField);
-        return panel;
-    }
-
-
-    
-
-/*
     private void showLoginDialog() {
         // Crear los campos de texto y etiquetas con el estilo apropiado
         JLabel emailLabel = new JLabel("Email:");
@@ -170,12 +155,11 @@ public class MenuUI extends JFrame {
         } else if (result == JOptionPane.CANCEL_OPTION) {
             showSignUpDialog(); // Si el usuario cancela, ofrecer registrarse en su lugar.
         }
-    }*/
+    }
 
     
     
-
-    /*
+    
     private void showSignUpDialog() {
         JPanel panel = new JPanel(new BorderLayout());
         JPanel initialPanel = new JPanel(new GridLayout(3, 2));
@@ -304,7 +288,7 @@ public class MenuUI extends JFrame {
         }if (result == JOptionPane.OK_CANCEL_OPTION) {
         	showSignUpDialog();
         }
-    }*/
+    }
  
 
 
@@ -394,5 +378,6 @@ public class MenuUI extends JFrame {
     public static void main(String[] args) {
          SwingUtilities.invokeLater(() -> new MenuUI().setVisible(true));
 	}	
+
 
 }
