@@ -26,7 +26,6 @@ public class MenuUI extends JFrame {
     private SpecialityManager specialityManager;
     private StockManager stockManager;
     private User loggedInUser;
-    private JPanel rightPanel; 
    
     public MenuUI() {
         
@@ -48,135 +47,6 @@ public class MenuUI extends JFrame {
         showInitialDialog();
     }
     
-    private void showInitialDialog() {
-        setTitle("NEW LIFE CLINIC");
-        Toolkit toolkit = Toolkit.getDefaultToolkit();
-        Dimension screenSize = toolkit.getScreenSize();
-        setSize(screenSize.width - 100, screenSize.height - 100);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
-
-        JPanel mainPanel = new JPanel(new BorderLayout(10, 10));
-        mainPanel.setBackground(new Color(25, 25, 112));  // Dark blue color
-
-        JLabel imageLabel = setupImageLabel();
-        mainPanel.add(imageLabel, BorderLayout.WEST);
-
-        JPanel rightPanel = new JPanel(new BorderLayout());
-        rightPanel.setBackground(new Color(25, 25, 112));
-
-        JPanel contentPanel = new JPanel(new CardLayout());  // Use CardLayout to switch views
-        JPanel loginPanel = createLoginPanel();  // Create the login panel
-        JPanel signupPanel = createSignupPanel();  // Create the signup panel
-
-        contentPanel.add(loginPanel, "Login");
-        contentPanel.add(signupPanel, "Signup");
-
-        JLabel titleLabel = new JLabel("NEW LIFE CLINIC", JLabel.CENTER);
-        titleLabel.setFont(new Font("Calibri", Font.BOLD, 70));
-        titleLabel.setForeground(Color.WHITE);
-        titleLabel.setBorder(BorderFactory.createEmptyBorder(100, 0, 0, 0));
-        rightPanel.add(titleLabel, BorderLayout.NORTH);
-        rightPanel.add(contentPanel, BorderLayout.CENTER);
-
-        mainPanel.add(rightPanel, BorderLayout.CENTER);
-        add(mainPanel);
-        setVisible(true);
-    }
-
-    private JPanel createLoginPanel() {
-        JPanel loginPanel = new JPanel(new BorderLayout());
-        loginPanel.setBackground(new Color(25, 25, 112));
-        JLabel questionLabel = new JLabel("Do you want to log in?");
-        questionLabel.setFont(new Font("Cooper Black", Font.PLAIN, 20));
-        questionLabel.setHorizontalAlignment(JLabel.CENTER);
-        questionLabel.setForeground(Color.WHITE);
-        loginPanel.add(questionLabel, BorderLayout.NORTH);
-
-        JPanel fieldsPanel = new JPanel(new GridLayout(2, 2, 10, 10));
-        fieldsPanel.setBackground(new Color(25, 25, 112));
-        JLabel emailLabel = new JLabel("Email:");
-        emailLabel.setForeground(Color.WHITE);
-        JTextField emailField = new JTextField();
-        JLabel passwordLabel = new JLabel("Password:");
-        passwordLabel.setForeground(Color.WHITE);
-        JPasswordField passwordField = new JPasswordField();
-        fieldsPanel.add(emailLabel);
-        fieldsPanel.add(emailField);
-        fieldsPanel.add(passwordLabel);
-        fieldsPanel.add(passwordField);
-        loginPanel.add(fieldsPanel, BorderLayout.CENTER);
-
-        JPanel buttonPanel = new JPanel(new FlowLayout());
-        buttonPanel.setBackground(new Color(25, 25, 112));
-        JButton loginButton = new JButton("Log in");
-        JButton cancelButton = new JButton("Cancel");
-        loginButton.setBackground(Color.WHITE);
-        cancelButton.setBackground(Color.WHITE);
-        buttonPanel.add(loginButton);
-        buttonPanel.add(cancelButton);
-        loginPanel.add(buttonPanel, BorderLayout.SOUTH);
-
-        return loginPanel;
-    }
-
-    private JPanel createSignupPanel() {
-        JPanel signupPanel = new JPanel(new BorderLayout());
-        signupPanel.setBackground(new Color(25, 25, 112));
-
-        JLabel headerLabel = new JLabel("Please sign up to continue");
-        headerLabel.setFont(new Font("Cooper Black", Font.PLAIN, 20));
-        headerLabel.setHorizontalAlignment(JLabel.CENTER);
-        headerLabel.setForeground(Color.WHITE);
-        signupPanel.add(headerLabel, BorderLayout.NORTH);
-
-        JPanel fieldsPanel = new JPanel(new GridLayout(4, 2, 10, 10));  // 4 rows, 2 cols
-        fieldsPanel.setBackground(new Color(25, 25, 112));
-
-        JLabel emailLabel = new JLabel("Email:");
-        emailLabel.setForeground(Color.WHITE);
-        JTextField emailField = new JTextField();
-
-        JLabel passwordLabel = new JLabel("Password:");
-        passwordLabel.setForeground(Color.WHITE);
-        JPasswordField passwordField = new JPasswordField();
-
-        JLabel roleLabel = new JLabel("Role:");
-        roleLabel.setForeground(Color.WHITE);
-        JComboBox<Role> roleComboBox = new JComboBox<>(new DefaultComboBoxModel<>(userManager.getRoles().toArray(new Role[0])));
-
-        fieldsPanel.add(emailLabel);
-        fieldsPanel.add(emailField);
-        fieldsPanel.add(passwordLabel);
-        fieldsPanel.add(passwordField);
-        fieldsPanel.add(roleLabel);
-        fieldsPanel.add(roleComboBox);
-
-        signupPanel.add(fieldsPanel, BorderLayout.CENTER);
-
-        JPanel buttonPanel = new JPanel(new FlowLayout());
-        buttonPanel.setBackground(new Color(25, 25, 112));
-        JButton signupButton = new JButton("Sign up");
-        JButton cancelButton = new JButton("Cancel");
-        signupButton.setBackground(Color.WHITE);
-        cancelButton.setBackground(Color.WHITE);
-        buttonPanel.add(signupButton);
-        buttonPanel.add(cancelButton);
-
-        signupButton.addActionListener(e -> userManager.checkPassword(emailField.getText(), new String(passwordField.getPassword())));
-        cancelButton.addActionListener(e -> switchToLogin());
-
-        signupPanel.add(buttonPanel, BorderLayout.SOUTH);
-
-        return signupPanel;
-    }
-    
-    private void switchToLogin() {
-        // Switch back to the login panel
-        CardLayout cl = (CardLayout) rightPanel.getLayout();
-        cl.show(rightPanel, "Login");
-    }
-    /*
     private void showInitialDialog() {
         setTitle("NEW LIFE CLINIC");
         Toolkit toolkit = Toolkit.getDefaultToolkit();
@@ -230,7 +100,6 @@ public class MenuUI extends JFrame {
         add(mainPanel);
         setVisible(true);
     }
-    */
 
     private JLabel setupImageLabel() {
         JLabel imageLabel = new JLabel();
