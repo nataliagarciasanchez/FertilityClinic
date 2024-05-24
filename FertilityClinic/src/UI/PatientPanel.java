@@ -28,6 +28,7 @@ public class PatientPanel extends JPanel {
         this.patientId = patientId;
         initializeUI();
     }
+    /* funcionaaaaaa
     private void initializeUI() {
         currentPanel = panelesLadoIzq(); 
         setLayout(new BorderLayout());
@@ -41,8 +42,61 @@ public class PatientPanel extends JPanel {
         validate();
         repaint();
     }
+    */
+    
+    private void initializeUI() {
+        setLayout(new BorderLayout());
+        add(createSidePanel(), BorderLayout.WEST);
+        showInitialPanel();
+    }
+    
+    private JPanel createSidePanel() {
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
+        buttonPanel.setBackground(new Color(25, 25, 112));
+
+        String[] buttonLabels = {"View My Information", "Update My Information", "My Appointments", "View All Doctors", "My Treatment"};
+        for (String label : buttonLabels) {
+            JButton button = new JButton(label);
+            button.setMaximumSize(new Dimension(Integer.MAX_VALUE, button.getMinimumSize().height));
+            button.addActionListener(e -> switchPanel(label));
+            buttonPanel.add(button);
+        }
+        return buttonPanel;
+    }
+    
+    private void switchPanel(String label) {
+        switch (label) {
+            case "View My Information":
+                currentPanel = viewMyInfoPanel();
+                break;
+            case "Update My Information":
+                currentPanel = updateInfoPanel();
+                break;
+            case "My Appointments":
+                currentPanel = appointmentsPanel();
+                break;
+            case "View All Doctors":
+                currentPanel = viewAllDoctorsPanel();
+                break;
+            case "My Treatment":
+                currentPanel = myTreatmentPanel();
+                break;
+            default:
+                currentPanel = new JPanel();
+        }
+        showCurrentPanel();
+    }
+    private void showCurrentPanel() {
+        removeAll();
+        add(createSidePanel(), BorderLayout.WEST);
+        add(currentPanel, BorderLayout.CENTER);
+        validate();
+        repaint();
+    }
     
     
+    /*
     //Buttons Panel
     private JPanel panelesLadoIzq() {
         JPanel buttonPanel = new JPanel();
@@ -74,15 +128,18 @@ public class PatientPanel extends JPanel {
         buttonPanel.add(op5);
 
         return buttonPanel;
-    }
+    }*/ 
+    
+    
 
     //OPTION 1
-    private void viewMyinfoPanel() {
+    private JPanel viewMyinfoPanel() {
         Patient patient = patientManager.viewMyInfo(patientId);
 
-        JPanel infoPanel = new JPanel();
-        infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
-
+        JPanel infoPanel = new JPanel(new GridLayout(0, 1));//new GridLayout(0, 1) nuevo
+        infoPanel.setBackground(new Color(25, 25, 112));
+        //infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
+       /*
         if (patient != null) {
             infoPanel.add(new JLabel("Name: " + patient.getName()));
             infoPanel.add(new JLabel("Date of Birth: " + patient.getDob().toString()));
@@ -98,6 +155,29 @@ public class PatientPanel extends JPanel {
 
         currentPanel = infoPanel; // Establece el panel actual como el panel de información del paciente
         showCurrentPanel(); // Muestra el panel actual en el contenedor principal
+    */
+        
+        if (patient != null) {
+            String[] info = {
+                "Name: " + patient.getName(),
+                "Date of Birth: " + patient.getDob().toString(),
+                "Gender: " + patient.getGender(),
+                "Email: " + patient.getEmail(),
+                "Phone: " + patient.getPhone(),
+                "Height: " + patient.getHeight(),
+                "Weight: " + patient.getWeight(),
+                "Blood Type: " + patient.getBloodType()
+            };
+            for (String s : info) {
+                infoPanel.add(new JLabel(s));
+            }
+        } else {
+            infoPanel.add(new JLabel("No information available."));
+        }
+        return infoPanel;
+        
+        
+    
     }
 
     //OPTION 2
