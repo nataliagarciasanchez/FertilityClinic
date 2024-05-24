@@ -43,6 +43,28 @@ public class PatientPanel extends JPanel {
         repaint();
     }
     
+    private JPanel createTopPanel() {
+        // Crea el panel superior con el botón de logout
+        JPanel topPanel = new JPanel();
+        topPanel.setBackground(new Color(25, 25, 112)); // Sets the background to match other parts of the UI
+        topPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
+        topPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+        JButton logoutButton = new JButton("Logout");
+        logoutButton.setFont(new Font("Calibri", Font.BOLD, 18));
+        logoutButton.setBackground(Color.WHITE);
+        logoutButton.setForeground(Color.BLACK);
+        topPanel.add(logoutButton);
+
+        logoutButton.addActionListener(e -> {
+            loggedInUser = null;
+            getContentPane().removeAll();
+            showInitialDialog(); // Assumes this method resets the UI to the initial login state
+        });
+
+        return topPanel;
+    }
+    
     
     //Buttons Panel
     private JPanel panelesLadoIzq() {
