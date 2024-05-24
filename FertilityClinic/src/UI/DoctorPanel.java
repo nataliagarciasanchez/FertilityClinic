@@ -112,7 +112,7 @@ public class DoctorPanel extends JPanel {
         button.setAlignmentX(Component.CENTER_ALIGNMENT);
     }
 
-/*
+
   //OPTION 1
     private void viewMyinfoPanel() {
         Doctor doctor = doctorManager.viewMyInfo(doctorId);
@@ -157,9 +157,9 @@ public class DoctorPanel extends JPanel {
         wrapperPanel.add(infoPanel, BorderLayout.CENTER);
         currentPanel = wrapperPanel; // Establecer el panel actual al panel envolvente
         showCurrentPanel(); // Mostrar el panel actual en el contenedor principal
-    }*/
+    }
     
-    
+    /*
     private void viewMyinfoPanel() {
         Doctor doctor = doctorManager.viewMyInfo(doctorId);
 
@@ -217,7 +217,7 @@ public class DoctorPanel extends JPanel {
             e.printStackTrace();
             return null;
         }
-    }
+    }*/
 
 
     /**
