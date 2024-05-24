@@ -196,6 +196,166 @@ public class MenuUI extends JFrame {
 
         return loginPanel;
     }
+ 
+    private JPanel createSignupPanel() {
+        JPanel signupPanel = new JPanel(new BorderLayout());
+        signupPanel.setBackground(new Color(25, 25, 112));
+
+        JPanel fieldsPanel = new JPanel(new GridLayout(3, 2, 10, 10));
+        fieldsPanel.setBackground(new Color(25, 25, 112));
+
+        JLabel emailLabel = new JLabel("Email:");
+        emailLabel.setForeground(Color.WHITE);
+        emailLabel.setFont(new Font("Calibri", Font.BOLD, 20));
+        JTextField emailField = new JTextField();
+        emailField.setFont(new Font("Calibri", Font.PLAIN, 18));
+
+        JLabel passwordLabel = new JLabel("Password:");
+        passwordLabel.setForeground(Color.WHITE);
+        passwordLabel.setFont(new Font("Calibri", Font.BOLD, 20));
+        JPasswordField passwordField = new JPasswordField();
+        passwordField.setFont(new Font("Calibri", Font.PLAIN, 18));
+
+        JLabel roleLabel = new JLabel("Role:");
+        roleLabel.setForeground(Color.WHITE);
+        roleLabel.setFont(new Font("Calibri", Font.BOLD, 20));
+        JComboBox<Role> roleComboBox = new JComboBox<>(new DefaultComboBoxModel<>(userManager.getRoles().toArray(new Role[0])));
+        roleComboBox.setFont(new Font("Calibri", Font.PLAIN, 18));
+
+        fieldsPanel.add(emailLabel);
+        fieldsPanel.add(emailField);
+        fieldsPanel.add(passwordLabel);
+        fieldsPanel.add(passwordField);
+        fieldsPanel.add(roleLabel);
+        fieldsPanel.add(roleComboBox);
+
+        // Role specific panels
+        JPanel roleSpecificPanel = new JPanel(new CardLayout());
+        roleSpecificPanel.setBackground(new Color(25, 25, 112));
+        JPanel defaultPanel = new JPanel();
+        defaultPanel.setBackground(new Color(25, 25, 112));
+        
+        JPanel patientPanel = new JPanel(new GridLayout(8, 2, 10, 10));
+        patientPanel.setBackground(new Color(25, 25, 112));
+        addRoleFields(patientPanel, new String[]{"Name", "Phone", "Height", "Weight", "Blood Type", "DOB (yyyy-mm-dd)", "Gender"}, true);
+
+        JPanel doctorPanel = new JPanel(new GridLayout(5, 2, 10, 10));
+        doctorPanel.setBackground(new Color(25, 25, 112));
+        addDoctorFields(doctorPanel, new String[]{"Name", "Phone", "Speciality"}, false);
+
+        JPanel managerPanel = new JPanel(new GridLayout(5, 2, 10, 10));
+        managerPanel.setBackground(new Color(25, 25, 112));
+        addManagerFields(managerPanel, new String[]{"Name", "Phone"});
+
+        roleSpecificPanel.add(defaultPanel, "default");
+        roleSpecificPanel.add(patientPanel, "patient");
+        roleSpecificPanel.add(doctorPanel, "doctor");
+        roleSpecificPanel.add(managerPanel, "manager");
+
+        roleComboBox.addActionListener(e -> {
+            CardLayout cl = (CardLayout) roleSpecificPanel.getLayout();
+            Role selectedRole = (Role) roleComboBox.getSelectedItem();
+            if (selectedRole != null) {
+                cl.show(roleSpecificPanel, selectedRole.getName());
+            }
+        });
+
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
+        buttonPanel.setBackground(new Color(25, 25, 112));
+        JButton signupButton = new JButton("Sign up");
+        JButton cancelButton = new JButton("Cancel");
+
+        buttonPanel.add(signupButton);
+        buttonPanel.add(cancelButton);
+
+        signupPanel.add(fieldsPanel, BorderLayout.NORTH);
+        signupPanel.add(roleSpecificPanel, BorderLayout.CENTER);
+        signupPanel.add(buttonPanel, BorderLayout.SOUTH);
+
+        return signupPanel;
+    }
+    
+    private void addDoctorFields(JPanel panel) {
+        String[] labels = {"Name", "Phone"};
+        for (String label : labels) {
+            panel.add(createLabel(label));
+            JTextField textField = new JTextField();
+            textField.setFont(new Font("Calibri", Font.PLAIN, 18));
+            panel.add(textField);
+        }
+        JLabel specialityLabel = createLabel("Speciality");
+        JComboBox<Speciality> specialityComboBox = new JComboBox<>(new DefaultComboBoxModel<>(getSpecialities().toArray(new Speciality[0])));
+        specialityComboBox.setFont(new Font("Calibri", Font.PLAIN, 18));
+        panel.add(specialityLabel);
+        panel.add(specialityComboBox);
+    }
+    
+    private JLabel createLabel(String text) {
+        JLabel label = new JLabel(text + ":");
+        label.setForeground(Color.WHITE);
+        label.setFont(new Font("Calibri", Font.BOLD, 20));
+        return label;
+    }
+
+    private void addRoleFields(JPanel panel, String[] fields, boolean isPatient) {
+        for (String field : fields) {
+            JLabel label = new JLabel(field + ":");
+            label.setForeground(Color.WHITE);
+            label.setFont(new Font("Calibri", Font.BOLD, 20));
+            JTextField textField = new JTextField();
+            textField.setFont(new Font("Calibri", Font.PLAIN, 18));
+            if (isPatient) {
+                textField.setColumns(10); // Make fields narrower for patients
+            }
+            panel.add(label);
+            panel.add(textField);
+        }
+    }
+
+    private void addManagerFields(JPanel panel, String[] fields) {
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridwidth = GridBagConstraints.RELATIVE;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.weightx = 0.5;
+        int row = 0;
+        for (String field : fields) {
+            JLabel label = new JLabel(field + ":");
+            label.setForeground(Color.WHITE);
+            label.setFont(new Font("Calibri", Font.BOLD, 20));
+            JTextField textField = new JTextField();
+            textField.setFont(new Font("Calibri", Font.PLAIN, 18));
+            textField.setColumns(15);
+            gbc.gridx = 0;
+            gbc.gridy = row;
+            panel.add(label, gbc);
+            gbc.gridx = 1;
+            panel.add(textField, gbc);
+            row++;
+        }
+    }
+
+
+    
+    private JLabel setupImageLabel() {
+        JLabel imageLabel = new JLabel();
+        try {
+            File imagePath = new File("./logo/photo.png");
+            if (!imagePath.exists()) {
+                throw new IllegalArgumentException("Image file not found at: " + imagePath.getAbsolutePath());
+            }
+            ImageIcon originalIcon = new ImageIcon(imagePath.getAbsolutePath());
+            Image image = originalIcon.getImage();
+            Image newimg = image.getScaledInstance(300, 300, Image.SCALE_SMOOTH);
+            imageLabel.setIcon(new ImageIcon(newimg));
+        } catch (Exception e) {
+            e.printStackTrace();
+            imageLabel.setText("Image not found: " + e.getMessage());
+        }
+        imageLabel.setHorizontalAlignment(JLabel.CENTER);
+        imageLabel.setBorder(BorderFactory.createEmptyBorder(0, 150, 0, 0));
+        return imageLabel;
+    }
+    
 
 /*
     private JPanel createSignupPanel() {
@@ -371,144 +531,7 @@ public class MenuUI extends JFrame {
 
         return signupPanel;
     }
-*/ 
-    private JPanel createSignupPanel() {
-        JPanel signupPanel = new JPanel(new BorderLayout());
-        signupPanel.setBackground(new Color(25, 25, 112));
-
-        JPanel fieldsPanel = new JPanel(new GridLayout(3, 2, 10, 10));
-        fieldsPanel.setBackground(new Color(25, 25, 112));
-
-        JLabel emailLabel = new JLabel("Email:");
-        emailLabel.setForeground(Color.WHITE);
-        emailLabel.setFont(new Font("Calibri", Font.BOLD, 20));
-        JTextField emailField = new JTextField();
-        emailField.setFont(new Font("Calibri", Font.PLAIN, 18));
-
-        JLabel passwordLabel = new JLabel("Password:");
-        passwordLabel.setForeground(Color.WHITE);
-        passwordLabel.setFont(new Font("Calibri", Font.BOLD, 20));
-        JPasswordField passwordField = new JPasswordField();
-        passwordField.setFont(new Font("Calibri", Font.PLAIN, 18));
-
-        JLabel roleLabel = new JLabel("Role:");
-        roleLabel.setForeground(Color.WHITE);
-        roleLabel.setFont(new Font("Calibri", Font.BOLD, 20));
-        JComboBox<Role> roleComboBox = new JComboBox<>(new DefaultComboBoxModel<>(userManager.getRoles().toArray(new Role[0])));
- 
-        roleComboBox.setFont(new Font("Calibri", Font.PLAIN, 18));
-
-        fieldsPanel.add(emailLabel);
-        fieldsPanel.add(emailField);
-        fieldsPanel.add(passwordLabel);
-        fieldsPanel.add(passwordField);
-        fieldsPanel.add(roleLabel);
-        fieldsPanel.add(roleComboBox);
-
-        // Role specific panels
-        JPanel roleSpecificPanel = new JPanel(new CardLayout());
-        roleSpecificPanel.setBackground(new Color(25, 25, 112));
-        JPanel defaultPanel = new JPanel();
-        defaultPanel.setBackground(new Color(25, 25, 112));
-        
-        JPanel patientPanel = new JPanel(new GridLayout(8, 2, 10, 10));
-        patientPanel.setBackground(new Color(25, 25, 112));
-        addRoleFields(patientPanel, new String[]{"Name", "Phone", "Height", "Weight", "Blood Type", "DOB (yyyy-mm-dd)", "Gender"}, true);
-
-        JPanel doctorPanel = new JPanel(new GridLayout(8, 2, 10, 10));
-        doctorPanel.setBackground(new Color(25, 25, 112));
-        addRoleFields(doctorPanel, new String[]{"Name", "Phone", "Speciality"}, false);
-
-        JPanel managerPanel = new JPanel(new GridLayout(8, 2, 10, 10));
-        managerPanel.setBackground(new Color(25, 25, 112));
-        addManagerFields(managerPanel, new String[]{"Name", "Phone"});
-
-        roleSpecificPanel.add(defaultPanel, "default");
-        roleSpecificPanel.add(patientPanel, "patient");
-        roleSpecificPanel.add(doctorPanel, "doctor");
-        roleSpecificPanel.add(managerPanel, "manager");
-
-        roleComboBox.addActionListener(e -> {
-            CardLayout cl = (CardLayout) roleSpecificPanel.getLayout();
-            Role selectedRole = (Role) roleComboBox.getSelectedItem();
-            if (selectedRole != null) {
-                cl.show(roleSpecificPanel, selectedRole.getName());
-            }
-        });
-
-        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
-        buttonPanel.setBackground(new Color(25, 25, 112));
-        JButton signupButton = new JButton("Sign up");
-        JButton cancelButton = new JButton("Cancel");
-
-        buttonPanel.add(signupButton);
-        buttonPanel.add(cancelButton);
-
-        signupPanel.add(fieldsPanel, BorderLayout.NORTH);
-        signupPanel.add(roleSpecificPanel, BorderLayout.CENTER);
-        signupPanel.add(buttonPanel, BorderLayout.SOUTH);
-
-        return signupPanel;
-    }
-
-    private void addRoleFields(JPanel panel, String[] fields, boolean isPatient) {
-        for (String field : fields) {
-            JLabel label = new JLabel(field + ":");
-            label.setForeground(Color.WHITE);
-            label.setFont(new Font("Calibri", Font.BOLD, 20));
-            JTextField textField = new JTextField();
-            textField.setFont(new Font("Calibri", Font.PLAIN, 18));
-            if (isPatient) {
-                textField.setColumns(10); // Make fields narrower for patients
-            }
-            panel.add(label);
-            panel.add(textField);
-        }
-    }
-
-    private void addManagerFields(JPanel panel, String[] fields) {
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.gridwidth = GridBagConstraints.RELATIVE;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.weightx = 0.5;
-        int row = 0;
-        for (String field : fields) {
-            JLabel label = new JLabel(field + ":");
-            label.setForeground(Color.WHITE);
-            label.setFont(new Font("Calibri", Font.BOLD, 20));
-            JTextField textField = new JTextField();
-            textField.setFont(new Font("Calibri", Font.PLAIN, 18));
-            textField.setColumns(15);
-            gbc.gridx = 0;
-            gbc.gridy = row;
-            panel.add(label, gbc);
-            gbc.gridx = 1;
-            panel.add(textField, gbc);
-            row++;
-        }
-    }
-
-
-    
-    private JLabel setupImageLabel() {
-        JLabel imageLabel = new JLabel();
-        try {
-            File imagePath = new File("./logo/photo.png");
-            if (!imagePath.exists()) {
-                throw new IllegalArgumentException("Image file not found at: " + imagePath.getAbsolutePath());
-            }
-            ImageIcon originalIcon = new ImageIcon(imagePath.getAbsolutePath());
-            Image image = originalIcon.getImage();
-            Image newimg = image.getScaledInstance(300, 300, Image.SCALE_SMOOTH);
-            imageLabel.setIcon(new ImageIcon(newimg));
-        } catch (Exception e) {
-            e.printStackTrace();
-            imageLabel.setText("Image not found: " + e.getMessage());
-        }
-        imageLabel.setHorizontalAlignment(JLabel.CENTER);
-        imageLabel.setBorder(BorderFactory.createEmptyBorder(0, 150, 0, 0));
-        return imageLabel;
-    }
+*/
 
 
 
