@@ -143,7 +143,7 @@ public class MenuUI extends JFrame {
         rightPanel.add(passwordField);
 
         // Mostrar el panel en un diálogo de confirmación
-        int result = JOptionPane.showConfirmDialog(this, panel, "Login", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+        int result = JOptionPane.showConfirmDialog(this, rightPanel, "Login", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
         if (result == JOptionPane.OK_OPTION) {
             String email = emailField.getText();
             String password = new String(passwordField.getPassword());
@@ -165,30 +165,43 @@ public class MenuUI extends JFrame {
     
     
     private void showSignUpDialog() {
-        JPanel panel = new JPanel(new BorderLayout());
-        JPanel initialPanel = new JPanel(new GridLayout(3, 2));
+       // JPanel panel = new JPanel(new BorderLayout());
+        //JPanel initialPanel = new JPanel(new GridLayout(3, 2));
         JTextField emailField = new JTextField();
         JPasswordField passwordField = new JPasswordField();
         JComboBox<Role> roleComboBox = new JComboBox<>(new DefaultComboBoxModel<>(userManager.getRoles().toArray(new Role[0])));
         
-        initialPanel.add(new JLabel("Email:"));
-        initialPanel.add(emailField);
-        initialPanel.add(new JLabel("Password:"));
-        initialPanel.add(passwordField);
-        initialPanel.add(new JLabel("Role:"));
-        initialPanel.add(roleComboBox);
+        rightPanel.add(new JLabel("Email:"));
+        emailField.setForeground(Color.WHITE);
+        rightPanel.add(emailField);
+        rightPanel.add(new JLabel("Password:"));
+        passwordField.setForeground(Color.WHITE);
+        rightPanel.add(passwordField);
+        rightPanel.add(new JLabel("Role:"));
+        roleComboBox.setForeground(Color.WHITE);
+        rightPanel.add(roleComboBox);
+        
 
         JPanel roleSpecificPanel = new JPanel(new CardLayout());
+        
+        
 
         //Patient
         JPanel patientPanel = new JPanel(new GridLayout(8, 2));
         JTextField nameField = new JTextField();
+        nameField.setForeground(Color.WHITE);
         JTextField phoneField = new JTextField();
+        phoneField.setForeground(Color.WHITE);
         JTextField heightField = new JTextField();
+        heightField.setForeground(Color.WHITE);
         JTextField weightField = new JTextField();
+        weightField.setForeground(Color.WHITE);
         JTextField bloodTypeField = new JTextField();
+        bloodTypeField.setForeground(Color.WHITE);
         JTextField dobField = new JTextField();
+        dobField.setForeground(Color.WHITE);
         JTextField genderField = new JTextField();
+        genderField.setForeground(Color.WHITE);
 
         patientPanel.add(new JLabel("Name:"));
         patientPanel.add(nameField);
@@ -208,8 +221,11 @@ public class MenuUI extends JFrame {
         // Doctor 
         JPanel doctorPanel = new JPanel(new GridLayout(5, 2));
         JTextField doctorNameField = new JTextField();
+        doctorNameField.setForeground(Color.WHITE);
         JTextField doctorPhoneField = new JTextField();
+        doctorPhoneField.setForeground(Color.WHITE);
         JComboBox<Speciality> specialityComboBox = new JComboBox<>(new DefaultComboBoxModel<>(getSpecialities().toArray(new Speciality[0])));
+        specialityComboBox.setForeground(Color.WHITE);
         
         doctorPanel.add(new JLabel("Name:"));
         doctorPanel.add(doctorNameField);
@@ -221,7 +237,9 @@ public class MenuUI extends JFrame {
         //Manager
         JPanel managerPanel = new JPanel(new GridLayout(5, 2));
         JTextField managerNameField = new JTextField();
+        managerNameField.setForeground(Color.WHITE);
         JTextField managerPhoneField = new JTextField();
+        managerPhoneField.setForeground(Color.WHITE);
         
         
         managerPanel.add(new JLabel("Name:"));
@@ -243,10 +261,10 @@ public class MenuUI extends JFrame {
             }
         });
 
-        panel.add(initialPanel, BorderLayout.NORTH);
-        panel.add(roleSpecificPanel, BorderLayout.CENTER);
+        rightPanel.add(initialPanel, BorderLayout.NORTH);
+        rightPanel.add(roleSpecificPanel, BorderLayout.CENTER);
 
-        int result = JOptionPane.showConfirmDialog(this, panel, "Sign Up", JOptionPane.OK_CANCEL_OPTION);
+        int result = JOptionPane.showConfirmDialog(this, rightPanel, "Sign Up", JOptionPane.OK_CANCEL_OPTION);
         if (result == JOptionPane.OK_OPTION) {
             String email = emailField.getText();
             String password = new String(passwordField.getPassword());
