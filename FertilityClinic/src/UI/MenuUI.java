@@ -91,8 +91,8 @@ public class MenuUI extends JFrame {
         loginButton.setFont(new Font("Calibri", Font.BOLD, 16));
         signupButton.setFont(new Font("Calibri", Font.BOLD, 16));
 
-        loginButton.addActionListener(e -> cardLayout.show(rightPanel, "Login"));
-        signupButton.addActionListener(e -> cardLayout.show(rightPanel, "Signup"));
+        loginButton.addActionListener(e -> createLoginPanel());
+        signupButton.addActionListener(e -> createSignupPanel());
 
         buttonPanel.add(loginButton);
         buttonPanel.add(signupButton);
@@ -129,6 +129,7 @@ public class MenuUI extends JFrame {
 
 
     private void createLoginPanel() {
+    	cardLayout.show(rightPanel, "Login");
         // Crear un panel con un diseño de cuadrícula para los campos de entrada
         JPanel loginpanel = new JPanel(new GridLayout(3, 2, 10, 10));
         loginpanel.setBackground(new Color(25, 25, 112)); // Color de fondo consistente
@@ -171,6 +172,7 @@ public class MenuUI extends JFrame {
     
     
     private void createSignupPanel() {
+    	cardLayout.show(rightPanel, "Sign up");
         JPanel panel = new JPanel(new BorderLayout());
         JPanel initialPanel = new JPanel(new GridLayout(3, 2));
         initialPanel.setBackground(new Color(25, 25, 112));
@@ -313,7 +315,7 @@ public class MenuUI extends JFrame {
                     JOptionPane.showMessageDialog(this, "Manager registered successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
                 }
 
-                showLoginDialog();
+                createLoginPanel();
             } catch (NoSuchAlgorithmException e) {
                 e.printStackTrace();
                 JOptionPane.showMessageDialog(this, "Error during sign-up process.", "Error", JOptionPane.ERROR_MESSAGE);
