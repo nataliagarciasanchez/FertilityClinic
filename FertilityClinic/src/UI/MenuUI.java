@@ -208,11 +208,15 @@ public class MenuUI extends JFrame {
 
         JLabel emailLabel = new JLabel("Email:");
         emailLabel.setForeground(Color.WHITE);
+        emailLabel.setFont(new Font("Calibri", Font.BOLD, 20));
         JTextField emailField = new JTextField();
+        emailField.setFont(new Font("Calibri", Font.PLAIN, 18));
 
         JLabel passwordLabel = new JLabel("Password:");
         passwordLabel.setForeground(Color.WHITE);
+        passwordLabel.setFont(new Font("Calibri", Font.BOLD, 20));
         JPasswordField passwordField = new JPasswordField();
+        passwordField.setFont(new Font("Calibri", Font.PLAIN, 18));
 
         JLabel roleLabel = new JLabel("Role:");
         roleLabel.setForeground(Color.WHITE);
@@ -225,18 +229,26 @@ public class MenuUI extends JFrame {
         fieldsPanel.add(roleLabel);
         fieldsPanel.add(roleComboBox);
         
-     // Role specific panels
+       // Role specific panels
         JPanel roleSpecificPanel = new JPanel(new CardLayout());
+        
         // Patient Panel
         JPanel patientPanel = new JPanel(new GridLayout(8, 2));
         patientPanel.setBackground(new Color(25, 25, 112));
         JTextField nameField = new JTextField();
+        nameField.setForeground(Color.WHITE);
         JTextField phoneField = new JTextField();
+        phoneField.setForeground(Color.WHITE);
         JTextField heightField = new JTextField();
+        heightField.setForeground(Color.WHITE);
         JTextField weightField = new JTextField();
+        weightField.setForeground(Color.WHITE);
         JTextField bloodTypeField = new JTextField();
+        bloodTypeField.setForeground(Color.WHITE);
         JTextField dobField = new JTextField();
+        dobField.setForeground(Color.WHITE);
         JTextField genderField = new JTextField();
+        genderField.setForeground(Color.WHITE);
         patientPanel.add(new JLabel("Name:"));
         patientPanel.add(nameField);
         patientPanel.add(new JLabel("Phone:"));
