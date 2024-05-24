@@ -31,7 +31,8 @@ public class PatientPanel extends JPanel {
     private void initializeUI() {
         currentPanel = panelesLadoIzq(); 
         setLayout(new BorderLayout());
-        add(currentPanel, BorderLayout.CENTER);
+        add(createTopPanel(), BorderLayout.NORTH); // Adds the top panel at the top
+        add(currentPanel, BorderLayout.CENTER); // Adds the side panel in the center
     }
     
     private void showCurrentPanel() {
@@ -45,52 +46,67 @@ public class PatientPanel extends JPanel {
     
     //Buttons Panel
     private JPanel panelesLadoIzq() {
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
-        buttonPanel.setBackground(new Color(25, 25, 112)); 
+    	JPanel buttonPanel = new JPanel();
+    	buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
+    	buttonPanel.setBackground(new Color(25, 25, 112));
 
-        JButton op1 = new JButton("View My Information");
-        JButton op2 = new JButton("Update My Information");
-        JButton op3 = new JButton("My appointments");
-        JButton op4 = new JButton("View All Doctors");
-        JButton op5 = new JButton("My Treatment");
-        
+    	JButton op1 = new JButton("View My Information");
+    	JButton op2 = new JButton("Update My Information");
+    	JButton op3 = new JButton("My appointments");
+    	JButton op4 = new JButton("View All Doctors");
+    	JButton op5 = new JButton("My Treatment");
 
-        op1.setMaximumSize(new Dimension(Integer.MAX_VALUE, op1.getMinimumSize().height));
-        op2.setMaximumSize(new Dimension(Integer.MAX_VALUE, op2.getMinimumSize().height));
-        op3.setMaximumSize(new Dimension(Integer.MAX_VALUE, op3.getMinimumSize().height));
-        op4.setMaximumSize(new Dimension(Integer.MAX_VALUE, op4.getMinimumSize().height));
-        op5.setMaximumSize(new Dimension(Integer.MAX_VALUE, op5.getMinimumSize().height));
-        
-        Font buttonFont = new Font("Calibri", Font.BOLD, 20);
-        op1.setFont(buttonFont);
-        op1.setBackground(Color.WHITE);
-        op1.setForeground(Color.BLACK);
-        op2.setFont(buttonFont);
-        op2.setForeground(Color.BLACK);
-        op3.setFont(buttonFont);
-        op3.setBackground(Color.WHITE);
-        op3.setForeground(Color.BLACK);
-        op4.setFont(buttonFont);
-        op4.setBackground(Color.WHITE);
-        op4.setForeground(Color.BLACK);
-        op5.setFont(buttonFont);
-        op5.setBackground(Color.WHITE);
-        op5.setForeground(Color.BLACK);
-        
-        op1.addActionListener(e -> viewMyinfoPanel());
-        op2.addActionListener(e -> updateInfoPanel());
-        op3.addActionListener(e -> appointmentsPanel());
-        op4.addActionListener(e -> viewAllDoctorsPanel());
-        op5.addActionListener(e -> myTreatmentPanel());
+    	Font buttonFont = new Font("Calibri", Font.BOLD, 18); // Font size set to 18
 
-        buttonPanel.add(op1);
-        buttonPanel.add(op2);
-        buttonPanel.add(op3);
-        buttonPanel.add(op4);
-        buttonPanel.add(op5);
+    	op1.setFont(buttonFont);
+    	op1.setBackground(Color.WHITE);
+    	op1.setForeground(Color.BLACK);
+    	op1.setAlignmentX(Component.CENTER_ALIGNMENT); // Center alignment
+    	op1.setMaximumSize(new Dimension(Integer.MAX_VALUE, op1.getMinimumSize().height));
 
-        return buttonPanel;
+    	op2.setFont(buttonFont);
+    	op2.setBackground(Color.WHITE);
+    	op2.setForeground(Color.BLACK);
+    	op2.setAlignmentX(Component.CENTER_ALIGNMENT); // Center alignment
+    	op2.setMaximumSize(new Dimension(Integer.MAX_VALUE, op2.getMinimumSize().height));
+
+    	op3.setFont(buttonFont);
+    	op3.setBackground(Color.WHITE);
+    	op3.setForeground(Color.BLACK);
+    	op3.setAlignmentX(Component.CENTER_ALIGNMENT); // Center alignment
+    	op3.setMaximumSize(new Dimension(Integer.MAX_VALUE, op3.getMinimumSize().height));
+
+    	op4.setFont(buttonFont);
+    	op4.setBackground(Color.WHITE);
+    	op4.setForeground(Color.BLACK);
+    	op4.setAlignmentX(Component.CENTER_ALIGNMENT); // Center alignment
+    	op4.setMaximumSize(new Dimension(Integer.MAX_VALUE, op4.getMinimumSize().height));
+
+    	op5.setFont(buttonFont);
+    	op5.setBackground(Color.WHITE);
+    	op5.setForeground(Color.BLACK);
+    	op5.setAlignmentX(Component.CENTER_ALIGNMENT); // Center alignment
+    	op5.setMaximumSize(new Dimension(Integer.MAX_VALUE, op5.getMinimumSize().height));
+
+    	op1.addActionListener(e -> viewMyinfoPanel());
+    	op2.addActionListener(e -> updateInfoPanel());
+    	op3.addActionListener(e -> appointmentsPanel());
+    	op4.addActionListener(e -> viewAllDoctorsPanel());
+    	op5.addActionListener(e -> myTreatmentPanel());
+
+    	buttonPanel.add(Box.createRigidArea(new Dimension(0, 10))); // Add space at the top
+    	buttonPanel.add(op1);
+    	buttonPanel.add(Box.createRigidArea(new Dimension(0, 10))); // Add space between buttons
+    	buttonPanel.add(op2);
+    	buttonPanel.add(Box.createRigidArea(new Dimension(0, 10))); // Add space between buttons
+    	buttonPanel.add(op3);
+    	buttonPanel.add(Box.createRigidArea(new Dimension(0, 10))); // Add space between buttons
+    	buttonPanel.add(op4);
+    	buttonPanel.add(Box.createRigidArea(new Dimension(0, 10))); // Add space between buttons
+    	buttonPanel.add(op5);
+
+    	return buttonPanel;
+
     }
 
     //OPTION 1
