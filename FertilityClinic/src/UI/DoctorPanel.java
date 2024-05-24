@@ -114,6 +114,7 @@ public class DoctorPanel extends JPanel {
 
 
   //OPTION 1
+  //OPTION 1
     private void viewMyinfoPanel() {
         Doctor doctor = doctorManager.viewMyInfo(doctorId);
 
@@ -129,35 +130,43 @@ public class DoctorPanel extends JPanel {
             infoPanel.add(new JLabel("Phone: " + doctor.getPhone()));
             infoPanel.add(new JLabel("Speciality: " + doctor.getSpeciality().getName()));
 
-            // Si licensePDF no es nulo, muestra un botón para abrir/guardar el PDF
-            if (doctor.getLicensePDF() != null && doctor.getLicensePDF().length > 0) {
-                JButton btnViewPDF = new JButton("View Photo");
-                btnViewPDF.setFont(new Font("Calibri", Font.BOLD, 18)); // Establecer fuente para el botón
-                btnViewPDF.setBackground(Color.WHITE); // Fondo blanco
-                btnViewPDF.setForeground(Color.BLACK); // Texto negro
-                btnViewPDF.addActionListener(e -> {
-                    // Llama a un método que maneja la visualización del PDF
-                    displayPDF(doctor.getLicensePDF());
-                });
-                infoPanel.add(btnViewPDF);
-            } else {
-                infoPanel.add(new JLabel("No license file available."));
+            Font infoFont = new Font("Calibri", Font.PLAIN, 18); // Fuente tamaño 18 para mejor legibilidad
+            for (Component comp : infoPanel.getComponents()) {
+                if (comp instanceof JLabel) {
+                    ((JLabel) comp).setFont(infoFont); // Aplicar fuente a todas las etiquetas
+                }
             }
         } else {
             infoPanel.add(new JLabel("No information available."));
         }
 
-        Font infoFont = new Font("Calibri", Font.PLAIN, 18); // Fuente tamaño 18 para mejor legibilidad
-        for (Component comp : infoPanel.getComponents()) {
-            if (comp instanceof JLabel) {
-                ((JLabel) comp).setFont(infoFont); // Aplicar fuente a todas las etiquetas
-            }
+        // Crear el panel izquierdo con el botón "View Photo"
+        JPanel leftPanel = new JPanel();
+        leftPanel.setLayout(new BorderLayout());
+        leftPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Padding
+
+        if (doctor != null && doctor.getLicensePDF() != null && doctor.getLicensePDF().length > 0) {
+            JButton btnViewPDF = new JButton("View Photo");
+            btnViewPDF.setFont(new Font("Calibri", Font.BOLD, 18)); // Establecer fuente para el botón
+            btnViewPDF.setBackground(Color.WHITE); // Fondo blanco
+            btnViewPDF.setForeground(Color.BLACK); // Texto negro
+            btnViewPDF.addActionListener(e -> {
+                // Llama a un método que maneja la visualización del PDF
+                displayPDF(doctor.getLicensePDF());
+            });
+            leftPanel.add(btnViewPDF, BorderLayout.NORTH);
+        } else {
+            JLabel noPhotoLabel = new JLabel("No photo yet.");
+            noPhotoLabel.setFont(new Font("Calibri", Font.BOLD, 18));
+            leftPanel.add(noPhotoLabel, BorderLayout.NORTH);
         }
 
+        wrapperPanel.add(leftPanel, BorderLayout.WEST);
         wrapperPanel.add(infoPanel, BorderLayout.CENTER);
         currentPanel = wrapperPanel; // Establecer el panel actual al panel envolvente
         showCurrentPanel(); // Mostrar el panel actual en el contenedor principal
     }
+
     
     /*
     private void viewMyinfoPanel() {
