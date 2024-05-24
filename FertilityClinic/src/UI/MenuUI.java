@@ -26,7 +26,7 @@ public class MenuUI extends JFrame {
     private SpecialityManager specialityManager;
     private StockManager stockManager;
     private User loggedInUser;
-    private JPanel rightPanel = new JPanel(new BorderLayout());
+    private JPanel rightPanel = new JPanel(new CardLayout());
    
     public MenuUI() {
         
@@ -166,7 +166,8 @@ public class MenuUI extends JFrame {
     
     private void showSignUpDialog() {
        // JPanel panel = new JPanel(new BorderLayout());
-        //JPanel initialPanel = new JPanel(new GridLayout(3, 2));
+        JPanel initialPanel = new JPanel(new GridLayout(3, 2));
+        initialPanel.setBackground(new Color(25, 25, 112));
         JTextField emailField = new JTextField();
         JPasswordField passwordField = new JPasswordField();
         JComboBox<Role> roleComboBox = new JComboBox<>(new DefaultComboBoxModel<>(userManager.getRoles().toArray(new Role[0])));
@@ -183,11 +184,12 @@ public class MenuUI extends JFrame {
         
 
         JPanel roleSpecificPanel = new JPanel(new CardLayout());
-        
+        roleSpecificPanel.setBackground(new Color(25, 25, 112));
         
 
         //Patient
         JPanel patientPanel = new JPanel(new GridLayout(8, 2));
+        patientPanel.setBackground(new Color(25, 25, 112));
         JTextField nameField = new JTextField();
         nameField.setForeground(Color.WHITE);
         JTextField phoneField = new JTextField();
@@ -219,7 +221,8 @@ public class MenuUI extends JFrame {
         patientPanel.add(genderField);
 
         // Doctor 
-        JPanel doctorPanel = new JPanel(new GridLayout(5, 2));
+        JPanel doctorPanel = new JPanel(new GridLayout(8, 2));
+        doctorPanel.setBackground(new Color(25, 25, 112));
         JTextField doctorNameField = new JTextField();
         doctorNameField.setForeground(Color.WHITE);
         JTextField doctorPhoneField = new JTextField();
@@ -235,7 +238,8 @@ public class MenuUI extends JFrame {
         doctorPanel.add(specialityComboBox);
         
         //Manager
-        JPanel managerPanel = new JPanel(new GridLayout(5, 2));
+        JPanel managerPanel = new JPanel(new GridLayout(8, 2));
+        managerPanel.setBackground(new Color(25, 25, 112));
         JTextField managerNameField = new JTextField();
         managerNameField.setForeground(Color.WHITE);
         JTextField managerPhoneField = new JTextField();
