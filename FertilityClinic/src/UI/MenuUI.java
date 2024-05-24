@@ -477,6 +477,67 @@ public class MenuUI extends JFrame {
     }
 
 
+    private void addRoleFields(JPanel panel, String[] fields, boolean isPatient) {
+        for (String field : fields) {
+            JLabel label = new JLabel(field + ":");
+            label.setForeground(Color.WHITE);
+            label.setFont(new Font("Calibri", Font.BOLD, 20));
+            JTextField textField = new JTextField();
+            textField.setFont(new Font("Calibri", Font.PLAIN, 18));
+            if (isPatient) {
+                textField.setColumns(10); // Make fields narrower for patients
+            }
+            panel.add(label);
+            panel.add(textField);
+        }
+    }
+
+    private void addManagerFields(JPanel panel, String[] fields) {
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridwidth = GridBagConstraints.RELATIVE;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.weightx = 0.5;
+        int row = 0;
+        for (String field : fields) {
+            JLabel label = new JLabel(field + ":");
+            label.setForeground(Color.WHITE);
+            label.setFont(new Font("Calibri", Font.BOLD, 20));
+            JTextField textField = new JTextField();
+            textField.setFont(new Font("Calibri", Font.PLAIN, 18));
+            textField.setColumns(15);
+            gbc.gridx = 0;
+            gbc.gridy = row;
+            panel.add(label, gbc);
+            gbc.gridx = 1;
+            panel.add(textField, gbc);
+            row++;
+        }
+    }
+
+
+    
+    private JLabel setupImageLabel() {
+        JLabel imageLabel = new JLabel();
+        try {
+            File imagePath = new File("./logo/photo.png");
+            if (!imagePath.exists()) {
+                throw new IllegalArgumentException("Image file not found at: " + imagePath.getAbsolutePath());
+            }
+            ImageIcon originalIcon = new ImageIcon(imagePath.getAbsolutePath());
+            Image image = originalIcon.getImage();
+            Image newimg = image.getScaledInstance(300, 300, Image.SCALE_SMOOTH);
+            imageLabel.setIcon(new ImageIcon(newimg));
+        } catch (Exception e) {
+            e.printStackTrace();
+            imageLabel.setText("Image not found: " + e.getMessage());
+        }
+        imageLabel.setHorizontalAlignment(JLabel.CENTER);
+        imageLabel.setBorder(BorderFactory.createEmptyBorder(0, 150, 0, 0));
+        return imageLabel;
+    }
+
+
+
 
  /*   
     private void showInitialDialog() {
