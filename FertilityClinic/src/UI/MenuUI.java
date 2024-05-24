@@ -407,18 +407,22 @@ public class MenuUI extends JFrame {
         // Role specific panels
         JPanel roleSpecificPanel = new JPanel(new CardLayout());
         roleSpecificPanel.setBackground(new Color(25, 25, 112));
+        JPanel defaultPanel = new JPanel();
+        defaultPanel.setBackground(new Color(25, 25, 112));
+        
         JPanel patientPanel = new JPanel(new GridLayout(8, 2));
         patientPanel.setBackground(new Color(25, 25, 112));
-        addRoleFields(patientPanel, new String[]{"Name", "Phone", "Height", "Weight", "Blood Type", "DOB (yyyy-mm-dd)", "Gender"});
+        addRoleFields(patientPanel, new String[]{"Name", "Phone", "Height", "Weight", "Blood Type", "DOB (yyyy-mm-dd)", "Gender"}, true);
 
         JPanel doctorPanel = new JPanel(new GridLayout(5, 2));
         doctorPanel.setBackground(new Color(25, 25, 112));
-        addRoleFields(doctorPanel, new String[]{"Name", "Phone", "Speciality"});
+        addRoleFields(doctorPanel, new String[]{"Name", "Phone", "Speciality"}, false);
 
-        JPanel managerPanel = new JPanel(new GridLayout(5, 2));
+        JPanel managerPanel = new JPanel(new GridBagLayout());
         managerPanel.setBackground(new Color(25, 25, 112));
-        addRoleFields(managerPanel, new String[]{"Name", "Phone"});
+        addManagerFields(managerPanel, new String[]{"Name", "Phone"});
 
+        roleSpecificPanel.add(defaultPanel, "default");
         roleSpecificPanel.add(patientPanel, "patient");
         roleSpecificPanel.add(doctorPanel, "doctor");
         roleSpecificPanel.add(managerPanel, "manager");
@@ -446,17 +450,43 @@ public class MenuUI extends JFrame {
         return signupPanel;
     }
 
-    private void addRoleFields(JPanel panel, String[] fields) {
+    private void addRoleFields(JPanel panel, String[] fields, boolean isPatient) {
         for (String field : fields) {
             JLabel label = new JLabel(field + ":");
             label.setForeground(Color.WHITE);
             label.setFont(new Font("Calibri", Font.BOLD, 20));
             JTextField textField = new JTextField();
             textField.setFont(new Font("Calibri", Font.PLAIN, 18));
+            if (isPatient) {
+                textField.setColumns(10); // Make fields narrower for patients
+            }
             panel.add(label);
             panel.add(textField);
         }
     }
+
+    private void addManagerFields(JPanel panel, String[] fields) {
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridwidth = GridBagConstraints.RELATIVE;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.weightx = 0.5;
+        int row = 0;
+        for (String field : fields) {
+            JLabel label = new JLabel(field + ":");
+            label.setForeground(Color.WHITE);
+            label.setFont(new Font("Calibri", Font.BOLD, 20));
+            JTextField textField = new JTextField();
+            textField.setFont(new Font("Calibri", Font.PLAIN, 18));
+            textField.setColumns(15);
+            gbc.gridx = 0;
+            gbc.gridy = row;
+            panel.add(label, gbc);
+            gbc.gridx = 1;
+            panel.add(textField, gbc);
+            row++;
+        }
+    }
+
 
     
     private JLabel setupImageLabel() {
