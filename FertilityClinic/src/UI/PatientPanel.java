@@ -317,16 +317,22 @@ public class PatientPanel extends JPanel {
     
     private JPanel currentAppointmentsPanel() {
         JPanel panel = new JPanel(new GridLayout(0, 1)); // Usa GridLayout para una sola columna
+        panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Espaciado de 10 píxeles alrededor
         ArrayList<Appointment> appointments = appointmentManager.viewAppointment(patientId);
 
+        Font labelFont = new Font("Calibri", Font.BOLD, 18); // Ajustar el tamaño de la fuente
+
         if (appointments.isEmpty()) {
-            panel.add(new JLabel("No appointments yet."));
+            JLabel noAppointmentsLabel = new JLabel("No appointments yet.");
+            noAppointmentsLabel.setFont(labelFont);
+            panel.add(noAppointmentsLabel);
         } else {
             for (Appointment appointment : appointments) {
                 JLabel appointmentLabel = new JLabel("<html><b>Date:</b> " + appointment.getDate() +
                     " <b>Time:</b> " + appointment.getTime() + 
                     " <b>Doctor's name:</b> " + doctorManager.searchDoctorById(appointment.getDoctorId()).getName() +
                     " <b>Description:</b> " + appointment.getDescription() + "</html>");
+                appointmentLabel.setFont(labelFont);
                 panel.add(appointmentLabel);
             }
         }

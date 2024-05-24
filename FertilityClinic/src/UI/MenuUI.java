@@ -115,7 +115,6 @@ public class MenuUI extends JFrame {
         setVisible(true);
         cardLayout.show(rightPanel, "Initial");  // Mostrar el panel inicial por defecto
     }
-
     private JPanel createLoginPanel() {
         JPanel loginPanel = new JPanel(new BorderLayout());
         loginPanel.setBackground(new Color(25, 25, 112));
@@ -163,20 +162,15 @@ public class MenuUI extends JFrame {
         JButton cancelButton = new JButton("Cancel");
 
         loginButton.addActionListener(e -> {
-            int result = JOptionPane.showConfirmDialog(null, fieldsPanel, "Login", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
-            if (result == JOptionPane.OK_OPTION) {
-                String email = emailField.getText();
-                String password = new String(passwordField.getPassword());
-                loggedInUser = userManager.checkPassword(email, password);
-                if (loggedInUser != null) {
-                    System.out.println("Login successful");
-                    loadUserInterface(loggedInUser);
-                } else {
-                    JOptionPane.showMessageDialog(loginPanel, "Invalid email or password.", "Error", JOptionPane.ERROR_MESSAGE);
-                    cardLayout.show(rightPanel, "Login");
-                }
-            } else if (result == JOptionPane.CANCEL_OPTION) {
-                cardLayout.show(rightPanel, "Initial");
+            String email = emailField.getText();
+            String password = new String(passwordField.getPassword());
+            loggedInUser = userManager.checkPassword(email, password);
+            if (loggedInUser != null) {
+                JOptionPane.showMessageDialog(loginPanel, "Login successful.", "Success", JOptionPane.INFORMATION_MESSAGE);
+                loadUserInterface(loggedInUser);
+            } else {
+                JOptionPane.showMessageDialog(loginPanel, "Invalid email or password.", "Error", JOptionPane.ERROR_MESSAGE);
+                cardLayout.show(rightPanel, "Login");
             }
         });
 
@@ -196,6 +190,7 @@ public class MenuUI extends JFrame {
 
         return loginPanel;
     }
+
  /*
     private JPanel createSignupPanel() {
         JPanel signupPanel = new JPanel(new BorderLayout());
