@@ -395,6 +395,7 @@ public class MenuUI extends JFrame {
         roleLabel.setForeground(Color.WHITE);
         roleLabel.setFont(new Font("Calibri", Font.BOLD, 20));
         JComboBox<Role> roleComboBox = new JComboBox<>(new DefaultComboBoxModel<>(userManager.getRoles().toArray(new Role[0])));
+        roleComboBox.setForeground(Color.WHITE);
         roleComboBox.setFont(new Font("Calibri", Font.PLAIN, 18));
 
         fieldsPanel.add(emailLabel);
@@ -410,15 +411,15 @@ public class MenuUI extends JFrame {
         JPanel defaultPanel = new JPanel();
         defaultPanel.setBackground(new Color(25, 25, 112));
         
-        JPanel patientPanel = new JPanel(new GridLayout(8, 2));
+        JPanel patientPanel = new JPanel(new GridLayout(8, 2, 10, 10));
         patientPanel.setBackground(new Color(25, 25, 112));
         addRoleFields(patientPanel, new String[]{"Name", "Phone", "Height", "Weight", "Blood Type", "DOB (yyyy-mm-dd)", "Gender"}, true);
 
-        JPanel doctorPanel = new JPanel(new GridLayout(5, 2));
+        JPanel doctorPanel = new JPanel(new GridLayout(8, 2, 10, 10));
         doctorPanel.setBackground(new Color(25, 25, 112));
         addRoleFields(doctorPanel, new String[]{"Name", "Phone", "Speciality"}, false);
 
-        JPanel managerPanel = new JPanel(new GridBagLayout());
+        JPanel managerPanel = new JPanel(new GridLayout(8, 2, 10, 10));
         managerPanel.setBackground(new Color(25, 25, 112));
         addManagerFields(managerPanel, new String[]{"Name", "Phone"});
 
