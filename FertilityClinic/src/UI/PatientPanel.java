@@ -116,39 +116,34 @@ public class PatientPanel extends JPanel {
     private void viewMyinfoPanel() {
         Patient patient = patientManager.viewMyInfo(patientId);
 
-        // Set up the main information panel with GridBagLayout for flexible positioning
-        JPanel infoPanel = new JPanel(new GridBagLayout());
-        infoPanel.setBackground(new Color(25, 25, 112)); // Set background color
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.gridwidth = GridBagConstraints.REMAINDER; // Each component in its own row
-        gbc.anchor = GridBagConstraints.NORTHWEST; // Align components to the top-left
-        gbc.insets = new Insets(20, 50, 10, 10); // Top, left, bottom, right padding
-
-        Font infoFont = new Font("Calibri", Font.PLAIN, 18); // Font settings for readability
+        // Using a wrapper panel to provide padding
+        JPanel wrapperPanel = new JPanel(new BorderLayout());
+        JPanel infoPanel = new JPanel();
+        infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
+        infoPanel.setBorder(BorderFactory.createEmptyBorder(10, 50, 10, 10)); // Top, left, bottom, right padding
 
         if (patient != null) {
-            infoPanel.add(new JLabel("Name: " + patient.getName()), gbc);
-            infoPanel.add(new JLabel("Date of Birth: " + patient.getDob().toString()), gbc);
-            infoPanel.add(new JLabel("Gender: " + patient.getGender()), gbc);
-            infoPanel.add(new JLabel("Email: " + patient.getEmail()), gbc);
-            infoPanel.add(new JLabel("Phone: " + patient.getPhone()), gbc);
-            infoPanel.add(new JLabel("Height: " + patient.getHeight()), gbc);
-            infoPanel.add(new JLabel("Weight: " + patient.getWeight()), gbc);
-            infoPanel.add(new JLabel("Blood Type: " + patient.getBloodType()), gbc);
+            infoPanel.add(new JLabel("Name: " + patient.getName()));
+            infoPanel.add(new JLabel("Date of Birth: " + patient.getDob().toString()));
+            infoPanel.add(new JLabel("Gender: " + patient.getGender()));
+            infoPanel.add(new JLabel("Email: " + patient.getEmail()));
+            infoPanel.add(new JLabel("Phone: " + patient.getPhone()));
+            infoPanel.add(new JLabel("Height: " + patient.getHeight()));
+            infoPanel.add(new JLabel("Weight: " + patient.getWeight()));
+            infoPanel.add(new JLabel("Blood Type: " + patient.getBloodType()));
         } else {
-            JLabel noInfoLabel = new JLabel("No information available.");
-            noInfoLabel.setFont(infoFont);
-            infoPanel.add(noInfoLabel, gbc);
+            infoPanel.add(new JLabel("No information available."));
         }
 
-        // Set the font for all components added to the panel
+        Font infoFont = new Font("Calibri", Font.PLAIN, 18); // Setting the font size to 18 for better readability
         for (Component comp : infoPanel.getComponents()) {
             if (comp instanceof JLabel) {
-                comp.setFont(infoFont);
+                ((JLabel) comp).setFont(infoFont); // Apply font to all labels
             }
         }
 
-        currentPanel = infoPanel; // Set the current panel to the info panel
+        wrapperPanel.add(infoPanel, BorderLayout.CENTER);
+        currentPanel = wrapperPanel; // Setting the current panel to the wrapper panel
         showCurrentPanel(); // Display the current panel in the main container
     }
 
