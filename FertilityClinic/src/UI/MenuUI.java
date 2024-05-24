@@ -120,21 +120,43 @@ public class MenuUI extends JFrame {
         JPanel loginPanel = new JPanel(new BorderLayout());
         loginPanel.setBackground(new Color(25, 25, 112));
 
-        JPanel fieldsPanel = new JPanel(new GridLayout(2, 2, 10, 10));
+        JPanel fieldsPanel = new JPanel(new GridBagLayout()); // Usamos GridBagLayout para más control
         fieldsPanel.setBackground(new Color(25, 25, 112));
+        GridBagConstraints gbc = new GridBagConstraints();
 
         JLabel emailLabel = new JLabel("Email:");
         emailLabel.setForeground(Color.WHITE);
-        JTextField emailField = new JTextField();
+        emailLabel.setFont(new Font("Calibri", Font.BOLD, 20)); // Fuente más grande para las etiquetas
+
+        JTextField emailField = new JTextField(15); // Tamaño reducido del campo de texto
+        emailField.setHorizontalAlignment(JTextField.CENTER); // Texto centrado
 
         JLabel passwordLabel = new JLabel("Password:");
         passwordLabel.setForeground(Color.WHITE);
-        JPasswordField passwordField = new JPasswordField();
+        passwordLabel.setFont(new Font("Calibri", Font.BOLD, 20)); // Fuente más grande para las etiquetas
 
-        fieldsPanel.add(emailLabel);
-        fieldsPanel.add(emailField);
-        fieldsPanel.add(passwordLabel);
-        fieldsPanel.add(passwordField);
+        JPasswordField passwordField = new JPasswordField(15); // Tamaño reducido del campo de texto
+        passwordField.setHorizontalAlignment(JTextField.CENTER); // Texto centrado
+
+        // Configuración de los componentes en el GridBagLayout
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.insets = new Insets(10, 0, 5, 10); // Padding top, left, bottom, right
+        fieldsPanel.add(emailLabel, gbc);
+
+        gbc.gridx = 1;
+        gbc.gridy = 0;
+        fieldsPanel.add(emailField, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.insets = new Insets(5, 0, 10, 10); // Padding más ajustado entre la etiqueta y el campo
+        fieldsPanel.add(passwordLabel, gbc);
+
+        gbc.gridx = 1;
+        gbc.gridy = 1;
+        fieldsPanel.add(passwordField, gbc);
 
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
         buttonPanel.setBackground(new Color(25, 25, 112));
@@ -160,7 +182,6 @@ public class MenuUI extends JFrame {
             }
         });
 
-
         cancelButton.addActionListener(e -> cardLayout.show(rightPanel, "Initial"));
 
         buttonPanel.add(loginButton);
@@ -171,6 +192,7 @@ public class MenuUI extends JFrame {
 
         return loginPanel;
     }
+
 
     private JPanel createSignupPanel() {
         JPanel signupPanel = new JPanel(new BorderLayout());
