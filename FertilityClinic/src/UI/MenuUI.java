@@ -192,6 +192,69 @@ public class MenuUI extends JFrame {
         fieldsPanel.add(passwordField);
         fieldsPanel.add(roleLabel);
         fieldsPanel.add(roleComboBox);
+        
+     // Role specific panels
+        JPanel roleSpecificPanel = new JPanel(new CardLayout());
+        // Patient Panel
+        JPanel patientPanel = new JPanel(new GridLayout(8, 2));
+        patientPanel.setBackground(new Color(25, 25, 112));
+        JTextField nameField = new JTextField();
+        JTextField phoneField = new JTextField();
+        JTextField heightField = new JTextField();
+        JTextField weightField = new JTextField();
+        JTextField bloodTypeField = new JTextField();
+        JTextField dobField = new JTextField();
+        JTextField genderField = new JTextField();
+        patientPanel.add(new JLabel("Name:"));
+        patientPanel.add(nameField);
+        patientPanel.add(new JLabel("Phone:"));
+        patientPanel.add(phoneField);
+        patientPanel.add(new JLabel("Height:"));
+        patientPanel.add(heightField);
+        patientPanel.add(new JLabel("Weight:"));
+        patientPanel.add(weightField);
+        patientPanel.add(new JLabel("Blood Type:"));
+        patientPanel.add(bloodTypeField);
+        patientPanel.add(new JLabel("DOB (yyyy-mm-dd):"));
+        patientPanel.add(dobField);
+        patientPanel.add(new JLabel("Gender:"));
+        patientPanel.add(genderField);
+
+        // Doctor Panel
+        JPanel doctorPanel = new JPanel(new GridLayout(5, 2));
+        doctorPanel.setBackground(new Color(25, 25, 112));
+        JTextField doctorNameField = new JTextField();
+        JTextField doctorPhoneField = new JTextField();
+        JComboBox<Speciality> specialityComboBox = new JComboBox<>(new DefaultComboBoxModel<>(getSpecialities().toArray(new Speciality[0])));
+        doctorPanel.add(new JLabel("Name:"));
+        doctorPanel.add(doctorNameField);
+        doctorPanel.add(new JLabel("Phone:"));
+        doctorPanel.add(doctorPhoneField);
+        doctorPanel.add(new JLabel("Speciality:"));
+        doctorPanel.add(specialityComboBox);
+
+        // Manager Panel
+        JPanel managerPanel = new JPanel(new GridLayout(5, 2));
+        managerPanel.setBackground(new Color(25, 25, 112));
+        JTextField managerNameField = new JTextField();
+        JTextField managerPhoneField = new JTextField();
+        managerPanel.add(new JLabel("Name:"));
+        managerPanel.add(managerNameField);
+        managerPanel.add(new JLabel("Phone:"));
+        managerPanel.add(managerPhoneField);
+
+        roleSpecificPanel.add(new JPanel(), "default"); // Default empty panel
+        roleSpecificPanel.add(patientPanel, "patient");
+        roleSpecificPanel.add(doctorPanel, "doctor");
+        roleSpecificPanel.add(managerPanel, "manager");
+
+        roleComboBox.addActionListener(e -> {
+            CardLayout cl = (CardLayout) roleSpecificPanel.getLayout();
+            Role selectedRole = (Role) roleComboBox.getSelectedItem();
+            if (selectedRole != null) {
+                cl.show(roleSpecificPanel, selectedRole.getName());
+            }
+        });
 
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
         buttonPanel.setBackground(new Color(25, 25, 112));
@@ -248,7 +311,8 @@ public class MenuUI extends JFrame {
         buttonPanel.add(signupButton);
         buttonPanel.add(cancelButton);
 
-        signupPanel.add(fieldsPanel, BorderLayout.CENTER);
+        signupPanel.add(fieldsPanel, BorderLayout.NORTH);
+        signupPanel.add(roleSpecificPanel, BorderLayout.CENTER);
         signupPanel.add(buttonPanel, BorderLayout.SOUTH);
 
         return signupPanel;
