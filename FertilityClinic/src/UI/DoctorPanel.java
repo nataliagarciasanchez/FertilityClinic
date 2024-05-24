@@ -1,5 +1,9 @@
 package UI;
 
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.rendering.PDFRenderer;
+import org.apache.pdfbox.rendering.ImageType;
+
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
@@ -174,10 +178,15 @@ public class DoctorPanel extends JPanel {
             // Intentar cargar la foto si está disponible
             if (doctor.getLicensePDF() != null && doctor.getLicensePDF().length > 0) {
                 try {
-                    ImageIcon imageIcon = new ImageIcon(doctor.getLicensePDF());
-                    Image image = imageIcon.getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH);
-                    JLabel imageLabel = new JLabel(new ImageIcon(image));
-                    infoPanel.add(imageLabel);
+                    // Convertir el PDF a una imagen
+                    BufferedImage pdfImage = convertPDFToImage(doctor.getLicensePDF());
+                    if (pdfImage != null) {
+                        Image scaledImage = pdfImage.getScaledInstance(200, 200, Image.SCALE_SMOOTH);
+                        JLabel imageLabel = new JLabel(new ImageIcon(scaledImage));
+                        infoPanel.add(imageLabel);
+                    } else {
+                        infoPanel.add(new JLabel("Failed to load photo."));
+                    }
                 } catch (Exception e) {
                     infoPanel.add(new JLabel("Failed to load photo."));
                 }
@@ -200,6 +209,15 @@ public class DoctorPanel extends JPanel {
         showCurrentPanel(); // Mostrar el panel actual en el contenedor principal
     }
 
+    private BufferedImage convertPDFToImage(byte[] pdfBytes) {
+        try (PDDocument document = PDDocument.load(new ByteArrayInputStream(pdfBytes))) {
+            PDFRenderer pdfRenderer = new PDFRenderer(document);
+            return pdfRenderer.renderImageWithDPI(0, 300, ImageType.RGB); // Renderizar la primera página a 300 DPI
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
 
     /**
