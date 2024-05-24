@@ -115,8 +115,7 @@ public class MenuUI extends JFrame {
         cardLayout.show(rightPanel, "Initial");  // Mostrar el panel inicial por defecto
     }
     private JPanel createLoginPanel() {
-        JPanel loginPanel = new JPanel();
-        loginPanel.setLayout(new BorderLayout());
+        JPanel loginPanel = new JPanel(new BorderLayout());
         loginPanel.setBackground(new Color(25, 25, 112));
 
         JPanel fieldsPanel = new JPanel(new GridLayout(2, 2, 10, 10));
@@ -135,15 +134,22 @@ public class MenuUI extends JFrame {
         fieldsPanel.add(passwordLabel);
         fieldsPanel.add(passwordField);
 
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
         buttonPanel.setBackground(new Color(25, 25, 112));
         JButton loginButton = new JButton("Login");
         JButton cancelButton = new JButton("Cancel");
 
         loginButton.addActionListener(e -> {
-            // Aquí iría la lógica para verificar el login
-            System.out.println("Login attempt");
+            String email = emailField.getText();
+            String password = new String(passwordField.getPassword());
+            // Aquí simularía un intento de login
+            boolean isValidUser = userManager.checkPassword(email, password);
+            if (isValidUser) {
+                System.out.println("Login successful");
+                // Aquí podrías llamar a una función que cambie la interfaz de usuario al entorno del usuario logueado
+            } else {
+                JOptionPane.showMessageDialog(loginPanel, "Invalid email or password.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
         });
         cancelButton.addActionListener(e -> cardLayout.show(rightPanel, "Initial"));
 
@@ -155,12 +161,12 @@ public class MenuUI extends JFrame {
 
         return loginPanel;
     }
-    private JPanel createLoginPanel() {
-        JPanel loginPanel = new JPanel();
-        loginPanel.setLayout(new BorderLayout());
-        loginPanel.setBackground(new Color(25, 25, 112));
 
-        JPanel fieldsPanel = new JPanel(new GridLayout(2, 2, 10, 10));
+    private JPanel createSignupPanel() {
+        JPanel signupPanel = new JPanel(new BorderLayout());
+        signupPanel.setBackground(new Color(25, 25, 112));
+
+        JPanel fieldsPanel = new JPanel(new GridLayout(3, 2, 10, 10));
         fieldsPanel.setBackground(new Color(25, 25, 112));
 
         JLabel emailLabel = new JLabel("Email:");
@@ -171,31 +177,67 @@ public class MenuUI extends JFrame {
         passwordLabel.setForeground(Color.WHITE);
         JPasswordField passwordField = new JPasswordField();
 
+        JLabel roleLabel = new JLabel("Role:");
+        roleLabel.setForeground(Color.WHITE);
+        JComboBox<Role> roleComboBox = new JComboBox<>(new DefaultComboBoxModel<>(userManager.getRoles().toArray(new Role[0])));
+
         fieldsPanel.add(emailLabel);
         fieldsPanel.add(emailField);
         fieldsPanel.add(passwordLabel);
         fieldsPanel.add(passwordField);
+        fieldsPanel.add(roleLabel);
+        fieldsPanel.add(roleComboBox);
 
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
         buttonPanel.setBackground(new Color(25, 25, 112));
-        JButton loginButton = new JButton("Login");
+        JButton signupButton = new JButton("Sign up");
         JButton cancelButton = new JButton("Cancel");
 
-        loginButton.addActionListener(e -> {
-            // Aquí iría la lógica para verificar el login
-            System.out.println("Login attempt");
+        signupButton.addActionListener(e -> {
+            String email = emailField.getText();
+            String password = new String(passwordField.getPassword())
+            Role selectedRole = (Role) roleComboBox.getSelectedItem();
+            // Aquí se simula el registro de un nuevo usuario
+            boolean isRegistered = userManager.registerNewUser(email, password, selectedRole);
+            if (isRegistered) {
+                JOptionPane.showMessageDialog(signupPanel, "Registration successful.", "Success", JOptionPane.INFORMATION_MESSAGE);
+                cardLayout.show(rightPanel, "Login");  // Cambiar a login tras registrarse exitosamente
+            } else {
+                JOptionPane.showMessageDialog(signupPanel, "Registration failed. Please try again.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
         });
         cancelButton.addActionListener(e -> cardLayout.show(rightPanel, "Initial"));
 
-        buttonPanel.add(loginButton);
+        buttonPanel.add(signupButton);
         buttonPanel.add(cancelButton);
 
-        loginPanel.add(fieldsPanel, BorderLayout.CENTER);
-        loginPanel.add(buttonPanel, BorderLayout.SOUTH);
+        signupPanel.add(fieldsPanel, BorderLayout.CENTER);
+        signupPanel.add(buttonPanel, BorderLayout.SOUTH);
 
-        return loginPanel;
+        return signupPanel;
     }
+
+    private JLabel setupImageLabel() {
+        JLabel imageLabel = new JLabel();
+        try {
+            File imagePath = new File("./logo/photo.png");
+            if (!imagePath.exists()) {
+                throw new IllegalArgumentException("Image file not found at: " + imagePath.getAbsolutePath());
+            }
+            ImageIcon originalIcon = new ImageIcon(imagePath.getAbsolutePath());
+            Image image = originalIcon.getImage();
+            Image newimg = image.getScaledInstance(300, 300, Image.SCALE_SMOOTH);
+            imageLabel.setIcon(new ImageIcon(newimg));
+        } catch (Exception e) {
+            e.printStackTrace();
+            imageLabel.setText("Image not found: " + e.getMessage());
+        }
+        imageLabel.setHorizontalAlignment(JLabel.CENTER);
+        imageLabel.setBorder(BorderFactory.createEmptyBorder(0, 150, 0, 0));
+        return imageLabel;
+    }
+
+
 
 
  /*   
@@ -259,27 +301,6 @@ public class MenuUI extends JFrame {
         add(mainPanel);
         setVisible(true);
     }
-
-    private JLabel setupImageLabel() {
-        JLabel imageLabel = new JLabel();
-        try {
-            File imagePath = new File("./logo/photo.png");
-            if (!imagePath.exists()) {
-                throw new IllegalArgumentException("Image file not found at: " + imagePath.getAbsolutePath());
-            }
-            ImageIcon originalIcon = new ImageIcon(imagePath.getAbsolutePath());
-            Image image = originalIcon.getImage();
-            Image newimg = image.getScaledInstance(300, 300, Image.SCALE_SMOOTH);
-            imageLabel.setIcon(new ImageIcon(newimg));
-        } catch (Exception e) {
-            e.printStackTrace();
-            imageLabel.setText("Image not found: " + e.getMessage());
-        }
-        imageLabel.setHorizontalAlignment(JLabel.CENTER);
-        imageLabel.setBorder(BorderFactory.createEmptyBorder(0, 150, 0, 0));
-        return imageLabel;
-    }
-
 
     private void createLoginPanel() {
     	cardLayout.show(rightPanel, "Login");
