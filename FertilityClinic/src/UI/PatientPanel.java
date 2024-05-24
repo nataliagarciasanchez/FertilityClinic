@@ -605,8 +605,11 @@ public class PatientPanel extends JPanel {
             repaint();
         });
 
+        JScrollPane scrollPane = new JScrollPane(resultPanel);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+
         doctorPanel.add(searchPanel, BorderLayout.NORTH);
-        doctorPanel.add(new JScrollPane(resultPanel), BorderLayout.CENTER);
+        doctorPanel.add(scrollPane, BorderLayout.CENTER);
 
         currentPanel = doctorPanel; // Establece el panel actual como el panel de información del paciente
         showCurrentPanel(); // Muestra el panel actual en el contenedor principal
@@ -632,10 +635,12 @@ public class PatientPanel extends JPanel {
             emailLabel.setFont(infoFont);
             doctorInfoPanel.add(emailLabel);
 
+            doctorInfoPanel.setPreferredSize(new Dimension(400, 100)); // Set preferred size for each doctor info panel
             resultPanel.add(doctorInfoPanel);
             resultPanel.add(Box.createRigidArea(new Dimension(0, 20))); // Add space between doctor panels
         }
     }
+
 
 
 /*
