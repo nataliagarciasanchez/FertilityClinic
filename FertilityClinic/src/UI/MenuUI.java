@@ -65,10 +65,12 @@ public class MenuUI extends JFrame {
       
         rightPanel.setBackground(new Color(25, 25, 112));
         
-        //JPanel lohinPanel = createLoginPanel();
-        //JPanel signupPanel = createSignupPanel();
-        // rightPanel.add(loginpanel, "login");
-        //rightPanel.add(signupPanel, "Signup");
+        JPanel lohinPanel = createLoginPanel();
+        JPanel signupPanel = createSignupPanel();
+        rightPanel.add(loginpanel, "login");
+        rightPanel.add(signupPanel, "Signup");
+        
+        
         JLabel titleLabel = new JLabel("NEW LIFE CLINIC", JLabel.CENTER);
         titleLabel.setFont(new Font("Calibri", Font.BOLD, 70));
         titleLabel.setForeground(Color.WHITE);
