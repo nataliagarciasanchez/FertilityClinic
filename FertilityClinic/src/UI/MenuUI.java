@@ -162,8 +162,8 @@ public class MenuUI extends JFrame {
         buttonPanel.add(signupButton);
         buttonPanel.add(cancelButton);
 
-        signupButton.addActionListener(e -> registerUser(emailField.getText(), new String(passwordField.getPassword()), roleComboBox));
-        cancelButton.addActionListener(e -> switchToLogin());
+        signupButton.addActionListener(e -> userManager.checkPassword(emailField.getText(), new String(passwordField.getPassword()), roleComboBox));
+        cancelButton.addActionListener(e -> (CardLayout) rightPanel.getLayout());
 
         signupPanel.add(buttonPanel, BorderLayout.SOUTH);
 
