@@ -152,8 +152,11 @@ public class PatientPanel extends JPanel {
     private void updateInfoPanel() {
         Patient patient = patientManager.viewMyInfo(patientId);
 
+        // Using a wrapper panel to provide padding
+        JPanel wrapperPanel = new JPanel(new BorderLayout());
         JPanel updatePanel = new JPanel();
         updatePanel.setLayout(new GridLayout(9, 2, 10, 10)); // 9 rows for including button row, with gaps for spacing
+        updatePanel.setBorder(BorderFactory.createEmptyBorder(10, 50, 10, 10)); // Top, left, bottom, right padding
 
         JTextField emailField = new JTextField(patient != null ? patient.getEmail() : "");
         JTextField phoneField = new JTextField(patient != null ? String.valueOf(patient.getPhone()) : "");
@@ -161,25 +164,65 @@ public class PatientPanel extends JPanel {
         JTextField heightField = new JTextField(patient != null ? String.valueOf(patient.getHeight()) : "");
         JTextField weightField = new JTextField(patient != null ? String.valueOf(patient.getWeight()) : "");
 
+        Font labelFont = new Font("Calibri", Font.BOLD, 18);
+        Font fieldFont = new Font("Calibri", Font.PLAIN, 18);
+
         // Adding labels and text fields
-        updatePanel.add(new JLabel("Name:"));
+        JLabel nameLabel = new JLabel("Name:");
+        nameLabel.setFont(labelFont);
+        updatePanel.add(nameLabel);
+        nameField.setFont(fieldFont);
         updatePanel.add(nameField);
-        updatePanel.add(new JLabel("Date of Birth:"));
-        updatePanel.add(new JLabel(patient != null ? patient.getDob().toString() : ""));
-        updatePanel.add(new JLabel("Gender:"));
-        updatePanel.add(new JLabel(patient != null ? patient.getGender() : ""));
-        updatePanel.add(new JLabel("Email:"));
+
+        JLabel dobLabel = new JLabel("Date of Birth:");
+        dobLabel.setFont(labelFont);
+        updatePanel.add(dobLabel);
+        JLabel dobValue = new JLabel(patient != null ? patient.getDob().toString() : "");
+        dobValue.setFont(fieldFont);
+        updatePanel.add(dobValue);
+
+        JLabel genderLabel = new JLabel("Gender:");
+        genderLabel.setFont(labelFont);
+        updatePanel.add(genderLabel);
+        JLabel genderValue = new JLabel(patient != null ? patient.getGender() : "");
+        genderValue.setFont(fieldFont);
+        updatePanel.add(genderValue);
+
+        JLabel emailLabel = new JLabel("Email:");
+        emailLabel.setFont(labelFont);
+        updatePanel.add(emailLabel);
+        emailField.setFont(fieldFont);
         updatePanel.add(emailField);
-        updatePanel.add(new JLabel("Phone:"));
+
+        JLabel phoneLabel = new JLabel("Phone:");
+        phoneLabel.setFont(labelFont);
+        updatePanel.add(phoneLabel);
+        phoneField.setFont(fieldFont);
         updatePanel.add(phoneField);
-        updatePanel.add(new JLabel("Height:"));
+
+        JLabel heightLabel = new JLabel("Height:");
+        heightLabel.setFont(labelFont);
+        updatePanel.add(heightLabel);
+        heightField.setFont(fieldFont);
         updatePanel.add(heightField);
-        updatePanel.add(new JLabel("Weight:"));
+
+        JLabel weightLabel = new JLabel("Weight:");
+        weightLabel.setFont(labelFont);
+        updatePanel.add(weightLabel);
+        weightField.setFont(fieldFont);
         updatePanel.add(weightField);
-        updatePanel.add(new JLabel("Blood Type:"));
-        updatePanel.add(new JLabel(patient != null ? patient.getBloodType() : ""));
+
+        JLabel bloodTypeLabel = new JLabel("Blood Type:");
+        bloodTypeLabel.setFont(labelFont);
+        updatePanel.add(bloodTypeLabel);
+        JLabel bloodTypeValue = new JLabel(patient != null ? patient.getBloodType() : "");
+        bloodTypeValue.setFont(fieldFont);
+        updatePanel.add(bloodTypeValue);
 
         JButton updateBtn = new JButton("Update");
+        updateBtn.setFont(new Font("Calibri", Font.BOLD, 18));
+        updateBtn.setBackground(Color.WHITE);
+        updateBtn.setForeground(Color.BLACK);
         updateBtn.addActionListener(e -> {
             try {
                 String email = emailField.getText();
@@ -203,20 +246,13 @@ public class PatientPanel extends JPanel {
             }
         });
 
-        updatePanel.add(new JLabel());
+        updatePanel.add(new JLabel()); // Placeholder for spacing
         updatePanel.add(updateBtn);
 
-        // Adding padding around the panel
-        JPanel paddedPanel = new JPanel(new BorderLayout());
-        paddedPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-        paddedPanel.add(updatePanel, BorderLayout.CENTER);
+        wrapperPanel.add(updatePanel, BorderLayout.CENTER);
 
-        // Set a preferred size to ensure the panel is somewhat square
-        paddedPanel.setPreferredSize(new Dimension(400, 400));
-
-        
-        currentPanel = updatePanel; // Establece el panel actual como el panel de información del paciente
-        showCurrentPanel(); // Muestra el panel actual en el contenedor principal
+        currentPanel = wrapperPanel; // Set the current panel to the wrapper panel
+        showCurrentPanel(); // Display the current panel in the main container
     }
 
     //OPTION 3
