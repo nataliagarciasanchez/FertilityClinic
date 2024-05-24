@@ -669,8 +669,8 @@ public class PatientPanel extends JPanel {
             nameLabel.setFont(labelFont);
             treatmentPanel.add(nameLabel);
 
-            String descriptionText = "Description: " + treatment.getDescription().replace("  ", "<br>"); // Replace double spaces with HTML line break
-            JLabel descriptionLabel = new JLabel("<html>" + descriptionText + "</html>"); // Wrap text in HTML to handle line breaks
+            String descriptionText = treatment.getDescription().replace("  ", "<br>").replaceAll("(\\d)", "<br>$1");
+            JLabel descriptionLabel = new JLabel("<html><b>Description:</b> " + descriptionText + "</html>"); // Wrap text in HTML to handle line breaks and bold
             descriptionLabel.setFont(infoFont);
             treatmentPanel.add(descriptionLabel);
 
