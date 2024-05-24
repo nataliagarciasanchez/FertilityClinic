@@ -14,7 +14,6 @@ import java.util.*;
 import java.io.File;
 
 
-
 public class MenuUI extends JFrame {
     
     private JDBCManager manager;
@@ -124,6 +123,10 @@ public class MenuUI extends JFrame {
 
 
     private void showLoginDialog() {
+        // Crear un panel con un diseño de cuadrícula para los campos de entrada
+        JPanel panel = new JPanel(new GridLayout(3, 2, 10, 10));
+        panel.setBackground(new Color(25, 25, 112)); // Color de fondo consistente
+
         // Crear los campos de texto y etiquetas con el estilo apropiado
         JLabel emailLabel = new JLabel("Email:");
         emailLabel.setForeground(Color.WHITE); // Color de texto para visibilidad
@@ -376,8 +379,6 @@ public class MenuUI extends JFrame {
     }*/
 
     public static void main(String[] args) {
-         SwingUtilities.invokeLater(() -> new MenuUI().setVisible(true));
-	}	
-
-
+        SwingUtilities.invokeLater(() -> new MenuUI().setVisible(true));
+    }//ultimos
 }
