@@ -26,6 +26,7 @@ public class MenuUI extends JFrame {
     private SpecialityManager specialityManager;
     private StockManager stockManager;
     private User loggedInUser;
+    private JPanel rightPanel; 
    
     public MenuUI() {
         
