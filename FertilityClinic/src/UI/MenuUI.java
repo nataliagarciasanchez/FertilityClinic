@@ -26,7 +26,9 @@ public class MenuUI extends JFrame {
     private SpecialityManager specialityManager;
     private StockManager stockManager;
     private User loggedInUser;
-    private  JPanel rightPanel = new JPanel(new CardLayout());
+   // private  JPanel rightPanel = new JPanel(new CardLayout());
+    private JPanel rightPanel;  // Usar CardLayout para manejar paneles
+    private CardLayout cardLayout;
    
     public MenuUI() {
         
@@ -48,6 +50,155 @@ public class MenuUI extends JFrame {
         showInitialDialog();
     }
     
+    
+    private JPanel rightPanel;  // Usar CardLayout para manejar paneles
+    private CardLayout cardLayout;
+
+    private void showInitialDialog() {
+        setTitle("NEW LIFE CLINIC");
+        Toolkit toolkit = Toolkit.getDefaultToolkit();
+        Dimension screenSize = toolkit.getScreenSize();
+        setSize(screenSize.width - 100, screenSize.height - 100);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+
+        JPanel mainPanel = new JPanel(new BorderLayout(10, 10));
+        mainPanel.setBackground(new Color(25, 25, 112));
+
+        JLabel imageLabel = setupImageLabel();
+        mainPanel.add(imageLabel, BorderLayout.WEST);
+
+        rightPanel = new JPanel(new CardLayout());
+        cardLayout = (CardLayout) rightPanel.getLayout();
+        rightPanel.setBackground(new Color(25, 25, 112));
+
+        JPanel loginPanel = createLoginPanel();
+        JPanel signupPanel = createSignupPanel();
+        rightPanel.add(loginPanel, "Login");
+        rightPanel.add(signupPanel, "Signup");
+
+        JPanel initialPanel = new JPanel(new BorderLayout());
+        initialPanel.setBackground(new Color(25, 25, 112));
+
+        JLabel titleLabel = new JLabel("NEW LIFE CLINIC", JLabel.CENTER);
+        titleLabel.setFont(new Font("Calibri", Font.BOLD, 70));
+        titleLabel.setForeground(Color.WHITE);
+        titleLabel.setBorder(BorderFactory.createEmptyBorder(100, 0, 0, 0));
+        initialPanel.add(titleLabel, BorderLayout.NORTH);
+
+        JLabel questionLabel = new JLabel("Do you want to log in or sign up?");
+        questionLabel.setFont(new Font("Cooper Black", Font.PLAIN, 20));
+        questionLabel.setHorizontalAlignment(JLabel.CENTER);
+        questionLabel.setForeground(Color.WHITE);
+        initialPanel.add(questionLabel, BorderLayout.CENTER);
+
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
+        buttonPanel.setBackground(new Color(25, 25, 112));
+        JButton loginButton = new JButton("Log in");
+        JButton signupButton = new JButton("Sign up");
+        loginButton.setBackground(Color.WHITE);
+        signupButton.setBackground(Color.WHITE);
+        loginButton.setFont(new Font("Calibri", Font.BOLD, 16));
+        signupButton.setFont(new Font("Calibri", Font.BOLD, 16));
+        loginButton.addActionListener(e -> cardLayout.show(rightPanel, "Login"));
+        signupButton.addActionListener(e -> cardLayout.show(rightPanel, "Signup"));
+        buttonPanel.add(loginButton);
+        buttonPanel.add(signupButton);
+        buttonPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 200, 0));
+        initialPanel.add(buttonPanel, BorderLayout.SOUTH);
+
+        rightPanel.add(initialPanel, "Initial");
+        mainPanel.add(rightPanel, BorderLayout.CENTER);
+
+        add(mainPanel);
+        setVisible(true);
+        cardLayout.show(rightPanel, "Initial");  // Mostrar el panel inicial por defecto
+    }
+    private JPanel createLoginPanel() {
+        JPanel loginPanel = new JPanel();
+        loginPanel.setLayout(new BorderLayout());
+        loginPanel.setBackground(new Color(25, 25, 112));
+
+        JPanel fieldsPanel = new JPanel(new GridLayout(2, 2, 10, 10));
+        fieldsPanel.setBackground(new Color(25, 25, 112));
+
+        JLabel emailLabel = new JLabel("Email:");
+        emailLabel.setForeground(Color.WHITE);
+        JTextField emailField = new JTextField();
+
+        JLabel passwordLabel = new JLabel("Password:");
+        passwordLabel.setForeground(Color.WHITE);
+        JPasswordField passwordField = new JPasswordField();
+
+        fieldsPanel.add(emailLabel);
+        fieldsPanel.add(emailField);
+        fieldsPanel.add(passwordLabel);
+        fieldsPanel.add(passwordField);
+
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
+        buttonPanel.setBackground(new Color(25, 25, 112));
+        JButton loginButton = new JButton("Login");
+        JButton cancelButton = new JButton("Cancel");
+
+        loginButton.addActionListener(e -> {
+            // Aquí iría la lógica para verificar el login
+            System.out.println("Login attempt");
+        });
+        cancelButton.addActionListener(e -> cardLayout.show(rightPanel, "Initial"));
+
+        buttonPanel.add(loginButton);
+        buttonPanel.add(cancelButton);
+
+        loginPanel.add(fieldsPanel, BorderLayout.CENTER);
+        loginPanel.add(buttonPanel, BorderLayout.SOUTH);
+
+        return loginPanel;
+    }
+    private JPanel createLoginPanel() {
+        JPanel loginPanel = new JPanel();
+        loginPanel.setLayout(new BorderLayout());
+        loginPanel.setBackground(new Color(25, 25, 112));
+
+        JPanel fieldsPanel = new JPanel(new GridLayout(2, 2, 10, 10));
+        fieldsPanel.setBackground(new Color(25, 25, 112));
+
+        JLabel emailLabel = new JLabel("Email:");
+        emailLabel.setForeground(Color.WHITE);
+        JTextField emailField = new JTextField();
+
+        JLabel passwordLabel = new JLabel("Password:");
+        passwordLabel.setForeground(Color.WHITE);
+        JPasswordField passwordField = new JPasswordField();
+
+        fieldsPanel.add(emailLabel);
+        fieldsPanel.add(emailField);
+        fieldsPanel.add(passwordLabel);
+        fieldsPanel.add(passwordField);
+
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
+        buttonPanel.setBackground(new Color(25, 25, 112));
+        JButton loginButton = new JButton("Login");
+        JButton cancelButton = new JButton("Cancel");
+
+        loginButton.addActionListener(e -> {
+            // Aquí iría la lógica para verificar el login
+            System.out.println("Login attempt");
+        });
+        cancelButton.addActionListener(e -> cardLayout.show(rightPanel, "Initial"));
+
+        buttonPanel.add(loginButton);
+        buttonPanel.add(cancelButton);
+
+        loginPanel.add(fieldsPanel, BorderLayout.CENTER);
+        loginPanel.add(buttonPanel, BorderLayout.SOUTH);
+
+        return loginPanel;
+    }
+
+
+ /*   
     private void showInitialDialog() {
         setTitle("NEW LIFE CLINIC");
         Toolkit toolkit = Toolkit.getDefaultToolkit();
@@ -328,7 +479,7 @@ public class MenuUI extends JFrame {
     }
  
 
-
+*/
     
 
     public static ArrayList<Speciality> getSpecialities() {//esto esta bien aqui??
