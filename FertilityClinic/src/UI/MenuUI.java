@@ -922,9 +922,9 @@ public class MenuUI extends JFrame {
         
         // Create a label for the title
         JLabel titleLabel = new JLabel("-- NEW LIFE CLINIC --");
-        titleLabel.setFont(new Font("Calibri", Font.BOLD, 24)); // Adjust the font size as needed
+        titleLabel.setFont(new Font("Calibri", Font.BOLD, 30)); // Adjust the font size as needed
         titleLabel.setForeground(Color.WHITE);
-        titleLabel.setHorizontalAlignment(JLabel.LEFT); // Set horizontal alignment to left
+        titleLabel.setHorizontalAlignment(JLabel.CENTER); // Set horizontal alignment to left
 
         // Create a panel that will hold the title and give it a smaller width to push it to the left
         JPanel titlePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
