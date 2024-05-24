@@ -405,7 +405,7 @@ public class MenuUI extends JFrame {
     }
     
 
-/*
+
     private JPanel createSignupPanel() {
         JPanel signupPanel = new JPanel(new BorderLayout());
         signupPanel.setBackground(new Color(25, 25, 112));
@@ -584,7 +584,7 @@ public class MenuUI extends JFrame {
 
         return signupPanel;
     }
-*/
+
 
 
 
