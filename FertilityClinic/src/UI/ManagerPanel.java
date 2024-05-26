@@ -61,80 +61,139 @@ public class ManagerPanel extends JPanel {
     private JPanel panelesLadoIzq() {
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
+        buttonPanel.setBackground(new Color(25, 25, 112));
 
         JButton op1 = new JButton("View My Information");
         JButton op2 = new JButton("Update My Information");
         JButton op3 = new JButton("View Stock");
-        JButton op4 = new JButton("Manage doctors");
-       
-        
+        JButton op4 = new JButton("Manage Doctors");
 
+        Font buttonFont = new Font("Calibri", Font.BOLD, 18); // Font size set to 18
+
+        op1.setFont(buttonFont);
+        op1.setBackground(Color.WHITE);
+        op1.setForeground(Color.BLACK);
+        op1.setAlignmentX(Component.CENTER_ALIGNMENT); // Center alignment
         op1.setMaximumSize(new Dimension(Integer.MAX_VALUE, op1.getMinimumSize().height));
-        op2.setMaximumSize(new Dimension(Integer.MAX_VALUE, op2.getMinimumSize().height));
-        op3.setMaximumSize(new Dimension(Integer.MAX_VALUE, op3.getMinimumSize().height));
-        
-        op1.addActionListener(e -> viewMyinfoPanel()); //igual para doctor
-        op2.addActionListener(e -> updateInfoPanel());//igual para doctor 
-        op3.addActionListener(e -> viewMyinfoPanel()); //igual para doctor pero modificar cita patient solo delete y add
-        op4.addActionListener(e -> viewMyinfoPanel()); 
 
+        op2.setFont(buttonFont);
+        op2.setBackground(Color.WHITE);
+        op2.setForeground(Color.BLACK);
+        op2.setAlignmentX(Component.CENTER_ALIGNMENT); // Center alignment
+        op2.setMaximumSize(new Dimension(Integer.MAX_VALUE, op2.getMinimumSize().height));
+
+        op3.setFont(buttonFont);
+        op3.setBackground(Color.WHITE);
+        op3.setForeground(Color.BLACK);
+        op3.setAlignmentX(Component.CENTER_ALIGNMENT); // Center alignment
+        op3.setMaximumSize(new Dimension(Integer.MAX_VALUE, op3.getMinimumSize().height));
+
+        op4.setFont(buttonFont);
+        op4.setBackground(Color.WHITE);
+        op4.setForeground(Color.BLACK);
+        op4.setAlignmentX(Component.CENTER_ALIGNMENT); // Center alignment
+        op4.setMaximumSize(new Dimension(Integer.MAX_VALUE, op4.getMinimumSize().height));
+
+        op1.addActionListener(e -> viewMyinfoPanel()); //igual para doctor
+        op2.addActionListener(e -> updateInfoPanel()); //igual para doctor 
+        op3.addActionListener(e -> viewMyinfoPanel()); //igual para doctor pero modificar cita patient solo delete y add
+        op4.addActionListener(e -> viewMyinfoPanel());
+
+        buttonPanel.add(Box.createRigidArea(new Dimension(0, 10))); // Add space at the top
         buttonPanel.add(op1);
+        buttonPanel.add(Box.createRigidArea(new Dimension(0, 10))); // Add space between buttons
         buttonPanel.add(op2);
+        buttonPanel.add(Box.createRigidArea(new Dimension(0, 10))); // Add space between buttons
         buttonPanel.add(op3);
-       
+        buttonPanel.add(Box.createRigidArea(new Dimension(0, 10))); // Add space between buttons
+        buttonPanel.add(op4);
 
         return buttonPanel;
     }
+
   //OPTION 1
     private void viewMyinfoPanel() {
         Manager manager = managerManager.viewMyInfo(managerId);
 
+        // Using a wrapper panel to provide padding
+        JPanel wrapperPanel = new JPanel(new BorderLayout());
         JPanel infoPanel = new JPanel();
         infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
+        infoPanel.setBorder(BorderFactory.createEmptyBorder(10, 50, 10, 10)); // Top, left, bottom, right padding
 
         if (manager != null) {
             infoPanel.add(new JLabel("Name: " + manager.getName()));
             infoPanel.add(new JLabel("Email: " + manager.getEmail()));
             infoPanel.add(new JLabel("Phone: " + manager.getPhone()));
-            
+        } else {
+            infoPanel.add(new JLabel("No information available."));
         }
 
-        currentPanel = infoPanel;
-        showCurrentPanel();
+        Font infoFont = new Font("Calibri", Font.PLAIN, 18); // Setting the font size to 18 for better readability
+        for (Component comp : infoPanel.getComponents()) {
+            if (comp instanceof JLabel) {
+                ((JLabel) comp).setFont(infoFont); // Apply font to all labels
+            }
+        }
+
+        wrapperPanel.add(infoPanel, BorderLayout.CENTER);
+        currentPanel = wrapperPanel; // Setting the current panel to the wrapper panel
+        showCurrentPanel(); // Display the current panel in the main container
     }
+    
+    
+
     //OPCION 2
     private void updateInfoPanel() {
         Manager manager = managerManager.viewMyInfo(managerId);
 
+        // Using a wrapper panel to provide padding
+        JPanel wrapperPanel = new JPanel(new BorderLayout());
         JPanel updatePanel = new JPanel();
         updatePanel.setLayout(new GridLayout(9, 2, 10, 10)); // 9 rows for including button row, with gaps for spacing
+        updatePanel.setBorder(BorderFactory.createEmptyBorder(10, 50, 10, 10)); // Top, left, bottom, right padding
 
         JTextField emailField = new JTextField(manager != null ? manager.getEmail() : "");
         JTextField phoneField = new JTextField(manager != null ? String.valueOf(manager.getPhone()) : "");
         JTextField nameField = new JTextField(manager != null ? manager.getName() : "");
-        
+
+        Font labelFont = new Font("Calibri", Font.BOLD, 18);
+        Font fieldFont = new Font("Calibri", Font.PLAIN, 18);
+
         // Adding labels and text fields
-        updatePanel.add(new JLabel("Name:"));
+        JLabel nameLabel = new JLabel("Name:");
+        nameLabel.setFont(labelFont);
+        updatePanel.add(nameLabel);
+        nameField.setFont(fieldFont);
         updatePanel.add(nameField);
-        updatePanel.add(new JLabel("Email:"));
+
+        JLabel emailLabel = new JLabel("Email:");
+        emailLabel.setFont(labelFont);
+        updatePanel.add(emailLabel);
+        emailField.setFont(fieldFont);
         updatePanel.add(emailField);
-        updatePanel.add(new JLabel("Phone:"));
+
+        JLabel phoneLabel = new JLabel("Phone:");
+        phoneLabel.setFont(labelFont);
+        updatePanel.add(phoneLabel);
+        phoneField.setFont(fieldFont);
         updatePanel.add(phoneField);
-        
 
         JButton updateBtn = new JButton("Update");
+        updateBtn.setFont(new Font("Calibri", Font.BOLD, 18));
+        updateBtn.setBackground(Color.WHITE);
+        updateBtn.setForeground(Color.BLACK);
         updateBtn.addActionListener(e -> {
             try {
                 String email = emailField.getText();
                 Integer phone = Integer.parseInt(phoneField.getText());
                 String name = nameField.getText();
-                
-                
-                // Llamar al método para modificar la información del paciente con los nuevos valores
+
+                // Llamar al método para modificar la información del manager con los nuevos valores
                 managerManager.modifyManagerInfo(managerId, email, phone, name);
-                
+
                 JOptionPane.showMessageDialog(this, "Information updated successfully.");
-                
+
                 // Después de actualizar, volver a mostrar la información actualizada
                 viewMyinfoPanel();
             } catch (IllegalArgumentException ex) {
@@ -145,21 +204,15 @@ public class ManagerPanel extends JPanel {
             }
         });
 
-        updatePanel.add(new JLabel());
+        updatePanel.add(new JLabel()); // Placeholder for spacing
         updatePanel.add(updateBtn);
 
-        // Adding padding around the panel
-        JPanel paddedPanel = new JPanel(new BorderLayout());
-        paddedPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-        paddedPanel.add(updatePanel, BorderLayout.CENTER);
+        wrapperPanel.add(updatePanel, BorderLayout.CENTER);
 
-        // Set a preferred size to ensure the panel is somewhat square
-        paddedPanel.setPreferredSize(new Dimension(400, 400));
-
-        
-        currentPanel = updatePanel; // Establece el panel actual como el panel de información del paciente
-        showCurrentPanel(); // Muestra el panel actual en el contenedor principal
+        currentPanel = wrapperPanel; // Set the current panel to the wrapper panel
+        showCurrentPanel(); // Display the current panel in the main container
     }
+
     //OPCION 3
   //OPTION 3
     private void viewStockPanel() {

@@ -1,32 +1,42 @@
 package FertilityClinicPOJOs;
 
 import java.io.Serializable;
+
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
-/*
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.XmlType;
+
+
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "Doctor")
 @XmlType(propOrder = {})
-*/
+
 public class Doctor implements Serializable {
 	
  private static final long serialVersionUID = 7882901115979698067L;
- //@XmlTranscient
+ @XmlTransient
  private Integer id;
- //@XmlElement
+ @XmlElement
  private String email;
- //@XmlElement
+ @XmlElement
  private Integer phone;
- //@XmlAttribute
+ @XmlAttribute
  private String name;
  private Speciality speciality;
 
  private byte[] licensePDF; //esto es binary objects que es un requisito. Es añadir eso y olvidarnos
- //@XmlElement (name = "Patient")
- //@XmlElementWrapper(name = "Patients")
+ @XmlElement (name = "Patient")
+ @XmlElementWrapper(name = "Patients")
  private List <Patient> patients;
  
  

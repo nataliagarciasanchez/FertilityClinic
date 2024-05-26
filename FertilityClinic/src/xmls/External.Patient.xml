@@ -2,34 +2,38 @@
 
 <!DOCTYPE Patient [
 
-<!ELEMENT Patient (dob,email, phone, height, weight, bloodType, gender, doctor)>
+<!ELEMENT Patient (dob, email, doctors, treatments)>
 	<!ATTLIST Patient name CDATA #REQUIRED>
-		<!ELEMENT dob (#PCDATA)>
-		<!ELEMENT email (#PCDATA)>
-		<!ELEMENT phone (#PCDATA)>
-		<!ELEMENT  height (#PCDATA)>
-		<!ELEMENT weight (#PCDATA)>
-		<!ELEMENT bloodType (#PCDATA)>
-		<!ELEMENT gender (#PCDATA)>
-		<!ELEMENT doctor (name, phone, email, speciality)>
-		<!ATTLIST Doctor name CDATA #REQUIRED>
-			<!ELEMENT name (#PCDATA)>
-			<!ELEMENT phone (#PCDATA)>
-			<!ELEMENT email (#PCDATA)>
-			<!ELEMENT  speciality (#PCDATA)>
-]>
-<Patient name="Miguel">
-  <dob>2003-03-21</dob>
-  <email>miguel@example.com</email>
-  <phone>1234567890</phone>
-  <height>150</height>
-  <weight>150</weight>
-  <bloodType>O+</bloodType>
-  <gender>Male</gender>
-  <doctor name="David">
-    <name>David</name>
-    <phone>0987654321</phone>
-    <email>david@example.com</email>
-    <speciality>Urologist</speciality>
-  </doctor>
+	<!ELEMENT dob (#PCDATA)>
+	<!ELEMENT email (#PCDATA)>
+	<!ELEMENT doctors (doctor*)>
+	<!ELEMENT doctor (email,speciality)>
+	<!ATTLIST doctor name CDATA #REQUIRED>
+	<!ELEMENT speciality (#PCDATA)>
+	<!ELEMENT treatments (treatment*)>
+	<!ELEMENT treatment (description,durationInDays)>
+	<!ATTLIST treatment name CDATA #REQUIRED>
+	<!ELEMENT description (#PCDATA)>
+	<!ELEMENT durationInDays (#PCDATA)>
+	
+	]>
+	
+	
+	
+	
+<Patient name="Sanfe">
+	<dob>2003-07-07</dob>
+	<email>sanfe@example.com</email>
+	<doctors>
+		<doctor name="Dr. Pepe">
+			<email>pepe@example.com</email>
+			<speciality>Urologist</speciality>
+		</doctor>
+	</doctors>
+	<treatments>
+		<treatment name="Egg freezing">
+			<description>Egg Freezing</description>
+			<durationInDays>30</durationInDays>
+		</treatment>
+	</treatments>
 </Patient>
