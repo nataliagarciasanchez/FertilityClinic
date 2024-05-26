@@ -2,17 +2,38 @@
 
 <!DOCTYPE Patient [
 
-<!ELEMENT Patient (dob, email, doctor, treatment)>
+<!ELEMENT Patient (dob, email, doctors, treatments)>
 	<!ATTLIST Patient name CDATA #REQUIRED>
-		<!ELEMENT dob (#PCDATA)>
-		<!ELEMENT email (#PCDATA)>
-		<!ATTLIST doctor 
-		
-		
-		
-]>
-<Patient name="Miguel">
-  <dob>2003-03-21</dob>
-  <email>miguel@example.com</email>
-  <doctor> </doctor>
+	<!ELEMENT dob (#PCDATA)>
+	<!ELEMENT email (#PCDATA)>
+	<!ELEMENT doctors (doctor*)>
+	<!ELEMENT doctor (email,speciality)>
+	<!ATTLIST doctor name CDATA #REQUIRED>
+	<!ELEMENT speciality (#PCDATA)>
+	<!ELEMENT treatments (treatment*)>
+	<!ELEMENT treatment (description,durationInDays)>
+	<!ATTLIST treatment name CDATA #REQUIRED>
+	<!ELEMENT description (#PCDATA)>
+	<!ELEMENT durationInDays (#PCDATA)>
+	
+	]>
+	
+	
+	
+	
+<Patient name="Sanfe">
+	<dob>2003-07-07</dob>
+	<email>sanfe@example.com</email>
+	<doctors>
+		<doctor name="Dr. Pepe">
+			<email>pepe@example.com</email>
+			<speciality>Urologist</speciality>
+		</doctor>
+	</doctors>
+	<treatments>
+		<treatment name="Egg freezing">
+			<description>Egg Freezing</description>
+			<durationInDays>30</durationInDays>
+		</treatment>
+	</treatments>
 </Patient>
