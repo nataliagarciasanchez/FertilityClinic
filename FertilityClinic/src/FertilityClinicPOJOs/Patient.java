@@ -20,7 +20,7 @@ import FertilityClinicXMLutils.SQLDateAdapter;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "Patient")
-@XmlType(propOrder = {"(dob,email, phone, height, weight, bloodType, gender)"})
+@XmlType(propOrder = {"(dob, email, doctor, treatment)"})
 
 public class Patient implements Serializable{
 	
@@ -43,7 +43,7 @@ public class Patient implements Serializable{
 		private String bloodType;
 		@XmlElement
 		private String gender;
-		@XmlTransient
+		@XmlElement
 		private List<Doctor> doctors;
 		@XmlElement
 		private Treatments treatmet;
