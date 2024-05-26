@@ -2,7 +2,7 @@
 
 <!DOCTYPE Patient [
 
-<!ELEMENT Patient (dob,email, phone, height, weight, bloodType, gender, doctor)>
+<!ELEMENT Patient (dob,email, phone, height, weight, bloodType, gender)>
 	<!ATTLIST Patient name CDATA #REQUIRED>
 		<!ELEMENT dob (#PCDATA)>
 		<!ELEMENT email (#PCDATA)>
@@ -11,12 +11,8 @@
 		<!ELEMENT weight (#PCDATA)>
 		<!ELEMENT bloodType (#PCDATA)>
 		<!ELEMENT gender (#PCDATA)>
-		<!ELEMENT doctor (name, phone, email, speciality)>
-		<!ATTLIST Doctor name CDATA #REQUIRED>
-			<!ELEMENT name (#PCDATA)>
-			<!ELEMENT phone (#PCDATA)>
-			<!ELEMENT email (#PCDATA)>
-			<!ELEMENT  speciality (#PCDATA)>
+		
+		
 ]>
 <Patient name="Miguel">
   <dob>2003-03-21</dob>
@@ -26,10 +22,4 @@
   <weight>150</weight>
   <bloodType>O+</bloodType>
   <gender>Male</gender>
-  <doctor name="David">
-    <name>David</name>
-    <phone>0987654321</phone>
-    <email>david@example.com</email>
-    <speciality>Urologist</speciality>
-  </doctor>
 </Patient>

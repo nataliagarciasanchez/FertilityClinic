@@ -1,41 +1,51 @@
 package FertilityClinicPOJOs;
 
 import java.io.Serializable;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
-/*
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import FertilityClinicXMLutils.SQLDateAdapter;
+
+
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "Patient")
-@XmlType(propOrder = {"los atributos Xml que sean elements"})
-*/
+@XmlType(propOrder = {"(dob,email, phone, height, weight, bloodType, gender)"})
+
 public class Patient implements Serializable{
 	
 	private static final long serialVersionUID = 7256683528485457199L;
-		//@XmlTransient
+		@XmlTransient
 		private Integer id;
-		//@XmlAttribute
+		@XmlAttribute
 		private String name;
-		//@XmlJavaTypeAdapter(SQLDateAdapter.class)
+		@XmlJavaTypeAdapter(SQLDateAdapter.class)
 		private Date dob;
-		//@XmlElement
+		@XmlElement
 		private String email;
-		//@XmlElement
+		@XmlElement
 		private Integer phone;
-		//@XmlElement
+		@XmlElement
 		private double height;
-		//@XmlElement
+		@XmlElement
 		private double weight;
-		//@XmlElement
+		@XmlElement
 		private String bloodType;
-		//@XmlElement
+		@XmlElement
 		private String gender;
-		//@XmlTranscient
+		@XmlTransient
 		private List<Doctor> doctors;
-		//@XmlElement
-		
+		@XmlElement
 		private Treatments treatmet;
 	
 	
