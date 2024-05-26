@@ -32,8 +32,9 @@ public class Doctor implements Serializable {
  private Integer phone;
  @XmlAttribute
  private String name;
+ @XmlElement
  private Speciality speciality;
-
+ @XmlTransient
  private byte[] licensePDF; //esto es binary objects que es un requisito. Es añadir eso y olvidarnos
  @XmlElement (name = "Patient")
  @XmlElementWrapper(name = "Patients")

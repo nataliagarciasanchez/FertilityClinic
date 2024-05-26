@@ -2,4 +2,92 @@
 
 <!DOCTYPE Doctor [
 
+<!ELEMENT Doctor (email, speciality, patients)>
+	<!ATTLIST Doctor name CDATA #REQUIRED>
+	<!ELEMENT email (#PCDATA)>
+	<!ELEMENT speciality (nameS)>
+	<!ELEMENT nameS (#PCDATA)>
+	<!ELEMENT patients (Patient*)>
+	<!ELEMENT Patient (dob, emailP, phone, height, weight, bloodType, gender, treatment)>
+	<!ATTLIST Patient name CDATA #REQUIRED>
+	<!ELEMENT dob (#PCDATA)>
+	<!ELEMENT emailP (#PCDATA)>
+	<!ELEMENT phone (#PCDATA)>
+	<!ELEMENT height (#PCDATA)>
+	<!ELEMENT weight (#PCDATA)>
+	<!ELEMENT bloodType (#PCDATA)>
+	<!ELEMENT gender (#PCDATA)>
+	<!ELEMENT treatment (description, durationInDays)>
+	<!ATTLIST treatment name CDATA #REQUIRED>
+	<!ELEMENT description (#PCDATA)>
+	<!ELEMENT durationInDays (#PCDATA)>
+					  
 ]>
+
+
+<Doctor name = "Eustaquio">
+	<email> eustaquio99@gmail.com</email>
+	<speciality >
+		<nameS> urologist </nameS>
+	</speciality>
+	<patients>
+		<Patient name="Ezequiel">
+			<dob> 1969-03-18</dob>
+			<emailP> ezequielHerrera@gmail.com</emailP>
+			<phone>630691773</phone>
+			<height>1.65</height>
+			<weight>102</weight>
+			<bloodType>A-</bloodType>
+			<gender>MALE</gender>
+			<treatment name="Donor Egg IVF">
+				<description>Surrogacy is a fertility arrangement where a woman (the surrogate) carries and delivers a baby for another person or couple. The process involves the following phases:
+								1.Initial Evaluation
+								2.Matching with a Surrogate
+								3.Legal Agreements
+								4.Medical and Psychological Screening
+								5.In Vitro Fertilization (IVF) and Embryo Transfer
+								6.Pregnancy and Prenatal Care
+								7.Birth and Legal Parentage
+							This process allows individuals or couples to have a child with the help of a surrogate, providing an option for those unable to carry a pregnancy themselves.</description>
+				<durationInDays>90</durationInDays>
+			</treatment>
+		</Patient>
+		<Patient name="Marianela">
+			<dob> 1980-06-08</dob>
+			<emailP> marianelaRodriguez@gmail.com</emailP>
+			<phone>620786543</phone>
+			<height>1.75</height>
+			<weight>82</weight>
+			<bloodType>B+</bloodType>
+			<gender>FEMALE</gender>
+			<treatment name="Embryo Freezing ">
+				<description>Embryo freezing, also known as embryo cryopreservation, is a fertility preservation method where embryos are frozen and stored for future use. The process involves the following phases:
+								1.Initial Evaluation
+								2.Ovarian Stimulation and Egg Retrieval
+								3.Fertilization
+								4.Embryo Culture
+								5.Embryo Freezing
+								6.Storage
+							This process allows couples to preserve embryos for future use, providing the option to attempt pregnancy at a later time when conditions are more favorable.</description>
+				<durationInDays>90</durationInDays>
+			</treatment>
+		</Patient>
+	</patients>
+</Doctor>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
