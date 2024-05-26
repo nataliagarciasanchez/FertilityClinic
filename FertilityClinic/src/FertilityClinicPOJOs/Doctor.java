@@ -19,8 +19,7 @@ import javax.xml.bind.annotation.XmlType;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "Doctor")
-@XmlType(propOrder = {})
-
+@XmlType(propOrder = {}) //Pepe: no se como poner el orden
 public class Doctor implements Serializable {
 	
  private static final long serialVersionUID = 7882901115979698067L;

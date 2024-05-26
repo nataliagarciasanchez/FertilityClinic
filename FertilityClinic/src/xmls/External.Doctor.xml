@@ -1,7 +1,6 @@
 <?xml version= "1.0" encoding= "UTF-8" standalone= "yes"?>
 
 <!DOCTYPE Doctor [
-
 <!ELEMENT Doctor (email, speciality, patients)>
 	<!ATTLIST Doctor name CDATA #REQUIRED>
 	<!ELEMENT email (#PCDATA)>
@@ -21,7 +20,6 @@
 	<!ATTLIST treatment name CDATA #REQUIRED>
 	<!ELEMENT description (#PCDATA)>
 	<!ELEMENT durationInDays (#PCDATA)>
-					  
 ]>
 
 
