@@ -4,8 +4,8 @@
 <!ELEMENT Doctor (email, speciality, patients)>
 	<!ATTLIST Doctor name CDATA #REQUIRED>
 	<!ELEMENT email (#PCDATA)>
-	<!ELEMENT speciality (nameS)>
-	<!ELEMENT nameS (#PCDATA)>
+	<!ELEMENT speciality (#PCDATA)>
+	<!ATTLIST speciality nameS CDATA #REQUIRED>
 	<!ELEMENT patients (Patient*)>
 	<!ELEMENT Patient (dob, emailP, phone, height, weight, bloodType, gender, treatment)>
 	<!ATTLIST Patient name CDATA #REQUIRED>
@@ -25,9 +25,7 @@
 
 <Doctor name = "Eustaquio">
 	<email> eustaquio99@gmail.com</email>
-	<speciality >
-		<nameS> urologist </nameS>
-	</speciality>
+	<speciality nameS="Urologist"></speciality>
 	<patients>
 		<Patient name="Ezequiel">
 			<dob> 1969-03-18</dob>
