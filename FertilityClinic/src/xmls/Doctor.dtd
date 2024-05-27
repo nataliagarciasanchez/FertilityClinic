@@ -1,0 +1,19 @@
+<!ELEMENT Doctor (email, speciality, patients)>
+	<!ATTLIST Doctor name CDATA #REQUIRED>
+	<!ELEMENT email (#PCDATA)>
+	<!ELEMENT speciality (#PCDATA)>
+	<!ATTLIST speciality nameS CDATA #REQUIRED>
+	<!ELEMENT patients (Patient*)>
+	<!ELEMENT Patient (dob, emailP, phone, height, weight, bloodType, gender, treatment)>
+	<!ATTLIST Patient name CDATA #REQUIRED>
+	<!ELEMENT dob (#PCDATA)>
+	<!ELEMENT emailP (#PCDATA)>
+	<!ELEMENT phone (#PCDATA)>
+	<!ELEMENT height (#PCDATA)>
+	<!ELEMENT weight (#PCDATA)>
+	<!ELEMENT bloodType (#PCDATA)>
+	<!ELEMENT gender (#PCDATA)>
+	<!ELEMENT treatment (description, durationInDays)>
+	<!ATTLIST treatment name CDATA #REQUIRED>
+	<!ELEMENT description (#PCDATA)>
+	<!ELEMENT durationInDays (#PCDATA)>

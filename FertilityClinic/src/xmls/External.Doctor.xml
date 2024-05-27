@@ -22,7 +22,6 @@
 	<!ELEMENT durationInDays (#PCDATA)>
 ]>
 
-
 <Doctor name = "Eustaquio">
 	<email> eustaquio99@gmail.com</email>
 	<speciality nameS="Urologist"></speciality>
