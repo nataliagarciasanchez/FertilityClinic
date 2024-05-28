@@ -23,8 +23,7 @@ public class JPAUserManager implements UserManager {
 	}
 	
 
-	@Override
-	
+	@Override	
 	public User checkPassword(String email, String pass) {
 		User user=null;
 		try {

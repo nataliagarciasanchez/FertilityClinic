@@ -59,7 +59,7 @@ public class XMLManagerImpl implements XMLManager {
 	}
 	
 	@Override
-public Patient xml2Patient (File xml) {
+	public Patient xml2Patient (File xml) {
 	//TODO Auto-generated method sub
 	 Patient  p=null;
 	 manager=new JDBCManager();
@@ -75,6 +75,7 @@ public Patient xml2Patient (File xml) {
 	 }
 	 return p;
 	}
+	
 	
 
 }
