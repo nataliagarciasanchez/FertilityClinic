@@ -80,16 +80,16 @@ public class DoctorPanel extends JPanel {
         configureButton(op5, buttonFont, buttonSize);
         configureButton(op6, buttonFont, buttonSize);
 
-        op1.addActionListener(e -> viewMyinfoPanel()); //igual para doctor
-        op2.addActionListener(e -> updateInfoPanel());//igual para doctor 
-        op3.addActionListener(e -> viewMyinfoPanel()); //igual para doctor pero modificar cita patient solo delete y add
-        op4.addActionListener(e -> viewMyinfoPanel());//NUEVO
+        op1.addActionListener(e -> viewMyinfoPanel()); 
+        op2.addActionListener(e -> updateInfoPanel());
+        op3.addActionListener(e -> viewMyinfoPanel()); 
+        op4.addActionListener(e -> viewMyinfoPanel());
         op5.addActionListener(e -> viewMyinfoPanel());
         op6.addActionListener(e -> viewMyinfoPanel());
 
-        buttonPanel.add(Box.createRigidArea(new Dimension(0, 10))); // Espacio arriba
+        buttonPanel.add(Box.createRigidArea(new Dimension(0, 10))); 
         buttonPanel.add(op1);
-        buttonPanel.add(Box.createRigidArea(new Dimension(0, 10))); // Espacio entre botones
+        buttonPanel.add(Box.createRigidArea(new Dimension(0, 10))); 
         buttonPanel.add(op2);
         buttonPanel.add(Box.createRigidArea(new Dimension(0, 10)));
         buttonPanel.add(op3);
@@ -99,7 +99,7 @@ public class DoctorPanel extends JPanel {
         buttonPanel.add(op5);
         buttonPanel.add(Box.createRigidArea(new Dimension(0, 10)));
         buttonPanel.add(op6);
-        buttonPanel.add(Box.createRigidArea(new Dimension(0, 10))); // Espacio abajo
+        buttonPanel.add(Box.createRigidArea(new Dimension(0, 10)));
 
         return buttonPanel;
     }
@@ -117,11 +117,10 @@ public class DoctorPanel extends JPanel {
     private void viewMyinfoPanel() {
         Doctor doctor = doctorManager.viewMyInfo(doctorId);
 
-        // Usar un panel envolvente para proporcionar padding
         JPanel wrapperPanel = new JPanel(new BorderLayout());
         JPanel infoPanel = new JPanel();
         infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
-        infoPanel.setBorder(BorderFactory.createEmptyBorder(10, 50, 10, 10)); // Padding: arriba, izquierda, abajo, derecha
+        infoPanel.setBorder(BorderFactory.createEmptyBorder(10, 50, 10, 10)); 
 
         if (doctor != null) {
             infoPanel.add(new JLabel("Name: " + doctor.getName()));
@@ -129,35 +128,30 @@ public class DoctorPanel extends JPanel {
             infoPanel.add(new JLabel("Phone: " + doctor.getPhone()));
             infoPanel.add(new JLabel("Speciality: " + doctor.getSpeciality().getName()));
 
-            Font infoFont = new Font("Calibri", Font.PLAIN, 18); // Fuente tamaño 18 para mejor legibilidad
+            Font infoFont = new Font("Calibri", Font.PLAIN, 18); 
             for (Component comp : infoPanel.getComponents()) {
                 if (comp instanceof JLabel) {
-                    ((JLabel) comp).setFont(infoFont); // Aplicar fuente a todas las etiquetas
+                    ((JLabel) comp).setFont(infoFont); 
                 }
             }
         } else {
             infoPanel.add(new JLabel("No information available."));
         }
 
-        // Crear el panel izquierdo con el botón "View Photo"
+        // Crear el panel izquierdo para mostrar la foto del doctor, si existe
         JPanel leftPanel = new JPanel();
         leftPanel.setLayout(new BorderLayout());
         leftPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Padding
 
-        if (doctor != null && doctor.getLicensePDF() != null && doctor.getLicensePDF().length > 0) {
-            JButton btnViewPDF = new JButton("View Photo");
-            btnViewPDF.setFont(new Font("Calibri", Font.BOLD, 18)); // Establecer fuente para el botón
-            btnViewPDF.setBackground(Color.WHITE); // Fondo blanco
-            btnViewPDF.setForeground(Color.BLACK); // Texto negro
-            btnViewPDF.addActionListener(e -> {
-                // Llama a un método que maneja la visualización del PDF
-                displayPDF(doctor.getLicensePDF());
-            });
-            leftPanel.add(btnViewPDF, BorderLayout.NORTH);
+        if (doctor != null && doctor.getLicensePDF() != null) {
+            // Supongamos que doctor.getPhoto() devuelve un ImageIcon
+            JLabel lblPhoto = new JLabel(new ImageIcon(doctor.getLicensePDF()));
+            lblPhoto.setHorizontalAlignment(JLabel.CENTER);
+            leftPanel.add(lblPhoto, BorderLayout.CENTER);
         } else {
             JLabel noPhotoLabel = new JLabel("No photo yet.");
             noPhotoLabel.setFont(new Font("Calibri", Font.BOLD, 18));
-            leftPanel.add(noPhotoLabel, BorderLayout.NORTH);
+            leftPanel.add(noPhotoLabel, BorderLayout.CENTER);
         }
 
         wrapperPanel.add(leftPanel, BorderLayout.WEST);
@@ -165,6 +159,7 @@ public class DoctorPanel extends JPanel {
         currentPanel = wrapperPanel; // Establecer el panel actual al panel envolvente
         showCurrentPanel(); // Mostrar el panel actual en el contenedor principal
     }
+
 
     
     /*
