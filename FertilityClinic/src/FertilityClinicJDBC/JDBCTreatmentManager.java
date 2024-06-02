@@ -299,11 +299,11 @@ public class JDBCTreatmentManager implements TreatmentManager {
 
 	public List<Treatment> getAllTreatments() {
 	    List<Treatment> treatments = new ArrayList<>();
-	    String sql = "SELECT * FROM treatments ORDER BY name";  // Asumiendo que existe una columna 'name' para ordenar
+	    String sql = "SELECT * FROM treatments";  
 
-	    try (Connection conn = manager.getConnection();
-	         PreparedStatement pstmt = conn.prepareStatement(sql);
-	         ResultSet rs = pstmt.executeQuery()) {
+	    try (PreparedStatement pstmt = manager.getConnection().prepareStatement(sql)){
+	    	
+	    	ResultSet rs = pstmt.executeQuery();
 
 	        while (rs.next()) {
 	            int id = rs.getInt("id");

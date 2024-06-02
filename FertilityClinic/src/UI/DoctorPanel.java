@@ -222,7 +222,7 @@ public class DoctorPanel extends JPanel {
     }
     
     private void assignTreatmentPanel(Patient patient) {
-        List<Treatment> treatments = treatmentManager.getAllTreatments(); // Asume que tienes un método para obtener todos los tratamientos
+        List<Treatment> treatments = treatmentManager.getAllTreatments(); 
         JPanel treatmentPanel = new JPanel();
         treatmentPanel.setLayout(new BoxLayout(treatmentPanel, BoxLayout.Y_AXIS));
 
@@ -230,21 +230,33 @@ public class DoctorPanel extends JPanel {
         for (Treatment treatment : treatments) {
             treatmentComboBox.addItem(treatment);
         }
+        treatmentComboBox.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+       JLabel selectTreatmentLabel = new JLabel("Select a Treatment:");
+        selectTreatmentLabel.setFont(new Font("Calibri", Font.BOLD, 30)); 
+        selectTreatmentLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
 
         JButton assignButton = new JButton("Assign");
+        assignButton.setFont(new Font("Calibri", Font.PLAIN, 20)); 
+
         assignButton.addActionListener(e -> {
             Treatment selectedTreatment = (Treatment) treatmentComboBox.getSelectedItem();
             patientManager.assignTreatmentToPatient(patient.getId(), selectedTreatment.getTreatmentID());
             JOptionPane.showMessageDialog(null, "Treatment assigned successfully!");
+            viewAllPatientsPanel(); 
         });
 
-        treatmentPanel.add(new JLabel("Select a Treatment:"));
+       treatmentPanel.add(selectTreatmentLabel);
+        treatmentPanel.add(Box.createVerticalStrut(10)); 
         treatmentPanel.add(treatmentComboBox);
+        treatmentPanel.add(Box.createVerticalStrut(150)); 
         treatmentPanel.add(assignButton);
+        treatmentPanel.add(Box.createVerticalGlue());
 
         currentPanel = treatmentPanel;
         showCurrentPanel();
     }
+
 
 
 

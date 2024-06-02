@@ -40,14 +40,14 @@ public class PatientPanel extends JPanel {
     private void initializeUI() {
         currentPanel = panelesLadoIzq(); 
         setLayout(new BorderLayout());
-        //add(createTopPanel(), BorderLayout.NORTH); // Adds the top panel at the top
-        add(currentPanel, BorderLayout.CENTER); // Adds the side panel in the center
+        //add(createTopPanel(), BorderLayout.NORTH); 
+        add(currentPanel, BorderLayout.CENTER); 
     }
     
     private void showCurrentPanel() {
-        removeAll(); // Elimina todo el contenido del contenedor principal
-        add(panelesLadoIzq(), BorderLayout.WEST); // Vuelve a agregar el panel de opciones del paciente
-        add(currentPanel, BorderLayout.CENTER); // Agrega el panel actual al centro
+        removeAll(); 
+        add(panelesLadoIzq(), BorderLayout.WEST); 
+        add(currentPanel, BorderLayout.CENTER); 
         validate();
         repaint();
     }
@@ -67,36 +67,36 @@ public class PatientPanel extends JPanel {
     	JButton op4 = new JButton("View All Doctors");
     	JButton op5 = new JButton("My Treatment");
 
-    	Font buttonFont = new Font("Calibri", Font.BOLD, 18); // Font size set to 18
+    	Font buttonFont = new Font("Calibri", Font.BOLD, 18); 
 
     	op1.setFont(buttonFont);
     	op1.setBackground(Color.WHITE);
     	op1.setForeground(Color.BLACK);
-    	op1.setAlignmentX(Component.CENTER_ALIGNMENT); // Center alignment
+    	op1.setAlignmentX(Component.CENTER_ALIGNMENT); 
     	op1.setMaximumSize(new Dimension(Integer.MAX_VALUE, op1.getMinimumSize().height));
 
     	op2.setFont(buttonFont);
     	op2.setBackground(Color.WHITE);
     	op2.setForeground(Color.BLACK);
-    	op2.setAlignmentX(Component.CENTER_ALIGNMENT); // Center alignment
+    	op2.setAlignmentX(Component.CENTER_ALIGNMENT);
     	op2.setMaximumSize(new Dimension(Integer.MAX_VALUE, op2.getMinimumSize().height));
 
     	op3.setFont(buttonFont);
     	op3.setBackground(Color.WHITE);
     	op3.setForeground(Color.BLACK);
-    	op3.setAlignmentX(Component.CENTER_ALIGNMENT); // Center alignment
+    	op3.setAlignmentX(Component.CENTER_ALIGNMENT); 
     	op3.setMaximumSize(new Dimension(Integer.MAX_VALUE, op3.getMinimumSize().height));
 
     	op4.setFont(buttonFont);
     	op4.setBackground(Color.WHITE);
     	op4.setForeground(Color.BLACK);
-    	op4.setAlignmentX(Component.CENTER_ALIGNMENT); // Center alignment
+    	op4.setAlignmentX(Component.CENTER_ALIGNMENT);
     	op4.setMaximumSize(new Dimension(Integer.MAX_VALUE, op4.getMinimumSize().height));
 
     	op5.setFont(buttonFont);
     	op5.setBackground(Color.WHITE);
     	op5.setForeground(Color.BLACK);
-    	op5.setAlignmentX(Component.CENTER_ALIGNMENT); // Center alignment
+    	op5.setAlignmentX(Component.CENTER_ALIGNMENT); 
     	op5.setMaximumSize(new Dimension(Integer.MAX_VALUE, op5.getMinimumSize().height));
 
     	op1.addActionListener(e -> viewMyinfoPanel());
@@ -105,15 +105,15 @@ public class PatientPanel extends JPanel {
     	op4.addActionListener(e -> viewAllDoctorsPanel());
     	op5.addActionListener(e -> myTreatmentPanel());
 
-    	buttonPanel.add(Box.createRigidArea(new Dimension(0, 10))); // Add space at the top
+    	buttonPanel.add(Box.createRigidArea(new Dimension(0, 10))); 
     	buttonPanel.add(op1);
-    	buttonPanel.add(Box.createRigidArea(new Dimension(0, 10))); // Add space between buttons
+    	buttonPanel.add(Box.createRigidArea(new Dimension(0, 10))); 
     	buttonPanel.add(op2);
-    	buttonPanel.add(Box.createRigidArea(new Dimension(0, 10))); // Add space between buttons
+    	buttonPanel.add(Box.createRigidArea(new Dimension(0, 10))); 
     	buttonPanel.add(op3);
-    	buttonPanel.add(Box.createRigidArea(new Dimension(0, 10))); // Add space between buttons
+    	buttonPanel.add(Box.createRigidArea(new Dimension(0, 10))); 
     	buttonPanel.add(op4);
-    	buttonPanel.add(Box.createRigidArea(new Dimension(0, 10))); // Add space between buttons
+    	buttonPanel.add(Box.createRigidArea(new Dimension(0, 10))); 
     	buttonPanel.add(op5);
 
     	return buttonPanel;
@@ -124,7 +124,6 @@ public class PatientPanel extends JPanel {
     private void viewMyinfoPanel() {
         Patient patient = patientManager.viewMyInfo(patientId);
 
-        // Using a wrapper panel to provide padding
         JPanel wrapperPanel = new JPanel(new BorderLayout());
         JPanel infoPanel = new JPanel();
         infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
@@ -143,16 +142,16 @@ public class PatientPanel extends JPanel {
             infoPanel.add(new JLabel("No information available."));
         }
 
-        Font infoFont = new Font("Calibri", Font.PLAIN, 18); // Setting the font size to 18 for better readability
+        Font infoFont = new Font("Calibri", Font.PLAIN, 18); 
         for (Component comp : infoPanel.getComponents()) {
             if (comp instanceof JLabel) {
-                ((JLabel) comp).setFont(infoFont); // Apply font to all labels
+                ((JLabel) comp).setFont(infoFont); 
             }
         }
 
         wrapperPanel.add(infoPanel, BorderLayout.CENTER);
-        currentPanel = wrapperPanel; // Setting the current panel to the wrapper panel
-        showCurrentPanel(); // Display the current panel in the main container
+        currentPanel = wrapperPanel; 
+        showCurrentPanel(); 
     }
 
 
@@ -160,11 +159,10 @@ public class PatientPanel extends JPanel {
     private void updateInfoPanel() {
         Patient patient = patientManager.viewMyInfo(patientId);
 
-        // Using a wrapper panel to provide padding
         JPanel wrapperPanel = new JPanel(new BorderLayout());
         JPanel updatePanel = new JPanel();
-        updatePanel.setLayout(new GridLayout(9, 2, 10, 10)); // 9 rows for including button row, with gaps for spacing
-        updatePanel.setBorder(BorderFactory.createEmptyBorder(10, 50, 10, 10)); // Top, left, bottom, right padding
+        updatePanel.setLayout(new GridLayout(9, 2, 10, 10)); 
+        updatePanel.setBorder(BorderFactory.createEmptyBorder(10, 50, 10, 10)); 
 
         JTextField emailField = new JTextField(patient != null ? patient.getEmail() : "");
         JTextField phoneField = new JTextField(patient != null ? String.valueOf(patient.getPhone()) : "");
@@ -175,7 +173,7 @@ public class PatientPanel extends JPanel {
         Font labelFont = new Font("Calibri", Font.BOLD, 18);
         Font fieldFont = new Font("Calibri", Font.PLAIN, 18);
 
-        // Adding labels and text fields
+        
         JLabel nameLabel = new JLabel("Name:");
         nameLabel.setFont(labelFont);
         updatePanel.add(nameLabel);
@@ -239,12 +237,10 @@ public class PatientPanel extends JPanel {
                 Double height = Double.parseDouble(heightField.getText());
                 Double weight = Double.parseDouble(weightField.getText());
                 
-                // Llamar al método para modificar la información del paciente con los nuevos valores
                 patientManager.modifyPatientInfo(patientId, email, phone, name, height, weight);
                 
                 JOptionPane.showMessageDialog(this, "Information updated successfully.");
                 
-                // Después de actualizar, volver a mostrar la información actualizada
                 viewMyinfoPanel();
             } catch (IllegalArgumentException ex) {
                 JOptionPane.showMessageDialog(this, "Please enter valid values.");
