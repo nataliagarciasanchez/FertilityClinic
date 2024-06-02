@@ -212,28 +212,52 @@ public class ManagerPanel extends JPanel {
         JPanel stockMainPanel = new JPanel(new BorderLayout());
 
         JPanel stockOptionsPanel = new JPanel();
-        stockOptionsPanel.setLayout(new BoxLayout(stockOptionsPanel, BoxLayout.Y_AXIS)); // Cambio a BoxLayout con dirección Y
+        stockOptionsPanel.setLayout(new BoxLayout(stockOptionsPanel, BoxLayout.Y_AXIS)); // Uso BoxLayout con dirección Y
+        stockOptionsPanel.setBackground(new Color(25, 25, 112)); // Fondo azul oscuro
+        Font buttonFont = new Font("Calibri", Font.BOLD, 18);
 
-        JButton op1 = new JButton("Update Appointment");
-        JButton op2 = new JButton("Add Appointment");
+        JButton op1 = new JButton("Update Stock");
+        op1.setFont(buttonFont);
+        op1.setBackground(Color.WHITE);
+        op1.setForeground(Color.BLACK);
+        op1.setAlignmentX(Component.CENTER_ALIGNMENT);
+        op1.setMaximumSize(new Dimension(Integer.MAX_VALUE, op1.getMinimumSize().height));
+
+        JButton op2 = new JButton("Add Stock");
+        op2.setFont(buttonFont);
+        op2.setBackground(Color.WHITE);
+        op2.setForeground(Color.BLACK);
+        op2.setAlignmentX(Component.CENTER_ALIGNMENT);
+        op2.setMaximumSize(new Dimension(Integer.MAX_VALUE, op2.getMinimumSize().height));
+
+        JButton op3 = new JButton("View Current Stock");
+        op3.setFont(buttonFont);
+        op3.setBackground(Color.WHITE);
+        op3.setForeground(Color.BLACK);
+        op3.setAlignmentX(Component.CENTER_ALIGNMENT);
+        op3.setMaximumSize(new Dimension(Integer.MAX_VALUE, op3.getMinimumSize().height));
 
         op1.addActionListener(e -> updateStockPanel());
         op2.addActionListener(e -> addStockPanel());
+        op3.addActionListener(e -> currentStockPanel()); 
 
+        stockOptionsPanel.add(Box.createVerticalStrut(10));
         stockOptionsPanel.add(op1);
+        stockOptionsPanel.add(Box.createVerticalStrut(10));
         stockOptionsPanel.add(op2);
+        stockOptionsPanel.add(Box.createVerticalStrut(10));
+        stockOptionsPanel.add(op3);
 
         stockMainPanel.add(stockOptionsPanel, BorderLayout.WEST);
-        stockMainPanel.add(currentStockPanel(), BorderLayout.CENTER);
+        stockMainPanel.add(new JScrollPane(currentStockPanel()), BorderLayout.CENTER); // Asumiendo que tienes un método currentStockPanel()
 
-        currentPanel = stockMainPanel; 
-        showCurrentPanel(); 
+        currentPanel = stockMainPanel;
+        showCurrentPanel();
     }
-    
     
     private JPanel currentStockPanel() {
         JPanel panel = new JPanel();
-        panel.setLayout(new GridLayout(0, 1)); 
+        panel.setLayout(new GridLayout(0, 1)); // Usa GridLayout para una sola columna
 
         ArrayList<Stock> stocks = (ArrayList<Stock>) stockManager.viewStock();
 
@@ -241,13 +265,18 @@ public class ManagerPanel extends JPanel {
             panel.add(new JLabel("No stocks yet."));
         } else {
             for (Stock stock : stocks) {
-                JLabel appointmentLabel = new JLabel("hola");
-                panel.add(appointmentLabel);
+                JLabel stockLabel = new JLabel("<html><b>Product:</b> " + stock.getProductName() +
+                        " <b>Category:</b> " + stock.getCategory() +
+                        " <b>Quantity:</b> " + stock.getQuantity() +
+                        " <b>Expiry Date:</b> " + (stock.getExpiryDate() != null ? stock.getExpiryDate().toString() : "N/A") + "</html>");
+                stockLabel.setFont(new Font("Calibri", Font.PLAIN, 16)); // Ajusta el tamaño de la fuente según necesites
+                panel.add(stockLabel);
             }
         }
 
         return panel;
     }
+
     
     private void updateStockPanel() {
         JPanel updatePanel = new JPanel();
@@ -315,7 +344,7 @@ public class ManagerPanel extends JPanel {
         JTextField productNameField = new JTextField();
         JTextField categoryField = new JTextField();
         JTextField quantityField = new JTextField();
-        JTextField expiryDateField = new JTextField("yyyy-MM-dd");
+        JTextField expiryDateField = new JTextField();
 
         addPanel.add(new JLabel("Product Name:"));
         addPanel.add(productNameField);
@@ -336,7 +365,8 @@ public class ManagerPanel extends JPanel {
 
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
                 Date expiryDate = dateFormat.parse(expiryDateStr);
-                stockManager.addStock(managerId, productName, category, quantity, expiryDate);
+                Stock stock =new Stock(null,productName, category, quantity,expiryDate );
+                stockManager.addStock(stock);
 
                 JOptionPane.showMessageDialog(this, "Stock added successfully.");
 

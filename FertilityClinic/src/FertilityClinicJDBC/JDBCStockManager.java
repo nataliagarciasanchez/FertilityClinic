@@ -157,7 +157,7 @@ public class JDBCStockManager  implements StockManager{
              PreparedStatement pstmt = manager.getConnection().prepareStatement(sql);
              ResultSet rs = pstmt.executeQuery()) {
             while (rs.next()) {
-                int productID = rs.getInt("productID");
+                int productID = rs.getInt("id");
                 String productName = rs.getString("productName");
                 String category = rs.getString("category");
                 int quantity = rs.getInt("quantity");
@@ -176,24 +176,23 @@ public class JDBCStockManager  implements StockManager{
 
 	
 	@Override
-	public void addStock(int managerId, String productName, String category, int quantity, Date expiryDate) {
+	public void addStock(Stock stock) {
 	    try {
-	        String sql = "INSERT INTO stocks (manager_id, product_name, category, quantity, expiry_date) VALUES (?, ?, ?, ?, ?)";
-	        PreparedStatement stmt = manager.getConnection().prepareStatement(sql);
-	        stmt.setInt(1, managerId);
-	        stmt.setString(2, productName);
-	        stmt.setString(3, category);
-	        stmt.setInt(4, quantity);
-	        stmt.setDate(5, new java.sql.Date(expiryDate.getTime()));
+	        String sql = "INSERT INTO stock (productName, category, quantity, expiryDate) VALUES (?, ?, ?, ?)";
+	        PreparedStatement pstmt = manager.getConnection().prepareStatement(sql);
+	        pstmt.setString(1, stock.getProductName());
+            pstmt.setString(2, stock.getCategory());
+            pstmt.setInt(3, stock.getQuantity());
+            pstmt.setDate(4, new java.sql.Date(stock.getExpiryDate().getTime())); 
 
-	        int rowsAffected = stmt.executeUpdate();
+	        int rowsAffected = pstmt.executeUpdate();
 	        if (rowsAffected > 0) {
 	            System.out.println("Stock added successfully.");
 	        } else {
 	            System.out.println("Failed to add stock.");
 	        }
 
-	        stmt.close();
+	        pstmt.close();
 	    } catch (SQLException e) {
 	        e.printStackTrace();
 	    }
@@ -287,7 +286,7 @@ public class JDBCStockManager  implements StockManager{
             pstmt.setString(1, "%" + name + "%");
             try (ResultSet rs = pstmt.executeQuery()) {
                 while (rs.next()) {
-                    int productID = rs.getInt("productID");
+                    int productID = rs.getInt("id");
                     String productName = rs.getString("productName");
                     String category = rs.getString("category");
                     int quantity = rs.getInt("quantity");

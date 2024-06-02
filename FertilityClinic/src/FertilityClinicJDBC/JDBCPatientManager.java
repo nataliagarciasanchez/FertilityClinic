@@ -43,7 +43,7 @@ public class JDBCPatientManager implements PatientManager{
 	        stmt.setDouble(6, patient.getWeight());
 	        stmt.setString(7, patient.getBloodType());
 	        stmt.setString(8, patient.getGender());
-	        // Check if treatment is not null
+	        
 	        Integer treatmentId = (patient.getTreatment() != null) ? patient.getTreatment().getTreatmentID() : null;
 	        if (treatmentId != null) {
 	            stmt.setInt(9, treatmentId);
