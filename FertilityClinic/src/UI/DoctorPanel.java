@@ -15,6 +15,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -179,190 +182,7 @@ public class DoctorPanel extends JPanel {
         showCurrentPanel(); // Display the current panel in the main container
     }
 
-
-    //OPTION 3
-    private void viewAppointmentsPanel() {
-        ArrayList<Appointment> appointments =(ArrayList<Appointment>) appointmentManager.viewAppointment(doctorId); // Assuming method allows doctorId
-        JPanel apptPanel = new JPanel();
-        apptPanel.setLayout(new BoxLayout(apptPanel, BoxLayout.Y_AXIS));
-        for (Appointment appt : appointments) {
-            apptPanel.add(new JLabel("Appointment: " + appt.getDescription() + " on " + appt.getDate()));
-        }
-        currentPanel = apptPanel;
-        showCurrentPanel();
-    }
-
-    //OPTION 4
-    
-    private void viewAllPatientsPanel() {
-        List<Patient> patients = patientManager.getPatientsByDoctorId(doctorId);
-        JPanel patientPanel = new JPanel();
-        patientPanel.setLayout(new BoxLayout(patientPanel, BoxLayout.Y_AXIS));
-
-        for (Patient patient : patients) {
-            JPanel singlePatientPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-
-            JLabel patientLabel = new JLabel("Patient: " + patient.getName() + " - " + patient.getEmail());
-            patientLabel.setFont(new Font("Calibri", Font.PLAIN, 16));
-
-            JButton detailsButton = new JButton("View Details");
-            detailsButton.addActionListener(e -> showPatientDetails(patient));
-
-            JButton assignTreatmentButton = new JButton("Assign Treatment");
-            assignTreatmentButton.addActionListener(e -> assignTreatmentPanel(patient));
-
-            singlePatientPanel.add(patientLabel);
-            singlePatientPanel.add(detailsButton);
-            singlePatientPanel.add(assignTreatmentButton);
-            patientPanel.add(singlePatientPanel);
-        }
-
-        currentPanel = patientPanel;
-        showCurrentPanel();
-    }
-    
-    private void assignTreatmentPanel(Patient patient) {
-        List<Treatment> treatments = treatmentManager.getAllTreatments(); 
-        JPanel treatmentPanel = new JPanel();
-        treatmentPanel.setLayout(new BoxLayout(treatmentPanel, BoxLayout.Y_AXIS));
-
-        JComboBox<Treatment> treatmentComboBox = new JComboBox<>();
-        for (Treatment treatment : treatments) {
-            treatmentComboBox.addItem(treatment);
-        }
-        treatmentComboBox.setAlignmentX(Component.LEFT_ALIGNMENT);
-
-       JLabel selectTreatmentLabel = new JLabel("Select a Treatment:");
-        selectTreatmentLabel.setFont(new Font("Calibri", Font.BOLD, 30)); 
-        selectTreatmentLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
-
-        JButton assignButton = new JButton("Assign");
-        assignButton.setFont(new Font("Calibri", Font.PLAIN, 20)); 
-
-        assignButton.addActionListener(e -> {
-            Treatment selectedTreatment = (Treatment) treatmentComboBox.getSelectedItem();
-            patientManager.assignTreatmentToPatient(patient.getId(), selectedTreatment.getTreatmentID());
-            JOptionPane.showMessageDialog(null, "Treatment assigned successfully!");
-            viewAllPatientsPanel(); 
-        });
-
-       treatmentPanel.add(selectTreatmentLabel);
-        treatmentPanel.add(Box.createVerticalStrut(10)); 
-        treatmentPanel.add(treatmentComboBox);
-        treatmentPanel.add(Box.createVerticalStrut(150)); 
-        treatmentPanel.add(assignButton);
-        treatmentPanel.add(Box.createVerticalGlue());
-
-        currentPanel = treatmentPanel;
-        showCurrentPanel();
-    }
-
-
-
-
-
-    private void showPatientDetails(Patient patient) {
-        JPanel detailsPanel = new JPanel();
-        detailsPanel.setLayout(new BoxLayout(detailsPanel, BoxLayout.Y_AXIS));
-        detailsPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-
-        JButton backButton = new JButton("Back");
-        backButton.setFont(new Font("Calibri", Font.PLAIN, 16));
-        backButton.addActionListener(e -> viewAllPatientsPanel());
-        detailsPanel.add(backButton);
-
-        JLabel nameLabel = new JLabel("Name: " + patient.getName());
-        nameLabel.setFont(new Font("Calibri", Font.PLAIN, 16));
-        detailsPanel.add(nameLabel);
-
-        JLabel emailLabel = new JLabel("Email: " + patient.getEmail());
-        emailLabel.setFont(new Font("Calibri", Font.PLAIN, 16));
-        detailsPanel.add(emailLabel);
-
-        JLabel phoneLabel = new JLabel("Phone: " + patient.getPhone());
-        phoneLabel.setFont(new Font("Calibri", Font.PLAIN, 16));
-        detailsPanel.add(phoneLabel);
-
-        JLabel dobLabel = new JLabel("Date of Birth: " + patient.getDob().toString());
-        dobLabel.setFont(new Font("Calibri", Font.PLAIN, 16));
-        detailsPanel.add(dobLabel);
-
-        Treatment treatment = patient.getTreatment();
-        if (treatment != null) {
-            JLabel treatmentLabel = new JLabel("Treatment: " );
-            treatmentLabel.setFont(new Font("Calibri", Font.BOLD, 16));
-            detailsPanel.add(treatmentLabel);
-
-            JLabel descLabel = new JLabel("<html><p style='width:600px'>" + treatment.getDescription() + "</p></html>");
-            descLabel.setFont(new Font("Calibri", Font.PLAIN, 16));
-            descLabel.setAlignmentX(Component.LEFT_ALIGNMENT);  
-            detailsPanel.add(descLabel);
-            
-            detailsPanel.add(Box.createVerticalStrut(20));
-            
-            ArrayList<TreatmentStep> steps = (ArrayList<TreatmentStep>) treatmentManager.getTreatmentSteps(treatment.getTreatmentID());
-            Map<Integer, Boolean> completionStatus = treatmentManager.getStepCompletion(patient.getId(), treatment.getTreatmentID());
-            HashMap<Integer, JCheckBox> checkBoxMap = new HashMap<>();
-
-            for (TreatmentStep step : steps) {
-                JPanel stepPanel = new JPanel();
-                stepPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
-
-                JCheckBox stepCheck = new JCheckBox((step.getStepOrder() + ". " + step.getStepDescription()));
-                stepCheck.setSelected(completionStatus.getOrDefault(step.getId(), false));
-                stepCheck.setFont(new Font("Calibri", Font.PLAIN, 16));
-
-                
-               /* stepCheck.addItemListener(e -> {
-                    boolean isSelected = (e.getStateChange() == ItemEvent.SELECTED);
-                    treatmentManager.updateStepCompletion(patient.getId(), step.getId(), isSelected);
-                });*/
-
-                stepPanel.add(stepCheck);
-                stepPanel.setAlignmentX(Component.LEFT_ALIGNMENT); 
-                detailsPanel.add(stepPanel);
-                checkBoxMap.put(step.getId(), stepCheck); 
-            }
-            detailsPanel.add(Box.createVerticalStrut(20));
-
-            JLabel durationLabel = new JLabel("Duration: " + treatment.getDurationInDays() + " days");
-            durationLabel.setFont(new Font("Calibri", Font.PLAIN, 16));
-            detailsPanel.add(durationLabel);
-
-            JButton updateButton = new JButton("Update Steps");
-            updateButton.setFont(new Font("Calibri", Font.PLAIN, 16));
-            updateButton.addActionListener(e -> {
-                boolean updateSuccessful = true;
-                for (TreatmentStep step : steps) {  
-                	 JCheckBox checkBox = checkBoxMap.get(step.getId());  
-                    boolean isSelected =checkBox.isSelected();  // Estado del checkbox correspondiente a este paso
-                    try {
-                        treatmentManager.updateStepCompletion(patient.getId(), step.getId(), isSelected);
-                    } catch (Exception ex) {
-                        JOptionPane.showMessageDialog(null, "Failed to update step completion: " + ex.getMessage());
-                        updateSuccessful = false;
-                        break;
-                    }
-                }
-                if (updateSuccessful) {
-                    JOptionPane.showMessageDialog(null, "Treatment steps updated successfully.");
-                }
-            });
-            detailsPanel.add(updateButton);
-        } else {
-            JLabel noTreatmentLabel = new JLabel("Treatment: None assigned");
-            noTreatmentLabel.setFont(new Font("Calibri", Font.PLAIN, 16));
-            detailsPanel.add(noTreatmentLabel);
-        }
-
-        currentPanel = detailsPanel;
-        showCurrentPanel();
-    }
-
-
-
-
-
+    //OPTION 2
     private void updateInfoPanel() {
         Doctor doctor = doctorManager.viewMyInfo(doctorId);
 
@@ -429,6 +249,409 @@ public class DoctorPanel extends JPanel {
         currentPanel = wrapperPanel;
         showCurrentPanel();
     }
+
+    //OPTION 3
+    private void viewAppointmentsPanel() {
+        JPanel appointmentsMainPanel = new JPanel(new BorderLayout());
+
+        JPanel appointmentsOptionsPanel = new JPanel();
+        appointmentsOptionsPanel.setLayout(new BoxLayout(appointmentsOptionsPanel, BoxLayout.Y_AXIS)); // Use BoxLayout along Y axis
+        appointmentsOptionsPanel.setBackground(new Color(25, 25, 112)); // Dark blue background
+        Font buttonFont = new Font("Calibri", Font.BOLD, 18);
+
+        JButton op1 = new JButton("Update Appointment");
+        op1.setFont(buttonFont);
+        op1.setBackground(Color.WHITE);
+        op1.setForeground(Color.BLACK);
+        op1.setAlignmentX(Component.CENTER_ALIGNMENT); // Center button horizontally
+        op1.setMaximumSize(new Dimension(Integer.MAX_VALUE, op1.getMinimumSize().height)); // Ensure button occupies all available width
+
+        JButton op2 = new JButton("Add Appointment");
+        op2.setFont(buttonFont);
+        op2.setBackground(Color.WHITE);
+        op2.setForeground(Color.BLACK);
+        op2.setAlignmentX(Component.CENTER_ALIGNMENT); // Center button horizontally
+        op2.setMaximumSize(new Dimension(Integer.MAX_VALUE, op2.getMinimumSize().height)); // Ensure button occupies all available width
+
+        JButton op3 = new JButton("Delete Appointment");
+        op3.setFont(buttonFont);
+        op3.setBackground(Color.WHITE);
+        op3.setForeground(Color.BLACK);
+        op3.setAlignmentX(Component.CENTER_ALIGNMENT); // Center button horizontally
+        op3.setMaximumSize(new Dimension(Integer.MAX_VALUE, op3.getMinimumSize().height)); // Ensure button occupies all available width
+
+        op1.addActionListener(e -> updateAppointmentPanel());
+        op2.addActionListener(e -> addAppointmentPanel());
+        op3.addActionListener(e -> deleteAppointmentPanel()); // Assuming deleteAppointmentPanel() is the method you'll use
+
+        appointmentsOptionsPanel.add(Box.createVerticalStrut(10)); // Add vertical space between buttons
+        appointmentsOptionsPanel.add(op1);
+        appointmentsOptionsPanel.add(Box.createVerticalStrut(10)); // Add vertical space between buttons
+        appointmentsOptionsPanel.add(op2);
+        appointmentsOptionsPanel.add(Box.createVerticalStrut(10)); // Add vertical space between buttons
+        appointmentsOptionsPanel.add(op3);
+
+        appointmentsMainPanel.add(appointmentsOptionsPanel, BorderLayout.WEST);
+        appointmentsMainPanel.add(new JScrollPane(currentAppointmentsPanel()), BorderLayout.CENTER);
+
+        currentPanel = appointmentsMainPanel; // Set the current panel to the main panel
+        showCurrentPanel(); // Display the current panel in the main container
+    }
+    
+    private void deleteAppointmentPanel() {
+        JPanel mainPanel = new JPanel();
+        mainPanel.setLayout(new BorderLayout());
+        mainPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+        
+        JLabel headerLabel = new JLabel("Delete Appointments");
+        headerLabel.setFont(new Font("Calibri", Font.BOLD, 24));
+        mainPanel.add(headerLabel, BorderLayout.NORTH);
+
+        JPanel appointmentListPanel = new JPanel();
+        appointmentListPanel.setLayout(new BoxLayout(appointmentListPanel, BoxLayout.Y_AXIS));
+
+        JScrollPane scrollPane = new JScrollPane(appointmentListPanel);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        mainPanel.add(scrollPane, BorderLayout.CENTER);
+
+       
+        ArrayList<Appointment> appointments = appointmentManager.viewAppointmentByDoctorId(doctorId);
+
+        if (appointments.isEmpty()) {
+            appointmentListPanel.add(new JLabel("No appointments to display."));
+        } else {
+            for (Appointment ap : appointments) {
+                JPanel singleAppointmentPanel = new JPanel();
+                singleAppointmentPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+                singleAppointmentPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+
+      
+                String patientName = patientManager.searchPatientById(ap.getPatientId()).getName();
+                JLabel appointmentDetails = new JLabel(
+                    "Date: " + ap.getDate().toString() + 
+                    ", Time: " + ap.getTime().toString() + 
+                    ", Patient: " + patientName +
+                    ", Description: " + ap.getDescription()
+                );
+                appointmentDetails.setFont(new Font("Calibri", Font.PLAIN, 18));
+
+                JButton deleteButton = new JButton("Delete");
+                deleteButton.addActionListener(e -> {
+                    appointmentManager.deleteAppointment(ap.getId());
+                    JOptionPane.showMessageDialog(null, "Appointment deleted successfully.");
+                    deleteAppointmentPanel(); 
+                });
+
+                singleAppointmentPanel.add(appointmentDetails);
+                singleAppointmentPanel.add(deleteButton);
+                appointmentListPanel.add(singleAppointmentPanel);
+            }
+        }
+
+        currentPanel = mainPanel;
+        showCurrentPanel(); 
+    }
+    
+    private JPanel currentAppointmentsPanel() {
+        JPanel panel = new JPanel(new GridLayout(0, 1)); 
+        panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); 
+        ArrayList<Appointment> appointments = appointmentManager.viewAppointmentByDoctorId(doctorId); 
+
+        Font labelFont = new Font("Calibri", Font.BOLD, 18); 
+
+        if (appointments.isEmpty()) {
+            JLabel noAppointmentsLabel = new JLabel("No appointments yet.");
+            noAppointmentsLabel.setFont(labelFont);
+            panel.add(noAppointmentsLabel);
+        } else {
+            for (Appointment appointment : appointments) {
+                // Asumiendo que tienes un método en PatientManager para obtener el nombre del paciente por ID
+                String patientName = patientManager.searchPatientById(appointment.getPatientId()).getName();
+
+                JLabel appointmentLabel = new JLabel("<html><b>Date:</b> " + appointment.getDate() +
+                    " <b>Time:</b> " + appointment.getTime() +
+                    " <b>Patient's name:</b> " + patientName +
+                    " <b>Doctor's name:</b> " + doctorManager.searchDoctorById(appointment.getDoctorId()).getName() +
+                    " <b>Description:</b> " + appointment.getDescription() + "</html>");
+                appointmentLabel.setFont(labelFont);
+                panel.add(appointmentLabel);
+            }
+        }
+        return panel;
+    }
+
+    private void addAppointmentPanel() {
+        JPanel addPanel = new JPanel(new GridBagLayout());
+        addPanel.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 10)); 
+
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.insets = new Insets(10, 10, 10, 10); 
+        gbc.anchor = GridBagConstraints.WEST;
+
+        JLabel dateLabel = new JLabel("Date (YYYY-MM-DD):");
+        dateLabel.setFont(new Font("Calibri", Font.BOLD, 18));
+        JTextField dateField = new JTextField(15);
+        dateField.setFont(new Font("Calibri", Font.PLAIN, 18));
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        addPanel.add(dateLabel, gbc);
+        gbc.gridx = 1;
+        addPanel.add(dateField, gbc);
+
+        JLabel timeLabel = new JLabel("Time (HH:MM:SS):");
+        timeLabel.setFont(new Font("Calibri", Font.BOLD, 18));
+        JTextField timeField = new JTextField(15);
+        timeField.setFont(new Font("Calibri", Font.PLAIN, 18));
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        addPanel.add(timeLabel, gbc);
+        gbc.gridx = 1;
+        addPanel.add(timeField, gbc);
+
+        JLabel patientLabel = new JLabel("Patient:");
+        patientLabel.setFont(new Font("Calibri", Font.BOLD, 18));
+        JComboBox<Patient> patientIdComboBox = new JComboBox<>(new DefaultComboBoxModel<>(patientManager.getListOfPatients().toArray(new Patient[0])));
+        patientIdComboBox.setFont(new Font("Calibri", Font.PLAIN, 18));
+        patientIdComboBox.setRenderer(new DefaultListCellRenderer() {
+            @Override
+            public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+                super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                if (value instanceof Patient) {
+                    setText(((Patient) value).getName());
+                }
+                return this;
+            }
+        });
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        addPanel.add(doctorLabel, gbc);
+        gbc.gridx = 1;
+        addPanel.add(doctorIdComboBox, gbc);
+
+        JLabel descriptionLabel = new JLabel("Description:");
+        descriptionLabel.setFont(new Font("Calibri", Font.BOLD, 18));
+        JTextField descriptionField = new JTextField(15);
+        descriptionField.setFont(new Font("Calibri", Font.PLAIN, 18));
+        gbc.gridx = 0;
+        gbc.gridy = 3;
+        addPanel.add(descriptionLabel, gbc);
+        gbc.gridx = 1;
+        addPanel.add(descriptionField, gbc);
+
+        JButton addBtn = new JButton("Add Appointment");
+        addBtn.setFont(new Font("Calibri", Font.BOLD, 18));
+        addBtn.setBackground(Color.WHITE);
+        addBtn.setForeground(Color.BLACK);
+        gbc.gridx = 0;
+        gbc.gridy = 4;
+        gbc.gridwidth = 2;
+        gbc.anchor = GridBagConstraints.WEST;
+        addPanel.add(addBtn, gbc);
+
+        addBtn.addActionListener(e -> {
+            try {
+                LocalDate date = LocalDate.parse(dateField.getText());
+                LocalTime time = LocalTime.parse(timeField.getText());
+
+                Doctor selectedDoctor = (Doctor) doctorIdComboBox.getSelectedItem();
+                int doctorId = selectedDoctor.getId();
+
+                String description = descriptionField.getText();
+                Appointment ap = new Appointment(0, patientId, description, time, date, doctorId);
+                appointmentManager.bookAppointment(ap);
+                JOptionPane.showMessageDialog(this, "Appointment added successfully.");
+                appointmentsPanel();
+            } catch (DateTimeParseException ex) {
+                JOptionPane.showMessageDialog(this, "Please enter valid date and time formats.");
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, "An error occurred while adding the appointment: " + ex.getMessage());
+                ex.printStackTrace();
+            }
+        });
+
+        currentPanel = addPanel;
+        showCurrentPanel();
+    }
+
+    //OPTION 4 y 5
+    
+    private void viewAllPatientsPanel() {
+        List<Patient> patients = patientManager.getPatientsByDoctorId(doctorId);
+        JPanel patientPanel = new JPanel();
+        patientPanel.setLayout(new BoxLayout(patientPanel, BoxLayout.Y_AXIS));
+
+        for (Patient patient : patients) {
+            JPanel singlePatientPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+
+            JLabel patientLabel = new JLabel("Patient: " + patient.getName() + " - " + patient.getEmail());
+            patientLabel.setFont(new Font("Calibri", Font.PLAIN, 16));
+
+            JButton detailsButton = new JButton("View Details");
+            detailsButton.addActionListener(e -> showPatientDetails(patient));
+
+            JButton assignTreatmentButton = new JButton("Assign Treatment");
+            assignTreatmentButton.addActionListener(e -> assignTreatmentPanel(patient));
+
+            singlePatientPanel.add(patientLabel);
+            singlePatientPanel.add(detailsButton);
+            singlePatientPanel.add(assignTreatmentButton);
+            patientPanel.add(singlePatientPanel);
+        }
+
+        currentPanel = patientPanel;
+        showCurrentPanel();
+    }
+    
+    private void assignTreatmentPanel(Patient patient) {
+        List<Treatment> treatments = treatmentManager.getAllTreatments(); 
+        JPanel treatmentPanel = new JPanel();
+        treatmentPanel.setLayout(new BoxLayout(treatmentPanel, BoxLayout.Y_AXIS));
+
+        JComboBox<Treatment> treatmentComboBox = new JComboBox<>();
+        for (Treatment treatment : treatments) {
+            treatmentComboBox.addItem(treatment);
+        }
+        treatmentComboBox.setRenderer(new DefaultListCellRenderer() {
+            @Override
+            public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+                super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                if (value instanceof Treatment) {
+                    Treatment treatment = (Treatment) value;
+                    setText(treatment.getNameTreatment());  
+                }
+                return this;
+            }
+        });
+        treatmentComboBox.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+       JLabel selectTreatmentLabel = new JLabel("Select a Treatment:");
+        selectTreatmentLabel.setFont(new Font("Calibri", Font.BOLD, 30)); 
+        selectTreatmentLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+        JButton assignButton = new JButton("Assign");
+        assignButton.setFont(new Font("Calibri", Font.PLAIN, 20)); 
+
+        assignButton.addActionListener(e -> {
+            Treatment selectedTreatment = (Treatment) treatmentComboBox.getSelectedItem();
+            patientManager.assignTreatmentToPatient(patient.getId(), selectedTreatment.getTreatmentID());
+            JOptionPane.showMessageDialog(null, "Treatment assigned successfully!");
+            viewAllPatientsPanel(); 
+        });
+
+       treatmentPanel.add(selectTreatmentLabel);
+        treatmentPanel.add(Box.createVerticalStrut(10)); 
+        treatmentPanel.add(treatmentComboBox);
+        treatmentPanel.add(Box.createVerticalStrut(150)); 
+        treatmentPanel.add(assignButton);
+        treatmentPanel.add(Box.createVerticalGlue());
+
+        currentPanel = treatmentPanel;
+        showCurrentPanel();
+    }
+
+    
+    private void showPatientDetails(Patient patient) {
+        JPanel detailsPanel = new JPanel();
+        detailsPanel.setLayout(new BoxLayout(detailsPanel, BoxLayout.Y_AXIS));
+        detailsPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+        JButton backButton = new JButton("Back");
+        backButton.setFont(new Font("Calibri", Font.PLAIN, 16));
+        backButton.addActionListener(e -> viewAllPatientsPanel());
+        detailsPanel.add(backButton);
+
+        JLabel nameLabel = new JLabel("Name: " + patient.getName());
+        nameLabel.setFont(new Font("Calibri", Font.PLAIN, 16));
+        detailsPanel.add(nameLabel);
+
+        JLabel emailLabel = new JLabel("Email: " + patient.getEmail());
+        emailLabel.setFont(new Font("Calibri", Font.PLAIN, 16));
+        detailsPanel.add(emailLabel);
+
+        JLabel phoneLabel = new JLabel("Phone: " + patient.getPhone());
+        phoneLabel.setFont(new Font("Calibri", Font.PLAIN, 16));
+        detailsPanel.add(phoneLabel);
+
+        JLabel dobLabel = new JLabel("Date of Birth: " + patient.getDob().toString());
+        dobLabel.setFont(new Font("Calibri", Font.PLAIN, 16));
+        detailsPanel.add(dobLabel);
+
+        Treatment treatment = patient.getTreatment();
+        if (treatment != null) {
+            JLabel treatmentLabel = new JLabel("Treatment: " );
+            treatmentLabel.setFont(new Font("Calibri", Font.BOLD, 16));
+            detailsPanel.add(treatmentLabel);
+
+            JLabel descLabel = new JLabel("<html><p style='width:600px'>" + treatment.getDescription() + "</p></html>");
+            descLabel.setFont(new Font("Calibri", Font.PLAIN, 16));
+            descLabel.setAlignmentX(Component.LEFT_ALIGNMENT);  
+            detailsPanel.add(descLabel);
+            
+            detailsPanel.add(Box.createVerticalStrut(20));
+            
+            ArrayList<TreatmentStep> steps = (ArrayList<TreatmentStep>) treatmentManager.getTreatmentSteps(treatment.getTreatmentID());
+            Map<Integer, Boolean> completionStatus = treatmentManager.getStepCompletion(patient.getId(), treatment.getTreatmentID());
+            HashMap<Integer, JCheckBox> checkBoxMap = new HashMap<>();
+
+            for (TreatmentStep step : steps) {
+                JPanel stepPanel = new JPanel();
+                stepPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+
+                JCheckBox stepCheck = new JCheckBox((step.getStepOrder() + ". " + step.getStepDescription()));
+                stepCheck.setSelected(completionStatus.getOrDefault(step.getId(), false));
+                stepCheck.setFont(new Font("Calibri", Font.PLAIN, 16));
+
+                
+                stepCheck.addItemListener(e -> {
+                    boolean isSelected = (e.getStateChange() == ItemEvent.SELECTED);
+                    treatmentManager.updateStepCompletion(patient.getId(), step.getId(), isSelected);
+                });
+
+                stepPanel.add(stepCheck);
+                stepPanel.setAlignmentX(Component.LEFT_ALIGNMENT); 
+                detailsPanel.add(stepPanel);
+                checkBoxMap.put(step.getId(), stepCheck); 
+            }
+            detailsPanel.add(Box.createVerticalStrut(20));
+
+            JLabel durationLabel = new JLabel("Duration: " + treatment.getDurationInDays() + " days");
+            durationLabel.setFont(new Font("Calibri", Font.PLAIN, 16));
+            detailsPanel.add(durationLabel);
+
+            JButton updateButton = new JButton("Update Steps");
+            updateButton.setFont(new Font("Calibri", Font.PLAIN, 16));
+            updateButton.addActionListener(e -> {
+                boolean updateSuccessful = true;
+                for (TreatmentStep step : steps) {  
+                	 JCheckBox checkBox = checkBoxMap.get(step.getId());  
+                    boolean isSelected =checkBox.isSelected();  // Estado del checkbox correspondiente a este paso
+                    try {
+                        treatmentManager.updateStepCompletion(patient.getId(), step.getId(), isSelected);
+                    } catch (Exception ex) {
+                        JOptionPane.showMessageDialog(null, "Failed to update step completion: " + ex.getMessage());
+                        updateSuccessful = false;
+                        break;
+                    }
+                }
+                if (updateSuccessful) {
+                    JOptionPane.showMessageDialog(null, "Treatment steps updated successfully.");
+                }
+            });
+            detailsPanel.add(updateButton);
+        } else {
+            JLabel noTreatmentLabel = new JLabel("Treatment: None assigned");
+            noTreatmentLabel.setFont(new Font("Calibri", Font.PLAIN, 16));
+            detailsPanel.add(noTreatmentLabel);
+        }
+
+        currentPanel = detailsPanel;
+        showCurrentPanel();
+    }
+
+
+   
 
 
     private void assignPatientPanel() {

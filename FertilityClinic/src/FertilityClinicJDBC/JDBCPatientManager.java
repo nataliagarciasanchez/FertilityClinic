@@ -2,6 +2,7 @@ package FertilityClinicJDBC;
 
 import FertilityClinicPOJOs.Patient;
 import FertilityClinicPOJOs.Treatment;
+import FertilityClinicPOJOs.TreatmentStep;
 
 import java.sql.Connection;
 import java.sql.Date;
@@ -343,6 +344,7 @@ public class JDBCPatientManager implements PatientManager{
             int affectedRows = pstmt.executeUpdate();
             if (affectedRows > 0) {
                 System.out.println("Treatment assigned successfully to patient ID: " + patientId);
+                initializePatientTreatment(patientId, treatmentId);
             } else {
                 System.out.println("No rows affected, it seems there was nothing to update or patient does not exist.");
             }
@@ -351,6 +353,33 @@ public class JDBCPatientManager implements PatientManager{
             e.printStackTrace();
         }
     }
+	private void initializePatientTreatment(int patientId, int treatmentId) {
+	    List<TreatmentStep> steps = treatmentmanager.getTreatmentSteps(treatmentId);
+	    String sqlInsert = "INSERT INTO patientTreatment (patientID, treatmentStepID, isCompleted) VALUES (?, ?, ?)";
+	    PreparedStatement pstmt = null;
+	    try {
+	        pstmt = manager.getConnection().prepareStatement(sqlInsert);
+	        for (TreatmentStep step : steps) {
+	            pstmt.setInt(1, patientId);
+	            pstmt.setInt(2, step.getId());
+	            pstmt.setBoolean(3, false);
+	            pstmt.addBatch();
+	        }
+	        pstmt.executeBatch();  
+	        System.out.println("Initialized patientTreatment records for patient ID: " + patientId);
+	    } catch (SQLException e) {
+	        System.err.println("Error initializing patientTreatment records: " + e.getMessage());
+	        e.printStackTrace();
+	    } finally {
+	        if (pstmt != null) {
+	            try {
+	                pstmt.close();
+	            } catch (SQLException e) {
+	                e.printStackTrace();
+	            }
+	        }
+	    }
+	}
 
 	
 	

@@ -57,6 +57,32 @@ public class JDBCAppointmentManager implements AppointmentManager{
 	        }
 	        return appointments;
 	    }
+	    
+	    @Override
+	    public ArrayList<Appointment> viewAppointmentByDoctorId(int doctorId) {
+	        ArrayList<Appointment> appointments = new ArrayList<>();
+	        String sql = "SELECT * FROM appointments WHERE doctor_id = ?";
+	        try (PreparedStatement stmt = manager.getConnection().prepareStatement(sql)) {
+	            stmt.setInt(1, doctorId);
+	            try (ResultSet rs = stmt.executeQuery()) {
+	                while (rs.next()) {
+	                    int id = rs.getInt("id");
+	                    int patientId = rs.getInt("patient_id");
+	                    String description = rs.getString("description");
+	                    String timeStr = rs.getString("time");
+	                    String dateStr = rs.getString("date");
+	                    LocalTime time = LocalTime.parse(timeStr, DateTimeFormatter.ofPattern("HH:mm:ss"));
+	                    LocalDate date = LocalDate.parse(dateStr, DateTimeFormatter.ISO_LOCAL_DATE);
+
+	                    appointments.add(new Appointment(id, patientId, description, time, date, doctorId));
+	                }
+	            }
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        }
+	        return appointments;
+	    }
+
 
 	    @Override
 	    public void bookAppointment(Appointment ap) {

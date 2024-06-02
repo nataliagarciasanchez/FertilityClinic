@@ -10,5 +10,6 @@ public interface AppointmentManager {
 	public void deleteAppointment(int appointmentId);
 	public void updateAppointment(Appointment ap);
 	public ArrayList<Appointment> getCurrentAppointments(int patientId);
+	public ArrayList<Appointment> viewAppointmentByDoctorId(int doctorId);
 	 
 }

@@ -127,7 +127,7 @@ public class PatientPanel extends JPanel {
         JPanel wrapperPanel = new JPanel(new BorderLayout());
         JPanel infoPanel = new JPanel();
         infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
-        infoPanel.setBorder(BorderFactory.createEmptyBorder(10, 50, 10, 10)); // Top, left, bottom, right padding
+        infoPanel.setBorder(BorderFactory.createEmptyBorder(10, 50, 10, 10));
 
         if (patient != null) {
             infoPanel.add(new JLabel("Name: " + patient.getName()));
@@ -250,13 +250,13 @@ public class PatientPanel extends JPanel {
             }
         });
 
-        updatePanel.add(new JLabel()); // Placeholder for spacing
+        updatePanel.add(new JLabel()); 
         updatePanel.add(updateBtn);
 
         wrapperPanel.add(updatePanel, BorderLayout.CENTER);
 
-        currentPanel = wrapperPanel; // Set the current panel to the wrapper panel
-        showCurrentPanel(); // Display the current panel in the main container
+        currentPanel = wrapperPanel; 
+        showCurrentPanel(); 
     }
 
     //OPTION 3
@@ -264,47 +264,47 @@ public class PatientPanel extends JPanel {
         JPanel appointmentsMainPanel = new JPanel(new BorderLayout());
 
         JPanel appointmentsOptionsPanel = new JPanel();
-        appointmentsOptionsPanel.setLayout(new BoxLayout(appointmentsOptionsPanel, BoxLayout.Y_AXIS)); // Use BoxLayout along Y axis
-        appointmentsOptionsPanel.setBackground(new Color(25, 25, 112)); // Dark blue background
+        appointmentsOptionsPanel.setLayout(new BoxLayout(appointmentsOptionsPanel, BoxLayout.Y_AXIS)); 
+        appointmentsOptionsPanel.setBackground(new Color(25, 25, 112)); 
         Font buttonFont = new Font("Calibri", Font.BOLD, 18);
 
         JButton op1 = new JButton("Update Appointment");
         op1.setFont(buttonFont);
         op1.setBackground(Color.WHITE);
         op1.setForeground(Color.BLACK);
-        op1.setAlignmentX(Component.CENTER_ALIGNMENT); // Center button horizontally
-        op1.setMaximumSize(new Dimension(Integer.MAX_VALUE, op1.getMinimumSize().height)); // Ensure button occupies all available width
+        op1.setAlignmentX(Component.CENTER_ALIGNMENT); 
+        op1.setMaximumSize(new Dimension(Integer.MAX_VALUE, op1.getMinimumSize().height)); 
 
         JButton op2 = new JButton("Add Appointment");
         op2.setFont(buttonFont);
         op2.setBackground(Color.WHITE);
         op2.setForeground(Color.BLACK);
-        op2.setAlignmentX(Component.CENTER_ALIGNMENT); // Center button horizontally
-        op2.setMaximumSize(new Dimension(Integer.MAX_VALUE, op2.getMinimumSize().height)); // Ensure button occupies all available width
+        op2.setAlignmentX(Component.CENTER_ALIGNMENT); 
+        op2.setMaximumSize(new Dimension(Integer.MAX_VALUE, op2.getMinimumSize().height)); 
 
         JButton op3 = new JButton("Delete Appointment");
         op3.setFont(buttonFont);
         op3.setBackground(Color.WHITE);
         op3.setForeground(Color.BLACK);
-        op3.setAlignmentX(Component.CENTER_ALIGNMENT); // Center button horizontally
-        op3.setMaximumSize(new Dimension(Integer.MAX_VALUE, op3.getMinimumSize().height)); // Ensure button occupies all available width
+        op3.setAlignmentX(Component.CENTER_ALIGNMENT); 
+        op3.setMaximumSize(new Dimension(Integer.MAX_VALUE, op3.getMinimumSize().height)); 
 
         op1.addActionListener(e -> updateAppointmentPanel());
         op2.addActionListener(e -> addAppointmentPanel());
-        op3.addActionListener(e -> deleteAppointmentPanel()); // Assuming deleteAppointmentPanel() is the method you'll use
+        op3.addActionListener(e -> deleteAppointmentPanel()); 
 
-        appointmentsOptionsPanel.add(Box.createVerticalStrut(10)); // Add vertical space between buttons
+        appointmentsOptionsPanel.add(Box.createVerticalStrut(10)); 
         appointmentsOptionsPanel.add(op1);
-        appointmentsOptionsPanel.add(Box.createVerticalStrut(10)); // Add vertical space between buttons
+        appointmentsOptionsPanel.add(Box.createVerticalStrut(10)); 
         appointmentsOptionsPanel.add(op2);
-        appointmentsOptionsPanel.add(Box.createVerticalStrut(10)); // Add vertical space between buttons
+        appointmentsOptionsPanel.add(Box.createVerticalStrut(10)); 
         appointmentsOptionsPanel.add(op3);
 
         appointmentsMainPanel.add(appointmentsOptionsPanel, BorderLayout.WEST);
         appointmentsMainPanel.add(new JScrollPane(currentAppointmentsPanel()), BorderLayout.CENTER);
 
-        currentPanel = appointmentsMainPanel; // Set the current panel to the main panel
-        showCurrentPanel(); // Display the current panel in the main container
+        currentPanel = appointmentsMainPanel; 
+        showCurrentPanel(); 
     }
 
     private void deleteAppointmentPanel() {
@@ -312,7 +312,7 @@ public class PatientPanel extends JPanel {
         mainPanel.setLayout(new BorderLayout());
         mainPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-        // Title or header for the panel
+        
         JLabel headerLabel = new JLabel("Delete Appointments");
         headerLabel.setFont(new Font("Calibri", Font.BOLD, 24));
         mainPanel.add(headerLabel, BorderLayout.NORTH);
@@ -324,7 +324,7 @@ public class PatientPanel extends JPanel {
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         mainPanel.add(scrollPane, BorderLayout.CENTER);
 
-        // Fetch current appointments
+       
         ArrayList<Appointment> appointments = appointmentManager.getCurrentAppointments(patientId);
 
         if (appointments.isEmpty()) {
@@ -335,7 +335,7 @@ public class PatientPanel extends JPanel {
                 singleAppointmentPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
                 singleAppointmentPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
-                // Format appointment details
+      
                 JLabel appointmentDetails = new JLabel(
                     "Date: " + ap.getDate().toString() + 
                     ", Time: " + ap.getTime().toString() + 
@@ -348,7 +348,7 @@ public class PatientPanel extends JPanel {
                 deleteButton.addActionListener(e -> {
                     appointmentManager.deleteAppointment(ap.getId());
                     JOptionPane.showMessageDialog(null, "Appointment deleted successfully.");
-                    deleteAppointmentPanel(); // Refresh panel to reflect the change
+                    deleteAppointmentPanel(); 
                 });
 
                 singleAppointmentPanel.add(appointmentDetails);
@@ -358,15 +358,15 @@ public class PatientPanel extends JPanel {
         }
 
         currentPanel = mainPanel;
-        showCurrentPanel(); // Method to switch to the current panel on the main frame
+        showCurrentPanel(); 
     }
     
     private JPanel currentAppointmentsPanel() {
-        JPanel panel = new JPanel(new GridLayout(0, 1)); // Usa GridLayout para una sola columna
-        panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Espaciado de 10 píxeles alrededor
+        JPanel panel = new JPanel(new GridLayout(0, 1)); 
+        panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         ArrayList<Appointment> appointments = appointmentManager.viewAppointment(patientId);
 
-        Font labelFont = new Font("Calibri", Font.BOLD, 18); // Ajustar el tamaño de la fuente
+        Font labelFont = new Font("Calibri", Font.BOLD, 18); 
 
         if (appointments.isEmpty()) {
             JLabel noAppointmentsLabel = new JLabel("No appointments yet.");
@@ -388,11 +388,11 @@ public class PatientPanel extends JPanel {
 
     private void addAppointmentPanel() {
         JPanel addPanel = new JPanel(new GridBagLayout());
-        addPanel.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 10)); // Separación de 20 a la derecha y 10 arriba
+        addPanel.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 10)); 
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.insets = new Insets(10, 10, 10, 10); // Espaciado entre componentes
+        gbc.insets = new Insets(10, 10, 10, 10); 
         gbc.anchor = GridBagConstraints.WEST;
 
         JLabel dateLabel = new JLabel("Date (YYYY-MM-DD):");
@@ -485,8 +485,8 @@ public class PatientPanel extends JPanel {
     private void updateAppointmentPanel() {
         JPanel wrapperPanel = new JPanel(new BorderLayout());
         JPanel updatePanel = new JPanel();
-        updatePanel.setLayout(new GridLayout(0, 2, 10, 10)); // GridLayout para espaciado
-        updatePanel.setBorder(BorderFactory.createEmptyBorder(10, 50, 10, 10)); // Padding
+        updatePanel.setLayout(new GridLayout(0, 2, 10, 10)); 
+        updatePanel.setBorder(BorderFactory.createEmptyBorder(10, 50, 10, 10)); 
 
         ArrayList<Appointment> appointments = appointmentManager.getCurrentAppointments(patientId);
 
@@ -495,8 +495,8 @@ public class PatientPanel extends JPanel {
 
         if (appointments != null && !appointments.isEmpty()) {
             for (Appointment appointment : appointments) {
-                JPanel singleAppointmentPanel = new JPanel(new GridLayout(0, 2, 10, 10)); // Panel para cada cita
-                singleAppointmentPanel.setBackground(new Color(240, 240, 240)); // Fondo claro
+                JPanel singleAppointmentPanel = new JPanel(new GridLayout(0, 2, 10, 10)); 
+                singleAppointmentPanel.setBackground(new Color(240, 240, 240)); 
 
                 JLabel doctorLabel = new JLabel("Dr. " + doctorManager.searchDoctorById(appointment.getDoctorId()).getName());
                 doctorLabel.setFont(fieldFont);
@@ -539,7 +539,7 @@ public class PatientPanel extends JPanel {
                         Appointment updatedAppointment = new Appointment(appointment.getId(), patientId, descriptionField.getText(), time, date, appointment.getDoctorId());
                         appointmentManager.updateAppointment(updatedAppointment);
                         JOptionPane.showMessageDialog(this, "Appointment updated successfully.");
-                        updateAppointmentPanel(); // Refresh the panel
+                        updateAppointmentPanel(); 
                     } catch (DateTimeParseException ex) {
                         JOptionPane.showMessageDialog(this, "Please enter valid date and time formats.");
                     } catch (Exception ex) {
@@ -548,7 +548,7 @@ public class PatientPanel extends JPanel {
                     }
                 });
 
-                singleAppointmentPanel.add(new JLabel()); // Placeholder for spacing
+                singleAppointmentPanel.add(new JLabel()); 
                 singleAppointmentPanel.add(updateBtn);
 
                 updatePanel.add(singleAppointmentPanel);
@@ -580,10 +580,10 @@ public class PatientPanel extends JPanel {
 
         JPanel resultPanel = new JPanel();
         resultPanel.setLayout(new BoxLayout(resultPanel, BoxLayout.Y_AXIS));
-        resultPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Padding around the result panel
+        resultPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); 
 
         // Load all doctors by default
-        ArrayList<Doctor> allDoctors = (ArrayList<Doctor>) doctorManager.getListOfDoctors(); // Assuming you have this method
+        ArrayList<Doctor> allDoctors = (ArrayList<Doctor>) doctorManager.getListOfDoctors(); 
         displayDoctors(resultPanel, allDoctors);
 
         searchBtn.addActionListener(e -> {
@@ -601,16 +601,16 @@ public class PatientPanel extends JPanel {
         doctorPanel.add(searchPanel, BorderLayout.NORTH);
         doctorPanel.add(scrollPane, BorderLayout.CENTER);
 
-        currentPanel = doctorPanel; // Establece el panel actual como el panel de información del paciente
-        showCurrentPanel(); // Muestra el panel actual en el contenedor principal
+        currentPanel = doctorPanel;
+        showCurrentPanel(); 
     }
 
     private void displayDoctors(JPanel resultPanel, ArrayList<Doctor> doctors) {
-        Font infoFont = new Font("Calibri", Font.PLAIN, 16); // Font size set to 16
+        Font infoFont = new Font("Calibri", Font.PLAIN, 16); 
 
         for (Doctor doctor : doctors) {
             JPanel doctorInfoPanel = new JPanel(new GridLayout(0, 1));
-            doctorInfoPanel.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10)); // Padding inside each doctor's info panel
+            doctorInfoPanel.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10)); 
 
             JLabel nameLabel = new JLabel("Name: " + doctor.getName());
             nameLabel.setFont(infoFont);
@@ -625,66 +625,16 @@ public class PatientPanel extends JPanel {
             emailLabel.setFont(infoFont);
             doctorInfoPanel.add(emailLabel);
 
-            doctorInfoPanel.setPreferredSize(new Dimension(400, 100)); // Set preferred size for each doctor info panel
+            doctorInfoPanel.setPreferredSize(new Dimension(400, 100)); 
             resultPanel.add(doctorInfoPanel);
-            resultPanel.add(Box.createRigidArea(new Dimension(0, 20))); // Add space between doctor panels
+            resultPanel.add(Box.createRigidArea(new Dimension(0, 20)));
         }
     }
 
 
 
-/*
+
     //OPTION 5
-    
-    
-    /* copiar para doctor 
-    private void myTreatmentPanel() {
-        Patient patient = patientManager.viewMyInfo(patientId);
-        Treatment treatment = patient.getTreatment();
-
-        JPanel wrapperPanel = new JPanel(new BorderLayout());
-        JPanel treatmentPanel = new JPanel();
-        treatmentPanel.setLayout(new BoxLayout(treatmentPanel, BoxLayout.Y_AXIS));
-        treatmentPanel.setBorder(BorderFactory.createEmptyBorder(10, 50, 10, 10));
-
-        Font infoFont = new Font("Calibri", Font.PLAIN, 18);
-        Font labelFont = new Font("Calibri", Font.BOLD, 18);
-
-        if (treatment != null) {
-            JLabel nameLabel = new JLabel("Name of Treatment: " + treatment.getName());
-            nameLabel.setFont(labelFont);
-            treatmentPanel.add(nameLabel);
-
-            ArrayList<TreatmentStep> steps = (ArrayList<TreatmentStep>) treatmentManager.getTreatmentSteps(treatment.getTreatmentID());
-            Map<Integer, Boolean> completionStatus =treatmentManager.getStepCompletion(patient.getId(), treatment.getTreatmentID());
-
-            for (TreatmentStep step : steps) {
-                JPanel stepPanel = new JPanel();
-                stepPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
-
-                JCheckBox stepCheck = new JCheckBox(step.getStepDescription());
-                stepCheck.setSelected(completionStatus.getOrDefault(step.getId(), false));
-                stepCheck.setFont(infoFont);
-
-
-                stepCheck.addItemListener(e -> {
-                    boolean isSelected = (e.getStateChange() == ItemEvent.SELECTED);
-                    treatmentManager.updateStepCompletion(patient.getId(), step.getId(), isSelected);
-                });
-
-                stepPanel.add(stepCheck);
-                treatmentPanel.add(stepPanel);
-            }
-        } else {
-            JLabel noInfoLabel = new JLabel("No treatment information available.");
-            noInfoLabel.setFont(labelFont);
-            treatmentPanel.add(noInfoLabel);
-        }
-
-        wrapperPanel.add(treatmentPanel, BorderLayout.CENTER);
-        currentPanel = wrapperPanel;
-        showCurrentPanel();
-    }*/
     private void myTreatmentPanel() {
         Patient patient = patientManager.viewMyInfo(patientId);
         Treatment treatment = patient.getTreatment();
