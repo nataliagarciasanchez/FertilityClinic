@@ -65,7 +65,7 @@ public class ManagerPanel extends JPanel {
         JButton op1 = new JButton("View My Information");
         JButton op2 = new JButton("Update My Information");
         JButton op3 = new JButton("View Stock");
-        JButton op4 = new JButton("Manage Doctors");
+        
 
         Font buttonFont = new Font("Calibri", Font.BOLD, 18);
 
@@ -87,16 +87,11 @@ public class ManagerPanel extends JPanel {
         op3.setAlignmentX(Component.CENTER_ALIGNMENT);
         op3.setMaximumSize(new Dimension(Integer.MAX_VALUE, op3.getMinimumSize().height));
 
-        op4.setFont(buttonFont);
-        op4.setBackground(Color.WHITE);
-        op4.setForeground(Color.BLACK);
-        op4.setAlignmentX(Component.CENTER_ALIGNMENT);
-        op4.setMaximumSize(new Dimension(Integer.MAX_VALUE, op4.getMinimumSize().height));
-
+        
         op1.addActionListener(e -> viewMyinfoPanel()); 
         op2.addActionListener(e -> updateInfoPanel()); 
         op3.addActionListener(e -> viewStockPanel()); 
-        op4.addActionListener(e -> viewMyinfoPanel());
+        
 
         buttonPanel.add(Box.createRigidArea(new Dimension(0, 10))); 
         buttonPanel.add(op1);
@@ -104,8 +99,7 @@ public class ManagerPanel extends JPanel {
         buttonPanel.add(op2);
         buttonPanel.add(Box.createRigidArea(new Dimension(0, 10))); 
         buttonPanel.add(op3);
-        buttonPanel.add(Box.createRigidArea(new Dimension(0, 10))); 
-        buttonPanel.add(op4);
+       
 
         return buttonPanel;
     }

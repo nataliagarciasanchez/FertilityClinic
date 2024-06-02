@@ -39,8 +39,8 @@ public class XMLManagerImpl implements XMLManager {
 		Doctor d = null;
 		List<Patient> patients = new ArrayList<Patient>();
 		manager = new JDBCManager();
-		doctormanager = new JDBCDoctorManager(manager, specialitymanager);// supuestamente asi pero deberian ser pero DoctorManager
-		patientmanager = new JDBCPatientManager(manager, treatmentmanager);//
+		doctormanager = new JDBCDoctorManager(manager, specialitymanager);
+		patientmanager = new JDBCPatientManager(manager, treatmentmanager);
 		
 		try {
 			//Do a sql query to get the doctor by id

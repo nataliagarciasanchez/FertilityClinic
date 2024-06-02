@@ -14,6 +14,7 @@ import FertilityClinicInterfaces.TreatmentManager;
 import FertilityClinicInterfaces.AppointmentManager;
 import FertilityClinicInterfaces.DoctorManager;
 import FertilityClinicPOJOs.*;
+import FertilityClinicXML.XMLManagerImpl;
 import UI.*;
 
 public class PatientPanel extends JPanel {
@@ -592,7 +593,7 @@ public class PatientPanel extends JPanel {
         resultPanel.setLayout(new BoxLayout(resultPanel, BoxLayout.Y_AXIS));
         resultPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); 
 
-        // Load all doctors by default
+        
         ArrayList<Doctor> allDoctors = (ArrayList<Doctor>) doctorManager.getListOfDoctors(); 
         displayDoctors(resultPanel, allDoctors);
 
@@ -707,7 +708,7 @@ public class PatientPanel extends JPanel {
 
     //OPTION 7
     public void printXMLPanel() {
-    	
+    	XMLManagerImpl.xml2Patient(xml);
     }
 
 

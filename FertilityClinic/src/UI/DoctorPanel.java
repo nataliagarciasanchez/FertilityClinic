@@ -32,6 +32,7 @@ import FertilityClinicPOJOs.Speciality;
 import FertilityClinicPOJOs.Stock;
 import FertilityClinicPOJOs.Treatment;
 import FertilityClinicPOJOs.TreatmentStep;
+import FertilityClinicXML.XMLManagerImpl;
 
 public class DoctorPanel extends JPanel {
 	 
@@ -850,7 +851,7 @@ public class DoctorPanel extends JPanel {
     
     //OPTION 7
     public void printXMLPanel() {
-    	xmlmanager.doctor2xml(doctorId);
+    	XMLManagerImpl.doctor2xml(doctorId);
 
     }
 
