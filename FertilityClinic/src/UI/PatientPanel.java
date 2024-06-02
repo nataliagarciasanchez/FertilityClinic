@@ -66,6 +66,7 @@ public class PatientPanel extends JPanel {
     	JButton op3 = new JButton("My appointments");
     	JButton op4 = new JButton("View All Doctors");
     	JButton op5 = new JButton("My Treatment");
+    	JButton op6 = new JButton("Print XML");
 
     	Font buttonFont = new Font("Calibri", Font.BOLD, 18); 
 
@@ -98,12 +99,19 @@ public class PatientPanel extends JPanel {
     	op5.setForeground(Color.BLACK);
     	op5.setAlignmentX(Component.CENTER_ALIGNMENT); 
     	op5.setMaximumSize(new Dimension(Integer.MAX_VALUE, op5.getMinimumSize().height));
+    	
+    	op6.setFont(buttonFont);
+    	op6.setBackground(Color.WHITE);
+    	op6.setForeground(Color.BLACK);
+    	op6.setAlignmentX(Component.CENTER_ALIGNMENT); 
+    	op6.setMaximumSize(new Dimension(Integer.MAX_VALUE, op5.getMinimumSize().height));
 
     	op1.addActionListener(e -> viewMyinfoPanel());
     	op2.addActionListener(e -> updateInfoPanel());
     	op3.addActionListener(e -> appointmentsPanel());
     	op4.addActionListener(e -> viewAllDoctorsPanel());
     	op5.addActionListener(e -> myTreatmentPanel());
+    	op6.addActionListener(e -> printXMLPanel());
 
     	buttonPanel.add(Box.createRigidArea(new Dimension(0, 10))); 
     	buttonPanel.add(op1);
@@ -115,6 +123,8 @@ public class PatientPanel extends JPanel {
     	buttonPanel.add(op4);
     	buttonPanel.add(Box.createRigidArea(new Dimension(0, 10))); 
     	buttonPanel.add(op5);
+    	buttonPanel.add(Box.createRigidArea(new Dimension(0, 10))); 
+    	buttonPanel.add(op6);
 
     	return buttonPanel;
 
@@ -695,6 +705,10 @@ public class PatientPanel extends JPanel {
         showCurrentPanel();
     }
 
+    //OPTION 7
+    public void printXMLPanel() {
+    	
+    }
 
 
 

@@ -84,6 +84,7 @@ public class DoctorPanel extends JPanel {
         JButton op4 = new JButton("View all my Patients");
         JButton op5 = new JButton("Assign a patient ");
         JButton op6 = new JButton("View stock ");
+        JButton op7 = new JButton("Print XML ");
 
         // Configurar botones
         Font buttonFont = new Font("Calibri", Font.BOLD, 18);
@@ -95,6 +96,7 @@ public class DoctorPanel extends JPanel {
         configureButton(op4, buttonFont, buttonSize);
         configureButton(op5, buttonFont, buttonSize);
         configureButton(op6, buttonFont, buttonSize);
+        configureButton(op7, buttonFont, buttonSize);
 
         op1.addActionListener(e -> viewMyinfoPanel()); 
         op2.addActionListener(e -> updateInfoPanel());
@@ -102,6 +104,7 @@ public class DoctorPanel extends JPanel {
         op4.addActionListener(e -> viewAllPatientsPanel());
         op5.addActionListener(e -> assignPatientPanel());
         op6.addActionListener(e -> viewStockPanel());
+        op7.addActionListener(e -> printXMLPanel());
 
         buttonPanel.add(Box.createRigidArea(new Dimension(0, 10))); 
         buttonPanel.add(op1);
@@ -115,6 +118,8 @@ public class DoctorPanel extends JPanel {
         buttonPanel.add(op5);
         buttonPanel.add(Box.createRigidArea(new Dimension(0, 10)));
         buttonPanel.add(op6);
+        buttonPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+        buttonPanel.add(op7);
         buttonPanel.add(Box.createRigidArea(new Dimension(0, 10)));
 
         return buttonPanel;
@@ -841,6 +846,12 @@ public class DoctorPanel extends JPanel {
             resultPanel.add(stockInfoPanel);
             resultPanel.add(Box.createRigidArea(new Dimension(0, 20)));
         }
+    }
+    
+    //OPTION 7
+    public void printXMLPanel() {
+    	xmlmanager.doctor2xml(doctorId);
+
     }
 
 
