@@ -117,131 +117,55 @@ public class DoctorPanel extends JPanel {
     private void viewMyinfoPanel() {
         Doctor doctor = doctorManager.viewMyInfo(doctorId);
 
-        JPanel wrapperPanel = new JPanel(new BorderLayout());
+        JPanel wrapperPanel = new JPanel(new BorderLayout(10, 0)); 
         JPanel infoPanel = new JPanel();
         infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
-        infoPanel.setBorder(BorderFactory.createEmptyBorder(10, 50, 10, 10)); 
+        infoPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         if (doctor != null) {
-            infoPanel.add(new JLabel("Name: " + doctor.getName()));
-            infoPanel.add(new JLabel("Email: " + doctor.getEmail()));
-            infoPanel.add(new JLabel("Phone: " + doctor.getPhone()));
-            infoPanel.add(new JLabel("Speciality: " + doctor.getSpeciality().getName()));
+            JLabel nameLabel = new JLabel("Name: " + doctor.getName());
+            nameLabel.setFont(new Font("Calibri", Font.PLAIN, 18));
+            infoPanel.add(nameLabel);
 
-            Font infoFont = new Font("Calibri", Font.PLAIN, 18); 
-            for (Component comp : infoPanel.getComponents()) {
-                if (comp instanceof JLabel) {
-                    ((JLabel) comp).setFont(infoFont); 
-                }
-            }
+            JLabel emailLabel = new JLabel("Email: " + doctor.getEmail());
+            emailLabel.setFont(new Font("Calibri", Font.PLAIN, 18));
+            infoPanel.add(emailLabel);
+
+            JLabel phoneLabel = new JLabel("Phone: " + doctor.getPhone());
+            phoneLabel.setFont(new Font("Calibri", Font.PLAIN, 18));
+            infoPanel.add(phoneLabel);
+
+            JLabel specialityLabel = new JLabel("Speciality: " + doctor.getSpeciality().getName());
+            specialityLabel.setFont(new Font("Calibri", Font.PLAIN, 18));
+            infoPanel.add(specialityLabel);
         } else {
-            infoPanel.add(new JLabel("No information available."));
+            JLabel noInfoLabel = new JLabel("No information available.");
+            noInfoLabel.setFont(new Font("Calibri", Font.BOLD, 18));
+            infoPanel.add(noInfoLabel);
         }
 
-        // Crear el panel izquierdo para mostrar la foto del doctor, si existe
-        JPanel leftPanel = new JPanel();
-        leftPanel.setLayout(new BorderLayout());
-        leftPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Padding
+        JPanel leftPanel = new JPanel(new BorderLayout());
+        leftPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         if (doctor != null && doctor.getLicensePDF() != null) {
-            // Supongamos que doctor.getPhoto() devuelve un ImageIcon
-            JLabel lblPhoto = new JLabel(new ImageIcon(doctor.getLicensePDF()));
-            lblPhoto.setHorizontalAlignment(JLabel.CENTER);
-            leftPanel.add(lblPhoto, BorderLayout.CENTER);
+            ImageIcon icon = new ImageIcon(doctor.getLicensePDF());
+            Image img = icon.getImage().getScaledInstance(150, 200, Image.SCALE_SMOOTH); // Escala la imagen
+            icon = new ImageIcon(img);
+
+            JLabel photoLabel = new JLabel(icon);
+            photoLabel.setHorizontalAlignment(JLabel.CENTER);
+            leftPanel.add(photoLabel, BorderLayout.NORTH);
         } else {
             JLabel noPhotoLabel = new JLabel("No photo yet.");
             noPhotoLabel.setFont(new Font("Calibri", Font.BOLD, 18));
-            leftPanel.add(noPhotoLabel, BorderLayout.CENTER);
+            leftPanel.add(noPhotoLabel, BorderLayout.NORTH);
         }
 
         wrapperPanel.add(leftPanel, BorderLayout.WEST);
         wrapperPanel.add(infoPanel, BorderLayout.CENTER);
-        currentPanel = wrapperPanel; // Establecer el panel actual al panel envolvente
-        showCurrentPanel(); // Mostrar el panel actual en el contenedor principal
-    }
 
-
-    
-    /*
-    private void viewMyinfoPanel() {
-        Doctor doctor = doctorManager.viewMyInfo(doctorId);
-
-        // Usar un panel envolvente para proporcionar padding
-        JPanel wrapperPanel = new JPanel(new BorderLayout());
-        JPanel infoPanel = new JPanel();
-        infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
-        infoPanel.setBorder(BorderFactory.createEmptyBorder(10, 300, 10, 10)); // Aumentar padding izquierdo
-
-        if (doctor != null) {
-            infoPanel.add(new JLabel("Name: " + doctor.getName()));
-            infoPanel.add(new JLabel("Email: " + doctor.getEmail()));
-            infoPanel.add(new JLabel("Phone: " + doctor.getPhone()));
-            infoPanel.add(new JLabel("Speciality: " + doctor.getSpeciality().getName()));
-
-            // Intentar cargar la foto si está disponible
-            if (doctor.getLicensePDF() != null && doctor.getLicensePDF().length > 0) {
-                try {
-                    // Convertir el PDF a una imagen
-                    BufferedImage pdfImage = convertPDFToImage(doctor.getLicensePDF());
-                    if (pdfImage != null) {
-                        Image scaledImage = pdfImage.getScaledInstance(200, 200, Image.SCALE_SMOOTH);
-                        JLabel imageLabel = new JLabel(new ImageIcon(scaledImage));
-                        infoPanel.add(imageLabel);
-                    } else {
-                        infoPanel.add(new JLabel("Failed to load photo."));
-                    }
-                } catch (Exception e) {
-                    infoPanel.add(new JLabel("Failed to load photo."));
-                }
-            } else {
-                infoPanel.add(new JLabel("No photo yet."));
-            }
-        } else {
-            infoPanel.add(new JLabel("No information available."));
-        }
-
-        Font infoFont = new Font("Calibri", Font.PLAIN, 18); // Fuente tamaño 18 para mejor legibilidad
-        for (Component comp : infoPanel.getComponents()) {
-            if (comp instanceof JLabel) {
-                ((JLabel) comp).setFont(infoFont); // Aplicar fuente a todas las etiquetas
-            }
-        }
-
-        wrapperPanel.add(infoPanel, BorderLayout.CENTER);
-        currentPanel = wrapperPanel; // Establecer el panel actual al panel envolvente
-        showCurrentPanel(); // Mostrar el panel actual en el contenedor principal
-    }
-
-    private BufferedImage convertPDFToImage(byte[] pdfBytes) {
-        try (PDDocument document = PDDocument.load(new ByteArrayInputStream(pdfBytes))) {
-            PDFRenderer pdfRenderer = new PDFRenderer(document);
-            return pdfRenderer.renderImageWithDPI(0, 300, ImageType.RGB); // Renderizar la primera página a 300 DPI
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }*/
-
-
-    /**
-     * Método para mostrar el PDF en una ventana.
-     * Aquí deberás implementar la lógica para abrir un visualizador de PDFs.
-     * Este es solo un placeholder para ilustrar la funcionalidad.
-     * @param pdfBytes El array de bytes del PDF a visualizar.
-     */
-    private void displayPDF(byte[] pdfBytes) {
-        try {
-            File tempFile = File.createTempFile("license", ".pdf");
-            try (FileOutputStream fos = new FileOutputStream(tempFile)) {
-                fos.write(pdfBytes);
-            }
-            // Abre el archivo PDF temporal con el software predeterminado del sistema
-            Desktop.getDesktop().open(tempFile);
-            tempFile.deleteOnExit();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Failed to open PDF.", "Error", JOptionPane.ERROR_MESSAGE);
-        }
+        currentPanel = wrapperPanel; // Set the current panel to the wrapper panel
+        showCurrentPanel(); // Display the current panel in the main container
     }
 
 /*
@@ -269,11 +193,10 @@ public class DoctorPanel extends JPanel {
         showCurrentPanel();
     }
 
-   
+   /*
     private void updateInfoPanel() {
         Doctor doctor = doctorManager.viewMyInfo(doctorId);
 
-        // Usar un panel envolvente para proporcionar padding
         JPanel wrapperPanel = new JPanel(new BorderLayout());
         JPanel updatePanel = new JPanel();
         updatePanel.setLayout(new GridLayout(7, 2, 10, 10)); // Ajustar filas para campos específicos del doctor, incluyendo PDF
@@ -283,8 +206,8 @@ public class DoctorPanel extends JPanel {
         JTextField phoneField = new JTextField(doctor != null ? String.valueOf(doctor.getPhone()) : "");
         JTextField nameField = new JTextField(doctor != null ? doctor.getName() : "");
         JComboBox<Speciality> specialityComboBox = new JComboBox<>(new DefaultComboBoxModel<>(MenuUI.getSpecialities().toArray(new Speciality[0])));
-        JButton selectPDFButton = new JButton("Select Photo PDF");
-        JLabel pdfLabel = new JLabel("No file selected");
+        JButton selectImageButton = new JButton("Select Image");
+        JLabel imageLabel = new JLabel("No image selected");
 
         Font labelFont = new Font("Calibri", Font.BOLD, 18);
         Font fieldFont = new Font("Calibri", Font.PLAIN, 18);
@@ -379,7 +302,75 @@ public class DoctorPanel extends JPanel {
 
         currentPanel = wrapperPanel; // Establecer el panel actual al panel envolvente
         showCurrentPanel(); // Mostrar el panel actual en el contenedor principal
+    }*/
+    
+    private void updateInfoPanel() {
+        Doctor doctor = doctorManager.viewMyInfo(doctorId);
+
+        JPanel wrapperPanel = new JPanel(new BorderLayout());
+        JPanel updatePanel = new JPanel(new GridLayout(7, 2, 10, 10)); // Ajustar filas para campos específicos del doctor, incluyendo foto
+        updatePanel.setBorder(BorderFactory.createEmptyBorder(10, 50, 10, 10)); // Padding: arriba, izquierda, abajo, derecha
+
+        JTextField emailField = new JTextField(doctor != null ? doctor.getEmail() : "");
+        JTextField phoneField = new JTextField(doctor != null ? String.valueOf(doctor.getPhone()) : "");
+        JTextField nameField = new JTextField(doctor != null ? doctor.getName() : "");
+        JComboBox<Speciality> specialityComboBox = new JComboBox<>(new DefaultComboBoxModel<>(MenuUI.getSpecialities().toArray(new Speciality[0])));
+        JButton selectImageButton = new JButton("Select Image");
+        JLabel imageLabel = new JLabel("No image selected");
+
+        selectImageButton.addActionListener(e -> {
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setAcceptAllFileFilterUsed(false);
+            fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("Image files", "jpg", "jpeg", "png", "gif"));
+            int result = fileChooser.showOpenDialog(null);
+            if (result == JFileChooser.APPROVE_OPTION) {
+                File selectedFile = fileChooser.getSelectedFile();
+                try {
+                    byte[] imageData = Files.readAllBytes(selectedFile.toPath());
+                    doctor.setLicensePDF(imageData);
+                    imageLabel.setText("Selected: " + selectedFile.getName());
+                } catch (IOException ioException) {
+                    JOptionPane.showMessageDialog(null, "Error reading file.");
+                }
+            }
+        });
+
+        updatePanel.add(new JLabel("Name:"));
+        updatePanel.add(nameField);
+        updatePanel.add(new JLabel("Email:"));
+        updatePanel.add(emailField);
+        updatePanel.add(new JLabel("Phone:"));
+        updatePanel.add(phoneField);
+        updatePanel.add(new JLabel("Speciality:"));
+        updatePanel.add(specialityComboBox);
+        updatePanel.add(selectImageButton);
+        updatePanel.add(imageLabel);
+
+        JButton updateBtn = new JButton("Update");
+        updateBtn.addActionListener(e -> {
+            try {
+                String email = emailField.getText();
+                Integer phone = Integer.parseInt(phoneField.getText());
+                String name = nameField.getText();
+                Speciality speciality = (Speciality) specialityComboBox.getSelectedItem();
+                doctorManager.modifyDoctorInfo(doctorId, email, phone, name, speciality, doctor.getLicensePDF());
+                JOptionPane.showMessageDialog(null, "Information updated successfully.");
+                viewMyinfoPanel(); // Refresh display
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(null, "Please enter a valid phone number.");
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, "An error occurred while updating the information.");
+            }
+        });
+
+        updatePanel.add(new JLabel()); // Placeholder for layout
+        updatePanel.add(updateBtn);
+
+        wrapperPanel.add(updatePanel, BorderLayout.CENTER);
+        currentPanel = wrapperPanel;
+        showCurrentPanel();
     }
+
 
 
 

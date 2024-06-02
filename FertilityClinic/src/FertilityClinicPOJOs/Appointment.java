@@ -1,8 +1,8 @@
 package FertilityClinicPOJOs;
 
 import java.io.Serializable;
-import java.sql.Time;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Objects;
 
 public class Appointment implements Serializable {
@@ -12,14 +12,14 @@ public class Appointment implements Serializable {
 	private int id;
     private int patientId;
     private String description;
-    private Time time;
-    private Date date;
+    private LocalTime time;
+    private LocalDate date;
     private int doctorId;
 
     public Appointment() {
     }
 
-    public Appointment(int id, int patientId, String description, Time time, Date date, int doctorId) {
+    public Appointment(int id, int patientId, String description, LocalTime time, LocalDate date, int doctorId) {
         this.id = id;
         this.patientId = patientId;
         this.description = description;
@@ -72,19 +72,19 @@ public class Appointment implements Serializable {
         this.description = description;
     }
 
-    public Time getTime() {
+    public LocalTime getTime() {
         return time;
     }
 
-    public void setTime(Time time) {
+    public void setTime(LocalTime time) {
         this.time = time;
     }
 
-    public Date getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 

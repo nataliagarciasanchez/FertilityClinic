@@ -2,6 +2,9 @@ package UI;
 import javax.swing.*;
 
 import java.awt.*;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 
 import FertilityClinicInterfaces.PatientManager;
@@ -260,60 +263,102 @@ public class PatientPanel extends JPanel {
         JPanel appointmentsMainPanel = new JPanel(new BorderLayout());
 
         JPanel appointmentsOptionsPanel = new JPanel();
-        appointmentsOptionsPanel.setLayout(new BoxLayout(appointmentsOptionsPanel, BoxLayout.Y_AXIS)); // Cambio a BoxLayout con dirección Y
-        appointmentsOptionsPanel.setBackground(new Color(25, 25, 112)); // Fondo azul oscuro
+        appointmentsOptionsPanel.setLayout(new BoxLayout(appointmentsOptionsPanel, BoxLayout.Y_AXIS)); // Use BoxLayout along Y axis
+        appointmentsOptionsPanel.setBackground(new Color(25, 25, 112)); // Dark blue background
         Font buttonFont = new Font("Calibri", Font.BOLD, 18);
 
         JButton op1 = new JButton("Update Appointment");
         op1.setFont(buttonFont);
         op1.setBackground(Color.WHITE);
         op1.setForeground(Color.BLACK);
-        op1.setAlignmentX(Component.CENTER_ALIGNMENT); // Centrar el botón horizontalmente
-        op1.setMaximumSize(new Dimension(Integer.MAX_VALUE, op1.getMinimumSize().height)); // Asegurar que el botón ocupe todo el ancho disponible
+        op1.setAlignmentX(Component.CENTER_ALIGNMENT); // Center button horizontally
+        op1.setMaximumSize(new Dimension(Integer.MAX_VALUE, op1.getMinimumSize().height)); // Ensure button occupies all available width
 
         JButton op2 = new JButton("Add Appointment");
         op2.setFont(buttonFont);
         op2.setBackground(Color.WHITE);
         op2.setForeground(Color.BLACK);
-        op2.setAlignmentX(Component.CENTER_ALIGNMENT); // Centrar el botón horizontalmente
-        op2.setMaximumSize(new Dimension(Integer.MAX_VALUE, op2.getMinimumSize().height)); // Asegurar que el botón ocupe todo el ancho disponible
+        op2.setAlignmentX(Component.CENTER_ALIGNMENT); // Center button horizontally
+        op2.setMaximumSize(new Dimension(Integer.MAX_VALUE, op2.getMinimumSize().height)); // Ensure button occupies all available width
+
+        JButton op3 = new JButton("Delete Appointment");
+        op3.setFont(buttonFont);
+        op3.setBackground(Color.WHITE);
+        op3.setForeground(Color.BLACK);
+        op3.setAlignmentX(Component.CENTER_ALIGNMENT); // Center button horizontally
+        op3.setMaximumSize(new Dimension(Integer.MAX_VALUE, op3.getMinimumSize().height)); // Ensure button occupies all available width
 
         op1.addActionListener(e -> updateAppointmentPanel());
         op2.addActionListener(e -> addAppointmentPanel());
-        appointmentsOptionsPanel.add(Box.createVerticalStrut(10)); // Añadir espacio vertical entre botones
+        op3.addActionListener(e -> deleteAppointmentPanel()); // Assuming deleteAppointmentPanel() is the method you'll use
+
+        appointmentsOptionsPanel.add(Box.createVerticalStrut(10)); // Add vertical space between buttons
         appointmentsOptionsPanel.add(op1);
-        appointmentsOptionsPanel.add(Box.createVerticalStrut(10)); // Añadir espacio vertical entre botones
+        appointmentsOptionsPanel.add(Box.createVerticalStrut(10)); // Add vertical space between buttons
         appointmentsOptionsPanel.add(op2);
+        appointmentsOptionsPanel.add(Box.createVerticalStrut(10)); // Add vertical space between buttons
+        appointmentsOptionsPanel.add(op3);
 
         appointmentsMainPanel.add(appointmentsOptionsPanel, BorderLayout.WEST);
         appointmentsMainPanel.add(new JScrollPane(currentAppointmentsPanel()), BorderLayout.CENTER);
 
-
-        appointmentsMainPanel.add(appointmentsOptionsPanel, BorderLayout.WEST);
-        appointmentsMainPanel.add(new JScrollPane(currentAppointmentsPanel()), BorderLayout.CENTER);
-
-        
-        currentPanel = appointmentsMainPanel; // Establece el panel actual como el panel principal
-        showCurrentPanel(); // Muestra el panel actual en el contenedor principal
+        currentPanel = appointmentsMainPanel; // Set the current panel to the main panel
+        showCurrentPanel(); // Display the current panel in the main container
     }
-   /*
-    private JPanel currentAppointmentsPanel() {
-        JPanel panel = new JPanel();
-        panel.setLayout(new GridLayout(0, 1)); // Cambio a GridLayout con una sola columna
 
-        ArrayList<Appointment> appointments = appointmentManager.viewAppointment(patientId);
+    private void deleteAppointmentPanel() {
+        JPanel mainPanel = new JPanel();
+        mainPanel.setLayout(new BorderLayout());
+        mainPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+        // Title or header for the panel
+        JLabel headerLabel = new JLabel("Delete Appointments");
+        headerLabel.setFont(new Font("Calibri", Font.BOLD, 24));
+        mainPanel.add(headerLabel, BorderLayout.NORTH);
+
+        JPanel appointmentListPanel = new JPanel();
+        appointmentListPanel.setLayout(new BoxLayout(appointmentListPanel, BoxLayout.Y_AXIS));
+
+        JScrollPane scrollPane = new JScrollPane(appointmentListPanel);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        mainPanel.add(scrollPane, BorderLayout.CENTER);
+
+        // Fetch current appointments
+        ArrayList<Appointment> appointments = appointmentManager.getCurrentAppointments(patientId);
 
         if (appointments.isEmpty()) {
-            panel.add(new JLabel("No appointments yet."));
+            appointmentListPanel.add(new JLabel("No appointments to display."));
         } else {
-            for (Appointment appointment : appointments) {
-                JLabel appointmentLabel = new JLabel("<html><b>Date:</b> " + appointment.getDate() + " <b>Time:</b> " + appointment.getTime() + " <b>Doctor's name:</b> " + doctorManager.searchDoctorById(appointment.getDoctorId()).getName()+ " <b>Description:</b> " + appointment.getDescription() + "</html>");
-                panel.add(appointmentLabel);
+            for (Appointment ap : appointments) {
+                JPanel singleAppointmentPanel = new JPanel();
+                singleAppointmentPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+                singleAppointmentPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+
+                // Format appointment details
+                JLabel appointmentDetails = new JLabel(
+                    "Date: " + ap.getDate().toString() + 
+                    ", Time: " + ap.getTime().toString() + 
+                    ", Doctor: " + doctorManager.searchDoctorById(ap.getDoctorId()).getName() +
+                    ", Description: " + ap.getDescription()
+                );
+                appointmentDetails.setFont(new Font("Calibri", Font.PLAIN, 18));
+
+                JButton deleteButton = new JButton("Delete");
+                deleteButton.addActionListener(e -> {
+                    appointmentManager.deleteAppointment(ap.getId());
+                    JOptionPane.showMessageDialog(null, "Appointment deleted successfully.");
+                    deleteAppointmentPanel(); // Refresh panel to reflect the change
+                });
+
+                singleAppointmentPanel.add(appointmentDetails);
+                singleAppointmentPanel.add(deleteButton);
+                appointmentListPanel.add(singleAppointmentPanel);
             }
         }
 
-        return panel;
-    }*/
+        currentPanel = mainPanel;
+        showCurrentPanel(); // Method to switch to the current panel on the main frame
+    }
     
     private JPanel currentAppointmentsPanel() {
         JPanel panel = new JPanel(new GridLayout(0, 1)); // Usa GridLayout para una sola columna
@@ -339,57 +384,7 @@ public class PatientPanel extends JPanel {
         return panel;
     }
 
-/*
-    private void addAppointmentPanel() {
-        JPanel addPanel = new JPanel(new GridLayout(9, 2, 10, 10));
-        JTextField dateField = new JTextField();
-        JTextField timeField = new JTextField();
-        JComboBox<String> doctorIdComboBox = new JComboBox<>();
-        JTextField descriptionField = new JTextField();
 
-        ArrayList<Doctor> allDoctors = (ArrayList<Doctor>) doctorManager.getListOfDoctors();
-        for (Doctor doctor : allDoctors) {
-        	doctorIdComboBox.addItem(String.valueOf(doctor.getName()));  
-        }
-
-        addPanel.add(new JLabel("Date (YYYY-MM-DD):"));
-        addPanel.add(dateField);
-        addPanel.add(new JLabel("Time (HH:MM:SS):"));
-        addPanel.add(timeField);
-        addPanel.add(new JLabel("Doctor:"));
-        addPanel.add(doctorIdComboBox);
-        addPanel.add(new JLabel("Description:"));
-        addPanel.add(descriptionField);
-
-        JButton addBtn = new JButton("Add Appointment");
-        addBtn.addActionListener(e -> {
-            try {
-                String dateStr = dateField.getText();
-                String timeStr = timeField.getText();
-                java.sql.Date sqlDate = java.sql.Date.valueOf(dateStr);
-                java.sql.Time sqlTime = java.sql.Time.valueOf(timeStr);
-
-                int doctorId = Integer.parseInt((String) doctorIdComboBox.getSelectedItem());
-                
-                String description = descriptionField.getText();
-                Appointment ap = new Appointment(0, patientId, description, sqlTime, sqlDate, doctorId);
-                appointmentManager.bookAppointment(ap);
-                JOptionPane.showMessageDialog(this, "Appointment added successfully.");
-                appointmentsPanel();
-            } catch (IllegalArgumentException ex) {
-                JOptionPane.showMessageDialog(this, "Please enter valid date and time formats.");
-            } catch (Exception ex) {
-                JOptionPane.showMessageDialog(this, "An error occurred while adding the appointment: " + ex.getMessage());
-                ex.printStackTrace();
-            }
-        });
-
-        addPanel.add(new JLabel());
-        addPanel.add(addBtn);
-        currentPanel = addPanel;
-        showCurrentPanel();
-    }*/ 
-    
     private void addAppointmentPanel() {
         JPanel addPanel = new JPanel(new GridBagLayout());
         addPanel.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 10)); // Separación de 20 a la derecha y 10 arriba
@@ -461,20 +456,18 @@ public class PatientPanel extends JPanel {
 
         addBtn.addActionListener(e -> {
             try {
-                String dateStr = dateField.getText();
-                String timeStr = timeField.getText();
-                java.sql.Date sqlDate = java.sql.Date.valueOf(dateStr);
-                java.sql.Time sqlTime = java.sql.Time.valueOf(timeStr);
+                LocalDate date = LocalDate.parse(dateField.getText());
+                LocalTime time = LocalTime.parse(timeField.getText());
 
                 Doctor selectedDoctor = (Doctor) doctorIdComboBox.getSelectedItem();
                 int doctorId = selectedDoctor.getId();
 
                 String description = descriptionField.getText();
-                Appointment ap = new Appointment(0, patientId, description, sqlTime, sqlDate, doctorId);
+                Appointment ap = new Appointment(0, patientId, description, time, date, doctorId);
                 appointmentManager.bookAppointment(ap);
                 JOptionPane.showMessageDialog(this, "Appointment added successfully.");
                 appointmentsPanel();
-            } catch (IllegalArgumentException ex) {
+            } catch (DateTimeParseException ex) {
                 JOptionPane.showMessageDialog(this, "Please enter valid date and time formats.");
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(this, "An error occurred while adding the appointment: " + ex.getMessage());
@@ -489,11 +482,10 @@ public class PatientPanel extends JPanel {
 
 
     private void updateAppointmentPanel() {
-        // Usando un panel de contenedor para proporcionar padding
         JPanel wrapperPanel = new JPanel(new BorderLayout());
         JPanel updatePanel = new JPanel();
-        updatePanel.setLayout(new GridLayout(0, 2, 10, 10)); // GridLayout con huecos para el espaciado
-        updatePanel.setBorder(BorderFactory.createEmptyBorder(10, 50, 10, 10)); // Top, left, bottom, right padding
+        updatePanel.setLayout(new GridLayout(0, 2, 10, 10)); // GridLayout para espaciado
+        updatePanel.setBorder(BorderFactory.createEmptyBorder(10, 50, 10, 10)); // Padding
 
         ArrayList<Appointment> appointments = appointmentManager.getCurrentAppointments(patientId);
 
@@ -503,7 +495,7 @@ public class PatientPanel extends JPanel {
         if (appointments != null && !appointments.isEmpty()) {
             for (Appointment appointment : appointments) {
                 JPanel singleAppointmentPanel = new JPanel(new GridLayout(0, 2, 10, 10)); // Panel para cada cita
-                singleAppointmentPanel.setBackground(new Color(240, 240, 240)); // Fondo blanco para cada cita
+                singleAppointmentPanel.setBackground(new Color(240, 240, 240)); // Fondo claro
 
                 JLabel doctorLabel = new JLabel("Dr. " + doctorManager.searchDoctorById(appointment.getDoctorId()).getName());
                 doctorLabel.setFont(fieldFont);
@@ -540,18 +532,14 @@ public class PatientPanel extends JPanel {
                 updateBtn.setForeground(Color.BLACK);
                 updateBtn.addActionListener(e -> {
                     try {
-                        String newDate = dateField.getText();
-                        String newTime = timeField.getText();
-                        String newDescription = descriptionField.getText();
+                        LocalDate date = LocalDate.parse(dateField.getText());
+                        LocalTime time = LocalTime.parse(timeField.getText());
 
-                        java.sql.Date sqlDate = java.sql.Date.valueOf(newDate);
-                        java.sql.Time sqlTime = java.sql.Time.valueOf(newTime);
-
-                        Appointment updatedAppointment = new Appointment(appointment.getId(), patientId, newDescription, sqlTime, sqlDate, appointment.getDoctorId());
-                        appointmentManager.updateAppointment(updatedAppointment); // Llamar al método de actualización con el nuevo appointment
+                        Appointment updatedAppointment = new Appointment(appointment.getId(), patientId, descriptionField.getText(), time, date, appointment.getDoctorId());
+                        appointmentManager.updateAppointment(updatedAppointment);
                         JOptionPane.showMessageDialog(this, "Appointment updated successfully.");
-                        updateAppointmentPanel(); // Refrescar el panel de appointments después de la actualización
-                    } catch (IllegalArgumentException ex) {
+                        updateAppointmentPanel(); // Refresh the panel
+                    } catch (DateTimeParseException ex) {
                         JOptionPane.showMessageDialog(this, "Please enter valid date and time formats.");
                     } catch (Exception ex) {
                         JOptionPane.showMessageDialog(this, "An error occurred while updating the appointment.");
@@ -570,9 +558,10 @@ public class PatientPanel extends JPanel {
 
         wrapperPanel.add(new JScrollPane(updatePanel), BorderLayout.CENTER);
 
-        currentPanel = wrapperPanel; // Set the current panel to the wrapper panel
-        showCurrentPanel(); // Display the current panel in the main container
+        currentPanel = wrapperPanel;
+        showCurrentPanel();
     }
+
 
 
     
