@@ -21,7 +21,7 @@ public interface PatientManager {
 	public List<Patient> getPatientsByDoctorId(int doctorId);
 	public List<Patient> getAvailablePatientsForDoctor(int doctorId);
 	public void assignTreatmentToPatient(int patientId, int treatmentId) ;
-    
+	public Patient getPatientById(int patientId);
 }
 
 //Coment

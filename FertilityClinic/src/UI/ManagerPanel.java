@@ -32,8 +32,7 @@ public class ManagerPanel extends JPanel {
     private SpecialityManager specialityManager;
     private int managerId;
 
-    // Constructor que acepta interfaces para la gestión de doctores y pacientes
-    public ManagerPanel(ManagerManager managerManager,DoctorManager doctorManager,PatientManager patientManager, StockManager stockManager,  int managerId) {
+   public ManagerPanel(ManagerManager managerManager,DoctorManager doctorManager,PatientManager patientManager, StockManager stockManager,  int managerId) {
         this.managerManager = managerManager;
         this.doctorManager = doctorManager;
     	this.patientManager = patientManager;
@@ -68,44 +67,44 @@ public class ManagerPanel extends JPanel {
         JButton op3 = new JButton("View Stock");
         JButton op4 = new JButton("Manage Doctors");
 
-        Font buttonFont = new Font("Calibri", Font.BOLD, 18); // Font size set to 18
+        Font buttonFont = new Font("Calibri", Font.BOLD, 18);
 
         op1.setFont(buttonFont);
         op1.setBackground(Color.WHITE);
         op1.setForeground(Color.BLACK);
-        op1.setAlignmentX(Component.CENTER_ALIGNMENT); // Center alignment
+        op1.setAlignmentX(Component.CENTER_ALIGNMENT);
         op1.setMaximumSize(new Dimension(Integer.MAX_VALUE, op1.getMinimumSize().height));
 
         op2.setFont(buttonFont);
         op2.setBackground(Color.WHITE);
         op2.setForeground(Color.BLACK);
-        op2.setAlignmentX(Component.CENTER_ALIGNMENT); // Center alignment
+        op2.setAlignmentX(Component.CENTER_ALIGNMENT); 
         op2.setMaximumSize(new Dimension(Integer.MAX_VALUE, op2.getMinimumSize().height));
 
         op3.setFont(buttonFont);
         op3.setBackground(Color.WHITE);
         op3.setForeground(Color.BLACK);
-        op3.setAlignmentX(Component.CENTER_ALIGNMENT); // Center alignment
+        op3.setAlignmentX(Component.CENTER_ALIGNMENT);
         op3.setMaximumSize(new Dimension(Integer.MAX_VALUE, op3.getMinimumSize().height));
 
         op4.setFont(buttonFont);
         op4.setBackground(Color.WHITE);
         op4.setForeground(Color.BLACK);
-        op4.setAlignmentX(Component.CENTER_ALIGNMENT); // Center alignment
+        op4.setAlignmentX(Component.CENTER_ALIGNMENT);
         op4.setMaximumSize(new Dimension(Integer.MAX_VALUE, op4.getMinimumSize().height));
 
-        op1.addActionListener(e -> viewMyinfoPanel()); //igual para doctor
-        op2.addActionListener(e -> updateInfoPanel()); //igual para doctor 
-        op3.addActionListener(e -> viewMyinfoPanel()); //igual para doctor pero modificar cita patient solo delete y add
+        op1.addActionListener(e -> viewMyinfoPanel()); 
+        op2.addActionListener(e -> updateInfoPanel()); 
+        op3.addActionListener(e -> viewStockPanel()); 
         op4.addActionListener(e -> viewMyinfoPanel());
 
-        buttonPanel.add(Box.createRigidArea(new Dimension(0, 10))); // Add space at the top
+        buttonPanel.add(Box.createRigidArea(new Dimension(0, 10))); 
         buttonPanel.add(op1);
-        buttonPanel.add(Box.createRigidArea(new Dimension(0, 10))); // Add space between buttons
+        buttonPanel.add(Box.createRigidArea(new Dimension(0, 10))); 
         buttonPanel.add(op2);
-        buttonPanel.add(Box.createRigidArea(new Dimension(0, 10))); // Add space between buttons
+        buttonPanel.add(Box.createRigidArea(new Dimension(0, 10))); 
         buttonPanel.add(op3);
-        buttonPanel.add(Box.createRigidArea(new Dimension(0, 10))); // Add space between buttons
+        buttonPanel.add(Box.createRigidArea(new Dimension(0, 10))); 
         buttonPanel.add(op4);
 
         return buttonPanel;
@@ -115,11 +114,10 @@ public class ManagerPanel extends JPanel {
     private void viewMyinfoPanel() {
         Manager manager = managerManager.viewMyInfo(managerId);
 
-        // Using a wrapper panel to provide padding
         JPanel wrapperPanel = new JPanel(new BorderLayout());
         JPanel infoPanel = new JPanel();
         infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
-        infoPanel.setBorder(BorderFactory.createEmptyBorder(10, 50, 10, 10)); // Top, left, bottom, right padding
+        infoPanel.setBorder(BorderFactory.createEmptyBorder(10, 50, 10, 10)); 
 
         if (manager != null) {
             infoPanel.add(new JLabel("Name: " + manager.getName()));
@@ -129,29 +127,27 @@ public class ManagerPanel extends JPanel {
             infoPanel.add(new JLabel("No information available."));
         }
 
-        Font infoFont = new Font("Calibri", Font.PLAIN, 18); // Setting the font size to 18 for better readability
+        Font infoFont = new Font("Calibri", Font.PLAIN, 18); 
         for (Component comp : infoPanel.getComponents()) {
             if (comp instanceof JLabel) {
-                ((JLabel) comp).setFont(infoFont); // Apply font to all labels
+                ((JLabel) comp).setFont(infoFont); 
             }
         }
 
         wrapperPanel.add(infoPanel, BorderLayout.CENTER);
-        currentPanel = wrapperPanel; // Setting the current panel to the wrapper panel
-        showCurrentPanel(); // Display the current panel in the main container
+        currentPanel = wrapperPanel; 
+        showCurrentPanel(); 
     }
-    
     
 
     //OPCION 2
     private void updateInfoPanel() {
         Manager manager = managerManager.viewMyInfo(managerId);
 
-        // Using a wrapper panel to provide padding
         JPanel wrapperPanel = new JPanel(new BorderLayout());
         JPanel updatePanel = new JPanel();
-        updatePanel.setLayout(new GridLayout(9, 2, 10, 10)); // 9 rows for including button row, with gaps for spacing
-        updatePanel.setBorder(BorderFactory.createEmptyBorder(10, 50, 10, 10)); // Top, left, bottom, right padding
+        updatePanel.setLayout(new GridLayout(9, 2, 10, 10));
+        updatePanel.setBorder(BorderFactory.createEmptyBorder(10, 50, 10, 10)); 
 
         JTextField emailField = new JTextField(manager != null ? manager.getEmail() : "");
         JTextField phoneField = new JTextField(manager != null ? String.valueOf(manager.getPhone()) : "");
@@ -160,7 +156,6 @@ public class ManagerPanel extends JPanel {
         Font labelFont = new Font("Calibri", Font.BOLD, 18);
         Font fieldFont = new Font("Calibri", Font.PLAIN, 18);
 
-        // Adding labels and text fields
         JLabel nameLabel = new JLabel("Name:");
         nameLabel.setFont(labelFont);
         updatePanel.add(nameLabel);
@@ -189,12 +184,10 @@ public class ManagerPanel extends JPanel {
                 Integer phone = Integer.parseInt(phoneField.getText());
                 String name = nameField.getText();
 
-                // Llamar al método para modificar la información del manager con los nuevos valores
-                managerManager.modifyManagerInfo(managerId, email, phone, name);
+                 managerManager.modifyManagerInfo(managerId, email, phone, name);
 
                 JOptionPane.showMessageDialog(this, "Information updated successfully.");
 
-                // Después de actualizar, volver a mostrar la información actualizada
                 viewMyinfoPanel();
             } catch (IllegalArgumentException ex) {
                 JOptionPane.showMessageDialog(this, "Please enter valid values.");
@@ -204,16 +197,16 @@ public class ManagerPanel extends JPanel {
             }
         });
 
-        updatePanel.add(new JLabel()); // Placeholder for spacing
+        updatePanel.add(new JLabel()); 
         updatePanel.add(updateBtn);
 
         wrapperPanel.add(updatePanel, BorderLayout.CENTER);
 
-        currentPanel = wrapperPanel; // Set the current panel to the wrapper panel
-        showCurrentPanel(); // Display the current panel in the main container
+        currentPanel = wrapperPanel; 
+        showCurrentPanel(); 
     }
 
-    //OPCION 3
+  
   //OPTION 3
     private void viewStockPanel() {
         JPanel stockMainPanel = new JPanel(new BorderLayout());
@@ -233,16 +226,16 @@ public class ManagerPanel extends JPanel {
         stockMainPanel.add(stockOptionsPanel, BorderLayout.WEST);
         stockMainPanel.add(currentStockPanel(), BorderLayout.CENTER);
 
-        currentPanel = stockMainPanel; // Establece el panel actual como el panel principal
-        showCurrentPanel(); // Muestra el panel actual en el contenedor principal
+        currentPanel = stockMainPanel; 
+        showCurrentPanel(); 
     }
     
     
     private JPanel currentStockPanel() {
         JPanel panel = new JPanel();
-        panel.setLayout(new GridLayout(0, 1)); // Cambio a GridLayout con una sola columna
+        panel.setLayout(new GridLayout(0, 1)); 
 
-        ArrayList<Stock> stocks = (ArrayList<Stock>) stockManager.viewStock(managerId);
+        ArrayList<Stock> stocks = (ArrayList<Stock>) stockManager.viewStock();
 
         if (stocks.isEmpty()) {
             panel.add(new JLabel("No stocks yet."));
@@ -260,11 +253,11 @@ public class ManagerPanel extends JPanel {
         JPanel updatePanel = new JPanel();
         updatePanel.setLayout(new BoxLayout(updatePanel, BoxLayout.Y_AXIS));
 
-        ArrayList<Stock> stocks =(ArrayList<Stock>) stockManager.viewStock(managerId);
+        ArrayList<Stock> stocks =(ArrayList<Stock>) stockManager.viewStock();
 
         if (stocks != null && !stocks.isEmpty()) {
             for (Stock stock : stocks) {
-                JPanel singleStockPanel = new JPanel(new GridLayout(0, 2, 10, 10)); // Panel para cada stock
+                JPanel singleStockPanel = new JPanel(new GridLayout(0, 2, 10, 10));
 
                 JTextField productNameField = new JTextField(stock.getProductName());
                 JTextField categoryField = new JTextField(stock.getCategory());
@@ -291,9 +284,9 @@ public class ManagerPanel extends JPanel {
                         java.sql.Date sqlExpiryDate = java.sql.Date.valueOf(newExpiryDate);
 
                         Stock updatedStock = new Stock(stock.getProductID(), newProductName, newCategory, newQuantity, sqlExpiryDate);
-                        stockManager.updateStock(updatedStock); // Llamar al método de actualización con el nuevo stock
+                        stockManager.updateStock(updatedStock); 
                         JOptionPane.showMessageDialog(this, "Stock updated successfully.");
-                        updateStockPanel(); // Refrescar el panel de stock después de la actualización
+                        updateStockPanel(); 
                     } catch (IllegalArgumentException ex) {
                         JOptionPane.showMessageDialog(this, "Please enter valid values.");
                     } catch (Exception ex) {
@@ -302,7 +295,7 @@ public class ManagerPanel extends JPanel {
                     }
                 });
 
-                singleStockPanel.add(new JLabel()); // Añadir espacio en blanco
+                singleStockPanel.add(new JLabel());
                 singleStockPanel.add(updateBtn);
 
                 updatePanel.add(singleStockPanel);
@@ -343,14 +336,11 @@ public class ManagerPanel extends JPanel {
 
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
                 Date expiryDate = dateFormat.parse(expiryDateStr);
-
-                // Llamar al método para agregar el nuevo stock
                 stockManager.addStock(managerId, productName, category, quantity, expiryDate);
 
                 JOptionPane.showMessageDialog(this, "Stock added successfully.");
 
-                // Refrescar el panel de stocks después de la adición
-                updateStockPanel();
+                 updateStockPanel();
             } catch (IllegalArgumentException ex) {
                 JOptionPane.showMessageDialog(this, "Please enter valid values.");
             } catch (Exception ex) {
@@ -359,7 +349,7 @@ public class ManagerPanel extends JPanel {
             }
         });
 
-        addPanel.add(new JLabel()); // Añadir espacio en blanco
+        addPanel.add(new JLabel()); 
         addPanel.add(addBtn);
 
         currentPanel = addPanel;

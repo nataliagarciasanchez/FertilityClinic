@@ -147,35 +147,30 @@ public class JDBCStockManager  implements StockManager{
 
 	        return available;
 	    }
+    
+    @Override
+    public List<Stock> viewStock() {
+        List<Stock> stockItems = new ArrayList<>();
+        String sql = "SELECT * FROM stock";  
 
-	@Override
-	public List<Stock> viewStock(int id) {
-		ArrayList<Stock> stocks = new ArrayList<>();
-        try {
-            String sql = "SELECT p.product_id, p.product_name, p.category, p.quantity, p.expiry_date " +
-                         "FROM products p " +
-                         "JOIN managers_products mp ON p.product_id = mp.product_id " +
-                         "WHERE mp.manager_id = ?";
-            PreparedStatement stmt = manager.getConnection().prepareStatement(sql);
-            stmt.setInt(1, id);
-            ResultSet rs = stmt.executeQuery();
-
+        try (
+             PreparedStatement pstmt = manager.getConnection().prepareStatement(sql);
+             ResultSet rs = pstmt.executeQuery()) {
             while (rs.next()) {
-                Integer productID = rs.getInt("product_id");
-                String productName = rs.getString("product_name");
+                int productID = rs.getInt("productID");
+                String productName = rs.getString("productName");
                 String category = rs.getString("category");
                 int quantity = rs.getInt("quantity");
-                Date expiryDate = rs.getDate("expiry_date");
+                Date expiryDate = rs.getDate("expiryDate");
 
-                Stock stock = new Stock(productID, productName, category, quantity, expiryDate);
-                stocks.add(stock);
+                Stock item = new Stock(productID, productName, category, quantity, expiryDate);
+                stockItems.add(item);
             }
-            rs.close();
-            stmt.close();
         } catch (SQLException e) {
+            System.err.println("Error retrieving all stock items: " + e.getMessage());
             e.printStackTrace();
         }
-        return stocks;
+        return stockItems;
     }
 	
 
@@ -230,5 +225,83 @@ public class JDBCStockManager  implements StockManager{
 	    }
 
 	}
+	
+	public List<Stock> getListOfStockItems() {
+        List<Stock> stockItems = new ArrayList<>();
+        String sql = "SELECT * FROM stock ORDER BY productName";  
+
+        try (PreparedStatement pstmt = manager.getConnection().prepareStatement(sql);
+             ResultSet rs = pstmt.executeQuery()) {
+
+            while (rs.next()) {
+                int productID = rs.getInt("id");
+                String productName = rs.getString("productName");
+                String category = rs.getString("category");
+                int quantity = rs.getInt("quantity");
+                Date expiryDate = rs.getDate("expiryDate");
+
+                Stock item = new Stock(productID, productName, category, quantity, expiryDate);
+                stockItems.add(item);
+            }
+        } catch (SQLException e) {
+            System.err.println("Error retrieving stock items: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return stockItems;
+    }
+	
+	public List<Stock> searchStockItemsByName(String name) {
+        List<Stock> stockItems = new ArrayList<>();
+        String sql = "SELECT * FROM stock WHERE productName LIKE ? ORDER BY productName";
+
+        try (
+             PreparedStatement pstmt = manager.getConnection().prepareStatement(sql)) {
+            pstmt.setString(1, "%" + name + "%");  
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    int productID = rs.getInt("productID");
+                    String productName = rs.getString("productName");
+                    String category = rs.getString("category");
+                    int quantity = rs.getInt("quantity");
+                    Date expiryDate = rs.getDate("expiryDate");
+
+                    Stock item = new Stock(productID, productName, category, quantity, expiryDate);
+                    stockItems.add(item);
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Error searching stock items by name: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return stockItems;
+    }
+	
+	public List<Stock> searchStockItemsByName(String name, boolean sortByExpiry) {
+        List<Stock> stockItems = new ArrayList<>();
+        String orderByClause = sortByExpiry ? "ORDER BY expiryDate, productName" : "ORDER BY productName";
+
+        String sql = "SELECT * FROM stock WHERE productName LIKE ? " + orderByClause;
+
+        try (
+             PreparedStatement pstmt = manager.getConnection().prepareStatement(sql)) {
+            pstmt.setString(1, "%" + name + "%");
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    int productID = rs.getInt("productID");
+                    String productName = rs.getString("productName");
+                    String category = rs.getString("category");
+                    int quantity = rs.getInt("quantity");
+                    Date expiryDate = rs.getDate("expiryDate");
+
+                    Stock item = new Stock(productID, productName, category, quantity, expiryDate);
+                    stockItems.add(item);
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Error searching stock items by name: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return stockItems;
+    }
 }
 

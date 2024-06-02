@@ -266,7 +266,7 @@ public class JDBCPatientManager implements PatientManager{
 	            Integer p_id = rs.getInt("id");
 	            Date dob = rs.getDate("dob");
 	            String email = rs.getString("email");
-	            Integer phoneN = rs.getInt("phoneNumber");
+	            Integer phoneN = rs.getInt("phone");
 	            String name = rs.getString("name");
 	            Double height = rs.getDouble("height");
 	            Double weight = rs.getDouble("weight");
@@ -332,6 +332,35 @@ public class JDBCPatientManager implements PatientManager{
 
 	    return patient;
 	}
+	
+	public Patient getPatientById(int patientId) {
+	    Patient patient = null;
+	    String sql = "SELECT * FROM patients WHERE id = ?";
+	    try (PreparedStatement stmt = manager.getConnection().prepareStatement(sql)) {
+	        stmt.setInt(1, patientId);
+	        ResultSet rs = stmt.executeQuery();
+	        if (rs.next()) {
+	            int id = rs.getInt("id");
+	            String name = rs.getString("name");
+	            Date dob = rs.getDate("dob");
+	            String email = rs.getString("email");
+	            int phone = rs.getInt("phone");
+	            double height = rs.getDouble("height");
+	            double weight = rs.getDouble("weight");
+	            String bloodType = rs.getString("bloodType");
+	            String gender = rs.getString("gender");
+	            int treatmentId = rs.getInt("treatment_id");
+	            Treatment treatment = treatmentmanager.getTreatmentById(treatmentId);  // Assumes a method to get Treatment
+
+	            patient = new Patient(id, name, dob, email, phone, height, weight, bloodType, gender, treatment);
+	        }
+	        rs.close();
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return patient;
+	}
+
 
 	public void assignTreatmentToPatient(int patientId, int treatmentId) {
         String sql = "UPDATE patients SET treatment_id = ? WHERE id = ?";
