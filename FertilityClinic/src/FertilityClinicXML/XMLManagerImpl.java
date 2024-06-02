@@ -18,7 +18,7 @@ import FertilityClinicJDBC.JDBCManager;
 import FertilityClinicJDBC.JDBCDoctorManager;
 import FertilityClinicJDBC.JDBCPatientManager;
 import FertilityClinicJDBC.JDBCSpecialityManager;
-import FertilityClinicJDBC.JDBCTreatmentsManager;
+import FertilityClinicJDBC.JDBCTreatmentManager;
 import FertilityClinicPOJOs.Doctor;
 import FertilityClinicPOJOs.Patient;
 
@@ -30,7 +30,7 @@ public class XMLManagerImpl implements XMLManager {
 	JDBCManager manager;
 	JDBCDoctorManager doctormanager; 
 	JDBCPatientManager patientmanager; 
-	JDBCTreatmentsManager treatmentmanager;
+	JDBCTreatmentManager treatmentmanager;
 	JDBCSpecialityManager specialitymanager;
 
 	@Override

@@ -18,4 +18,5 @@ public interface DoctorManager {
 	public List<Doctor> searchDoctorByName(String name);
 	public Doctor getDoctorByEmail(String email);
 	public void modifyDoctorInfo(int doctorId, String email, int phone, String name, Speciality speciality, byte[] pdfBytes);
+	
 }

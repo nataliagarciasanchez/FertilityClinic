@@ -10,7 +10,7 @@ import FertilityClinicPOJOs.Doctor;
 import FertilityClinicPOJOs.Manager;
 import FertilityClinicPOJOs.Patient;
 import FertilityClinicPOJOs.Speciality;
-import FertilityClinicPOJOs.Treatments;
+import FertilityClinicPOJOs.Treatment;
 
 public class JDBCManagerManager implements ManagerManager  {
 	private JDBCManager manager;

@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import FertilityClinicInterfaces.AppointmentManager;
 import FertilityClinicInterfaces.DoctorManager;
 import FertilityClinicInterfaces.PatientManager;
-import FertilityClinicInterfaces.TreatmentsManager;
+import FertilityClinicInterfaces.TreatmentManager;
 import FertilityClinicPOJOs.Appointment;
 
 public class JDBCAppointmentManager implements AppointmentManager{

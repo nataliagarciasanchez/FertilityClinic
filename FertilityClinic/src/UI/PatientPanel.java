@@ -2,12 +2,15 @@ package UI;
 import javax.swing.*;
 
 import java.awt.*;
+import java.awt.event.ItemEvent;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import java.util.Map;
 
 import FertilityClinicInterfaces.PatientManager;
+import FertilityClinicInterfaces.TreatmentManager;
 import FertilityClinicInterfaces.AppointmentManager;
 import FertilityClinicInterfaces.DoctorManager;
 import FertilityClinicPOJOs.*;
@@ -22,13 +25,15 @@ public class PatientPanel extends JPanel {
     private PatientManager patientManager;
     private AppointmentManager appointmentManager;
     private DoctorManager doctorManager;
+    private TreatmentManager treatmentManager;
     private int patientId;
     
     //initializer
-    public PatientPanel(PatientManager patientManager, AppointmentManager appointmentManager, DoctorManager doctorManager, int patientId) {
+    public PatientPanel(PatientManager patientManager, AppointmentManager appointmentManager, DoctorManager doctorManager,TreatmentManager treatmentManager, int patientId) {
         this.patientManager = patientManager;
         this.appointmentManager = appointmentManager;
         this.doctorManager = doctorManager;
+        this.treatmentManager = treatmentManager;
         this.patientId = patientId;
         initializeUI();
     }
@@ -634,53 +639,46 @@ public class PatientPanel extends JPanel {
 
 /*
     //OPTION 5
-    private void myTreatmentPanel() {
-        Patient patient = patientManager.viewMyInfo(patientId);
-        Treatments treatment = patient.getTreatmet();
-        
-        JPanel treatmentPanel = new JPanel();
-        treatmentPanel.setLayout(new BoxLayout(treatmentPanel, BoxLayout.Y_AXIS));
-        
-        if (treatment != null) {
-            treatmentPanel.add(new JLabel("Name of Treatment: " + treatment.getName()));
-            treatmentPanel.add(new JLabel("Description: " + treatment.getDescription()));
-            treatmentPanel.add(new JLabel("Duration: " + treatment.getDurationInDays() + " days"));
-        } else {
-            treatmentPanel.add(new JLabel("No treatment information available."));
-        }
-
-        currentPanel = treatmentPanel; // Establece el panel actual como el panel de información del paciente
-        showCurrentPanel(); // Muestra el panel actual en el contenedor principal
-   
-       
-    }*/
     
+    
+    /* copiar para doctor 
     private void myTreatmentPanel() {
         Patient patient = patientManager.viewMyInfo(patientId);
-        Treatments treatment = patient.getTreatmet();
+        Treatment treatment = patient.getTreatment();
 
-        // Using a wrapper panel to provide padding
         JPanel wrapperPanel = new JPanel(new BorderLayout());
         JPanel treatmentPanel = new JPanel();
         treatmentPanel.setLayout(new BoxLayout(treatmentPanel, BoxLayout.Y_AXIS));
-        treatmentPanel.setBorder(BorderFactory.createEmptyBorder(10, 50, 10, 10)); // Padding: top, left, bottom, right
+        treatmentPanel.setBorder(BorderFactory.createEmptyBorder(10, 50, 10, 10));
 
-        Font infoFont = new Font("Calibri", Font.PLAIN, 24); // Larger font size for better readability
-        Font labelFont = new Font("Calibri", Font.BOLD, 24);
+        Font infoFont = new Font("Calibri", Font.PLAIN, 18);
+        Font labelFont = new Font("Calibri", Font.BOLD, 18);
 
         if (treatment != null) {
             JLabel nameLabel = new JLabel("Name of Treatment: " + treatment.getName());
             nameLabel.setFont(labelFont);
             treatmentPanel.add(nameLabel);
 
-            String descriptionText = treatment.getDescription().replace("  ", "<br>").replaceAll("(\\d)", "<br>$1");
-            JLabel descriptionLabel = new JLabel("<html><b>Description:</b> " + descriptionText + "</html>"); // Wrap text in HTML to handle line breaks and bold
-            descriptionLabel.setFont(infoFont);
-            treatmentPanel.add(descriptionLabel);
+            ArrayList<TreatmentStep> steps = (ArrayList<TreatmentStep>) treatmentManager.getTreatmentSteps(treatment.getTreatmentID());
+            Map<Integer, Boolean> completionStatus =treatmentManager.getStepCompletion(patient.getId(), treatment.getTreatmentID());
 
-            JLabel durationLabel = new JLabel("Duration: " + treatment.getDurationInDays() + " days");
-            durationLabel.setFont(labelFont);
-            treatmentPanel.add(durationLabel);
+            for (TreatmentStep step : steps) {
+                JPanel stepPanel = new JPanel();
+                stepPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+
+                JCheckBox stepCheck = new JCheckBox(step.getStepDescription());
+                stepCheck.setSelected(completionStatus.getOrDefault(step.getId(), false));
+                stepCheck.setFont(infoFont);
+
+
+                stepCheck.addItemListener(e -> {
+                    boolean isSelected = (e.getStateChange() == ItemEvent.SELECTED);
+                    treatmentManager.updateStepCompletion(patient.getId(), step.getId(), isSelected);
+                });
+
+                stepPanel.add(stepCheck);
+                treatmentPanel.add(stepPanel);
+            }
         } else {
             JLabel noInfoLabel = new JLabel("No treatment information available.");
             noInfoLabel.setFont(labelFont);
@@ -688,9 +686,73 @@ public class PatientPanel extends JPanel {
         }
 
         wrapperPanel.add(treatmentPanel, BorderLayout.CENTER);
-        currentPanel = wrapperPanel; // Set the current panel to the wrapper panel
-        showCurrentPanel(); // Display the current panel in the main container
+        currentPanel = wrapperPanel;
+        showCurrentPanel();
+    }*/
+    private void myTreatmentPanel() {
+        Patient patient = patientManager.viewMyInfo(patientId);
+        Treatment treatment = patient.getTreatment();
+
+        JPanel wrapperPanel = new JPanel(new BorderLayout());
+        JPanel treatmentPanel = new JPanel();
+        treatmentPanel.setLayout(new BoxLayout(treatmentPanel, BoxLayout.Y_AXIS));
+        treatmentPanel.setBorder(BorderFactory.createEmptyBorder(10, 50, 10, 10));
+
+        Font infoFont = new Font("Calibri", Font.PLAIN, 18);
+        Font labelFont = new Font("Calibri", Font.BOLD, 18);
+
+        if (treatment != null) {
+            JLabel nameLabel = new JLabel("Name of Treatment: " + treatment.getNameTreatment());
+            nameLabel.setFont(labelFont);
+            treatmentPanel.add(nameLabel);
+
+            JLabel descriptionLabel = new JLabel("<html><p style='width:400px; text-align:justify;'>" + treatment.getDescription() + "</p></html>");
+            descriptionLabel.setFont(infoFont);
+            descriptionLabel.setAlignmentX(Component.LEFT_ALIGNMENT);  
+            treatmentPanel.add(descriptionLabel);
+
+            treatmentPanel.add(Box.createVerticalStrut(20));
+
+            ArrayList<TreatmentStep> steps = (ArrayList<TreatmentStep>) treatmentManager.getTreatmentSteps(treatment.getTreatmentID());
+            Map<Integer, Boolean> completionStatus = treatmentManager.getStepCompletion(patient.getId(), treatment.getTreatmentID());
+
+            for (TreatmentStep step : steps) {
+                JPanel stepPanel = new JPanel();
+                stepPanel.setLayout(new BoxLayout(stepPanel, BoxLayout.X_AXIS)); 
+
+                JCheckBox stepCheck = new JCheckBox((step.getStepOrder() + ". " + step.getStepDescription()));
+                stepCheck.setSelected(completionStatus.getOrDefault(step.getId(), false));
+                stepCheck.setFont(infoFont);
+                stepCheck.setEnabled(false); 
+
+                stepPanel.add(stepCheck);
+                stepPanel.setAlignmentX(Component.LEFT_ALIGNMENT); 
+                treatmentPanel.add(stepPanel);
+            }
+
+            treatmentPanel.add(Box.createVerticalStrut(20));
+
+            JLabel durationLabel = new JLabel("Duration: " + treatment.getDurationInDays() + " days");
+            durationLabel.setFont(labelFont);
+            durationLabel.setAlignmentX(Component.LEFT_ALIGNMENT);  
+            treatmentPanel.add(durationLabel);
+
+        } else {
+            JLabel noInfoLabel = new JLabel("No treatment information available.");
+            noInfoLabel.setFont(labelFont);
+            noInfoLabel.setAlignmentX(Component.LEFT_ALIGNMENT);  
+            treatmentPanel.add(noInfoLabel);
+        }
+
+        wrapperPanel.add(treatmentPanel, BorderLayout.CENTER);
+        currentPanel = wrapperPanel;
+        showCurrentPanel();
     }
+
+
+
+
+
 
 
 

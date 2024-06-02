@@ -92,6 +92,25 @@ private Connection c = null;
 			
 			stmt.executeUpdate(sql);
 			
+			sql = "CREATE TABLE treatmentSteps (" +
+		              "id INTEGER PRIMARY KEY AUTOINCREMENT," +
+		              "treatmentID INTEGER NOT NULL," +
+		              "stepOrder INTEGER NOT NULL," +
+		              "stepDescription TEXT NOT NULL," +
+		              "FOREIGN KEY (treatmentID) REFERENCES treatments(id)" +
+		              ");";
+		        stmt.executeUpdate(sql);
+		        
+		     sql = "CREATE TABLE patientTreatment (" +
+		               "patientId INTEGER NOT NULL," +
+		               "treatmentStepId INTEGER NOT NULL," +
+		               "isCompleted BOOLEAN NOT NULL," +
+		               "PRIMARY KEY (patientId, treatmentStepId)," +
+		               "FOREIGN KEY (patientId) REFERENCES patients(id)," +
+		               "FOREIGN KEY (treatmentStepId) REFERENCES treatmentSteps(id)" +
+		               ");";
+		        stmt.executeUpdate(sql);
+			
 			sql = "CREATE TABLE stock ("
 					+ "    id INTEGER PRIMARY KEY AUTOINCREMENT,"
 					+ "    productName TEXT NOT NULL,"
@@ -111,8 +130,12 @@ private Connection c = null;
 					+ "";
 			stmt.executeUpdate(sql);
 			
-			sql = "CREATE TABLE treats (doctor_id INTEGER REFERENCES doctors(id),"
-					+ "patient_id REFERENCES patients(id), PRIMARY KEY(doctor_id,patient_id) );";
+			sql = "CREATE TABLE treats ("
+					+ "doctor_id INTEGER,"
+					+ "patient_id INTEGER, "
+					+ "FOREIGN KEY(patient_id) REFERENCES old_patients(id),"
+					+ "	FOREIGN KEY(doctor_id) REFERENCES doctors(id)"
+					+ ");";
 			stmt.executeUpdate(sql);
 			
 		}catch(SQLException e) {

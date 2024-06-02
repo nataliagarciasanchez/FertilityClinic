@@ -22,7 +22,7 @@ public class MenuUI extends JFrame {
     private PatientManager patientManager;
     private ManagerManager managerManager;
     private AppointmentManager appointmentManager; 
-    private TreatmentsManager treatmentManager;
+    private TreatmentManager treatmentManager;
     private SpecialityManager specialityManager;
     private StockManager stockManager;
     private User loggedInUser;
@@ -38,11 +38,11 @@ public class MenuUI extends JFrame {
         specialityManager = new JDBCSpecialityManager(manager);
 
         doctorManager = new JDBCDoctorManager(manager, specialityManager);
-        treatmentManager = new JDBCTreatmentsManager(manager);
+        treatmentManager = new JDBCTreatmentManager(manager);
         patientManager = new JDBCPatientManager(manager, treatmentManager);
         managerManager = new JDBCManagerManager(manager);
         appointmentManager = new JDBCAppointmentManager(manager, doctorManager, patientManager);
-
+        treatmentManager = new JDBCTreatmentManager(manager);
         userManager = new JPAUserManager();
         
         userManager = new JPAUserManager(); 
@@ -888,7 +888,7 @@ public class MenuUI extends JFrame {
         if ("doctor".equals(user.getRole().getName())) {
         	Doctor doctor = doctorManager.getDoctorByEmail(user.getEmail());
             if (doctor != null) {
-                userPanel = new DoctorPanel(doctorManager,patientManager, appointmentManager, doctor.getId());
+                userPanel = new DoctorPanel(doctorManager,patientManager, appointmentManager, treatmentManager, doctor.getId());
             } else {
                 userPanel = new JPanel();
                 userPanel.add(new JLabel("Doctor record not found."));
@@ -896,7 +896,7 @@ public class MenuUI extends JFrame {
         } else if ("patient".equals(user.getRole().getName())) {
             Patient patient = patientManager.getPatientByEmail(user.getEmail());
             if (patient != null) {
-                userPanel = new PatientPanel(patientManager, appointmentManager, doctorManager, patient.getId());
+                userPanel = new PatientPanel(patientManager, appointmentManager, doctorManager, treatmentManager, patient.getId());
             } else {
                 userPanel = new JPanel();
                 userPanel.add(new JLabel("Patient record not found."));

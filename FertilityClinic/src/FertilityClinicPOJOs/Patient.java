@@ -48,13 +48,13 @@ public class Patient implements Serializable{
 		@XmlElementWrapper(name = "Doctors")
 		private List<Doctor> doctors;
 		@XmlElement
-		private Treatments treatmet;
+		private Treatment treatmet;
 	
 	
 	
 
 	public Patient(Integer id, String name, Date dob, String email, Integer phone, double height, double weight,
-				String bloodType, String gender, Treatments treatmet) {
+				String bloodType, String gender, Treatment treatmet) {
 			super();
 			this.id = id;
 			this.name = name;
@@ -83,7 +83,7 @@ public class Patient implements Serializable{
 	
 
 	public Patient(Integer id, String name, Date dob, String email, Integer phone, double height, double weight,
-			String bloodType, String gender, List<Doctor> doctors, Treatments treatmet) {
+			String bloodType, String gender, List<Doctor> doctors, Treatment treatmet) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -208,11 +208,11 @@ public class Patient implements Serializable{
 		this.gender = gender;
 	}
 
-	public Treatments getTreatmet() {
+	public Treatment getTreatment() {
 		return treatmet;
 	}
 
-	public void setTreatmet(Treatments treatmet) {
+	public void setTreatmet(Treatment treatmet) {
 		this.treatmet = treatmet;
 	}
 

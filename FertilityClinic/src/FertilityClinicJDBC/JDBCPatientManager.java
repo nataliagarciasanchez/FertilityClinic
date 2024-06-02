@@ -1,8 +1,9 @@
 package FertilityClinicJDBC;
 
 import FertilityClinicPOJOs.Patient;
-import FertilityClinicPOJOs.Treatments;
+import FertilityClinicPOJOs.Treatment;
 
+import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,16 +13,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import FertilityClinicInterfaces.PatientManager;
-import FertilityClinicInterfaces.TreatmentsManager;
+import FertilityClinicInterfaces.TreatmentManager;
 
 
 public class JDBCPatientManager implements PatientManager{	
   
 	private JDBCManager manager;
-    private TreatmentsManager treatmentmanager;
+    private TreatmentManager treatmentmanager;
 
 
-        public JDBCPatientManager(JDBCManager manager, TreatmentsManager treatmentManager) {
+        public JDBCPatientManager(JDBCManager manager, TreatmentManager treatmentManager) {
             this.manager = manager;
             this.treatmentmanager = treatmentManager;
         }
@@ -42,7 +43,7 @@ public class JDBCPatientManager implements PatientManager{
 	        stmt.setString(7, patient.getBloodType());
 	        stmt.setString(8, patient.getGender());
 	        // Check if treatment is not null
-	        Integer treatmentId = (patient.getTreatmet() != null) ? patient.getTreatmet().getTreatmentID() : null;
+	        Integer treatmentId = (patient.getTreatment() != null) ? patient.getTreatment().getTreatmentID() : null;
 	        if (treatmentId != null) {
 	            stmt.setInt(9, treatmentId);
 	        } else {
@@ -61,7 +62,7 @@ public class JDBCPatientManager implements PatientManager{
 	public List<Patient>  getListOfPatients() {
 		
 		List<Patient> patients= new ArrayList<Patient>();
-		Treatments treatment=null;
+		Treatment treatment=null;
 	try {
 			Statement stmt = manager.getConnection().createStatement();
 			String sql = "SELECT * FROM patients";
@@ -72,7 +73,7 @@ public class JDBCPatientManager implements PatientManager{
 				 Integer p_id = rs.getInt("id");
 		            Date dob = rs.getDate("dob");
 		            String email = rs.getString("email");
-		            Integer phoneN = rs.getInt("phoneNumber");
+		            Integer phoneN = rs.getInt("phone");
 		            String name = rs.getString("name");
 		            Double height = rs.getDouble("height");
 		            Double weight = rs.getDouble("weight");
@@ -99,21 +100,22 @@ public class JDBCPatientManager implements PatientManager{
 		return patients;
 	}
 	
+
 	@Override
 	public List<Patient> getPatientsByDoctorId(int doctor_id) {
 	    List<Patient> patients = new ArrayList<>();
-	    String sql = "SELECT patients.*, treatments.* FROM patients " +
-	                 "LEFT JOIN treatments ON patients.treatment_id = treatments.id " +
-	                 "WHERE doctor_id = ?";
-	    try  {
-	    	PreparedStatement prep = manager.getConnection().prepareStatement(sql);
-	    	prep.setInt(1, doctor_id);
+	    String sql = "SELECT p.*, t.* FROM treats tr " +
+	                 "JOIN patients p ON tr.patient_id = p.id " +
+	                 "LEFT JOIN treatments t ON p.treatment_id = t.id " +
+	                 "WHERE tr.doctor_id = ?";
+	    try (PreparedStatement prep = manager.getConnection().prepareStatement(sql)) {
+	        prep.setInt(1, doctor_id);
 	        ResultSet rs = prep.executeQuery();
 
 	        while (rs.next()) {
-	            Treatments treatment = null;
+	            Treatment treatment = null;
 	            if (rs.getInt("treatment_id") != 0) { // Asumiendo que el 'treatment_id' es un campo en la tabla 'patients'
-	                treatment = new Treatments(
+	                treatment = new Treatment(
 	                    rs.getInt("treatment_id"),
 	                    rs.getString("name"), // Asumiendo que estos son los campos en la tabla 'treatments'
 	                    rs.getString("description"),
@@ -135,12 +137,41 @@ public class JDBCPatientManager implements PatientManager{
 	            );
 	            patients.add(patient);
 	        }
-	        rs.close();
 	    } catch (SQLException e) {
 	        e.printStackTrace();
 	    }
 	    return patients;
 	}
+	
+	public List<Patient> getAvailablePatientsForDoctor(int doctorId) {
+	    List<Patient> patients = new ArrayList<>();
+	    String sql = "SELECT p.* FROM patients p " +
+	                 "LEFT JOIN treats t ON p.id = t.patient_id AND t.doctor_id = ? " +
+	                 "WHERE t.patient_id IS NULL";
+	    try (PreparedStatement prep = manager.getConnection().prepareStatement(sql)) {
+	        prep.setInt(1, doctorId);
+	        ResultSet rs = prep.executeQuery();
+
+	        while (rs.next()) {
+	            patients.add(new Patient(
+	                rs.getInt("id"),
+	                rs.getString("name"),
+	                rs.getDate("dob"),
+	                rs.getString("email"),
+	                rs.getInt("phone"),
+	                rs.getDouble("height"),
+	                rs.getDouble("weight"),
+	                rs.getString("bloodType"),
+	                rs.getString("gender"),
+	                null // Aquí asumimos que no cargamos los tratamientos en esta vista
+	            ));
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return patients;
+	}
+
 
 	
 
@@ -206,7 +237,7 @@ public class JDBCPatientManager implements PatientManager{
 	            String bloodType = rs.getString("bloodType");
 	            String gender = rs.getString("gender");
 	            Integer treatmentId = rs.getInt("treatment_id");
-	            Treatments treatment = treatmentmanager.getTreatmentById(treatmentId);
+	            Treatment treatment = treatmentmanager.getTreatmentById(treatmentId);
 
 	            patient = new Patient(id, name, dob,email, phoneN,height, weight, bloodType, gender, treatment);
 	        } else {
@@ -243,7 +274,7 @@ public class JDBCPatientManager implements PatientManager{
 
 	            
 	            Integer treatmentId = rs.getInt("treatment_id");
-	            Treatments treatment = treatmentmanager.getTreatmentById(treatmentId);
+	            Treatment treatment = treatmentmanager.getTreatmentById(treatmentId);
 
 	           
 	            patient = new Patient(p_id,name, dob, email, phoneN, height, weight, bloodType, gender, treatment);
@@ -284,7 +315,7 @@ public class JDBCPatientManager implements PatientManager{
 	            String gender = rs.getString("Gender");
 	            Integer treatmentId = rs.getInt("treatment_id");
 	            
-	            Treatments treatment = null;
+	            Treatment treatment = null;
 	            if (treatmentId != null && treatmentId > 0) { // Asegura que el treatmentId es válido
 	                treatment = treatmentmanager.getTreatmentById(treatmentId);
 	            }
@@ -301,6 +332,25 @@ public class JDBCPatientManager implements PatientManager{
 	    return patient;
 	}
 
+	public void assignTreatmentToPatient(int patientId, int treatmentId) {
+        String sql = "UPDATE patients SET treatment_id = ? WHERE id = ?";
+
+        try  {
+        	PreparedStatement pstmt = manager.getConnection().prepareStatement(sql);
+            pstmt.setInt(1, treatmentId);
+            pstmt.setInt(2, patientId);
+
+            int affectedRows = pstmt.executeUpdate();
+            if (affectedRows > 0) {
+                System.out.println("Treatment assigned successfully to patient ID: " + patientId);
+            } else {
+                System.out.println("No rows affected, it seems there was nothing to update or patient does not exist.");
+            }
+        } catch (SQLException e) {
+            System.err.println("Error assigning treatment to patient: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
 
 	
 	

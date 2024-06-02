@@ -5,7 +5,7 @@ import FertilityClinicInterfaces.SpecialityManager;
 import FertilityClinicPOJOs.Doctor;
 import FertilityClinicPOJOs.Patient;
 import FertilityClinicPOJOs.Speciality;
-import FertilityClinicPOJOs.Treatments;
+import FertilityClinicPOJOs.Treatment;
 
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -246,21 +246,24 @@ public class JDBCDoctorManager implements DoctorManager {
 	    }
 	}
 
-
-
-
 	
 		
-	public void assignPatientToDoctor(int doctorId, int patientId) {
-	    String sql = "INSERT INTO treats (doctor_id, patient_id) VALUES (?, ?)";
-	    try (PreparedStatement p = manager.getConnection().prepareStatement(sql);) {
-	        p.setInt(1, doctorId);
-	        p.setInt(2, patientId);
-	        p.executeUpdate();
+	public void assignPatientToDoctor(int patientId, int doctorId) {
+	    String sql = "INSERT INTO treats (patient_id, doctor_id) VALUES (?, ?)";
+	    try (PreparedStatement pstmt = manager.getConnection().prepareStatement(sql)) {
+	        pstmt.setInt(1, patientId);
+	        pstmt.setInt(2, doctorId);
+	        int affectedRows = pstmt.executeUpdate();
+	        if (affectedRows > 0) {
+	            System.out.println("Patient assigned successfully");
+	        } else {
+	            System.out.println("Assignment failed");
+	        }
 	    } catch (SQLException e) {
 	        e.printStackTrace();
 	    }
 	}
+
 	
 
 	public void removePatientFromDoctor(int doctorId, int patientId) {
@@ -273,5 +276,6 @@ public class JDBCDoctorManager implements DoctorManager {
 	        e.printStackTrace();
 	    }
 	}
+
 
 }
