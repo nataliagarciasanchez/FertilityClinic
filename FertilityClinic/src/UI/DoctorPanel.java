@@ -5,6 +5,7 @@ package UI;
 //import org.apache.pdfbox.rendering.ImageType;
 
 import javax.swing.*;
+
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import java.awt.*;
@@ -46,6 +47,7 @@ public class DoctorPanel extends JPanel {
     private SpecialityManager specialityManager;
     private TreatmentManager treatmentManager;
     private StockManager stockManager;
+    private XMLManager xmlmanager;
     private int doctorId;
     
     //initializer
@@ -86,6 +88,7 @@ public class DoctorPanel extends JPanel {
         JButton op5 = new JButton("Assign a patient ");
         JButton op6 = new JButton("View stock ");
         JButton op7 = new JButton("Print XML ");
+        JButton op8 = new JButton ("Load patients from XML");
 
         // Configurar botones
         Font buttonFont = new Font("Calibri", Font.BOLD, 18);
@@ -98,6 +101,7 @@ public class DoctorPanel extends JPanel {
         configureButton(op5, buttonFont, buttonSize);
         configureButton(op6, buttonFont, buttonSize);
         configureButton(op7, buttonFont, buttonSize);
+        configureButton(op8, buttonFont, buttonSize);
 
         op1.addActionListener(e -> viewMyinfoPanel()); 
         op2.addActionListener(e -> updateInfoPanel());
@@ -106,6 +110,7 @@ public class DoctorPanel extends JPanel {
         op5.addActionListener(e -> assignPatientPanel());
         op6.addActionListener(e -> viewStockPanel());
         op7.addActionListener(e -> printXMLPanel());
+        op8.addActionListener(e -> printloadPatientsPanel());
 
         buttonPanel.add(Box.createRigidArea(new Dimension(0, 10))); 
         buttonPanel.add(op1);
@@ -121,6 +126,8 @@ public class DoctorPanel extends JPanel {
         buttonPanel.add(op6);
         buttonPanel.add(Box.createRigidArea(new Dimension(0, 10)));
         buttonPanel.add(op7);
+        buttonPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+        buttonPanel.add(op8);
         buttonPanel.add(Box.createRigidArea(new Dimension(0, 10)));
 
         return buttonPanel;
@@ -849,10 +856,17 @@ public class DoctorPanel extends JPanel {
         }
     }
     
-    //OPTION 7
-    public void printXMLPanel() {
-    	XMLManagerImpl.doctor2xml(doctorId);
+   //OPTION7
+    private void printXMLPanel() {
+    	xmlmanager.doctor2xml(doctorId);
 
+    }
+    //OPTION8
+    private void printloadPatientsPanel() {
+    	Patient p=null;
+    	File file=("./xmls/External.Patient.xml");
+    	p=xmlmanager.xml2Patient(file);
+    	System.out.print(p);
     }
 
 

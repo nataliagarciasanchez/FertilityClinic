@@ -2,10 +2,13 @@ package UI;
 
 import javax.swing.*;
 
+
 import FertilityClinicInterfaces.*;
 import FertilityClinicJPA.JPAUserManager;
 import FertilityClinicJDBC.*;
 import FertilityClinicPOJOs.*;
+import FertilityClinicXML.XMLManagerImpl;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.security.MessageDigest;
@@ -28,6 +31,7 @@ public class MenuUI extends JFrame {
     private User loggedInUser;
     private JPanel rightPanel;  
     private CardLayout cardLayout;
+    private XMLManager xmlmanager;
    
     public MenuUI() {
         
@@ -44,8 +48,7 @@ public class MenuUI extends JFrame {
         treatmentManager = new JDBCTreatmentManager(manager);
         stockManager =new JDBCStockManager(manager);
         userManager = new JPAUserManager();
-        
-        userManager = new JPAUserManager(); 
+        xmlmanager=new XMLManagerImpl(); 
         
         showInitialDialog();
     }

@@ -29,11 +29,15 @@
 			<email>pepe@example.com</email>
 			<speciality>Urologist</speciality>
 		</doctor>
+		<doctor name="Dra. Maria">
+			<email>maria@example.com</email>
+			<speciality>Gynecologist</speciality>
+		</doctor>
 	</doctors>
 	<treatments>
 		<treatment name="Egg freezing">
-			<description>Egg Freezing</description>
-			<durationInDays>30</durationInDays>
+			<description>Egg freezing, also known as oocyte cryopreservation, is a fertility preservation method where a woman’s eggs are harvested, frozen, and stored for future use. This process allows women to preserve their fertility, offering the possibility to conceive at a later time when they are ready or when it is medically necessary.</description>
+			<durationInDays>60</durationInDays>
 		</treatment>
 	</treatments>
 </Patient>

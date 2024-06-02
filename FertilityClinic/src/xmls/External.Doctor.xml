@@ -2,15 +2,14 @@
 
 <!DOCTYPE Doctor [
 <!ELEMENT Doctor (email,speciality,patients)>
-<!ATTLIST Doctor name NMTOKEN #REQUIRED>
+<!ATTLIST Doctor name CDATA #REQUIRED>
 <!ELEMENT email (#PCDATA)>
 <!ELEMENT speciality EMPTY>
-<!ATTLIST speciality nameS NMTOKEN #REQUIRED>
+<!ATTLIST speciality name CDATA #REQUIRED>
 <!ELEMENT patients (Patient+)>
-<!ELEMENT Patient (dob,emailP,phone,height,weight,bloodType,gender,treatment)>
+<!ELEMENT Patient (dob,email,phone,height,weight,bloodType,gender,treatment)>
 <!ATTLIST Patient name NMTOKEN #REQUIRED>
 <!ELEMENT dob (#PCDATA)>
-<!ELEMENT emailP (#PCDATA)>
 <!ELEMENT phone (#PCDATA)>
 <!ELEMENT height (#PCDATA)>
 <!ELEMENT weight (#PCDATA)>
@@ -23,11 +22,11 @@
 ]>
 <Doctor name = "Eustaquio">
 	<email> eustaquio99@gmail.com</email>
-	<speciality nameS="Urologist"></speciality>
+	<speciality name="Urologist"></speciality>
 	<patients>
 		<Patient name="Ezequiel">
 			<dob> 1969-03-18</dob>
-			<emailP> ezequielHerrera@gmail.com</emailP>
+			<email> ezequielHerrera@gmail.com</email>
 			<phone>630691773</phone>
 			<height>1.65</height>
 			<weight>102</weight>
@@ -43,12 +42,12 @@
 								6.Pregnancy and Prenatal Care
 								7.Birth and Legal Parentage
 							This process allows individuals or couples to have a child with the help of a surrogate, providing an option for those unable to carry a pregnancy themselves.</description>
-				<durationInDays>90</durationInDays>
+				<durationInDays>180</durationInDays>
 			</treatment>
 		</Patient>
 		<Patient name="Marianela">
 			<dob> 1980-06-08</dob>
-			<emailP> marianelaRodriguez@gmail.com</emailP>
+			<email> marianelaRodriguez@gmail.com</email>
 			<phone>620786543</phone>
 			<height>1.75</height>
 			<weight>82</weight>
@@ -63,7 +62,7 @@
 								5.Embryo Freezing
 								6.Storage
 							This process allows couples to preserve embryos for future use, providing the option to attempt pregnancy at a later time when conditions are more favorable.</description>
-				<durationInDays>90</durationInDays>
+				<durationInDays>60</durationInDays>
 			</treatment>
 		</Patient>
 	</patients>

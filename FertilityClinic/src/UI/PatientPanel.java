@@ -1,6 +1,7 @@
 package UI; 
 import javax.swing.*;
 
+
 import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.time.LocalDate;
@@ -11,6 +12,7 @@ import java.util.Map;
 
 import FertilityClinicInterfaces.PatientManager;
 import FertilityClinicInterfaces.TreatmentManager;
+import FertilityClinicInterfaces.XMLManager;
 import FertilityClinicInterfaces.AppointmentManager;
 import FertilityClinicInterfaces.DoctorManager;
 import FertilityClinicPOJOs.*;
@@ -27,6 +29,7 @@ public class PatientPanel extends JPanel {
     private AppointmentManager appointmentManager;
     private DoctorManager doctorManager;
     private TreatmentManager treatmentManager;
+    private XMLManager xmlmanager;
     private int patientId;
     
     //initializer
@@ -68,6 +71,7 @@ public class PatientPanel extends JPanel {
     	JButton op4 = new JButton("View All Doctors");
     	JButton op5 = new JButton("My Treatment");
     	JButton op6 = new JButton("Print XML");
+    	JButton op7 = new JButton("Load doctors from XML");
 
     	Font buttonFont = new Font("Calibri", Font.BOLD, 18); 
 
@@ -107,12 +111,19 @@ public class PatientPanel extends JPanel {
     	op6.setAlignmentX(Component.CENTER_ALIGNMENT); 
     	op6.setMaximumSize(new Dimension(Integer.MAX_VALUE, op5.getMinimumSize().height));
 
+    	op7.setFont(buttonFont);
+    	op7.setBackground(Color.WHITE);
+    	op7.setForeground(Color.BLACK);
+    	op7.setAlignmentX(Component.CENTER_ALIGNMENT); 
+    	op7.setMaximumSize(new Dimension(Integer.MAX_VALUE, op5.getMinimumSize().height));
+    	
     	op1.addActionListener(e -> viewMyinfoPanel());
     	op2.addActionListener(e -> updateInfoPanel());
     	op3.addActionListener(e -> appointmentsPanel());
     	op4.addActionListener(e -> viewAllDoctorsPanel());
     	op5.addActionListener(e -> myTreatmentPanel());
     	op6.addActionListener(e -> printXMLPanel());
+    	op7.addActionListener(e -> printLoadDoctorsPanel());
 
     	buttonPanel.add(Box.createRigidArea(new Dimension(0, 10))); 
     	buttonPanel.add(op1);
@@ -126,7 +137,8 @@ public class PatientPanel extends JPanel {
     	buttonPanel.add(op5);
     	buttonPanel.add(Box.createRigidArea(new Dimension(0, 10))); 
     	buttonPanel.add(op6);
-
+    	buttonPanel.add(Box.createRigidArea(new Dimension(0, 10))); 
+    	buttonPanel.add(op7);
     	return buttonPanel;
 
     }
@@ -706,9 +718,17 @@ public class PatientPanel extends JPanel {
         showCurrentPanel();
     }
 
-    //OPTION 7
-    public void printXMLPanel() {
-    	XMLManagerImpl.xml2Patient(xml);
+    //OPTION7
+    private void printXMLPanel() {
+    	xmlmanager.patient2xml(patientId);
+
+    }
+    //OPTION8
+    private void printloadDoctorsPanel() {
+    	Doctor d=null;
+    	File file=("./xmls/External.Doctor.xml");
+    	d=xmlmanager.xml2Doctor(file);
+    	System.out.print(d);
     }
 
 
